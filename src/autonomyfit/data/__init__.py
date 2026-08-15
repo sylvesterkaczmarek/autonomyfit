@@ -1,1 +1,1 @@
-"""Bundled AutonomyFit model and benchmark evidence."""
+"""Bundled evidence-backed model and hardware catalogs."""
