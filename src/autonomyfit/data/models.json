@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "id": "yolo26n",
+      "display_name": "YOLO26n",
+      "family": "YOLO26",
+      "task": "detection",
+      "params_m": 2.4,
+      "flops_b": 5.4,
+      "input_size": 640,
+      "runtimes": ["pytorch", "onnx", "tensorrt"],
+      "accuracy": {"name": "mAP50-95", "value": 40.9, "dataset": "COCO val"},
+      "source_id": "ultralytics-yolo26-2026",
+      "source_url": "https://docs.ultralytics.com/models/yolo26",
+      "notes": "Fused-model parameter/FLOP values from the upstream model table."
+    },
+    {
+      "id": "yolo26s",
+      "display_name": "YOLO26s",
+      "family": "YOLO26",
+      "task": "detection",
+      "params_m": 9.5,
+      "flops_b": 20.7,
+      "input_size": 640,
+      "runtimes": ["pytorch", "onnx", "tensorrt"],
+      "accuracy": {"name": "mAP50-95", "value": 48.6, "dataset": "COCO val"},
+      "source_id": "ultralytics-yolo26-2026",
+      "source_url": "https://docs.ultralytics.com/models/yolo26"
+    },
+    {
+      "id": "yolo26m",
+      "display_name": "YOLO26m",
+      "family": "YOLO26",
+      "task": "detection",
+      "params_m": 20.4,
+      "flops_b": 68.2,
+      "input_size": 640,
+      "runtimes": ["pytorch", "onnx", "tensorrt"],
+      "accuracy": {"name": "mAP50-95", "value": 53.1, "dataset": "COCO val"},
+      "source_id": "ultralytics-yolo26-2026",
+      "source_url": "https://docs.ultralytics.com/models/yolo26"
+    },
+    {
+      "id": "yolo26l",
+      "display_name": "YOLO26l",
+      "family": "YOLO26",
+      "task": "detection",
+      "params_m": 24.8,
+      "flops_b": 86.4,
+      "input_size": 640,
+      "runtimes": ["pytorch", "onnx", "tensorrt"],
+      "accuracy": {"name": "mAP50-95", "value": 55.0, "dataset": "COCO val"},
+      "source_id": "ultralytics-yolo26-2026",
+      "source_url": "https://docs.ultralytics.com/models/yolo26"
+    },
+    {
+      "id": "yolo26x",
+      "display_name": "YOLO26x",
+      "family": "YOLO26",
+      "task": "detection",
+      "params_m": 55.7,
+      "flops_b": 193.9,
+      "input_size": 640,
+      "runtimes": ["pytorch", "onnx", "tensorrt"],
+      "accuracy": {"name": "mAP50-95", "value": 57.5, "dataset": "COCO val"},
+      "source_id": "ultralytics-yolo26-2026",
+      "source_url": "https://docs.ultralytics.com/models/yolo26"
+    },
+    {
+      "id": "smolvlm-256m-instruct",
+      "display_name": "SmolVLM 256M Instruct",
+      "family": "SmolVLM",
+      "task": "vlm",
+      "params_m": 256.0,
+      "runtimes": ["pytorch", "transformers"],
+      "published_memory_gb": 1.0,
+      "memory_scope": "Upstream states image inference runs with under 1 GB GPU RAM; catalog uses 1.0 GB as a conservative screen.",
+      "source_id": "huggingface-smolvlm-256m",
+      "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
+      "notes": "Image-text model. Throughput is intentionally left unmeasured in the bundled catalog."
+    },
+    {
+      "id": "smolvlm2-2.2b-instruct",
+      "display_name": "SmolVLM2 2.2B Instruct",
+      "family": "SmolVLM2",
+      "task": "vlm",
+      "params_m": 2200.0,
+      "runtimes": ["pytorch", "transformers"],
+      "published_memory_gb": 5.2,
+      "memory_scope": "Upstream model card reports 5.2 GB GPU RAM for video inference.",
+      "source_id": "huggingface-smolvlm2-2.2b",
+      "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct",
+      "notes": "Video, image and text input. Throughput is intentionally left unmeasured in the bundled catalog."
+    }
+  ]
+}

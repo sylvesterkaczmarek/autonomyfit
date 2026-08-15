@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autonomyfit"
+version = "0.1.0"
+description = "Hardware-aware model selection and local benchmarking for edge AI and autonomous systems."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Sylvester Kaczmarek"}
+]
+keywords = ["edge-ai", "robotics", "autonomy", "jetson", "tensorrt", "onnx", "computer-vision"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "psutil>=5.9",
+  "rich>=13.7",
+  "typer>=0.12",
+]
+
+[project.optional-dependencies]
+benchmark = [
+  "numpy>=1.26",
+  "onnxruntime>=1.19",
+]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+]
+
+[project.scripts]
+autonomyfit = "autonomyfit.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/sylvesterkaczmarek/autonomyfit"
+Repository = "https://github.com/sylvesterkaczmarek/autonomyfit"
+Issues = "https://github.com/sylvesterkaczmarek/autonomyfit/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+autonomyfit = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

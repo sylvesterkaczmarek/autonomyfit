@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "benchmarks": [
+    {
+      "hardware_id": "jetson-agx-thor-128gb",
+      "model_id": "yolo26n",
+      "runtime": "pytorch",
+      "precision": "fp32",
+      "latency_ms": 7.39,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-thor-128gb",
+      "model_id": "yolo26n",
+      "runtime": "onnx",
+      "precision": "fp32",
+      "latency_ms": 6.58,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-thor-128gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp32",
+      "latency_ms": 1.9,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-thor-128gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp16",
+      "latency_ms": 1.39,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-thor-128gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "int8",
+      "latency_ms": 1.52,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-orin-64gb",
+      "model_id": "yolo26n",
+      "runtime": "pytorch",
+      "precision": "fp32",
+      "latency_ms": 11.58,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-orin-64gb",
+      "model_id": "yolo26n",
+      "runtime": "onnx",
+      "precision": "fp32",
+      "latency_ms": 9.87,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-orin-64gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp32",
+      "latency_ms": 4.18,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-orin-64gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp16",
+      "latency_ms": 2.62,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-agx-orin-64gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "int8",
+      "latency_ms": 2.3,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nano-super-8gb",
+      "model_id": "yolo26n",
+      "runtime": "pytorch",
+      "precision": "fp32",
+      "latency_ms": 15.6,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nano-super-8gb",
+      "model_id": "yolo26n",
+      "runtime": "onnx",
+      "precision": "fp32",
+      "latency_ms": 15.76,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nano-super-8gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp32",
+      "latency_ms": 7.53,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nano-super-8gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp16",
+      "latency_ms": 4.57,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nano-super-8gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "int8",
+      "latency_ms": 3.8,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nx-16gb",
+      "model_id": "yolo26n",
+      "runtime": "pytorch",
+      "precision": "fp32",
+      "latency_ms": 13.9,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nx-16gb",
+      "model_id": "yolo26n",
+      "runtime": "onnx",
+      "precision": "fp32",
+      "latency_ms": 14.18,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nx-16gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp32",
+      "latency_ms": 7.01,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nx-16gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "fp16",
+      "latency_ms": 4.13,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_id": "jetson-orin-nx-16gb",
+      "model_id": "yolo26n",
+      "runtime": "tensorrt",
+      "precision": "int8",
+      "latency_ms": 3.49,
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    }
+  ]
+}

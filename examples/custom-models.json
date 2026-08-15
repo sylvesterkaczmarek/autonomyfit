@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "id": "example-detector-small",
+      "display_name": "Example Detector Small",
+      "family": "Example",
+      "task": "detection",
+      "params_m": 4.0,
+      "runtimes": ["onnx", "tensorrt"],
+      "accuracy": {
+        "name": "mAP50-95",
+        "value": 41.0,
+        "dataset": "example validation set"
+      },
+      "source_id": "autonomyfit-schema-example",
+      "source_url": "https://github.com/sylvesterkaczmarek/autonomyfit/blob/main/docs/catalog.md",
+      "notes": "Schema demonstration only. These values are not deployment evidence."
+    }
+  ]
+}

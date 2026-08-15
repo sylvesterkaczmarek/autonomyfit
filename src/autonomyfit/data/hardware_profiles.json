@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "jetson-agx-thor-128gb",
+      "display_name": "NVIDIA Jetson AGX Thor Developer Kit",
+      "aliases": ["Jetson AGX Thor", "T5000"],
+      "platform": "jetson",
+      "architecture": "aarch64",
+      "memory_gb": 128,
+      "unified_memory": true,
+      "gpu": "NVIDIA Blackwell",
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+    },
+    {
+      "id": "jetson-agx-orin-64gb",
+      "display_name": "NVIDIA Jetson AGX Orin 64GB",
+      "aliases": ["Jetson AGX Orin"],
+      "platform": "jetson",
+      "architecture": "aarch64",
+      "memory_gb": 64,
+      "unified_memory": true,
+      "gpu": "NVIDIA Ampere",
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+    },
+    {
+      "id": "jetson-orin-nano-super-8gb",
+      "display_name": "NVIDIA Jetson Orin Nano Super 8GB",
+      "aliases": ["Jetson Orin Nano Super", "Orin Nano Super"],
+      "platform": "jetson",
+      "architecture": "aarch64",
+      "memory_gb": 8,
+      "unified_memory": true,
+      "gpu": "NVIDIA Ampere",
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+    },
+    {
+      "id": "jetson-orin-nx-16gb",
+      "display_name": "NVIDIA Jetson Orin NX 16GB",
+      "aliases": ["Jetson Orin NX 16GB", "reComputer J4012"],
+      "platform": "jetson",
+      "architecture": "aarch64",
+      "memory_gb": 16,
+      "unified_memory": true,
+      "gpu": "NVIDIA Ampere",
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+    },
+    {
+      "id": "nvidia-t4-16gb",
+      "display_name": "NVIDIA T4 16GB",
+      "aliases": ["Tesla T4", "NVIDIA T4"],
+      "platform": "nvidia",
+      "architecture": "x86_64",
+      "memory_gb": 16,
+      "vram_gb": 16,
+      "unified_memory": false,
+      "gpu": "NVIDIA T4",
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+    }
+  ]
+}
