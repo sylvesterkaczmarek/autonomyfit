@@ -7,7 +7,6 @@ from pathlib import Path
 from typer.testing import CliRunner
 
 from autonomyfit.cli import app
-
 from autonomyfit.discovery import (
     DiscoveryCandidate,
     HuggingFaceAdapter,
@@ -17,7 +16,6 @@ from autonomyfit.discovery import (
     candidate_to_registry_model,
     deduplicate_candidates,
 )
-
 
 NOW = datetime(2026, 8, 16, 10, 0, tzinfo=timezone.utc)
 

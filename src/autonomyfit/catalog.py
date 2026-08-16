@@ -53,7 +53,7 @@ def _legacy_model(item: dict[str, Any]) -> ModelProfile:
 def _load_custom(path: Path) -> LoadedCatalog:
     raw = _load_document(path)
     if not isinstance(raw, dict):
-        raise ValueError("custom catalog must be a JSON object")
+        raise TypeError("custom catalog must be a JSON object")
     schema_version = raw.get("schema_version")
     if schema_version == 2:
         validate_registry_document(raw)

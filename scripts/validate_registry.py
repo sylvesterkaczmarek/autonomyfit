@@ -7,7 +7,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from autonomyfit.registry import models_from_registry, validate_registry_document  # noqa: E402
+from autonomyfit.registry import (
+    models_from_registry,
+    validate_registry_document,
+)
 
 
 def main() -> int:

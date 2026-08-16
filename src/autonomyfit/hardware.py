@@ -49,7 +49,7 @@ def _detect_runtimes(platform_kind: str) -> tuple[RuntimeCapability, ...]:
             import onnxruntime as ort
 
             ort_detail = ", ".join(ort.get_available_providers())
-        except Exception:
+        except Exception:  # noqa: BLE001
             ort_detail = "installed, provider query failed"
     capabilities.append(
         RuntimeCapability("onnxruntime", bool(ort_version), ort_version, ort_detail)
@@ -67,7 +67,7 @@ def _detect_runtimes(platform_kind: str) -> tuple[RuntimeCapability, ...]:
                 torch_detail = "MPS available"
             else:
                 torch_detail = "CPU"
-        except Exception:
+        except Exception:  # noqa: BLE001
             torch_detail = "installed, backend query failed"
     capabilities.append(
         RuntimeCapability("pytorch", bool(torch_version), torch_version, torch_detail)
