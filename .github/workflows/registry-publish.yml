@@ -6,6 +6,7 @@ on:
     paths:
       - registry/source/registry-v2.json
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write
@@ -21,6 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: main
           fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
@@ -34,16 +36,24 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          source = json.loads(Path("registry/source/registry-v2.json").read_text())
+
+          source = json.loads(
+              Path("registry/source/registry-v2.json").read_text()
+          )
           published_path = Path("registry/published/registry-v2.json")
           if published_path.exists():
               published = json.loads(published_path.read_text())
               old_version = published["registry"]["registry_version"]
               new_version = source["registry"]["registry_version"]
               if new_version < old_version:
-                  raise SystemExit(f"registry rollback: {new_version} < {old_version}")
+                  raise SystemExit(
+                      f"registry rollback: {new_version} < {old_version}"
+                  )
               if new_version == old_version and source != published:
-                  raise SystemExit("registry content changed without incrementing registry_version")
+                  raise SystemExit(
+                      "registry content changed without incrementing "
+                      "registry_version"
+                  )
           PY
       - name: Prepare published registry
         run: |
@@ -55,16 +65,19 @@ jobs:
         with:
           inputs: registry/published/registry-v2.json
           verify: true
-          verify-cert-identity: https://github.com/sylvesterkaczmarek/autonomyfit/.github/workflows/registry-publish.yml@refs/heads/main
+          verify-cert-identity: >-
+            https://github.com/sylvesterkaczmarek/autonomyfit/.github/workflows/registry-publish.yml@refs/heads/main
           verify-oidc-issuer: https://token.actions.githubusercontent.com
       - name: Commit signed registry
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
           git add registry/published
           if git diff --cached --quiet; then
             echo "Published registry already current."
           else
             git commit -m "Publish signed registry"
+            git pull --rebase origin main
             git push
           fi
