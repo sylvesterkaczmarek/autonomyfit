@@ -743,6 +743,7 @@ def _merge_existing(
 
 def _semantic_models(document: dict[str, Any]) -> str:
     normalized = json.loads(json.dumps(document.get("models", [])))
+    normalized.sort(key=lambda item: str(item.get("id", "")))
     return json.dumps(normalized, sort_keys=True, separators=(",", ":"))
 
 
