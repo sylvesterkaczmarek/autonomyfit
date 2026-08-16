@@ -28,6 +28,25 @@ jobs:
           echo "fcf370d0e99052660a218f0e8499cc6d606d66ff7971df1f0e0d9a946cac12c8  /tmp/stage5.tar.gz" | sha256sum -c -
           tar -xzf /tmp/stage5.tar.gz
           python stage5_migrate.py
+          python - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              Path("src/autonomyfit/conversions.py"): (
+                  '    except Exception as exc:\n        return {"status": "unsupported", "reason": f"generic equivalence check could not run: {exc}"}',
+                  '    except Exception as exc:  # noqa: BLE001\n        return {"status": "unsupported", "reason": f"generic equivalence check could not run: {exc}"}',
+              ),
+              Path("src/autonomyfit/deployment.py"): (
+                  '    except Exception as exc:\n        return "fail", f"ONNX structural validation failed: {exc}"',
+                  '    except Exception as exc:  # noqa: BLE001\n        return "fail", f"ONNX structural validation failed: {exc}"',
+              ),
+          }
+          for path, (old, new) in replacements.items():
+              text = path.read_text()
+              if old not in text:
+                  raise SystemExit(f"Stage 5 boundary annotation target not found: {path}")
+              path.write_text(text.replace(old, new, 1))
+          PY
           rm stage5_migrate.py
           rm -rf .stage5
       - name: Validate Stage 5 source
