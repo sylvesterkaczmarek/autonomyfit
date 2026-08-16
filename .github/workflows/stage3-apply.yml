@@ -52,7 +52,7 @@ jobs:
           test_path = Path("tests/test_cli.py")
           test_text = test_path.read_text()
           old = '    assert "requires --model-id" in result.output\n'
-          new = '    assert "requires" in result.output\n    assert "model-id" in result.output\n'
+          new = '    assert "requires" in result.output\n    assert "artifact" in result.output\n'
           if old not in test_text:
               raise SystemExit("artifact CLI assertion not found")
           test_path.write_text(test_text.replace(old, new))
