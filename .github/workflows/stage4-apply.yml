@@ -67,6 +67,20 @@ jobs:
               )
           )
 
+          catalog_test = Path("tests/test_catalog.py")
+          text = catalog_test.read_text()
+          replacements = {
+              'assert {model.task for model in models} == {"detection", "vlm"}':
+                  'assert {model.task for model in models} == set(tasks)',
+              'assert loaded.provenance.registry_version == 1':
+                  'assert loaded.provenance.registry_version == 4',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f"catalog migration target not found: {old}")
+              text = text.replace(old, new, 1)
+          catalog_test.write_text(text)
+
           cli_test = Path("tests/test_cli.py")
           text = cli_test.read_text()
           replacements = {
@@ -76,12 +90,22 @@ jobs:
                   'assert "unknown task" in result.output',
               'assert payload["fallback"]["registry_version"] == 1':
                   'assert payload["fallback"]["registry_version"] == 4',
+              'assert yolo26n["evidence_confidence"] == "MEDIUM"':
+                  'assert yolo26n["evidence_confidence"] == "LOW"',
           }
           for old, new in replacements.items():
               if old not in text:
                   raise SystemExit(f"CLI migration target not found: {old}")
               text = text.replace(old, new, 1)
           cli_test.write_text(text)
+
+          scoring_test = Path("tests/test_scoring.py")
+          text = scoring_test.read_text()
+          old = 'assert yolo26n.evidence_confidence == "MEDIUM"'
+          new = 'assert yolo26n.evidence_confidence == "LOW"'
+          if old not in text:
+              raise SystemExit("scoring confidence migration target not found")
+          scoring_test.write_text(text.replace(old, new, 1))
           PY
       - name: Validate Stage 4 source
         run: |
