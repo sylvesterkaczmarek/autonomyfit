@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - .github/workflows/stage3-apply.yml
-      - .stage3/stage3.tar.gz
+      - .stage3/**
 
 permissions:
   contents: write
@@ -21,10 +21,12 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - name: Verify and extract reviewed payload
+      - name: Reconstruct and verify reviewed payload
         run: |
-          echo "e1f1112c95aa7126f92e9816649a579f31cdfdd156d3e245376746c5ffc5cb27  .stage3/stage3.tar.gz" | sha256sum -c -
-          tar -xzf .stage3/stage3.tar.gz
+          cat .stage3/chunk-* > /tmp/stage3.b64
+          base64 --decode /tmp/stage3.b64 > /tmp/stage3.tar.gz
+          echo "e1f1112c95aa7126f92e9816649a579f31cdfdd156d3e245376746c5ffc5cb27  /tmp/stage3.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/stage3.tar.gz
           rm -rf .stage3
       - name: Validate Stage 3 source
         run: |
