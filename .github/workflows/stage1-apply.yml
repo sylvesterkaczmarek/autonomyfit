@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".stage1-g0.tar.gz"
+      - ".github/workflows/stage1-apply.yml"
 
 permissions:
   contents: write
@@ -28,15 +29,13 @@ jobs:
           echo "64c0227eb9aaf376dee92c47543adfc26efc28513344f4156f1f4d7742476a9e  .stage1-g6.tar.gz" | sha256sum -c -
           echo "bbd9a142e8c170971f86aaa9834d92659c8db57c07d0481b91d28f1ee8172644  .stage1-g7.tar.gz" | sha256sum -c -
           echo "d231c26f2e3de7a3124bd6257074a10a0deb18de52ddc12fdad5c7eb77bc1abb  .stage1-g8.tar.gz" | sha256sum -c -
-          echo "c80b164b23846da511e06d3152d5524bf7c5a2a297ff6b0594b968bd76b915c1  .stage1-g9.tar.gz" | sha256sum -c -
-          for archive in .stage1-g*.tar.gz; do
+          for archive in .stage1-g{0..8}.tar.gz; do
             tar -xzf "$archive"
           done
           rm -f src/autonomyfit/data/models.json
           rm -f .stage1-payload.part-*
-          rm -f .stage1-g*.tar.gz
-          rm -f .github/workflows/stage1-apply.yml
-      - name: Commit Stage 1
+          rm -f .stage1-g{0..8}.tar.gz
+      - name: Commit Stage 1 source
         run: |
           git config user.name "Sylvester Kaczmarek"
           git config user.email "16242628+sylvesterkaczmarek@users.noreply.github.com"
