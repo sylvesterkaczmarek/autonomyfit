@@ -1,0 +1,71 @@
+name: Apply Stage 5 deployment validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/stage5-apply.yml
+      - .stage5/**
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Reconstruct and verify reviewed payload
+        run: |
+          cat .stage5/chunk-* > /tmp/stage5.b64
+          base64 --decode /tmp/stage5.b64 > /tmp/stage5.tar.gz
+          echo "fcf370d0e99052660a218f0e8499cc6d606d66ff7971df1f0e0d9a946cac12c8  /tmp/stage5.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/stage5.tar.gz
+          python stage5_migrate.py
+          rm stage5_migrate.py
+          rm -rf .stage5
+      - name: Validate Stage 5 source
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install --upgrade build twine
+          ruff check . --fix --unsafe-fixes
+          ruff check .
+          python scripts/validate_registry.py registry/source/registry-v2.json
+          python scripts/validate_evidence.py
+          pytest -q
+          python - <<'PY'
+          import importlib.metadata
+          import autonomyfit
+          assert importlib.metadata.version("autonomyfit") == "0.6.0"
+          assert autonomyfit.__version__ == "0.6.0"
+          PY
+          python -m autonomyfit validate yolo26n --offline --hardware-profile nvidia-t4-16gb --report /tmp/stage5-report.json --json >/dev/null
+          python -m autonomyfit report /tmp/stage5-report.json --json >/dev/null
+          python -m autonomyfit artifacts smolvlm-256m-instruct --offline --json >/dev/null
+          python -m autonomyfit local-results --json >/dev/null
+          python -m compileall -q src
+          git diff --check
+          rm -rf dist build
+          python -m build
+          python -m twine check dist/*
+          python -m pip install --force-reinstall dist/autonomyfit-0.6.0-py3-none-any.whl
+          test "$(autonomyfit --version)" = "0.6.0"
+          autonomyfit validate yolo26n --offline --hardware-profile nvidia-t4-16gb --report /tmp/stage5-wheel-report.json --json >/dev/null
+          autonomyfit report /tmp/stage5-wheel-report.json --json >/dev/null
+          autonomyfit artifacts smolvlm-256m-instruct --offline --json >/dev/null
+          autonomyfit local-results --json >/dev/null
+      - name: Commit Stage 5 source
+        run: |
+          git config user.name "Sylvester Kaczmarek"
+          git config user.email "16242628+sylvesterkaczmarek@users.noreply.github.com"
+          git add -A
+          git reset .github/workflows/stage5-apply.yml
+          git commit -m "Add deployment validation system"
+          git pull --rebase origin main
+          git push
