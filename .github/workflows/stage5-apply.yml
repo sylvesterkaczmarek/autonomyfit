@@ -99,5 +99,6 @@ jobs:
           git add -A
           git reset .github/workflows/stage5-apply.yml .github/workflows/ci.yml
           git commit -m "Add deployment validation system"
+          git checkout -- .github/workflows/ci.yml
           git pull --rebase origin main
           git push
