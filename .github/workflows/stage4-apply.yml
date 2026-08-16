@@ -133,7 +133,7 @@ jobs:
           PY
           python -m autonomyfit tasks --json >/dev/null
           python -m autonomyfit recommend --offline --task classification --hardware-profile apple-m4-pro-24gb --objective memory --top 3 --json >/dev/null
-          python -m autonomyfit recommend --offline --task detection --hardware-profile snapdragon-x-elite-16gb --runtime qnn --objective balanced --top 3 --json >/dev/null
+          python -m autonomyfit recommend --offline --task detection --hardware-profile qualcomm-snapdragon-x-elite-16gb --runtime qnn --objective balanced --top 3 --json >/dev/null
           python -m autonomyfit compare yolo26n rfdetr-nano --offline --hardware-profile nvidia-t4-16gb --objective balanced --json >/dev/null
           python -m autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5 --json >/dev/null
           python -m compileall -q src
