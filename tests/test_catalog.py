@@ -12,7 +12,18 @@ def test_bundled_fallback_catalog_is_valid_and_unique():
     models = load_models(offline=True)
     assert len(models) >= 7
     assert len({model.id for model in models}) == len(models)
-    assert {model.task for model in models} == {"detection", "vlm"}
+    assert {model.task for model in models} == {
+    "anomaly",
+    "asr",
+    "classification",
+    "depth",
+    "detection",
+    "embedding",
+    "ocr",
+    "pose",
+    "segmentation",
+    "vlm",
+}
 
 
 def test_benchmarks_reference_known_models_and_hardware():
@@ -57,4 +68,4 @@ def test_schema_v2_custom_catalog_is_supported(tmp_path):
     path.write_text(source.read_text())
     loaded = load_model_catalog(path)
     assert loaded.provenance.source == "custom"
-    assert loaded.provenance.registry_version == 1
+    assert loaded.provenance.registry_version == 4

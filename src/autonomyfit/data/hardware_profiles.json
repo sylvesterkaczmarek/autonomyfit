@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "profiles": [
     {
       "id": "jetson-agx-thor-128gb",
@@ -10,7 +10,12 @@
       "memory_gb": 128,
       "unified_memory": true,
       "gpu": "NVIDIA Blackwell",
-      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+      "accelerator_type": "gpu",
+      "memory_topology": "unified",
+      "supported_precisions": ["fp32", "fp16", "bf16", "fp8", "int8", "fp4"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt", "tensorrt-ep"],
+      "max_power_w": 130,
+      "software_stack": ["JetPack 7.x", "TensorRT"]
     },
     {
       "id": "jetson-agx-orin-64gb",
@@ -21,7 +26,11 @@
       "memory_gb": 64,
       "unified_memory": true,
       "gpu": "NVIDIA Ampere",
-      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+      "accelerator_type": "gpu",
+      "memory_topology": "unified",
+      "supported_precisions": ["fp32", "fp16", "bf16", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt", "tensorrt-ep"],
+      "software_stack": ["JetPack 6.x", "TensorRT 10.x"]
     },
     {
       "id": "jetson-orin-nano-super-8gb",
@@ -32,7 +41,11 @@
       "memory_gb": 8,
       "unified_memory": true,
       "gpu": "NVIDIA Ampere",
-      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+      "accelerator_type": "gpu",
+      "memory_topology": "unified",
+      "supported_precisions": ["fp32", "fp16", "bf16", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt", "tensorrt-ep"],
+      "software_stack": ["JetPack 6.x", "TensorRT 10.x"]
     },
     {
       "id": "jetson-orin-nx-16gb",
@@ -43,7 +56,11 @@
       "memory_gb": 16,
       "unified_memory": true,
       "gpu": "NVIDIA Ampere",
-      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+      "accelerator_type": "gpu",
+      "memory_topology": "unified",
+      "supported_precisions": ["fp32", "fp16", "bf16", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt", "tensorrt-ep"],
+      "software_stack": ["JetPack 6.x", "TensorRT 10.x"]
     },
     {
       "id": "nvidia-t4-16gb",
@@ -55,7 +72,148 @@
       "vram_gb": 16,
       "unified_memory": false,
       "gpu": "NVIDIA T4",
-      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt"]
+      "accelerator_type": "gpu",
+      "memory_topology": "discrete-vram",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt", "cuda-ep", "tensorrt-ep"],
+      "max_power_w": 70,
+      "software_stack": ["CUDA", "TensorRT"]
+    },
+    {
+      "id": "nvidia-rtx-4090-24gb",
+      "display_name": "NVIDIA GeForce RTX 4090 24GB",
+      "aliases": ["GeForce RTX 4090", "RTX 4090"],
+      "platform": "nvidia",
+      "architecture": "x86_64",
+      "memory_gb": 24,
+      "vram_gb": 24,
+      "unified_memory": false,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "accelerator_type": "gpu",
+      "memory_topology": "discrete-vram",
+      "supported_precisions": ["fp32", "fp16", "bf16", "fp8", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt", "cuda-ep", "tensorrt-ep"],
+      "software_stack": ["CUDA", "TensorRT/TensorRT-RTX"]
+    },
+    {
+      "id": "nvidia-rtx-5090-32gb",
+      "display_name": "NVIDIA GeForce RTX 5090 32GB",
+      "aliases": ["GeForce RTX 5090", "RTX 5090"],
+      "platform": "nvidia",
+      "architecture": "x86_64",
+      "memory_gb": 32,
+      "vram_gb": 32,
+      "unified_memory": false,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "accelerator_type": "gpu",
+      "memory_topology": "discrete-vram",
+      "supported_precisions": ["fp32", "fp16", "bf16", "fp8", "int8", "fp4"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "tensorrt", "cuda-ep", "tensorrt-ep"],
+      "software_stack": ["CUDA", "TensorRT/TensorRT-RTX"]
+    },
+    {
+      "id": "apple-m4-16gb",
+      "display_name": "Apple M4 16GB",
+      "aliases": ["Apple M4"],
+      "platform": "apple",
+      "architecture": "arm64",
+      "memory_gb": 16,
+      "unified_memory": true,
+      "gpu": "Apple M4",
+      "accelerator_type": "gpu+npu",
+      "memory_topology": "unified",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "coreml", "coreml-ep", "xnnpack"],
+      "software_stack": ["Core ML", "Metal", "Apple Neural Engine"]
+    },
+    {
+      "id": "apple-m4-pro-24gb",
+      "display_name": "Apple M4 Pro 24GB",
+      "aliases": ["Apple M4 Pro"],
+      "platform": "apple",
+      "architecture": "arm64",
+      "memory_gb": 24,
+      "unified_memory": true,
+      "gpu": "Apple M4 Pro",
+      "accelerator_type": "gpu+npu",
+      "memory_topology": "unified",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "coreml", "coreml-ep", "xnnpack"],
+      "software_stack": ["Core ML", "Metal", "Apple Neural Engine"]
+    },
+    {
+      "id": "apple-m4-max-36gb",
+      "display_name": "Apple M4 Max 36GB",
+      "aliases": ["Apple M4 Max"],
+      "platform": "apple",
+      "architecture": "arm64",
+      "memory_gb": 36,
+      "unified_memory": true,
+      "gpu": "Apple M4 Max",
+      "accelerator_type": "gpu+npu",
+      "memory_topology": "unified",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["pytorch", "onnxruntime", "coreml", "coreml-ep", "xnnpack"],
+      "software_stack": ["Core ML", "Metal", "Apple Neural Engine"]
+    },
+    {
+      "id": "intel-core-ultra-200v-32gb",
+      "display_name": "Intel Core Ultra 200V 32GB",
+      "aliases": ["Core Ultra 200V", "Lunar Lake"],
+      "platform": "intel",
+      "architecture": "x86_64",
+      "memory_gb": 32,
+      "unified_memory": true,
+      "gpu": "Intel Arc integrated GPU",
+      "accelerator_type": "npu+gpu+cpu",
+      "memory_topology": "shared-system",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["onnxruntime", "openvino", "openvino-ep"],
+      "software_stack": ["OpenVINO 2026", "Intel NPU driver"]
+    },
+    {
+      "id": "amd-ryzen-ai-300-32gb",
+      "display_name": "AMD Ryzen AI 300 32GB",
+      "aliases": ["Ryzen AI 300", "Ryzen AI 9 HX 370", "Strix Point"],
+      "platform": "amd",
+      "architecture": "x86_64",
+      "memory_gb": 32,
+      "unified_memory": true,
+      "gpu": "AMD Radeon integrated GPU",
+      "accelerator_type": "npu+gpu+cpu",
+      "memory_topology": "shared-system",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["onnxruntime", "vitisai"],
+      "software_stack": ["Ryzen AI Software", "Vitis AI Execution Provider"]
+    },
+    {
+      "id": "qualcomm-snapdragon-x-elite-16gb",
+      "display_name": "Qualcomm Snapdragon X Elite 16GB",
+      "aliases": ["Snapdragon X Elite", "X Elite"],
+      "platform": "qualcomm",
+      "architecture": "arm64",
+      "memory_gb": 16,
+      "unified_memory": true,
+      "gpu": "Qualcomm Adreno",
+      "accelerator_type": "npu+gpu+cpu",
+      "memory_topology": "shared-system",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["onnxruntime", "qnn"],
+      "software_stack": ["Qualcomm AI Engine Direct/QNN", "ONNX Runtime QNN EP"]
+    },
+    {
+      "id": "raspberry-pi-5-8gb",
+      "display_name": "Raspberry Pi 5 8GB",
+      "aliases": ["Raspberry Pi 5", "BCM2712"],
+      "platform": "arm",
+      "architecture": "aarch64",
+      "memory_gb": 8,
+      "unified_memory": true,
+      "accelerator_type": "cpu",
+      "memory_topology": "shared-system",
+      "supported_precisions": ["fp32", "fp16", "int8"],
+      "supported_runtimes": ["onnxruntime", "xnnpack"],
+      "software_stack": ["ONNX Runtime", "XNNPACK"]
     }
   ]
 }

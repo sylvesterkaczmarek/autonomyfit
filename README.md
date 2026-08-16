@@ -6,7 +6,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-AutonomyFit detects local edge-AI hardware, tracks a continuously updated signed model registry, and ranks models against memory, latency, throughput, accuracy, power and runtime constraints. Performance claims are tied to explicit evidence rather than model names alone.
+AutonomyFit is an evidence-aware model-selection and benchmarking CLI for edge AI and autonomous systems. It detects the target hardware, filters models by deployment constraints, builds conservative Pareto frontiers, ranks for an explicit engineering objective, and tells you what is measured, estimated, or still unknown.
 
 ## Install
 
@@ -14,141 +14,145 @@ AutonomyFit detects local edge-AI hardware, tracks a continuously updated signed
 pip install autonomyfit
 ```
 
-## Quick start
+## Start here
 
 ```bash
 autonomyfit scan
-autonomyfit registry update
-autonomyfit models
-autonomyfit recommend --task detection --fps 30 --latency-ms 40
+autonomyfit tasks
+autonomyfit models --offline
+autonomyfit recommend --task detection --hardware-profile jetson-orin-nx-16gb --objective balanced
+autonomyfit compare yolo26n rfdetr-nano --hardware-profile nvidia-t4-16gb --objective accuracy
 ```
 
-A known target can be screened without the device attached:
+AutonomyFit 0.5 supports ten extensible task categories:
+
+```text
+detection  classification  segmentation  pose  depth
+ocr        vlm             anomaly       asr   embedding
+```
+
+The signed continuous registry contains a curated set of practical model families rather than hundreds of weakly sourced entries. Stage 4 adds multi-task YOLO26, RF-DETR, RepViT, MobileSAM, Depth Anything V2, PP-OCRv6, SmolVLM2, EfficientAD, Whisper, MobileCLIP and DINOv2 families alongside the existing evidence model.
+
+## Objective-aware ranking
+
+Hard constraints are applied before ranking. Candidates that remain feasible are assigned conservative Pareto layers, then ordered for one explicit objective:
 
 ```bash
-autonomyfit recommend --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5
+autonomyfit recommend --task classification --objective latency
+autonomyfit recommend --task classification --objective throughput
+autonomyfit recommend --task classification --objective accuracy
+autonomyfit recommend --task detection --objective power
+autonomyfit recommend --task segmentation --objective memory
+autonomyfit recommend --task depth --objective balanced
 ```
 
-The published YOLO26n / Jetson Orin NX / TensorRT FP16 reference is 4.13 ms, but AutonomyFit 0.4 deliberately treats it as **vendor reference evidence**, not automatic proof for every YOLO26n artifact. Because that table does not pin an exact model revision and artifact SHA-256, a performance constraint returns `BENCHMARK_REQUIRED` until exact evidence is available.
+`balanced` is not a hidden hand-tuned score. It normalizes the known latency, throughput, task metric, power and memory quantities within the feasible candidate set and penalizes missing objective coverage. Pareto dominance is only asserted between candidates with the same known objective set, so missing evidence cannot create a dominance claim.
+
+See [docs/ranking.md](docs/ranking.md).
+
+## Recommendation confidence
+
+Each recommendation carries a numeric `0-100` confidence score plus a compatibility label. The score is the equal-weight mean of six disclosed components:
+
+- exactness of the hardware match
+- runtime/precision match
+- evidence quality
+- evidence freshness
+- model revision/artifact identity
+- requested-quantity coverage
+
+An unresolved requested constraint caps confidence at 55. JSON output exposes every component, so the number can be audited instead of treated as a black-box label.
+
+## Real engineering filters
+
+```bash
+autonomyfit recommend \
+  --task segmentation \
+  --hardware-profile apple-m4-pro-24gb \
+  --objective memory \
+  --max-params-m 30 \
+  --license Apache-2.0 \
+  --min-confidence 40 \
+  --top 5
+```
+
+Other useful controls include `--runtime`, `--precision`, `--family`, `--max-memory-gb`, `--verified-only`, and `--include-experimental`.
+
+## Hardware and runtime coverage
+
+First-class profiles now cover practical NVIDIA Jetson and discrete GPUs, Apple Silicon, Intel CPU/GPU/NPU systems, AMD Ryzen AI systems, Qualcomm Snapdragon X Elite and Arm CPU targets such as Raspberry Pi 5.
+
+AutonomyFit distinguishes native runtimes from ONNX Runtime execution-provider capability. TensorRT, OpenVINO and Core ML are native benchmark paths. QNN, XNNPACK, OpenVINO EP, CoreML EP, TensorRT EP, CUDA EP and Vitis AI EP can be detected as provider capabilities, but provider presence is never represented as proof that a specific graph is fully supported.
+
+See [docs/hardware.md](docs/hardware.md).
 
 ## Evidence-aware decisions
 
 | Outcome | Meaning |
 |---|---|
 | `VERIFIED_FIT` | Exact identity-matched local or standardized evidence satisfies the requested constraints. |
-| `FEASIBLE` | Compatibility and memory screening pass with no unresolved performance constraint. |
-| `BENCHMARK_REQUIRED` | A performance/power constraint needs exact target-device evidence. |
-| `CONSTRAINT_FAIL` | Exact applicable evidence or catalogued constraints show a violation. |
-| `NO_FIT` | A hard compatibility or memory screen fails. |
+| `FEASIBLE` | Hard compatibility and memory screening pass with no unresolved requested performance constraint. |
+| `BENCHMARK_REQUIRED` | A requested quantity cannot be defended with exact applicable evidence. |
+| `CONSTRAINT_FAIL` | Exact applicable evidence shows a requested threshold is violated. |
+| `NO_FIT` | A hard model/runtime/precision/memory/size feasibility condition fails. |
 
-Evidence quality is explicit:
-
-```text
-local-measured
-standardized
-vendor-published
-third-party-reproducible
-metadata-estimate
-```
-
-A result can be useful without being proof. JSON and human output state whether benchmark identity is exact or context-only, along with model revision, artifact hash, hardware, runtime, precision, source date and evidence quality.
+Evidence quality remains explicit: `local-measured`, `standardized`, `vendor-published`, `third-party-reproducible`, or `metadata-estimate`. Vendor reference tables remain useful context but do not silently become proof for a different artifact.
 
 See [docs/evidence.md](docs/evidence.md).
 
-## Continuously updated registry
-
-The PyPI package is the decision engine. Model intelligence is a separately versioned, signed registry that can update without a new package release.
+## Compare models
 
 ```bash
-autonomyfit registry status
-autonomyfit registry update
-autonomyfit search detr-resnet-50
-autonomyfit info eagle2-1b
-autonomyfit models --source nvidia
+autonomyfit compare \
+  yolo26n rfdetr-nano rfdetr-small \
+  --hardware-profile nvidia-t4-16gb \
+  --objective balanced \
+  --json
 ```
 
-The registry client verifies Sigstore identity, schema/freshness and local rollback state, caches the last accepted registry and supports offline fallback:
-
-```bash
-autonomyfit recommend --offline --task detection
-```
-
-See [docs/registry.md](docs/registry.md) and [docs/discovery.md](docs/discovery.md).
-
-## Exact artifact matching
-
-For a deployable artifact, include its identity in the recommendation:
-
-```bash
-autonomyfit recommend \
-  --model-id my-model \
-  --model-revision FULL_REVISION \
-  --artifact model.onnx \
-  --runtime onnx \
-  --precision fp16 \
-  --latency-ms 10
-```
-
-AutonomyFit hashes the artifact with SHA-256. Known revision, artifact, hardware, runtime or precision mismatches do not silently share benchmark evidence.
+Comparison uses the same feasibility, Pareto and confidence engine as `recommend`. JSON includes objective rank, Pareto layer, dominance relationships, hard-constraint results, measured data, estimates, unknown quantities and the benchmark that would most reduce uncertainty.
 
 ## Local benchmarking
 
-Check backend availability:
-
-```bash
-autonomyfit benchmark-backends
-```
-
-For ONNX Runtime:
-
 ```bash
 pip install 'autonomyfit[benchmark]'
-autonomyfit benchmark model.onnx \
-  --model-id my-model \
-  --model-revision FULL_REVISION \
-  --iterations 100 \
-  --warmup 20 \
-  -o result.json
-```
-
-Then validate and import the report:
-
-```bash
+autonomyfit benchmark-backends
+autonomyfit benchmark model.onnx --model-id my-model --model-revision COMMIT -o result.json
 autonomyfit benchmark-inspect result.json
 autonomyfit benchmark-import result.json
 ```
 
-A local report records the exact artifact SHA-256, model revision, hardware identity, runtime/provider versions, deterministic input seed, input shapes, load time, mean/median/p50/p90/p95/p99 latency, throughput, process-RSS peak, scoped NVIDIA/Jetson power where available, thermal readings where exposed and a reproducibility fingerprint.
+ONNX Runtime can target an installed provider explicitly, for example:
 
-Full local filesystem paths and raw hostnames are not written into the report.
+```bash
+autonomyfit benchmark model.onnx --backend onnxruntime --provider QNNExecutionProvider --model-id my-model
+autonomyfit benchmark model.onnx --backend onnxruntime --provider XNNPACKExecutionProvider --model-id my-model
+```
 
-### Native backends
+A provider being installed does not guarantee full operator coverage. The benchmark is the check.
 
-- `OnnxRuntimeBackend`: in-process ONNX Runtime execution-provider benchmark.
-- `TensorRTBackend`: native NVIDIA `trtexec` summary parsing for ONNX or TensorRT engine/plan artifacts.
-- `OpenVINOBackend`: native Intel `benchmark_app` latency-oriented benchmark.
-- `CoreMLBackend`: macOS Core ML benchmark for generic numeric `MLMultiArray` inputs.
+See [docs/benchmarking.md](docs/benchmarking.md).
 
-Unsupported backends or input semantics fail explicitly. See [docs/benchmarking.md](docs/benchmarking.md).
+## Registry design and package size
 
-## Power and memory scope
+The PyPI package remains the decision engine. Model coverage lives in a separately versioned signed registry, with a compact bundled fallback for offline use. Normal CLI use respects the existing verified cache/refresh policy rather than downloading the registry on every invocation.
 
-AutonomyFit does not equate all watts or memory numbers.
+```bash
+autonomyfit registry status
+autonomyfit registry update
+autonomyfit search mobileclip
+autonomyfit info ppocrv6-tiny
+```
 
-- Jetson power is labelled by the observed rail, such as VDD_IN.
-- NVIDIA `power.draw` is labelled as GPU board power.
-- These are not represented as whole-system wall power.
-- Generic local peak memory is labelled `process RSS`, not accelerator memory.
+## Limitations
 
-## MLPerf
-
-AutonomyFit includes strict parsing/import primitives for VALID MLPerf results. Standardized evidence is only accepted as exact proof when the benchmark workload is the correct one and the model revision plus artifact identity are explicitly supplied. AutonomyFit does not map a different MLPerf detector onto YOLO26 by task similarity alone.
-
-## Model discovery
-
-The discovery pipeline uses provider adapters and separates discovery from approval. New candidates can remain `DISCOVERED` or `NORMALIZED` without being promoted into high-confidence recommendations. Official upstream provenance is preferred and licences are retained rather than normalized away.
-
-The scheduled registry refresh runs daily, validates deterministic output and signs only meaningful registry changes. Registry updates do not publish PyPI packages.
+- A hardware/runtime capability does not establish model operator coverage.
+- Most newly added families currently have source-verified metadata rather than exact target-machine benchmarks.
+- Cross-family accuracy ranking is only meaningful when the task metric is comparable; entries without a comparable metric remain unknown for that objective.
+- Memory screens derived from parameters are estimates and are labelled as such.
+- Generic process RSS is not accelerator memory.
+- Power scope remains platform-specific unless measured by an applicable standardized method.
+- Robotic/VLA policies are intentionally not yet a canonical task; the task registry is structured so they can be added without redesigning the engine.
 
 ## Development
 
@@ -163,19 +167,7 @@ make evidence-validate
 make smoke
 ```
 
-CI covers Python 3.10 through 3.13, registry/evidence validation, Ruff, tests, wheel/sdist build, `twine check`, installed-wheel smoke tests and signed-registry refresh behavior.
-
-## Limitations
-
-- Vendor benchmarks remain contextual when exact artifact/revision identity is absent.
-- Synthetic local inputs benchmark execution performance, not task accuracy or end-to-end autonomy safety.
-- Process RSS is not GPU/accelerator memory.
-- Power depends on measurement scope, power mode, thermals, clocks and peripherals.
-- Native backend availability depends on vendor tooling installed on the target machine.
-- Core ML generic benchmarking does not replace Xcode/Instruments profiling; Apple also introduced Core AI for new custom neural-network deployment workflows.
-- Standardized MLPerf ingestion is intentionally empty unless an actually applicable model/system/artifact tuple exists.
-
-See [docs/reproducibility.md](docs/reproducibility.md).
+CI covers Python 3.10 through 3.13, registry/evidence validation, Ruff, the full test suite, wheel/sdist build, `twine check`, installed-wheel smoke tests and signed-registry behavior.
 
 ## Cite
 

@@ -35,7 +35,7 @@ def test_profile_recommendation_uses_contextual_vendor_evidence():
     yolo26n = next(item for item in payload if item["model_id"] == "yolo26n")
     assert yolo26n["verdict"] == "BENCHMARK_REQUIRED"
     assert yolo26n["latency_ms"] == 4.13
-    assert yolo26n["evidence_confidence"] == "MEDIUM"
+    assert yolo26n["evidence_confidence"] == "LOW"
     assert yolo26n["benchmark_match"]["exact"] is False
 
 
@@ -61,9 +61,9 @@ def test_negative_fps_is_rejected():
 
 
 def test_catalog_rejects_unknown_task():
-    result = runner.invoke(app, ["catalog", "--offline", "--task", "audio"])
+    result = runner.invoke(app, ["catalog", "--offline", "--task", "not-a-task"])
     assert result.exit_code != 0
-    assert "task must be detection or vlm" in result.output
+    assert "unknown task" in result.output
 
 
 def test_registry_status_json(tmp_path):
@@ -75,7 +75,7 @@ def test_registry_status_json(tmp_path):
     assert result.exit_code == 0, result.output
     payload = json.loads(result.stdout)
     assert payload["cache"] is None
-    assert payload["fallback"]["registry_version"] == 1
+    assert payload["fallback"]["registry_version"] == 4
 
 
 def test_registry_clear_cache_preserves_security_state_message(tmp_path):

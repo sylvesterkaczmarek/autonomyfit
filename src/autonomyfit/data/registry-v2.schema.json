@@ -193,7 +193,15 @@
         "task": {
           "enum": [
             "detection",
-            "vlm"
+            "classification",
+            "segmentation",
+            "pose",
+            "depth",
+            "ocr",
+            "vlm",
+            "anomaly",
+            "asr",
+            "embedding"
           ]
         },
         "modalities": {

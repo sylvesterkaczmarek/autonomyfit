@@ -68,7 +68,7 @@ def _remote_pair(document, etag='"v2"'):
 def test_registry_schema_accepts_fallback():
     document = _fallback_document()
     validate_registry_document(document)
-    assert len(models_from_registry(document)) == 7
+    assert len(models_from_registry(document)) == 45
 
 
 def test_valid_remote_registry_is_cached_and_verified(tmp_path):

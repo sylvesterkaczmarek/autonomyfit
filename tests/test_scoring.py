@@ -69,7 +69,7 @@ def test_vendor_jetson_benchmark_is_context_not_verified_fit():
     yolo26n = next(item for item in items if item.model.id == "yolo26n")
     assert yolo26n.verdict == "BENCHMARK_REQUIRED"
     assert yolo26n.latency_ms == 4.13
-    assert yolo26n.evidence_confidence == "MEDIUM"
+    assert yolo26n.evidence_confidence == "LOW"
     assert yolo26n.evidence_match is not None and yolo26n.evidence_match.exact is False
 
 

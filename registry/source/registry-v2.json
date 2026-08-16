@@ -2,41 +2,940 @@
   "models": [
     {
       "compatibility": {
-        "precisions": [],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
         "quantizations": [],
         "runtimes": [
           "pytorch",
-          "transformers"
+          "openvino"
         ]
       },
-      "display_name": "detr-resnet-50",
+      "display_name": "EfficientAD Small (Anomalib)",
       "evidence": {
         "accuracy": [],
         "benchmark_refs": [],
         "compatibility": [
           {
-            "source_id": "huggingface:facebook/detr-resnet-50",
-            "source_url": "https://huggingface.co/facebook/detr-resnet-50"
+            "source_id": "anomalib-efficientad",
+            "source_url": "https://github.com/open-edge-platform/anomalib"
           }
         ],
         "memory": []
       },
       "family": {
-        "name": "detr-resnet-50",
-        "variant": null
+        "name": "EfficientAD",
+        "variant": "S"
       },
-      "id": "detr-resnet-50",
+      "id": "anomalib-efficientad-s",
       "input": {
         "height": null,
         "kind": "image",
-        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "notes": null,
         "size": null,
         "width": null
       },
       "license": {
         "note": null,
-        "source_url": "https://huggingface.co/facebook/detr-resnet-50",
-        "spdx": "apache-2.0",
+        "source_url": "https://github.com/open-edge-platform/anomalib",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "anomaly-score",
+          "anomaly-map"
+        ]
+      },
+      "notes": "Visual anomaly detection implementation in Anomalib; parameter count corresponds to the Small implementation reported by the upstream project community.",
+      "parameters": {
+        "flops_b": null,
+        "millions": 8.1
+      },
+      "task": "anomaly",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "anomalib-efficientad",
+        "source_url": "https://github.com/open-edge-platform/anomalib"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers",
+          "coreml"
+        ]
+      },
+      "display_name": "Depth Anything V2 Small",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "depth-anything-v2",
+            "source_url": "https://github.com/DepthAnything/Depth-Anything-V2"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Depth Anything V2",
+        "variant": "Small"
+      },
+      "id": "depth-anything-v2-small",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/DepthAnything/Depth-Anything-V2",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": "Small model selected because its upstream licence is suitable for broad deployment; larger variants have different terms.",
+      "parameters": {
+        "flops_b": null,
+        "millions": 24.8
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "depth-anything-v2",
+        "source_url": "https://github.com/DepthAnything/Depth-Anything-V2"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch"
+        ]
+      },
+      "display_name": "DINOv2 ViT-S/14",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "meta-dinov2",
+            "source_url": "https://github.com/facebookresearch/dinov2"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "DINOv2",
+        "variant": "ViT-S/14"
+      },
+      "id": "dinov2-vits14",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/facebookresearch/dinov2",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "Backbone feature extractor; downstream embedding quality depends on task and similarity protocol.",
+      "parameters": {
+        "flops_b": null,
+        "millions": 21.0
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "meta-dinov2",
+        "source_url": "https://github.com/facebookresearch/dinov2"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "coreml"
+        ]
+      },
+      "display_name": "MobileCLIP-S0",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet-1K zero-shot",
+            "metric": "Top-1",
+            "source_id": "apple-mobileclip",
+            "source_url": "https://github.com/apple/ml-mobileclip",
+            "value": 67.8
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "apple-mobileclip",
+            "source_url": "https://github.com/apple/ml-mobileclip"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MobileCLIP",
+        "variant": "S0"
+      },
+      "id": "mobileclip-s0",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "Model weights are released under Apple ML Research Model Terms of Use; code is MIT.",
+        "source_url": "https://github.com/apple/ml-mobileclip",
+        "spdx": null,
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 53.8
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "apple-mobileclip",
+        "source_url": "https://github.com/apple/ml-mobileclip"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "coreml"
+        ]
+      },
+      "display_name": "MobileCLIP2-S0",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet-1K zero-shot",
+            "metric": "Top-1",
+            "source_id": "apple-mobileclip2",
+            "source_url": "https://github.com/apple/ml-mobileclip",
+            "value": 71.5
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "apple-mobileclip2",
+            "source_url": "https://github.com/apple/ml-mobileclip"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MobileCLIP2",
+        "variant": "S0"
+      },
+      "id": "mobileclip2-s0",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "Model weights are released under Apple ML Research Model Terms of Use; code is MIT.",
+        "source_url": "https://github.com/apple/ml-mobileclip",
+        "spdx": null,
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 74.8
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "apple-mobileclip2",
+        "source_url": "https://github.com/apple/ml-mobileclip"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch"
+        ]
+      },
+      "display_name": "MobileSAM",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "mobilesam-official",
+            "source_url": "https://github.com/ChaoningZhang/MobileSAM"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MobileSAM",
+        "variant": "Tiny-ViT"
+      },
+      "id": "mobilesam",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/ChaoningZhang/MobileSAM",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "Promptable segmentation pipeline; upstream reports 9.66M parameters for encoder plus mask decoder.",
+      "parameters": {
+        "flops_b": null,
+        "millions": 9.66
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "mobilesam-official",
+        "source_url": "https://github.com/ChaoningZhang/MobileSAM"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "onnx",
+          "openvino",
+          "tensorrt"
+        ]
+      },
+      "display_name": "PP-OCRv6 Medium",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "PaddleOCR in-house multi-scenario",
+            "metric": "Recognition W-Avg",
+            "source_id": "paddleocr-ppocrv6",
+            "source_url": "https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.en.md",
+            "value": 83.2
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "paddleocr-ppocrv6",
+            "source_url": "https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.en.md"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "PP-OCRv6",
+        "variant": "medium"
+      },
+      "id": "ppocrv6-medium",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/PaddlePaddle/PaddleOCR",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 34.5
+      },
+      "task": "ocr",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "paddleocr-ppocrv6",
+        "source_url": "https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.en.md"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "onnx",
+          "openvino",
+          "tensorrt"
+        ]
+      },
+      "display_name": "PP-OCRv6 Tiny",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "PaddleOCR in-house multi-scenario",
+            "metric": "Recognition W-Avg",
+            "source_id": "paddleocr-ppocrv6",
+            "source_url": "https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.en.md",
+            "value": 73.5
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "paddleocr-ppocrv6",
+            "source_url": "https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.en.md"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "PP-OCRv6",
+        "variant": "tiny"
+      },
+      "id": "ppocrv6-tiny",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/PaddlePaddle/PaddleOCR",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "Full OCR tier; upstream positions it for edge/IoT and reports 1.5M\u201334.5M across the three-tier family.",
+      "parameters": {
+        "flops_b": null,
+        "millions": 1.5
+      },
+      "task": "ocr",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "paddleocr-ppocrv6",
+        "source_url": "https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/algorithm/PP-OCRv6/PP-OCRv6.en.md"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "coreml"
+        ]
+      },
+      "display_name": "RepViT M0.9",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet-1K",
+            "metric": "Top-1",
+            "source_id": "thu-repvit",
+            "source_url": "https://github.com/THU-MIG/RepViT",
+            "value": 79.1
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "thu-repvit",
+            "source_url": "https://github.com/THU-MIG/RepViT"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RepViT",
+        "variant": "m0.9"
+      },
+      "id": "repvit-m0.9",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/THU-MIG/RepViT",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 5.1
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "thu-repvit",
+        "source_url": "https://github.com/THU-MIG/RepViT"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "coreml"
+        ]
+      },
+      "display_name": "RepViT M1.1",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet-1K",
+            "metric": "Top-1",
+            "source_id": "thu-repvit",
+            "source_url": "https://github.com/THU-MIG/RepViT",
+            "value": 81.2
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "thu-repvit",
+            "source_url": "https://github.com/THU-MIG/RepViT"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RepViT",
+        "variant": "m1.1"
+      },
+      "id": "repvit-m1.1",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/THU-MIG/RepViT",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 8.2
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "thu-repvit",
+        "source_url": "https://github.com/THU-MIG/RepViT"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "coreml"
+        ]
+      },
+      "display_name": "RepViT M2.3",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet-1K",
+            "metric": "Top-1",
+            "source_id": "thu-repvit",
+            "source_url": "https://github.com/THU-MIG/RepViT",
+            "value": 83.7
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "thu-repvit",
+            "source_url": "https://github.com/THU-MIG/RepViT"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RepViT",
+        "variant": "m2.3"
+      },
+      "id": "repvit-m2.3",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/THU-MIG/RepViT",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 22.9
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "thu-repvit",
+        "source_url": "https://github.com/THU-MIG/RepViT"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "tensorrt"
+        ]
+      },
+      "display_name": "RF-DETR Keypoint Preview",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO Keypoints",
+            "metric": "AP",
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr",
+            "value": 71.8
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RF-DETR",
+        "variant": "keypoint-preview"
+      },
+      "id": "rfdetr-keypoint-preview",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/roboflow/rf-detr",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "keypoints"
+        ]
+      },
+      "notes": "Upstream keypoint support is preview/experimental; excluded by default.",
+      "parameters": {
+        "flops_b": null,
+        "millions": 40.7
+      },
+      "task": "pose",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "roboflow-rfdetr",
+        "source_url": "https://github.com/roboflow/rf-detr"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "discovered"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "tensorrt"
+        ]
+      },
+      "display_name": "RF-DETR Nano",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO val2017",
+            "metric": "AP",
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr",
+            "value": 48.4
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RF-DETR",
+        "variant": "nano"
+      },
+      "id": "rfdetr-nano",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/roboflow/rf-detr",
+        "spdx": "Apache-2.0",
         "status": "published"
       },
       "modalities": {
@@ -50,612 +949,172 @@
       "notes": null,
       "parameters": {
         "flops_b": null,
-        "millions": 41.631008
+        "millions": 30.5
       },
       "task": "detection",
       "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2022-03-02",
-        "revision": "1d5f47bd3bdd2c4bbfa585418ffe6da5028b4c0b",
-        "source_id": "huggingface:facebook/detr-resnet-50",
-        "source_url": "https://huggingface.co/facebook/detr-resnet-50"
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "roboflow-rfdetr",
+        "source_url": "https://github.com/roboflow/rf-detr"
       },
       "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
     {
       "compatibility": {
-        "precisions": [],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
         "quantizations": [],
         "runtimes": [
           "pytorch",
-          "transformers"
+          "onnx",
+          "tensorrt"
         ]
       },
-      "display_name": "Eagle2-1B",
+      "display_name": "RF-DETR Seg Nano",
       "evidence": {
-        "accuracy": [],
+        "accuracy": [
+          {
+            "dataset": "COCO val2017",
+            "metric": "Mask AP",
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr",
+            "value": 40.3
+          }
+        ],
         "benchmark_refs": [],
         "compatibility": [
           {
-            "source_id": "nvidia:nvidia/Eagle2-1B",
-            "source_url": "https://huggingface.co/nvidia/Eagle2-1B"
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr"
           }
         ],
         "memory": []
       },
       "family": {
-        "name": "Eagle2",
-        "variant": "1B"
+        "name": "RF-DETR",
+        "variant": "seg-nano"
       },
-      "id": "eagle2-1b",
+      "id": "rfdetr-seg-nano",
       "input": {
         "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
-        "size": null,
-        "width": null
-      },
-      "license": {
-        "note": "upstream licence requires review: cc-by-nc-4.0",
-        "source_url": "https://huggingface.co/nvidia/Eagle2-1B",
-        "spdx": "cc-by-nc-4.0",
-        "status": "restricted"
-      },
-      "modalities": {
-        "input": [
-          "image",
-          "text"
-        ],
-        "output": [
-          "text"
-        ]
-      },
-      "notes": "upstream licence requires review: cc-by-nc-4.0",
-      "parameters": {
-        "flops_b": null,
-        "millions": 1063.205952
-      },
-      "task": "vlm",
-      "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2025-01-10",
-        "revision": "508bc72fb1a946db3d5c1ebca50165079afef782",
-        "source_id": "nvidia:nvidia/Eagle2-1B",
-        "source_url": "https://huggingface.co/nvidia/Eagle2-1B"
-      },
-      "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
-        "status": "source_verified"
-      }
-    },
-    {
-      "compatibility": {
-        "precisions": [],
-        "quantizations": [],
-        "runtimes": [
-          "pytorch",
-          "transformers"
-        ]
-      },
-      "display_name": "Eagle2-2B",
-      "evidence": {
-        "accuracy": [],
-        "benchmark_refs": [],
-        "compatibility": [
-          {
-            "source_id": "nvidia:nvidia/Eagle2-2B",
-            "source_url": "https://huggingface.co/nvidia/Eagle2-2B"
-          }
-        ],
-        "memory": []
-      },
-      "family": {
-        "name": "Eagle2",
-        "variant": "2B"
-      },
-      "id": "eagle2-2b",
-      "input": {
-        "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
-        "size": null,
-        "width": null
-      },
-      "license": {
-        "note": "upstream licence requires review: cc-by-nc-4.0",
-        "source_url": "https://huggingface.co/nvidia/Eagle2-2B",
-        "spdx": "cc-by-nc-4.0",
-        "status": "restricted"
-      },
-      "modalities": {
-        "input": [
-          "image",
-          "text"
-        ],
-        "output": [
-          "text"
-        ]
-      },
-      "notes": "upstream licence requires review: cc-by-nc-4.0",
-      "parameters": {
-        "flops_b": null,
-        "millions": 2214.298048
-      },
-      "task": "vlm",
-      "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2025-01-10",
-        "revision": "3ab0a536b1778c885624ae920cd73d06228ae441",
-        "source_id": "nvidia:nvidia/Eagle2-2B",
-        "source_url": "https://huggingface.co/nvidia/Eagle2-2B"
-      },
-      "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
-        "status": "source_verified"
-      }
-    },
-    {
-      "compatibility": {
-        "precisions": [],
-        "quantizations": [],
-        "runtimes": [
-          "pytorch",
-          "transformers"
-        ]
-      },
-      "display_name": "LocateAnything-3B",
-      "evidence": {
-        "accuracy": [],
-        "benchmark_refs": [],
-        "compatibility": [
-          {
-            "source_id": "nvidia:nvidia/LocateAnything-3B",
-            "source_url": "https://huggingface.co/nvidia/LocateAnything-3B"
-          }
-        ],
-        "memory": []
-      },
-      "family": {
-        "name": "LocateAnything",
-        "variant": "3B"
-      },
-      "id": "locateanything-3b",
-      "input": {
-        "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
-        "size": null,
-        "width": null
-      },
-      "license": {
-        "note": "upstream uses a custom licence",
-        "source_url": "https://huggingface.co/nvidia/LocateAnything-3B",
-        "spdx": "other",
-        "status": "restricted"
-      },
-      "modalities": {
-        "input": [
-          "image",
-          "text"
-        ],
-        "output": [
-          "text"
-        ]
-      },
-      "notes": "upstream uses a custom licence; deduplicated corroborating source huggingface:nvidia/LocateAnything-3B",
-      "parameters": {
-        "flops_b": null,
-        "millions": 3830.665968
-      },
-      "task": "vlm",
-      "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2026-03-02",
-        "revision": "c32291ca5e996f5a7a485845b4f57a233936bba0",
-        "source_id": "nvidia:nvidia/LocateAnything-3B",
-        "source_url": "https://huggingface.co/nvidia/LocateAnything-3B"
-      },
-      "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
-        "status": "source_verified"
-      }
-    },
-    {
-      "compatibility": {
-        "precisions": [],
-        "quantizations": [],
-        "runtimes": [
-          "pytorch",
-          "transformers"
-        ]
-      },
-      "display_name": "microsoft/git-base-textvqa",
-      "evidence": {
-        "accuracy": [],
-        "benchmark_refs": [],
-        "compatibility": [
-          {
-            "source_id": "huggingface:microsoft/git-base-textvqa",
-            "source_url": "https://huggingface.co/microsoft/git-base-textvqa"
-          }
-        ],
-        "memory": []
-      },
-      "family": {
-        "name": "git",
-        "variant": "base-textvqa"
-      },
-      "id": "microsoft-git-base-textvqa",
-      "input": {
-        "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
+        "kind": "image",
+        "notes": null,
         "size": null,
         "width": null
       },
       "license": {
         "note": null,
-        "source_url": "https://huggingface.co/microsoft/git-base-textvqa",
-        "spdx": "mit",
+        "source_url": "https://github.com/roboflow/rf-detr",
+        "spdx": "Apache-2.0",
         "status": "published"
       },
       "modalities": {
         "input": [
-          "image",
-          "text"
+          "image"
         ],
         "output": [
-          "text"
+          "mask"
         ]
       },
       "notes": null,
       "parameters": {
         "flops_b": null,
-        "millions": 177.161663
+        "millions": 33.6
       },
-      "task": "vlm",
+      "task": "segmentation",
       "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2022-12-06",
-        "revision": "231a1d7fa1a2bfb67645166186a0c03086d45e96",
-        "source_id": "huggingface:microsoft/git-base-textvqa",
-        "source_url": "https://huggingface.co/microsoft/git-base-textvqa"
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "roboflow-rfdetr",
+        "source_url": "https://github.com/roboflow/rf-detr"
       },
       "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
     {
       "compatibility": {
-        "precisions": [],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
         "quantizations": [],
         "runtimes": [
           "pytorch",
-          "transformers"
+          "onnx",
+          "tensorrt"
         ]
       },
-      "display_name": "microsoft/git-base-vqav2",
+      "display_name": "RF-DETR Small",
       "evidence": {
-        "accuracy": [],
+        "accuracy": [
+          {
+            "dataset": "COCO val2017",
+            "metric": "AP",
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr",
+            "value": 53.0
+          }
+        ],
         "benchmark_refs": [],
         "compatibility": [
           {
-            "source_id": "huggingface:microsoft/git-base-vqav2",
-            "source_url": "https://huggingface.co/microsoft/git-base-vqav2"
+            "source_id": "roboflow-rfdetr",
+            "source_url": "https://github.com/roboflow/rf-detr"
           }
         ],
         "memory": []
       },
       "family": {
-        "name": "git",
-        "variant": "base-vqav2"
+        "name": "RF-DETR",
+        "variant": "small"
       },
-      "id": "microsoft-git-base-vqav2",
+      "id": "rfdetr-small",
       "input": {
         "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
+        "kind": "image",
+        "notes": null,
         "size": null,
         "width": null
       },
       "license": {
         "note": null,
-        "source_url": "https://huggingface.co/microsoft/git-base-vqav2",
-        "spdx": "mit",
+        "source_url": "https://github.com/roboflow/rf-detr",
+        "spdx": "Apache-2.0",
         "status": "published"
       },
       "modalities": {
         "input": [
-          "image",
-          "text"
+          "image"
         ],
         "output": [
-          "text"
+          "object-detections"
         ]
       },
       "notes": null,
       "parameters": {
         "flops_b": null,
-        "millions": 177.161663
+        "millions": 32.1
       },
-      "task": "vlm",
+      "task": "detection",
       "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2022-12-06",
-        "revision": "a1847946b7f6bd5aa92d1326714d50dd7b11aad0",
-        "source_id": "huggingface:microsoft/git-base-vqav2",
-        "source_url": "https://huggingface.co/microsoft/git-base-vqav2"
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "roboflow-rfdetr",
+        "source_url": "https://github.com/roboflow/rf-detr"
       },
       "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
-        "status": "source_verified"
-      }
-    },
-    {
-      "compatibility": {
-        "precisions": [],
-        "quantizations": [],
-        "runtimes": [
-          "pytorch",
-          "transformers"
-        ]
-      },
-      "display_name": "microsoft/git-large-textvqa",
-      "evidence": {
-        "accuracy": [],
-        "benchmark_refs": [],
-        "compatibility": [
-          {
-            "source_id": "huggingface:microsoft/git-large-textvqa",
-            "source_url": "https://huggingface.co/microsoft/git-large-textvqa"
-          }
-        ],
-        "memory": []
-      },
-      "family": {
-        "name": "git",
-        "variant": "large-textvqa"
-      },
-      "id": "microsoft-git-large-textvqa",
-      "input": {
-        "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
-        "size": null,
-        "width": null
-      },
-      "license": {
-        "note": null,
-        "source_url": "https://huggingface.co/microsoft/git-large-textvqa",
-        "spdx": "mit",
-        "status": "published"
-      },
-      "modalities": {
-        "input": [
-          "image",
-          "text"
-        ],
-        "output": [
-          "text"
-        ]
-      },
-      "notes": null,
-      "parameters": {
-        "flops_b": null,
-        "millions": 394.857407
-      },
-      "task": "vlm",
-      "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2023-01-02",
-        "revision": "416f91974ee1fb3e797144c9fc93787740787161",
-        "source_id": "huggingface:microsoft/git-large-textvqa",
-        "source_url": "https://huggingface.co/microsoft/git-large-textvqa"
-      },
-      "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
-        "status": "source_verified"
-      }
-    },
-    {
-      "compatibility": {
-        "precisions": [],
-        "quantizations": [],
-        "runtimes": [
-          "pytorch",
-          "transformers"
-        ]
-      },
-      "display_name": "microsoft/git-large-vqav2",
-      "evidence": {
-        "accuracy": [],
-        "benchmark_refs": [],
-        "compatibility": [
-          {
-            "source_id": "huggingface:microsoft/git-large-vqav2",
-            "source_url": "https://huggingface.co/microsoft/git-large-vqav2"
-          }
-        ],
-        "memory": []
-      },
-      "family": {
-        "name": "git",
-        "variant": "large-vqav2"
-      },
-      "id": "microsoft-git-large-vqav2",
-      "input": {
-        "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
-        "size": null,
-        "width": null
-      },
-      "license": {
-        "note": null,
-        "source_url": "https://huggingface.co/microsoft/git-large-vqav2",
-        "spdx": "mit",
-        "status": "published"
-      },
-      "modalities": {
-        "input": [
-          "image",
-          "text"
-        ],
-        "output": [
-          "text"
-        ]
-      },
-      "notes": null,
-      "parameters": {
-        "flops_b": null,
-        "millions": 394.857407
-      },
-      "task": "vlm",
-      "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2023-01-02",
-        "revision": "075dd1eb169e2cb640f0de2cb344f613d2811a3d",
-        "source_id": "huggingface:microsoft/git-large-vqav2",
-        "source_url": "https://huggingface.co/microsoft/git-large-vqav2"
-      },
-      "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
-        "status": "source_verified"
-      }
-    },
-    {
-      "compatibility": {
-        "precisions": [],
-        "quantizations": [],
-        "runtimes": [
-          "pytorch",
-          "transformers"
-        ]
-      },
-      "display_name": "NVIDIA-Nemotron-Parse-2.0",
-      "evidence": {
-        "accuracy": [],
-        "benchmark_refs": [],
-        "compatibility": [
-          {
-            "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-2.0",
-            "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0"
-          }
-        ],
-        "memory": []
-      },
-      "family": {
-        "name": "NVIDIA-Nemotron-Parse-2.0",
-        "variant": null
-      },
-      "id": "nvidia-nemotron-parse-2-0",
-      "input": {
-        "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
-        "size": null,
-        "width": null
-      },
-      "license": {
-        "note": "upstream uses a custom licence",
-        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0",
-        "spdx": "other",
-        "status": "restricted"
-      },
-      "modalities": {
-        "input": [
-          "image",
-          "text"
-        ],
-        "output": [
-          "text"
-        ]
-      },
-      "notes": "upstream uses a custom licence",
-      "parameters": {
-        "flops_b": null,
-        "millions": 903.049225
-      },
-      "task": "vlm",
-      "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2026-06-30",
-        "revision": "635b84d9b09bb9526b9a684d0b2c953d3cc3df05",
-        "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-2.0",
-        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0"
-      },
-      "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
-        "status": "source_verified"
-      }
-    },
-    {
-      "compatibility": {
-        "precisions": [],
-        "quantizations": [],
-        "runtimes": [
-          "pytorch",
-          "transformers"
-        ]
-      },
-      "display_name": "NVIDIA-Nemotron-Parse-v1.2",
-      "evidence": {
-        "accuracy": [],
-        "benchmark_refs": [],
-        "compatibility": [
-          {
-            "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-v1.2",
-            "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2"
-          }
-        ],
-        "memory": []
-      },
-      "family": {
-        "name": "NVIDIA-Nemotron-Parse-v1.2",
-        "variant": null
-      },
-      "id": "nvidia-nemotron-parse-v1-2",
-      "input": {
-        "height": null,
-        "kind": "multimodal",
-        "notes": "Image/text model discovered from upstream metadata.",
-        "size": null,
-        "width": null
-      },
-      "license": {
-        "note": "upstream uses a custom licence",
-        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2",
-        "spdx": "other",
-        "status": "restricted"
-      },
-      "modalities": {
-        "input": [
-          "image",
-          "text"
-        ],
-        "output": [
-          "text"
-        ]
-      },
-      "notes": "upstream uses a custom licence",
-      "parameters": {
-        "flops_b": null,
-        "millions": 936.275977
-      },
-      "task": "vlm",
-      "upstream": {
-        "last_checked": "2026-08-16T11:07:04.274105Z",
-        "release_date": "2026-02-18",
-        "revision": "2bd0189bffd6cdded6280d9f22a4077b25a504e3",
-        "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-v1.2",
-        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2"
-      },
-      "verification": {
-        "last_verified": "2026-08-16T11:07:04.274105Z",
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
@@ -685,9 +1144,9 @@
         "memory": [
           {
             "gb": 1.0,
-            "scope": "Upstream states image inference runs with under 1 GB GPU RAM; registry uses 1.0 GB as a conservative screen.",
+            "scope": "Conservative upper bound from upstream guidance that the 256M model runs in <1 GB GPU memory.",
             "source_id": "huggingface-smolvlm-256m",
-            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct"
+            "source_url": "https://huggingface.co/posts/andito/279664955951557"
           }
         ]
       },
@@ -699,7 +1158,7 @@
       "input": {
         "height": null,
         "kind": "multimodal",
-        "notes": "Image and text input.",
+        "notes": null,
         "size": null,
         "width": null
       },
@@ -718,21 +1177,21 @@
           "text"
         ]
       },
-      "notes": "Throughput is intentionally left unmeasured until hardware-specific evidence exists.",
+      "notes": null,
       "parameters": {
         "flops_b": null,
         "millions": 256.0
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-16T09:35:00Z",
+        "last_checked": "2026-08-16T12:42:00Z",
         "release_date": null,
         "revision": null,
         "source_id": "huggingface-smolvlm-256m",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-16T09:35:00Z",
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
@@ -759,14 +1218,7 @@
             "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct"
           }
         ],
-        "memory": [
-          {
-            "gb": 5.2,
-            "scope": "Upstream model card reports 5.2 GB GPU RAM for video inference.",
-            "source_id": "huggingface-smolvlm2-2.2b",
-            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct"
-          }
-        ]
+        "memory": []
       },
       "family": {
         "name": "SmolVLM2",
@@ -776,7 +1228,7 @@
       "input": {
         "height": null,
         "kind": "multimodal",
-        "notes": "Video, image and text input.",
+        "notes": null,
         "size": null,
         "width": null
       },
@@ -796,21 +1248,93 @@
           "text"
         ]
       },
-      "notes": "Throughput is intentionally left unmeasured until hardware-specific evidence exists.",
+      "notes": null,
       "parameters": {
         "flops_b": null,
         "millions": 2200.0
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-16T09:35:00Z",
+        "last_checked": "2026-08-16T12:42:00Z",
         "release_date": null,
         "revision": null,
         "source_id": "huggingface-smolvlm2-2.2b",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-16T09:35:00Z",
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "bf16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers",
+          "onnx"
+        ]
+      },
+      "display_name": "SmolVLM2 500M Video Instruct",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface-smolvlm2-500m",
+            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "SmolVLM2",
+        "variant": "500M-Video-Instruct"
+      },
+      "id": "smolvlm2-500m-video-instruct",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct",
+        "spdx": "Apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "video",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 500.0
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "huggingface-smolvlm2-500m",
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
@@ -820,13 +1344,151 @@
           "fp32",
           "fp16"
         ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch"
+        ]
+      },
+      "display_name": "Whisper Base",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "openai-whisper",
+            "source_url": "https://github.com/openai/whisper"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Whisper",
+        "variant": "base"
+      },
+      "id": "whisper-base",
+      "input": {
+        "height": null,
+        "kind": "audio",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/openai/whisper",
+        "spdx": "MIT",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 74.0
+      },
+      "task": "asr",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "openai-whisper",
+        "source_url": "https://github.com/openai/whisper"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch"
+        ]
+      },
+      "display_name": "Whisper Tiny",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "openai-whisper",
+            "source_url": "https://github.com/openai/whisper"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Whisper",
+        "variant": "tiny"
+      },
+      "id": "whisper-tiny",
+      "input": {
+        "height": null,
+        "kind": "audio",
+        "notes": null,
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://github.com/openai/whisper",
+        "spdx": "MIT",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 39.0
+      },
+      "task": "asr",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "openai-whisper",
+        "source_url": "https://github.com/openai/whisper"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
         "quantizations": [
           "int8"
         ],
         "runtimes": [
           "pytorch",
           "onnx",
-          "tensorrt"
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
         ]
       },
       "display_name": "YOLO26l",
@@ -836,7 +1498,7 @@
             "dataset": "COCO val",
             "metric": "mAP50-95",
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
             "value": 55.0
           }
         ],
@@ -844,7 +1506,7 @@
         "compatibility": [
           {
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26"
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
           }
         ],
         "memory": []
@@ -857,12 +1519,12 @@
       "input": {
         "height": 640,
         "kind": "image",
-        "notes": "COCO validation input size used by the upstream model table.",
+        "notes": null,
         "size": 640,
         "width": 640
       },
       "license": {
-        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms.",
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
         "source_url": "https://www.ultralytics.com/license",
         "spdx": "AGPL-3.0-only",
         "status": "published"
@@ -877,19 +1539,19 @@
       },
       "notes": null,
       "parameters": {
-        "flops_b": 86.4,
+        "flops_b": null,
         "millions": 24.8
       },
       "task": "detection",
       "upstream": {
-        "last_checked": "2026-08-16T09:35:00Z",
+        "last_checked": "2026-08-16T12:42:00Z",
         "release_date": null,
         "revision": null,
         "source_id": "ultralytics-yolo26-2026",
-        "source_url": "https://docs.ultralytics.com/models/yolo26"
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
       },
       "verification": {
-        "last_verified": "2026-08-16T09:35:00Z",
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
@@ -897,7 +1559,8 @@
       "compatibility": {
         "precisions": [
           "fp32",
-          "fp16"
+          "fp16",
+          "int8"
         ],
         "quantizations": [
           "int8"
@@ -905,7 +1568,342 @@
         "runtimes": [
           "pytorch",
           "onnx",
-          "tensorrt"
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26l-cls",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet",
+            "metric": "Top-1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 79.0
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "l-cls"
+      },
+      "id": "yolo26l-cls",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 14.1
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26l-depth",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "NYU Depth V2",
+            "metric": "delta1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 0.93
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "l-depth"
+      },
+      "id": "yolo26l-depth",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 27.7
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26l-pose",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO Keypoints val",
+            "metric": "Pose mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 70.4
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "l-pose"
+      },
+      "id": "yolo26l-pose",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "keypoints"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 25.9
+      },
+      "task": "pose",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26l-seg",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO val",
+            "metric": "Mask mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 45.5
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "l-seg"
+      },
+      "id": "yolo26l-seg",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.0
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
         ]
       },
       "display_name": "YOLO26m",
@@ -915,7 +1913,7 @@
             "dataset": "COCO val",
             "metric": "mAP50-95",
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
             "value": 53.1
           }
         ],
@@ -923,7 +1921,7 @@
         "compatibility": [
           {
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26"
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
           }
         ],
         "memory": []
@@ -936,12 +1934,12 @@
       "input": {
         "height": 640,
         "kind": "image",
-        "notes": "COCO validation input size used by the upstream model table.",
+        "notes": null,
         "size": 640,
         "width": 640
       },
       "license": {
-        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms.",
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
         "source_url": "https://www.ultralytics.com/license",
         "spdx": "AGPL-3.0-only",
         "status": "published"
@@ -956,19 +1954,19 @@
       },
       "notes": null,
       "parameters": {
-        "flops_b": 68.2,
+        "flops_b": null,
         "millions": 20.4
       },
       "task": "detection",
       "upstream": {
-        "last_checked": "2026-08-16T09:35:00Z",
+        "last_checked": "2026-08-16T12:42:00Z",
         "release_date": null,
         "revision": null,
         "source_id": "ultralytics-yolo26-2026",
-        "source_url": "https://docs.ultralytics.com/models/yolo26"
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
       },
       "verification": {
-        "last_verified": "2026-08-16T09:35:00Z",
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
@@ -976,7 +1974,8 @@
       "compatibility": {
         "precisions": [
           "fp32",
-          "fp16"
+          "fp16",
+          "int8"
         ],
         "quantizations": [
           "int8"
@@ -984,7 +1983,342 @@
         "runtimes": [
           "pytorch",
           "onnx",
-          "tensorrt"
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26m-cls",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet",
+            "metric": "Top-1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 78.1
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "m-cls"
+      },
+      "id": "yolo26m-cls",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 11.6
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26m-depth",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "NYU Depth V2",
+            "metric": "delta1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 0.921
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "m-depth"
+      },
+      "id": "yolo26m-depth",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 23.3
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26m-pose",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO Keypoints val",
+            "metric": "Pose mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 68.8
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "m-pose"
+      },
+      "id": "yolo26m-pose",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "keypoints"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 21.5
+      },
+      "task": "pose",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26m-seg",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO val",
+            "metric": "Mask mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 44.1
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "m-seg"
+      },
+      "id": "yolo26m-seg",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 23.6
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
         ]
       },
       "display_name": "YOLO26n",
@@ -994,7 +2328,7 @@
             "dataset": "COCO val",
             "metric": "mAP50-95",
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
             "value": 40.9
           }
         ],
@@ -1004,7 +2338,7 @@
         "compatibility": [
           {
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26"
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
           }
         ],
         "memory": []
@@ -1017,12 +2351,12 @@
       "input": {
         "height": 640,
         "kind": "image",
-        "notes": "COCO validation input size used by the upstream model table.",
+        "notes": null,
         "size": 640,
         "width": 640
       },
       "license": {
-        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms.",
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
         "source_url": "https://www.ultralytics.com/license",
         "spdx": "AGPL-3.0-only",
         "status": "published"
@@ -1035,29 +2369,30 @@
           "object-detections"
         ]
       },
-      "notes": "Fused-model parameter/FLOP values from the upstream model table.",
+      "notes": null,
       "parameters": {
-        "flops_b": 5.4,
+        "flops_b": null,
         "millions": 2.4
       },
       "task": "detection",
       "upstream": {
-        "last_checked": "2026-08-16T09:35:00Z",
+        "last_checked": "2026-08-16T12:42:00Z",
         "release_date": null,
         "revision": null,
         "source_id": "ultralytics-yolo26-2026",
-        "source_url": "https://docs.ultralytics.com/models/yolo26"
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
       },
       "verification": {
-        "last_verified": "2026-08-16T09:35:00Z",
-        "status": "benchmarked"
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
       }
     },
     {
       "compatibility": {
         "precisions": [
           "fp32",
-          "fp16"
+          "fp16",
+          "int8"
         ],
         "quantizations": [
           "int8"
@@ -1065,7 +2400,342 @@
         "runtimes": [
           "pytorch",
           "onnx",
-          "tensorrt"
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26n-cls",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet",
+            "metric": "Top-1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 71.4
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "n-cls"
+      },
+      "id": "yolo26n-cls",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 2.8
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26n-depth",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "NYU Depth V2",
+            "metric": "delta1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 0.882
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "n-depth"
+      },
+      "id": "yolo26n-depth",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 6.4
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26n-pose",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO Keypoints val",
+            "metric": "Pose mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 57.2
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "n-pose"
+      },
+      "id": "yolo26n-pose",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "keypoints"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 2.9
+      },
+      "task": "pose",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26n-seg",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO val",
+            "metric": "Mask mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 33.9
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "n-seg"
+      },
+      "id": "yolo26n-seg",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 2.7
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
         ]
       },
       "display_name": "YOLO26s",
@@ -1075,7 +2745,7 @@
             "dataset": "COCO val",
             "metric": "mAP50-95",
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
             "value": 48.6
           }
         ],
@@ -1083,7 +2753,7 @@
         "compatibility": [
           {
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26"
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
           }
         ],
         "memory": []
@@ -1096,12 +2766,12 @@
       "input": {
         "height": 640,
         "kind": "image",
-        "notes": "COCO validation input size used by the upstream model table.",
+        "notes": null,
         "size": 640,
         "width": 640
       },
       "license": {
-        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms.",
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
         "source_url": "https://www.ultralytics.com/license",
         "spdx": "AGPL-3.0-only",
         "status": "published"
@@ -1116,19 +2786,19 @@
       },
       "notes": null,
       "parameters": {
-        "flops_b": 20.7,
+        "flops_b": null,
         "millions": 9.5
       },
       "task": "detection",
       "upstream": {
-        "last_checked": "2026-08-16T09:35:00Z",
+        "last_checked": "2026-08-16T12:42:00Z",
         "release_date": null,
         "revision": null,
         "source_id": "ultralytics-yolo26-2026",
-        "source_url": "https://docs.ultralytics.com/models/yolo26"
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
       },
       "verification": {
-        "last_verified": "2026-08-16T09:35:00Z",
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     },
@@ -1136,7 +2806,8 @@
       "compatibility": {
         "precisions": [
           "fp32",
-          "fp16"
+          "fp16",
+          "int8"
         ],
         "quantizations": [
           "int8"
@@ -1144,7 +2815,342 @@
         "runtimes": [
           "pytorch",
           "onnx",
-          "tensorrt"
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26s-cls",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet",
+            "metric": "Top-1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 76.0
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "s-cls"
+      },
+      "id": "yolo26s-cls",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 6.7
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26s-depth",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "NYU Depth V2",
+            "metric": "delta1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 0.896
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "s-depth"
+      },
+      "id": "yolo26s-depth",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 13.2
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26s-pose",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO Keypoints val",
+            "metric": "Pose mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 63.0
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "s-pose"
+      },
+      "id": "yolo26s-pose",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "keypoints"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 10.4
+      },
+      "task": "pose",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26s-seg",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO val",
+            "metric": "Mask mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 40.0
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "s-seg"
+      },
+      "id": "yolo26s-seg",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 10.4
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
         ]
       },
       "display_name": "YOLO26x",
@@ -1154,7 +3160,7 @@
             "dataset": "COCO val",
             "metric": "mAP50-95",
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
             "value": 57.5
           }
         ],
@@ -1162,7 +3168,7 @@
         "compatibility": [
           {
             "source_id": "ultralytics-yolo26-2026",
-            "source_url": "https://docs.ultralytics.com/models/yolo26"
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
           }
         ],
         "memory": []
@@ -1175,12 +3181,12 @@
       "input": {
         "height": 640,
         "kind": "image",
-        "notes": "COCO validation input size used by the upstream model table.",
+        "notes": null,
         "size": 640,
         "width": 640
       },
       "license": {
-        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms.",
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
         "source_url": "https://www.ultralytics.com/license",
         "spdx": "AGPL-3.0-only",
         "status": "published"
@@ -1195,29 +3201,361 @@
       },
       "notes": null,
       "parameters": {
-        "flops_b": 193.9,
+        "flops_b": null,
         "millions": 55.7
       },
       "task": "detection",
       "upstream": {
-        "last_checked": "2026-08-16T09:35:00Z",
+        "last_checked": "2026-08-16T12:42:00Z",
         "release_date": null,
         "revision": null,
         "source_id": "ultralytics-yolo26-2026",
-        "source_url": "https://docs.ultralytics.com/models/yolo26"
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
       },
       "verification": {
-        "last_verified": "2026-08-16T09:35:00Z",
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26x-cls",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "ImageNet",
+            "metric": "Top-1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 79.9
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "x-cls"
+      },
+      "id": "yolo26x-cls",
+      "input": {
+        "height": 224,
+        "kind": "image",
+        "notes": null,
+        "size": 224,
+        "width": 224
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 29.6
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26x-depth",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "NYU Depth V2",
+            "metric": "delta1",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 0.933
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "x-depth"
+      },
+      "id": "yolo26x-depth",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 57.0
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26x-pose",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO Keypoints val",
+            "metric": "Pose mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 71.6
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "x-pose"
+      },
+      "id": "yolo26x-pose",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "keypoints"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 57.6
+      },
+      "task": "pose",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [
+          "fp32",
+          "fp16",
+          "int8"
+        ],
+        "quantizations": [
+          "int8"
+        ],
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "openvino",
+          "tensorrt",
+          "coreml",
+          "qnn"
+        ]
+      },
+      "display_name": "YOLO26x-seg",
+      "evidence": {
+        "accuracy": [
+          {
+            "dataset": "COCO val",
+            "metric": "Mask mAP50-95",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/",
+            "value": 47.0
+          }
+        ],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26/"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "YOLO26",
+        "variant": "x-seg"
+      },
+      "id": "yolo26x-seg",
+      "input": {
+        "height": 640,
+        "kind": "image",
+        "notes": null,
+        "size": 640,
+        "width": 640
+      },
+      "license": {
+        "note": "Ultralytics also offers an Enterprise commercial licence; downstream use must follow the applicable upstream terms.",
+        "source_url": "https://www.ultralytics.com/license",
+        "spdx": "AGPL-3.0-only",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 62.8
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-16T12:42:00Z",
+        "release_date": null,
+        "revision": null,
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26/"
+      },
+      "verification": {
+        "last_verified": "2026-08-16T12:42:00Z",
         "status": "source_verified"
       }
     }
   ],
   "registry": {
-    "expires_at": "2026-11-14T11:07:04.274105Z",
-    "generated_at": "2026-08-16T11:07:04.274105Z",
+    "expires_at": "2026-11-14T12:42:00Z",
+    "generated_at": "2026-08-16T12:42:00Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 3,
+    "registry_version": 4,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
