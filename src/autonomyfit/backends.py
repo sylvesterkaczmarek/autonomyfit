@@ -40,6 +40,7 @@ class BenchmarkRequest:
     quantization: str | None = None
     batch_size: int | None = None
     command: str | None = None
+    trusted_artifact: bool = False
 
 
 @dataclass(frozen=True)
@@ -253,6 +254,10 @@ class TensorRTBackend(BenchmarkBackend):
         availability = self.availability()
         if not availability.available or not availability.executable:
             raise BackendError("TensorRT backend unavailable: trtexec not found")
+        if request.model_path.suffix.casefold() in {".engine", ".plan"} and not request.trusted_artifact:
+            raise BackendError(
+                "refusing to deserialize an untrusted TensorRT engine; use --trust-artifact only for an engine you built or independently trust"
+            )
         command = build_trtexec_command(request, availability.executable)
         reader, scope = power_reader(request.hardware.platform)
         sampler = PowerSampler(reader) if reader else None

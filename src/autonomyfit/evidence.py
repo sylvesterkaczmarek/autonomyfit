@@ -384,7 +384,9 @@ def local_benchmark_dir() -> Path:
     return _evidence_dir() / "benchmarks"
 
 
-def load_local_benchmarks(directory: Path | None = None) -> list[BenchmarkEvidence]:
+def load_local_benchmarks(
+    directory: Path | None = None, hardware: Any | None = None
+) -> list[BenchmarkEvidence]:
     root = directory or local_benchmark_dir()
     if not root.exists():
         return []
@@ -393,6 +395,12 @@ def load_local_benchmarks(directory: Path | None = None) -> list[BenchmarkEviden
         try:
             value = json.loads(path.read_text(encoding="utf-8"))
             if isinstance(value, dict):
+                if hardware is not None:
+                    from .local_results import local_report_compatibility
+
+                    valid, _ = local_report_compatibility(value, hardware)
+                    if not valid:
+                        continue
                 benchmarks.append(benchmark_evidence_from_report(value))
         except (OSError, json.JSONDecodeError, EvidenceError):
             continue
@@ -415,12 +423,14 @@ def import_benchmark_report(path: Path, directory: Path | None = None) -> Path:
     return target
 
 
-def load_evidence_store(include_local: bool = True) -> EvidenceStore:
+def load_evidence_store(
+    include_local: bool = True, hardware: Any | None = None
+) -> EvidenceStore:
     document = _load_json_resource("evidence-v2.json")
     validate_evidence_document(document)
     benchmarks = list(_bundled_benchmarks(document))
     if include_local:
-        benchmarks.extend(load_local_benchmarks())
+        benchmarks.extend(load_local_benchmarks(hardware=hardware))
     benchmarks.sort(key=lambda item: (-QUALITY_RANK[item.quality], item.id))
     return EvidenceStore(document=document, benchmarks=tuple(benchmarks))
 
@@ -494,6 +504,9 @@ def match_benchmarks(
         if evidence.runtime_version and runtime_version is None:
             identity_complete = False
             reasons.append("target runtime version is unknown")
+        if provider and not evidence.provider:
+            identity_complete = False
+            reasons.append("target execution provider is pinned but evidence provider is unknown")
         if _date_is_stale(evidence.source_date, max_age_days, today=today):
             reasons.append("evidence is older than the configured freshness window")
 

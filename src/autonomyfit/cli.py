@@ -13,6 +13,7 @@ from rich.table import Table
 from .backends import BackendError, BenchmarkRequest, backend_status, run_benchmark
 from .benchmark import save_result
 from .catalog import load_hardware_profiles, load_model_catalog
+from .deployment_cli import register_deployment_commands
 from .evidence import (
     EvidenceError,
     import_benchmark_report,
@@ -651,9 +652,16 @@ def benchmark(
     quantization: Annotated[str | None, typer.Option(help="Quantization label, e.g. int8.")] = None,
     batch_size: Annotated[int | None, typer.Option("--batch-size", min=1)] = None,
     output: Annotated[Path | None, typer.Option("--output", "-o", help="Write benchmark report JSON.")] = None,
+    trust_artifact: Annotated[
+        bool,
+        typer.Option(
+            "--trust-artifact",
+            help="Explicitly trust a serialized executable artifact such as a TensorRT engine you control.",
+        ),
+    ] = False,
 ) -> None:
     """Benchmark an exact local artifact and emit a schema-v2 evidence report."""
-    if not model.exists() or not model.is_file():
+    if not model.exists() or (not model.is_file() and model.suffix.casefold() != ".mlpackage"):
         raise typer.BadParameter(f"model artifact does not exist: {model}")
     shape_override = _parse_shape(shape)
     resolved_id = model_id or model.stem
@@ -672,6 +680,7 @@ def benchmark(
         precision=precision.strip().casefold(),
         quantization=quantization.strip().casefold() if quantization else None,
         batch_size=batch_size,
+        trusted_artifact=trust_artifact,
     )
     try:
         report = run_benchmark(request, backend)
@@ -733,6 +742,9 @@ def benchmark_import_command(
         raise typer.BadParameter(str(exc)) from exc
     payload["imported_path"] = str(target)
     console.print_json(json.dumps(payload))
+
+
+register_deployment_commands(app, console)
 
 
 if __name__ == "__main__":

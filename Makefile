@@ -20,4 +20,6 @@ smoke:
 	python -m autonomyfit registry status --json >/dev/null
 	python -m autonomyfit models --offline --json >/dev/null
 	python -m autonomyfit benchmark-backends --json >/dev/null
+	python -m autonomyfit validate yolo26n --offline --hardware-profile nvidia-t4-16gb --json >/dev/null
+	python -m autonomyfit local-results --json >/dev/null
 	python -m autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5 --json >/dev/null

@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sylvesterkaczmarek.com/autonomyfit/deployment-report-v1.schema.json",
+  "title": "AutonomyFit Deployment Report v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "created_at",
+    "status",
+    "validation_scope",
+    "autonomyfit_version",
+    "registry",
+    "machine",
+    "software_stack",
+    "constraints",
+    "model",
+    "runtime",
+    "compatibility",
+    "warnings",
+    "reproducibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "enum": [
+        "validated",
+        "benchmark-required",
+        "constraint-fail",
+        "artifact-selection-required",
+        "failed"
+      ]
+    },
+    "autonomyfit_version": {
+      "type": "string"
+    },
+    "registry": {
+      "type": "object"
+    },
+    "machine": {
+      "type": "object"
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "id",
+        "license_status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "license_spdx": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "license_status": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "artifact": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "name",
+        "precision",
+        "available"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "string"
+        },
+        "available": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "conversion": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "required": [
+        "checks"
+      ],
+      "properties": {
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "status",
+              "detail"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "info",
+                  "skipped"
+                ]
+              },
+              "detail": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "benchmark": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "registry_comparison": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "recommendation": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reproducibility": {
+      "type": "object",
+      "required": [
+        "commands"
+      ],
+      "properties": {
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "validation_scope": {
+      "enum": [
+        "identity-and-compatibility",
+        "measured-deployment"
+      ]
+    },
+    "software_stack": {
+      "type": "object"
+    },
+    "constraints": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

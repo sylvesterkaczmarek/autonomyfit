@@ -18,9 +18,16 @@ from typing import Any
 
 import psutil
 
+from .integrity import artifact_sha256, artifact_size_bytes
+from .integrity import sha256_file as _sha256_file
 from .models import HardwareProfile
 
 RANDOM_SEED = 0
+
+
+def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
+    """Backward-compatible SHA-256 helper delegated to the integrity layer."""
+    return _sha256_file(path, chunk_size)
 
 
 def _package_version(name: str) -> str | None:
@@ -242,13 +249,6 @@ class MemorySampler:
         return self.peak_rss / (1024 * 1024) if self.peak_rss else None
 
 
-def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        while chunk := stream.read(chunk_size):
-            digest.update(chunk)
-    return digest.hexdigest()
-
 
 def hardware_evidence_id(hardware: HardwareProfile) -> str:
     if hardware.matched_profile:
@@ -321,7 +321,7 @@ def make_benchmark_report(
     notes: str | None = None,
 ) -> dict[str, Any]:
     created = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    artifact_hash = sha256_file(model_path)
+    artifact_hash = artifact_sha256(model_path)
     hardware_dict = {
         "id": hardware_evidence_id(hardware),
         "platform": hardware.platform,
@@ -378,7 +378,7 @@ def make_benchmark_report(
             "path": model_path.name,
             "format": artifact_format(model_path),
             "sha256": artifact_hash,
-            "size_bytes": model_path.stat().st_size,
+            "size_bytes": artifact_size_bytes(model_path),
         },
         "hardware": hardware_dict,
         "software": software_dict,

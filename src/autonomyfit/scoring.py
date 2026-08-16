@@ -10,8 +10,8 @@ from .evidence import (
     EvidenceStore,
     load_evidence_store,
     match_benchmarks,
-    sha256_file,
 )
+from .integrity import artifact_sha256
 from .models import (
     ConfidenceBreakdown,
     Constraints,
@@ -148,18 +148,25 @@ def _select_evidence(
     precision: str,
     artifact_sha256: str | None,
 ) -> EvidenceMatch | None:
-    runtime_alias = "onnx" if runtime == "onnxruntime" else runtime
-    matches = match_benchmarks(
-        store.benchmarks,
-        model_id=model.id,
-        model_revision=model_revision,
-        hardware_id=hardware_evidence_id(hardware),
-        runtime=runtime_alias,
-        precision=precision,
-        artifact_sha256=artifact_sha256,
-        runtime_version=_runtime_version(hardware, runtime),
+    provider = _BRIDGE_RUNTIMES.get(runtime)
+    runtime_candidates = ("onnxruntime",) if provider else (
+        ("onnxruntime", "onnx") if runtime in {"onnx", "onnxruntime"} else (runtime,)
     )
-    return matches[0] if matches else None
+    for runtime_alias in runtime_candidates:
+        matches = match_benchmarks(
+            store.benchmarks,
+            model_id=model.id,
+            model_revision=model_revision,
+            hardware_id=hardware_evidence_id(hardware),
+            runtime=runtime_alias,
+            precision=precision,
+            artifact_sha256=artifact_sha256,
+            runtime_version=_runtime_version(hardware, runtime),
+            provider=provider,
+        )
+        if matches:
+            return matches[0]
+    return None
 
 
 def _freshness_score(source_date: str | None, fallback_date: str | None) -> float:
@@ -314,12 +321,12 @@ def recommend_models(
         client=registry_client,
     )
     models = _model_filters([model for model in loaded.models if model.task == task], constraints)
-    store = evidence_store or load_evidence_store(include_local=True)
+    store = evidence_store or load_evidence_store(include_local=True, hardware=hardware)
     recommendations: list[Recommendation] = []
 
     artifact_sha = constraints.artifact_sha256
     if artifact_sha is None and constraints.artifact_path is not None:
-        artifact_sha = sha256_file(constraints.artifact_path)
+        artifact_sha = artifact_sha256(constraints.artifact_path)
     available_memory = _available_accelerator_memory(hardware)
 
     for model in models:

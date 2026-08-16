@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autonomyfit"
-version = "0.5.0"
-description = "Hardware-aware model selection and local benchmarking for edge AI and autonomous systems."
+version = "0.6.0"
+description = "Evidence-aware model selection, deployment validation and local benchmarking for edge AI and autonomous systems."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -27,6 +27,9 @@ keywords = [
   "model-discovery",
   "model-registry",
   "benchmarking",
+  "deployment-validation",
+  "model-provenance",
+  "supply-chain",
   "mlperf",
   "evidence",
 ]
@@ -55,6 +58,10 @@ dependencies = [
 benchmark = [
   "numpy>=1.26",
   "onnxruntime>=1.19",
+]
+deployment = [
+  "huggingface-hub>=0.34",
+  "onnx>=1.16",
 ]
 dev = [
   "pytest>=8.0",
