@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - registry/source/registry-v2.json
+      - .publish-registry-v4
   workflow_dispatch:
   workflow_call:
 
