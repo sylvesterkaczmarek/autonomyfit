@@ -22,8 +22,10 @@ jobs:
           cache: pip
       - name: Install
         run: python -m pip install -e '.[dev]'
-      - name: Validate registry
-        run: python scripts/validate_registry.py registry/source/registry-v2.json
+      - name: Validate registry and evidence
+        run: |
+          python scripts/validate_registry.py registry/source/registry-v2.json
+          python scripts/validate_evidence.py
       - name: Lint
         run: ruff check .
       - name: Test
@@ -36,7 +38,9 @@ jobs:
           python -m autonomyfit models --offline --json >/dev/null
           python -m autonomyfit search smolvlm --offline --json >/dev/null
           python -m autonomyfit info smolvlm-256m-instruct --offline --json >/dev/null
+          python -m autonomyfit benchmark-backends --json >/dev/null
           python -m autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5 --json >/dev/null
+          python -m compileall -q src
           if [ -f registry/published/registry-v2.json.sigstore.json ]; then
             AUTONOMYFIT_CACHE_DIR="$RUNNER_TEMP/autonomyfit-registry" python -m autonomyfit registry update --json >/dev/null
           fi
@@ -60,11 +64,10 @@ jobs:
         run: python -m pip install --force-reinstall dist/*.whl
       - name: Wheel smoke test
         run: |
-          autonomyfit --version
+          test "$(autonomyfit --version)" = "0.4.0"
           autonomyfit registry status --json >/dev/null
           autonomyfit models --offline --json >/dev/null
-          autonomyfit search smolvlm --offline --json >/dev/null
-          autonomyfit info smolvlm-256m-instruct --offline --json >/dev/null
+          autonomyfit benchmark-backends --json >/dev/null
           autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5 --json >/dev/null
           if [ -f registry/published/registry-v2.json.sigstore.json ]; then
             AUTONOMYFIT_CACHE_DIR="$RUNNER_TEMP/autonomyfit-wheel-registry" autonomyfit registry update --json >/dev/null
