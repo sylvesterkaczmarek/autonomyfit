@@ -40,16 +40,25 @@ jobs:
                   '    except Exception as exc:\n        return "fail", f"ONNX structural validation failed: {exc}"',
                   '    except Exception as exc:  # noqa: BLE001\n        return "fail", f"ONNX structural validation failed: {exc}"',
               ),
-              Path("src/autonomyfit/benchmark.py"): (
-                  'from .integrity import artifact_sha256, artifact_size_bytes, sha256_file',
-                  'from .integrity import artifact_sha256, artifact_size_bytes, sha256_file as sha256_file',
-              ),
           }
           for path, (old, new) in replacements.items():
               text = path.read_text()
               if old not in text:
                   raise SystemExit(f"Stage 5 compatibility annotation target not found: {path}")
               path.write_text(text.replace(old, new, 1))
+
+          benchmark = Path("src/autonomyfit/benchmark.py")
+          text = benchmark.read_text()
+          old = 'from .integrity import artifact_sha256, artifact_size_bytes, sha256_file'
+          new = 'from .integrity import artifact_sha256, artifact_size_bytes, sha256_file as _sha256_file'
+          if old not in text:
+              raise SystemExit("benchmark integrity import target not found")
+          text = text.replace(old, new, 1)
+          marker = 'RANDOM_SEED = 0\n\n'
+          wrapper = '''RANDOM_SEED = 0\n\n\ndef sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:\n    """Backward-compatible SHA-256 helper delegated to the integrity layer."""\n    return _sha256_file(path, chunk_size)\n\n'''
+          if marker not in text:
+              raise SystemExit("benchmark SHA-256 wrapper insertion point not found")
+          benchmark.write_text(text.replace(marker, wrapper, 1))
           PY
           rm stage5_migrate.py
           rm -rf .stage5
