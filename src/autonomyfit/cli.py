@@ -49,7 +49,9 @@ def main(
 
 @app.command()
 def scan(
-    json_output: Annotated[bool, typer.Option("--json", help="Emit machine-readable JSON.")] = False,
+    json_output: Annotated[
+        bool, typer.Option("--json", help="Emit machine-readable JSON.")
+    ] = False,
 ) -> None:
     """Detect compute, memory, accelerator and runtime readiness."""
     print_hardware(detect_hardware(), as_json=json_output)
@@ -60,22 +62,37 @@ def recommend(
     task: Annotated[str, typer.Option(help="Model task: detection or vlm.")] = "detection",
     fps: Annotated[float | None, typer.Option("--fps", help="Minimum required FPS.")] = None,
     latency_ms: Annotated[
-        float | None, typer.Option("--latency-ms", help="Maximum inference latency in milliseconds.")
+        float | None,
+        typer.Option("--latency-ms", help="Maximum inference latency in milliseconds."),
     ] = None,
-    power_w: Annotated[float | None, typer.Option("--power-w", help="Maximum measured power in watts.")] = None,
+    power_w: Annotated[
+        float | None, typer.Option("--power-w", help="Maximum measured power in watts.")
+    ] = None,
     min_accuracy: Annotated[
-        float | None, typer.Option("--min-accuracy", help="Minimum catalog accuracy value for the task metric.")
+        float | None,
+        typer.Option(
+            "--min-accuracy",
+            help="Minimum catalog accuracy value for the task metric.",
+        ),
     ] = None,
     runtime: Annotated[str | None, typer.Option(help="Force target runtime.")] = None,
-    precision: Annotated[str | None, typer.Option(help="Force precision, for example fp16 or int8.")] = None,
+    precision: Annotated[
+        str | None, typer.Option(help="Force precision, for example fp16 or int8.")
+    ] = None,
     hardware_profile: Annotated[
-        str | None, typer.Option("--hardware-profile", help="Use a bundled hardware profile instead of local detection.")
+        str | None,
+        typer.Option(
+            "--hardware-profile",
+            help="Use a bundled hardware profile instead of local detection.",
+        ),
     ] = None,
     catalog: Annotated[
         Path | None, typer.Option(help="Optional custom model catalog JSON.")
     ] = None,
     limit: Annotated[int, typer.Option(help="Maximum number of candidates to show.")] = 8,
-    json_output: Annotated[bool, typer.Option("--json", help="Emit machine-readable JSON.")] = False,
+    json_output: Annotated[
+        bool, typer.Option("--json", help="Emit machine-readable JSON.")
+    ] = False,
 ) -> None:
     """Rank models against the current device or a known hardware profile."""
     if task not in {"detection", "vlm"}:

@@ -8,7 +8,6 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Any
 
 import psutil
 
@@ -52,7 +51,9 @@ def _detect_runtimes(platform_kind: str) -> tuple[RuntimeCapability, ...]:
             ort_detail = ", ".join(ort.get_available_providers())
         except Exception:
             ort_detail = "installed, provider query failed"
-    capabilities.append(RuntimeCapability("onnxruntime", bool(ort_version), ort_version, ort_detail))
+    capabilities.append(
+        RuntimeCapability("onnxruntime", bool(ort_version), ort_version, ort_detail)
+    )
 
     torch_version = _package_version("torch")
     torch_detail = None
@@ -68,7 +69,9 @@ def _detect_runtimes(platform_kind: str) -> tuple[RuntimeCapability, ...]:
                 torch_detail = "CPU"
         except Exception:
             torch_detail = "installed, backend query failed"
-    capabilities.append(RuntimeCapability("pytorch", bool(torch_version), torch_version, torch_detail))
+    capabilities.append(
+        RuntimeCapability("pytorch", bool(torch_version), torch_version, torch_detail)
+    )
 
     trt_version = _package_version("tensorrt")
     trtexec = shutil.which("trtexec")

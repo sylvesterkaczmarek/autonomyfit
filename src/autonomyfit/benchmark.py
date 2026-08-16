@@ -7,9 +7,9 @@ import statistics
 import subprocess
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Callable
 
 
 @dataclass(frozen=True)
@@ -107,7 +107,6 @@ def _read_jetson_power() -> float | None:
             if power is not None:
                 return power
     return None
-
 
 
 class PowerSampler:

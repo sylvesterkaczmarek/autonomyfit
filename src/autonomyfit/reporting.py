@@ -22,7 +22,11 @@ def print_hardware(hardware: HardwareProfile, as_json: bool = False) -> None:
     table.add_row("Platform", hardware.platform)
     table.add_row("OS", f"{hardware.os_name} / {hardware.architecture}")
     table.add_row("CPU", hardware.cpu)
-    table.add_row("RAM", f"{hardware.ram_available_gb:.1f} GB available / {hardware.ram_total_gb:.1f} GB total")
+    table.add_row(
+        "RAM",
+        f"{hardware.ram_available_gb:.1f} GB available / "
+        f"{hardware.ram_total_gb:.1f} GB total",
+    )
     table.add_row("Accelerator", hardware.gpu or "None detected")
     if hardware.accelerator_memory_gb is not None:
         label = "unified available" if hardware.unified_memory else "VRAM"
@@ -74,7 +78,9 @@ def _recommendation_dict(item: Recommendation) -> dict[str, object]:
     return data
 
 
-def print_recommendations(items: list[Recommendation], limit: int = 8, as_json: bool = False) -> None:
+def print_recommendations(
+    items: list[Recommendation], limit: int = 8, as_json: bool = False
+) -> None:
     selected = items[:limit]
     if as_json:
         console.print_json(json.dumps([_recommendation_dict(item) for item in selected]))
@@ -116,5 +122,6 @@ def print_recommendations(items: list[Recommendation], limit: int = 8, as_json: 
             console.print(f"  - {blocker}")
         if top.verdict == "BENCHMARK_REQUIRED":
             console.print(
-                "  Benchmark on this exact device before accepting latency, FPS, or power constraints."
+                "  Benchmark on this exact device before accepting latency, FPS, "
+                "or power constraints."
             )

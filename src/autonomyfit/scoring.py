@@ -136,7 +136,8 @@ def recommend_models(
 
         if estimated_memory > available_memory:
             blockers.append(
-                f"memory screen needs {estimated_memory:.2f} GB; {available_memory:.2f} GB is available"
+                f"memory screen needs {estimated_memory:.2f} GB; "
+                f"{available_memory:.2f} GB is available"
             )
         else:
             reasons.append(
@@ -148,11 +149,13 @@ def recommend_models(
                 blockers.append("accuracy constraint cannot be evaluated for this profile")
             elif model.accuracy.value < constraints.min_accuracy:
                 blockers.append(
-                    f"{model.accuracy.name} {model.accuracy.value:.2f} is below {constraints.min_accuracy:.2f}"
+                    f"{model.accuracy.name} {model.accuracy.value:.2f} is below "
+                    f"{constraints.min_accuracy:.2f}"
                 )
             else:
                 reasons.append(
-                    f"{model.accuracy.name} {model.accuracy.value:.2f} meets the accuracy constraint"
+                    f"{model.accuracy.name} {model.accuracy.value:.2f} "
+                    "meets the accuracy constraint"
                 )
 
         if constraints.min_fps is not None or constraints.max_latency_ms is not None:
@@ -168,18 +171,21 @@ def recommend_models(
                     and benchmark.latency_ms > constraints.max_latency_ms
                 ):
                     blockers.append(
-                        f"measured {benchmark.latency_ms:.2f} ms exceeds {constraints.max_latency_ms:.2f} ms"
+                        f"measured {benchmark.latency_ms:.2f} ms exceeds "
+                        f"{constraints.max_latency_ms:.2f} ms"
                     )
                 if not any("measured" in blocker for blocker in blockers):
                     reasons.append(
-                        f"published matching benchmark is {benchmark.latency_ms:.2f} ms ({benchmark.fps:.1f} FPS)"
+                        f"published matching benchmark is {benchmark.latency_ms:.2f} ms "
+                        f"({benchmark.fps:.1f} FPS)"
                     )
 
         if constraints.max_power_w is not None:
             if benchmark and benchmark.power_w is not None:
                 if benchmark.power_w > constraints.max_power_w:
                     blockers.append(
-                        f"measured {benchmark.power_w:.1f} W exceeds {constraints.max_power_w:.1f} W"
+                        f"measured {benchmark.power_w:.1f} W exceeds "
+                        f"{constraints.max_power_w:.1f} W"
                     )
                 else:
                     reasons.append(f"measured power {benchmark.power_w:.1f} W meets the limit")
@@ -210,13 +216,21 @@ def recommend_models(
         quality = 0.5
         if model.accuracy is not None:
             quality = (model.accuracy.value - min_acc) / acc_span
-        memory_headroom = max(0.0, min(1.0, (available_memory - estimated_memory) / max(available_memory, 0.1)))
+        memory_headroom = max(
+            0.0,
+            min(1.0, (available_memory - estimated_memory) / max(available_memory, 0.1)),
+        )
         performance_score = 0.35
         if benchmark is not None:
             performance_score = min(1.0, 40.0 / max(benchmark.latency_ms, 1.0))
         runtime_score = 1.0 if runtime_ready else 0.45
 
-        score = 40.0 * quality + 25.0 * memory_headroom + 25.0 * performance_score + 10.0 * runtime_score
+        score = (
+            40.0 * quality
+            + 25.0 * memory_headroom
+            + 25.0 * performance_score
+            + 10.0 * runtime_score
+        )
         if verdict == "NO_FIT":
             score -= 80.0
         elif verdict == "CONSTRAINT_FAIL":
