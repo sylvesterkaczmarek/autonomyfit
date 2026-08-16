@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 from typing import Any, Literal
+
+from .evidence import BenchmarkEvidence, EvidenceMatch
 
 Task = Literal["detection", "vlm"]
 Verdict = Literal[
@@ -12,6 +15,7 @@ Verdict = Literal[
     "NO_FIT",
 ]
 RegistrySource = Literal["remote", "cache", "bundled-fallback", "custom"]
+EvidenceConfidence = Literal["HIGH", "MEDIUM", "LOW", "UNKNOWN"]
 
 
 @dataclass(frozen=True)
@@ -101,6 +105,8 @@ class ModelProfile:
 
 @dataclass(frozen=True)
 class BenchmarkRecord:
+    """Legacy schema-v1 benchmark record retained for compatibility only."""
+
     hardware_id: str
     model_id: str
     runtime: str
@@ -125,6 +131,10 @@ class Constraints:
     min_accuracy: float | None = None
     runtime: str | None = None
     precision: str | None = None
+    model_id: str | None = None
+    model_revision: str | None = None
+    artifact_path: Path | None = None
+    artifact_sha256: str | None = None
 
 
 @dataclass(frozen=True)
@@ -136,7 +146,9 @@ class Recommendation:
     precision: str
     estimated_memory_gb: float
     memory_evidence: str
-    benchmark: BenchmarkRecord | None
+    benchmark: BenchmarkEvidence | None
+    evidence_match: EvidenceMatch | None
+    evidence_confidence: EvidenceConfidence
     runtime_available: bool
     reasons: tuple[str, ...]
     blockers: tuple[str, ...]

@@ -1,0 +1,454 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/sylvesterkaczmarek/autonomyfit/benchmark-report-v2.schema.json",
+  "title": "AutonomyFit local benchmark report v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "benchmark_id",
+    "created_at",
+    "quality",
+    "model",
+    "artifact",
+    "hardware",
+    "software",
+    "execution",
+    "metrics",
+    "reproducibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "benchmark_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "quality": {
+      "const": "local-measured"
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "format",
+        "sha256",
+        "size_bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "platform",
+        "device",
+        "cpu",
+        "ram_total_gb",
+        "os",
+        "architecture",
+        "driver",
+        "power_mode",
+        "clocks",
+        "thermal_c"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "device": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cpu": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ram_total_gb": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "os": {
+          "type": "string",
+          "minLength": 1
+        },
+        "architecture": {
+          "type": "string",
+          "minLength": 1
+        },
+        "driver": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "power_mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "clocks": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "thermal_c": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "software": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime",
+        "runtime_version",
+        "provider",
+        "provider_version",
+        "python_version",
+        "autonomyfit_version"
+      ],
+      "properties": {
+        "runtime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "python_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "autonomyfit_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "precision",
+        "quantization",
+        "batch_size",
+        "input_shapes",
+        "warmup",
+        "iterations",
+        "random_seed",
+        "backend_options"
+      ],
+      "properties": {
+        "precision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quantization": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "batch_size": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "input_shapes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "warmup": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "iterations": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "random_seed": {
+          "type": "integer"
+        },
+        "backend_options": {
+          "type": "object"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "load_ms",
+        "latency",
+        "throughput_fps",
+        "peak_memory_mb",
+        "peak_memory_scope",
+        "power"
+      ],
+      "properties": {
+        "load_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "latency": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min_ms",
+            "mean_ms",
+            "median_ms",
+            "p50_ms",
+            "p90_ms",
+            "p95_ms",
+            "p99_ms",
+            "max_ms",
+            "stdev_ms"
+          ],
+          "properties": {
+            "min_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "mean_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "median_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "p50_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "p90_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "p95_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "p99_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "max_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "stdev_ms": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "throughput_fps": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "peak_memory_mb": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "power": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "mean_w",
+            "max_w",
+            "energy_j",
+            "scope"
+          ],
+          "properties": {
+            "mean_w": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "max_w": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "energy_j": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "scope": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "peak_memory_scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "reproducibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command",
+        "hostname_hash",
+        "environment_fingerprint"
+      ],
+      "properties": {
+        "command": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hostname_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "environment_fingerprint": {
+          "type": "string",
+          "minLength": 8
+        }
+      }
+    }
+  }
+}

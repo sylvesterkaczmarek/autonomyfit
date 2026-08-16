@@ -1,46 +1,83 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
+import socket
 import statistics
 import subprocess
+import sys
 import threading
 import time
 from collections.abc import Callable
-from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
+from typing import Any
+
+import psutil
+
+from .models import HardwareProfile
+
+RANDOM_SEED = 0
 
 
-@dataclass(frozen=True)
-class BenchmarkResult:
-    model_path: str
-    provider: str
-    iterations: int
-    warmup: int
-    mean_ms: float
-    p50_ms: float
-    p95_ms: float
-    p99_ms: float
-    fps: float
-    power_w_mean: float | None
-    input_shapes: dict[str, list[int]]
-
-    def to_dict(self) -> dict[str, object]:
-        return asdict(self)
+def _package_version(name: str) -> str | None:
+    try:
+        return version(name)
+    except PackageNotFoundError:
+        return None
 
 
 def percentile(values: list[float], q: float) -> float:
     if not values:
         raise ValueError("values cannot be empty")
-    values = sorted(values)
-    position = (len(values) - 1) * q
+    if not 0.0 <= q <= 1.0:
+        raise ValueError("percentile q must be between 0 and 1")
+    ordered = sorted(values)
+    position = (len(ordered) - 1) * q
     lower = math.floor(position)
     upper = math.ceil(position)
     if lower == upper:
-        return values[lower]
+        return ordered[lower]
     weight = position - lower
-    return values[lower] * (1 - weight) + values[upper] * weight
+    return ordered[lower] * (1 - weight) + ordered[upper] * weight
+
+
+def _shape_for_input(shape: list[object], override: list[int] | None) -> list[int]:
+    """Resolve an ONNX-style shape while preserving the 0.3 compatibility helper."""
+    if override:
+        if len(override) != len(shape):
+            raise ValueError(
+                f"--shape has {len(override)} dimensions but the model input expects {len(shape)}"
+            )
+        return override
+    resolved: list[int] = []
+    for dim in shape:
+        if isinstance(dim, int) and dim > 0:
+            resolved.append(dim)
+        elif len(resolved) == 0:
+            resolved.append(1)
+        else:
+            raise ValueError("Dynamic non-batch input shape requires --shape")
+    return resolved
+
+
+def latency_summary(values: list[float]) -> dict[str, float]:
+    if not values:
+        raise ValueError("latency samples cannot be empty")
+    return {
+        "min_ms": min(values),
+        "mean_ms": statistics.mean(values),
+        "median_ms": statistics.median(values),
+        "p50_ms": percentile(values, 0.50),
+        "p90_ms": percentile(values, 0.90),
+        "p95_ms": percentile(values, 0.95),
+        "p99_ms": percentile(values, 0.99),
+        "max_ms": max(values),
+        "stdev_ms": statistics.pstdev(values) if len(values) > 1 else 0.0,
+    }
 
 
 def parse_tegrastats_power_w(line: str) -> float | None:
@@ -56,11 +93,7 @@ def parse_nvidia_smi_power_w(text: str) -> float | None:
 def _read_nvidia_power() -> float | None:
     try:
         result = subprocess.run(
-            [
-                "nvidia-smi",
-                "--query-gpu=power.draw",
-                "--format=csv,noheader,nounits",
-            ],
+            ["nvidia-smi", "--query-gpu=power.draw", "--format=csv,noheader,nounits"],
             check=False,
             capture_output=True,
             text=True,
@@ -88,10 +121,7 @@ def _read_ina3221_vdd_in_power_w(hwmon_dir: Path) -> float | None:
 
 
 def _read_jetson_power() -> float | None:
-    roots = [
-        Path("/sys/bus/i2c/drivers/ina3221/1-0040/hwmon"),
-        Path("/sys/class/hwmon"),
-    ]
+    roots = [Path("/sys/bus/i2c/drivers/ina3221/1-0040/hwmon"), Path("/sys/class/hwmon")]
     seen: set[Path] = set()
     for root in roots:
         try:
@@ -99,7 +129,10 @@ def _read_jetson_power() -> float | None:
         except OSError:
             continue
         for hwmon_dir in candidates:
-            resolved = hwmon_dir.resolve()
+            try:
+                resolved = hwmon_dir.resolve()
+            except OSError:
+                resolved = hwmon_dir
             if resolved in seen:
                 continue
             seen.add(resolved)
@@ -109,15 +142,49 @@ def _read_jetson_power() -> float | None:
     return None
 
 
+
+def read_thermal_c(platform_kind: str) -> dict[str, float]:
+    if platform_kind == "nvidia":
+        try:
+            result = subprocess.run(
+                ["nvidia-smi", "--query-gpu=temperature.gpu", "--format=csv,noheader,nounits"],
+                check=False, capture_output=True, text=True, timeout=1.0,
+            )
+            value = parse_nvidia_smi_power_w(result.stdout)
+            return {"gpu": value} if value is not None else {}
+        except (OSError, subprocess.SubprocessError):
+            return {}
+    if platform_kind == "jetson":
+        values: dict[str, float] = {}
+        for zone in sorted(Path("/sys/class/thermal").glob("thermal_zone*")):
+            try:
+                name = (zone / "type").read_text().strip()
+                milli_c = float((zone / "temp").read_text().strip())
+            except (OSError, ValueError):
+                continue
+            values[name] = milli_c / 1000.0
+        return values
+    return {}
+
+
+def power_reader(platform_kind: str) -> tuple[Callable[[], float | None] | None, str | None]:
+    if platform_kind == "jetson":
+        return _read_jetson_power, "Jetson VDD_IN rail"
+    if platform_kind == "nvidia":
+        return _read_nvidia_power, "NVIDIA GPU board power.draw"
+    return None, None
+
+
 class PowerSampler:
     def __init__(self, reader: Callable[[], float | None], interval: float = 0.15) -> None:
         self.reader = reader
         self.interval = interval
-        self.samples: list[float] = []
+        self.samples: list[tuple[float, float]] = []
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
 
     def start(self) -> None:
+        self._stop.clear()
         self._thread = threading.Thread(target=self._run, daemon=True)
         self._thread.start()
 
@@ -125,139 +192,213 @@ class PowerSampler:
         while not self._stop.is_set():
             value = self.reader()
             if value is not None:
-                self.samples.append(value)
+                self.samples.append((time.monotonic(), value))
+            self._stop.wait(self.interval)
+
+    def stop(self) -> dict[str, float | None]:
+        self._stop.set()
+        if self._thread:
+            self._thread.join(timeout=2.0)
+        if not self.samples:
+            return {"mean_w": None, "max_w": None, "energy_j": None}
+        values = [value for _, value in self.samples]
+        energy_j = None
+        if len(self.samples) >= 2:
+            energy_j = 0.0
+            for (t0, p0), (t1, p1) in zip(self.samples, self.samples[1:]):
+                energy_j += (p0 + p1) * 0.5 * (t1 - t0)
+        return {
+            "mean_w": statistics.mean(values),
+            "max_w": max(values),
+            "energy_j": energy_j,
+        }
+
+
+class MemorySampler:
+    def __init__(self, interval: float = 0.05) -> None:
+        self.interval = interval
+        self.process = psutil.Process()
+        self.peak_rss = 0
+        self._stop = threading.Event()
+        self._thread: threading.Thread | None = None
+
+    def start(self) -> None:
+        self._stop.clear()
+        self._thread = threading.Thread(target=self._run, daemon=True)
+        self._thread.start()
+
+    def _run(self) -> None:
+        while not self._stop.is_set():
+            try:
+                self.peak_rss = max(self.peak_rss, self.process.memory_info().rss)
+            except (psutil.Error, OSError):
+                pass
             self._stop.wait(self.interval)
 
     def stop(self) -> float | None:
         self._stop.set()
         if self._thread:
             self._thread.join(timeout=2.0)
-        return statistics.mean(self.samples) if self.samples else None
+        return self.peak_rss / (1024 * 1024) if self.peak_rss else None
 
 
-def _power_reader(platform_kind: str) -> Callable[[], float | None] | None:
-    if platform_kind == "jetson":
-        return _read_jetson_power
-    if platform_kind == "nvidia":
-        return _read_nvidia_power
-    return None
+def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while chunk := stream.read(chunk_size):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
-def _numpy_dtype(ort_type: str):
-    import numpy as np
-
-    mapping = {
-        "tensor(float)": np.float32,
-        "tensor(float16)": np.float16,
-        "tensor(double)": np.float64,
-        "tensor(int64)": np.int64,
-        "tensor(int32)": np.int32,
-        "tensor(uint8)": np.uint8,
-        "tensor(int8)": np.int8,
-        "tensor(bool)": np.bool_,
+def hardware_evidence_id(hardware: HardwareProfile) -> str:
+    if hardware.matched_profile:
+        return hardware.matched_profile
+    payload = {
+        "platform": hardware.platform,
+        "architecture": hardware.architecture,
+        "cpu": hardware.cpu,
+        "gpu": hardware.gpu,
+        "ram_total_gb": round(hardware.ram_total_gb, 2),
     }
-    if ort_type not in mapping:
-        raise ValueError(f"Unsupported ONNX input type: {ort_type}")
-    return mapping[ort_type]
+    digest = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
+    return f"local-{hardware.platform}-{digest}"
 
 
-def _shape_for_input(shape: list[object], override: list[int] | None) -> list[int]:
-    if override:
-        if len(override) != len(shape):
-            raise ValueError(
-                f"--shape has {len(override)} dimensions but the model input expects {len(shape)}"
-            )
-        return override
-    resolved: list[int] = []
-    for dim in shape:
-        if isinstance(dim, int) and dim > 0:
-            resolved.append(dim)
-        elif len(resolved) == 0:
-            resolved.append(1)
-        else:
-            raise ValueError("Dynamic non-batch input shape requires --shape")
-    return resolved
+def _hostname_hash() -> str:
+    return hashlib.sha256(socket.gethostname().encode()).hexdigest()[:16]
 
 
-def benchmark_onnx(
+def environment_fingerprint(
+    *, hardware: dict[str, Any], software: dict[str, Any], execution: dict[str, Any]
+) -> str:
+    payload = json.dumps(
+        {"hardware": hardware, "software": software, "execution": execution},
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode()
+    return hashlib.sha256(payload).hexdigest()
+
+
+def artifact_format(path: Path) -> str:
+    suffix = path.suffix.casefold()
+    if suffix == ".onnx":
+        return "onnx"
+    if suffix in {".engine", ".plan"}:
+        return "tensorrt-engine"
+    if suffix == ".mlmodel":
+        return "coreml-model"
+    if suffix == ".mlpackage" or path.name.endswith(".mlpackage"):
+        return "coreml-package"
+    if suffix in {".xml", ".bin"}:
+        return "openvino-ir"
+    return suffix.lstrip(".") or "unknown"
+
+
+def make_benchmark_report(
+    *,
     model_path: Path,
-    platform_kind: str,
-    iterations: int = 50,
-    warmup: int = 10,
-    shape_override: list[int] | None = None,
-    provider: str | None = None,
-) -> BenchmarkResult:
-    try:
-        import numpy as np
-        import onnxruntime as ort
-    except ImportError as exc:
-        raise RuntimeError(
-            "ONNX benchmarking requires the benchmark extra: pip install 'autonomyfit[benchmark]'"
-        ) from exc
-
-    available = ort.get_available_providers()
-    if not available:
-        raise RuntimeError("ONNX Runtime reported no available execution providers")
-    if provider is None:
-        preferred = ["CUDAExecutionProvider", "CoreMLExecutionProvider", "CPUExecutionProvider"]
-        provider = next((name for name in preferred if name in available), available[0])
-    if provider not in available:
-        raise ValueError(f"Provider {provider!r} is unavailable. Available: {', '.join(available)}")
-
-    session = ort.InferenceSession(str(model_path), providers=[provider])
-    inputs = session.get_inputs()
-    if shape_override is not None and len(inputs) != 1:
-        raise ValueError("--shape is supported only for single-input ONNX models")
-    feeds: dict[str, object] = {}
-    input_shapes: dict[str, list[int]] = {}
-    rng = np.random.default_rng(0)
-    for input_meta in inputs:
-        resolved = _shape_for_input(list(input_meta.shape), shape_override)
-        dtype = _numpy_dtype(input_meta.type)
-        if np.issubdtype(dtype, np.floating):
-            value = rng.random(resolved, dtype=np.float32).astype(dtype)
-        elif dtype == np.bool_:
-            value = np.zeros(resolved, dtype=dtype)
-        else:
-            value = np.zeros(resolved, dtype=dtype)
-        feeds[input_meta.name] = value
-        input_shapes[input_meta.name] = resolved
-
-    for _ in range(warmup):
-        session.run(None, feeds)
-
-    sampler = None
-    reader = _power_reader(platform_kind)
-    if reader is not None:
-        sampler = PowerSampler(reader)
-        sampler.start()
-
-    latencies_ms: list[float] = []
-    try:
-        for _ in range(iterations):
-            start = time.perf_counter_ns()
-            session.run(None, feeds)
-            elapsed_ms = (time.perf_counter_ns() - start) / 1_000_000.0
-            latencies_ms.append(elapsed_ms)
-    finally:
-        power = sampler.stop() if sampler else None
-
-    mean_ms = statistics.mean(latencies_ms)
-    return BenchmarkResult(
-        model_path=str(model_path),
-        provider=provider,
-        iterations=iterations,
-        warmup=warmup,
-        mean_ms=mean_ms,
-        p50_ms=percentile(latencies_ms, 0.50),
-        p95_ms=percentile(latencies_ms, 0.95),
-        p99_ms=percentile(latencies_ms, 0.99),
-        fps=1000.0 / mean_ms,
-        power_w_mean=power,
-        input_shapes=input_shapes,
+    model_id: str,
+    model_revision: str | None,
+    hardware: HardwareProfile,
+    runtime: str,
+    runtime_version: str | None,
+    provider: str | None,
+    provider_version: str | None,
+    precision: str,
+    quantization: str | None,
+    batch_size: int | None,
+    input_shapes: dict[str, list[int]],
+    warmup: int,
+    iterations: int,
+    backend_options: dict[str, Any],
+    load_ms: float | None,
+    latency: dict[str, float | None],
+    throughput_fps: float | None,
+    peak_memory_mb: float | None,
+    power: dict[str, float | None] | None,
+    power_scope: str | None,
+    command: str | None,
+    notes: str | None = None,
+) -> dict[str, Any]:
+    created = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    artifact_hash = sha256_file(model_path)
+    hardware_dict = {
+        "id": hardware_evidence_id(hardware),
+        "platform": hardware.platform,
+        "device": hardware.gpu,
+        "cpu": hardware.cpu,
+        "ram_total_gb": hardware.ram_total_gb,
+        "os": hardware.os_name,
+        "architecture": hardware.architecture,
+        "driver": hardware.driver,
+        "power_mode": hardware.power_mode,
+        "clocks": {},
+        "thermal_c": read_thermal_c(hardware.platform),
+    }
+    software_dict = {
+        "runtime": runtime,
+        "runtime_version": runtime_version,
+        "provider": provider,
+        "provider_version": provider_version,
+        "python_version": sys.version.split()[0],
+        "autonomyfit_version": _package_version("autonomyfit") or "source-tree",
+    }
+    execution = {
+        "precision": precision,
+        "quantization": quantization,
+        "batch_size": batch_size,
+        "input_shapes": input_shapes,
+        "warmup": warmup,
+        "iterations": iterations,
+        "random_seed": RANDOM_SEED,
+        "backend_options": backend_options,
+    }
+    fingerprint = environment_fingerprint(
+        hardware=hardware_dict, software=software_dict, execution=execution
     )
+    benchmark_id = "local-" + hashlib.sha256(
+        f"{created}|{artifact_hash}|{hardware_dict['id']}|{runtime}|{precision}".encode()
+    ).hexdigest()[:24]
+    power_payload = None
+    if power is not None:
+        power_payload = {
+            "mean_w": power.get("mean_w"),
+            "max_w": power.get("max_w"),
+            "energy_j": power.get("energy_j"),
+            "scope": power_scope,
+        }
+    return {
+        "schema_version": 2,
+        "benchmark_id": benchmark_id,
+        "created_at": created,
+        "quality": "local-measured",
+        "notes": notes,
+        "model": {"id": model_id, "revision": model_revision},
+        "artifact": {
+            "path": model_path.name,
+            "format": artifact_format(model_path),
+            "sha256": artifact_hash,
+            "size_bytes": model_path.stat().st_size,
+        },
+        "hardware": hardware_dict,
+        "software": software_dict,
+        "execution": execution,
+        "metrics": {
+            "load_ms": load_ms,
+            "latency": latency,
+            "throughput_fps": throughput_fps,
+            "peak_memory_mb": peak_memory_mb,
+            "peak_memory_scope": "process RSS" if peak_memory_mb is not None else None,
+            "power": power_payload,
+        },
+        "reproducibility": {
+            "command": command,
+            "hostname_hash": _hostname_hash(),
+            "environment_fingerprint": fingerprint,
+        },
+    }
 
 
-def save_result(result: BenchmarkResult, path: Path) -> None:
+def save_result(result: dict[str, Any], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

@@ -1,27 +1,11 @@
 # Reproducibility
 
-AutonomyFit keeps data provenance and local measurements distinct.
+A performance number is meaningful only with its model, artifact, system and measurement context.
 
-For reproducible recommendations record:
+For local evidence, preserve the generated AutonomyFit benchmark report. It records the model ID/revision, SHA-256 of the exact artifact, hardware fingerprint/profile, OS/architecture/driver fields, runtime and provider versions, precision/quantization labels, batch/input shape, warmup and iteration settings, deterministic random seed, load time, latency distribution, throughput, memory scope, power scope, thermal readings where exposed and an environment fingerprint.
 
-- AutonomyFit package version
-- registry version and registry source
-- model upstream revision when available
-- hardware profile/detection output
-- runtime and precision
-- constraints
-- benchmark source or local result
+Use the same exact artifact when comparing results. A different artifact hash or known model revision is treated as different evidence. A runtime-version mismatch is not silently reused as exact evidence.
 
-Use JSON output for machine-readable capture:
+Power modes, thermal state, clocks and background workload can materially change results. AutonomyFit records what it can observe but does not claim that missing telemetry is constant.
 
-```bash
-autonomyfit scan --json
-autonomyfit registry status --json
-autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --json
-```
-
-`--offline` is useful when reproducing a run against an already verified cache without allowing
-a network refresh during the experiment.
-
-The local ONNX benchmark uses deterministic synthetic inputs for execution-cost measurement.
-It does not validate task accuracy.
+Vendor tables and standardized suites should retain their original scenario definitions. In particular, do not translate a benchmark from a different model/workload into an AutonomyFit `VERIFIED_FIT` claim merely because the model family or task is similar.

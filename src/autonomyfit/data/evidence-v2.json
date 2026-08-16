@@ -1,0 +1,1198 @@
+{
+  "accuracy_evidence": [
+    {
+      "dataset": "COCO val",
+      "id": "accuracy:yolo26n:coco-val:map50-95",
+      "metric": "mAP50-95",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-yolo26-2026",
+      "source_url": "https://docs.ultralytics.com/models/yolo26",
+      "value": 40.9
+    }
+  ],
+  "artifacts": [
+    {
+      "format": "onnx",
+      "id": "artifact:yolo26n:onnx:fp32:unresolved",
+      "identity_status": "unresolved",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "sha256": null,
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "format": "pytorch",
+      "id": "artifact:yolo26n:pytorch:fp32:unresolved",
+      "identity_status": "unresolved",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "sha256": null,
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "format": "tensorrt-engine",
+      "id": "artifact:yolo26n:tensorrt:fp16:unresolved",
+      "identity_status": "unresolved",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "sha256": null,
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "format": "tensorrt-engine",
+      "id": "artifact:yolo26n:tensorrt:fp32:unresolved",
+      "identity_status": "unresolved",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "sha256": null,
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "format": "tensorrt-engine",
+      "id": "artifact:yolo26n:tensorrt:int8:unresolved",
+      "identity_status": "unresolved",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "sha256": null,
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    }
+  ],
+  "benchmark_evidence": [
+    {
+      "artifact_id": "artifact:yolo26n:pytorch:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "benchmark:jetson-agx-thor-128gb:pytorch:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 7.39,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "software_stack_id": "stack:jetson-agx-thor-128gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:onnx:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "benchmark:jetson-agx-thor-128gb:onnx:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 6.58,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "software_stack_id": "stack:jetson-agx-thor-128gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "benchmark:jetson-agx-thor-128gb:tensorrt:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 1.9,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "software_stack_id": "stack:jetson-agx-thor-128gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp16:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "benchmark:jetson-agx-thor-128gb:tensorrt:fp16",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 1.39,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "software_stack_id": "stack:jetson-agx-thor-128gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:int8:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "benchmark:jetson-agx-thor-128gb:tensorrt:int8",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 1.52,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "software_stack_id": "stack:jetson-agx-thor-128gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:pytorch:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "benchmark:jetson-agx-orin-64gb:pytorch:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 11.58,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "software_stack_id": "stack:jetson-agx-orin-64gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:onnx:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "benchmark:jetson-agx-orin-64gb:onnx:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 9.87,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "software_stack_id": "stack:jetson-agx-orin-64gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "benchmark:jetson-agx-orin-64gb:tensorrt:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 4.18,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "software_stack_id": "stack:jetson-agx-orin-64gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp16:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "benchmark:jetson-agx-orin-64gb:tensorrt:fp16",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 2.62,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "software_stack_id": "stack:jetson-agx-orin-64gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:int8:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "benchmark:jetson-agx-orin-64gb:tensorrt:int8",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 2.3,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "software_stack_id": "stack:jetson-agx-orin-64gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:pytorch:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "benchmark:jetson-orin-nano-super-8gb:pytorch:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 15.6,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "software_stack_id": "stack:jetson-orin-nano-super-8gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:onnx:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "benchmark:jetson-orin-nano-super-8gb:onnx:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 15.76,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "software_stack_id": "stack:jetson-orin-nano-super-8gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "benchmark:jetson-orin-nano-super-8gb:tensorrt:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 7.53,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "software_stack_id": "stack:jetson-orin-nano-super-8gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp16:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "benchmark:jetson-orin-nano-super-8gb:tensorrt:fp16",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 4.57,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "software_stack_id": "stack:jetson-orin-nano-super-8gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:int8:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "benchmark:jetson-orin-nano-super-8gb:tensorrt:int8",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 3.8,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "software_stack_id": "stack:jetson-orin-nano-super-8gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:pytorch:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "benchmark:jetson-orin-nx-16gb:pytorch:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 13.9,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "software_stack_id": "stack:jetson-orin-nx-16gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:onnx:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "benchmark:jetson-orin-nx-16gb:onnx:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 14.18,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "software_stack_id": "stack:jetson-orin-nx-16gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp32:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "benchmark:jetson-orin-nx-16gb:tensorrt:fp32",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 7.01,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "software_stack_id": "stack:jetson-orin-nx-16gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:fp16:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "benchmark:jetson-orin-nx-16gb:tensorrt:fp16",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 4.13,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "software_stack_id": "stack:jetson-orin-nx-16gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    },
+    {
+      "artifact_id": "artifact:yolo26n:tensorrt:int8:unresolved",
+      "batch_size": null,
+      "clocks": {},
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "benchmark:jetson-orin-nx-16gb:tensorrt:int8",
+      "input_shapes": {
+        "image": [
+          640,
+          640
+        ]
+      },
+      "iterations": null,
+      "latency": {
+        "max_ms": null,
+        "mean_ms": 3.49,
+        "median_ms": null,
+        "min_ms": null,
+        "p50_ms": null,
+        "p90_ms": null,
+        "p95_ms": null,
+        "p99_ms": null,
+        "stdev_ms": null
+      },
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "notes": "Vendor-published inference time at 640 input. Exact model revision and artifact hash are not identified upstream, so this is contextual evidence only.",
+      "peak_memory_mb": null,
+      "peak_memory_scope": null,
+      "power": null,
+      "power_mode": null,
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "software_stack_id": "stack:jetson-orin-nx-16gb:ultralytics-jetson-2026",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson",
+      "throughput_fps": null,
+      "verified_identity": false,
+      "warmup": null
+    }
+  ],
+  "compatibility_evidence": [
+    {
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "compat:jetson-agx-thor-128gb:pytorch:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "compat:jetson-agx-thor-128gb:onnx:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "compat:jetson-agx-thor-128gb:tensorrt:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "compat:jetson-agx-thor-128gb:tensorrt:fp16",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-thor-128gb",
+      "id": "compat:jetson-agx-thor-128gb:tensorrt:int8",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "compat:jetson-agx-orin-64gb:pytorch:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "compat:jetson-agx-orin-64gb:onnx:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "compat:jetson-agx-orin-64gb:tensorrt:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "compat:jetson-agx-orin-64gb:tensorrt:fp16",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-agx-orin-64gb",
+      "id": "compat:jetson-agx-orin-64gb:tensorrt:int8",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "compat:jetson-orin-nano-super-8gb:pytorch:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "compat:jetson-orin-nano-super-8gb:onnx:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "compat:jetson-orin-nano-super-8gb:tensorrt:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "compat:jetson-orin-nano-super-8gb:tensorrt:fp16",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nano-super-8gb",
+      "id": "compat:jetson-orin-nano-super-8gb:tensorrt:int8",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "compat:jetson-orin-nx-16gb:pytorch:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:pytorch:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "compat:jetson-orin-nx-16gb:onnx:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:onnx:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "compat:jetson-orin-nx-16gb:tensorrt:fp32",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp32",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "compat:jetson-orin-nx-16gb:tensorrt:fp16",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:fp16",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "hardware_profile_id": "jetson-orin-nx-16gb",
+      "id": "compat:jetson-orin-nx-16gb:tensorrt:int8",
+      "model_revision_id": "revision:yolo26n:unresolved",
+      "quality": "vendor-published",
+      "runtime_profile_id": "runtime:tensorrt:int8",
+      "source_date": "2026-08-16",
+      "source_id": "ultralytics-jetson-2026",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    }
+  ],
+  "generated_at": "2026-08-16T11:30:00Z",
+  "hardware_profiles": [
+    {
+      "display_name": "NVIDIA Jetson AGX Thor Developer Kit",
+      "id": "jetson-agx-thor-128gb",
+      "memory_gb": 128,
+      "platform": "jetson",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "display_name": "NVIDIA Jetson AGX Orin 64GB",
+      "id": "jetson-agx-orin-64gb",
+      "memory_gb": 64,
+      "platform": "jetson",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "display_name": "NVIDIA Jetson Orin Nano Super 8GB",
+      "id": "jetson-orin-nano-super-8gb",
+      "memory_gb": 8,
+      "platform": "jetson",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "display_name": "NVIDIA Jetson Orin NX 16GB",
+      "id": "jetson-orin-nx-16gb",
+      "memory_gb": 16,
+      "platform": "jetson",
+      "source_url": "https://docs.ultralytics.com/guides/nvidia-jetson"
+    },
+    {
+      "display_name": "NVIDIA T4 16GB",
+      "id": "nvidia-t4-16gb",
+      "memory_gb": 16,
+      "platform": "nvidia",
+      "source_url": "https://www.nvidia.com/en-us/data-center/tesla-t4/"
+    }
+  ],
+  "memory_evidence": [],
+  "model_revisions": [
+    {
+      "id": "revision:yolo26n:unresolved",
+      "model_id": "yolo26n",
+      "revision": null,
+      "source_url": "https://docs.ultralytics.com/models/yolo26"
+    }
+  ],
+  "models": [
+    {
+      "id": "yolo26n"
+    }
+  ],
+  "runtime_profiles": [
+    {
+      "id": "runtime:onnx:fp32",
+      "precision": "fp32",
+      "provider": "ONNX Runtime",
+      "quantization": null,
+      "runtime": "onnx",
+      "version": null
+    },
+    {
+      "id": "runtime:pytorch:fp32",
+      "precision": "fp32",
+      "provider": "PyTorch",
+      "quantization": null,
+      "runtime": "pytorch",
+      "version": null
+    },
+    {
+      "id": "runtime:tensorrt:fp16",
+      "precision": "fp16",
+      "provider": "TensorRT",
+      "quantization": null,
+      "runtime": "tensorrt",
+      "version": null
+    },
+    {
+      "id": "runtime:tensorrt:fp32",
+      "precision": "fp32",
+      "provider": "TensorRT",
+      "quantization": null,
+      "runtime": "tensorrt",
+      "version": null
+    },
+    {
+      "id": "runtime:tensorrt:int8",
+      "precision": "int8",
+      "provider": "TensorRT",
+      "quantization": "int8",
+      "runtime": "tensorrt",
+      "version": null
+    }
+  ],
+  "schema_version": 2,
+  "software_stacks": [
+    {
+      "cuda": null,
+      "driver": null,
+      "id": "stack:jetson-agx-thor-128gb:ultralytics-jetson-2026",
+      "jetpack": "7.2",
+      "notes": null,
+      "os": "Jetson Linux",
+      "tensorrt": null,
+      "ultralytics": "8.4.7"
+    },
+    {
+      "cuda": null,
+      "driver": null,
+      "id": "stack:jetson-agx-orin-64gb:ultralytics-jetson-2026",
+      "jetpack": "7.2",
+      "notes": null,
+      "os": "Jetson Linux",
+      "tensorrt": null,
+      "ultralytics": "8.4.32"
+    },
+    {
+      "cuda": null,
+      "driver": null,
+      "id": "stack:jetson-orin-nano-super-8gb:ultralytics-jetson-2026",
+      "jetpack": "6.1",
+      "notes": null,
+      "os": "Jetson Linux",
+      "tensorrt": null,
+      "ultralytics": "8.4.33"
+    },
+    {
+      "cuda": null,
+      "driver": null,
+      "id": "stack:jetson-orin-nx-16gb:ultralytics-jetson-2026",
+      "jetpack": null,
+      "notes": "The upstream guide reports benchmark values for Orin NX but does not pin one unambiguous JetPack/software tuple for every table row.",
+      "os": "Jetson Linux",
+      "tensorrt": null,
+      "ultralytics": "8.4.33"
+    }
+  ]
+}

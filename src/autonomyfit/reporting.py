@@ -6,6 +6,7 @@ from dataclasses import asdict
 from rich.console import Console
 from rich.table import Table
 
+from .evidence import evidence_to_dict
 from .models import HardwareProfile, Recommendation, RegistryProvenance
 
 console = Console()
@@ -15,7 +16,6 @@ def print_hardware(hardware: HardwareProfile, as_json: bool = False) -> None:
     if as_json:
         console.print_json(json.dumps(hardware.to_dict()))
         return
-
     table = Table(title="Detected hardware", show_header=False)
     table.add_column("Field", style="bold")
     table.add_column("Value")
@@ -24,8 +24,7 @@ def print_hardware(hardware: HardwareProfile, as_json: bool = False) -> None:
     table.add_row("CPU", hardware.cpu)
     table.add_row(
         "RAM",
-        f"{hardware.ram_available_gb:.1f} GB available / "
-        f"{hardware.ram_total_gb:.1f} GB total",
+        f"{hardware.ram_available_gb:.1f} GB available / {hardware.ram_total_gb:.1f} GB total",
     )
     table.add_row("Accelerator", hardware.gpu or "None detected")
     if hardware.accelerator_memory_gb is not None:
@@ -72,6 +71,7 @@ def _recommendation_dict(item: Recommendation) -> dict[str, object]:
         "memory_evidence": item.memory_evidence,
         "latency_ms": round(item.latency_ms, 3) if item.latency_ms is not None else None,
         "fps": round(item.fps, 2) if item.fps is not None else None,
+        "evidence_confidence": item.evidence_confidence,
         "reasons": list(item.reasons),
         "blockers": list(item.blockers),
         "registry": _registry_dict(item.registry),
@@ -90,13 +90,16 @@ def _recommendation_dict(item: Recommendation) -> dict[str, object]:
     if item.model.accuracy:
         data["accuracy"] = asdict(item.model.accuracy)
     if item.benchmark:
-        data["benchmark_source"] = item.benchmark.source_url
+        data["benchmark_evidence"] = evidence_to_dict(item.benchmark)
+        data["benchmark_match"] = {
+            "exact": bool(item.evidence_match and item.evidence_match.exact),
+            "identity_complete": bool(item.evidence_match and item.evidence_match.identity_complete),
+            "limitations": list(item.evidence_match.reasons) if item.evidence_match else [],
+        }
     return data
 
 
-def print_recommendations(
-    items: list[Recommendation], limit: int = 8, as_json: bool = False
-) -> None:
+def print_recommendations(items: list[Recommendation], limit: int = 8, as_json: bool = False) -> None:
     selected = items[:limit]
     if as_json:
         console.print_json(json.dumps([_recommendation_dict(item) for item in selected]))
@@ -107,15 +110,16 @@ def print_recommendations(
     table.add_column("Verdict")
     table.add_column("Runtime")
     table.add_column("Memory")
-    table.add_column("Latency")
+    table.add_column("Latency evidence")
     table.add_column("FPS")
-    table.add_column("Accuracy")
-
+    table.add_column("Confidence")
     for item in selected:
-        accuracy = "-"
-        if item.model.accuracy:
-            accuracy = f"{item.model.accuracy.value:.1f} {item.model.accuracy.name}"
-        latency = f"{item.latency_ms:.2f} ms" if item.latency_ms is not None else "unmeasured"
+        if item.latency_ms is None:
+            latency = "unmeasured"
+        elif item.evidence_match and item.evidence_match.exact:
+            latency = f"{item.latency_ms:.2f} ms exact"
+        else:
+            latency = f"{item.latency_ms:.2f} ms reference"
         fps = f"{item.fps:.1f}" if item.fps is not None else "-"
         memory_suffix = "pub" if item.memory_evidence == "published" else "est"
         table.add_row(
@@ -125,36 +129,49 @@ def print_recommendations(
             f"{item.estimated_memory_gb:.2f} GB {memory_suffix}",
             latency,
             fps,
-            accuracy,
+            item.evidence_confidence,
         )
     console.print(table)
 
-    if selected:
-        top = selected[0]
-        if top.registry:
-            trust = "verified" if top.registry.signature_verified else "package/custom trust"
-            stale = " · stale" if top.registry.stale else ""
-            registry_version = top.registry.registry_version
-            version = f"v{registry_version}" if registry_version is not None else "v?"
-            console.print(
-                f"\n[bold]Registry[/bold]  {version} · {top.registry.source} · {trust}{stale}"
-            )
-            if top.registry.warning:
-                console.print(f"  ! {top.registry.warning}")
-        console.print(f"\n[bold]Top candidate[/bold]  {top.model.display_name}")
-        for reason in top.reasons:
-            console.print(f"  + {reason}")
-        for blocker in top.blockers:
-            console.print(f"  - {blocker}")
+    if not selected:
+        return
+    top = selected[0]
+    if top.registry:
+        trust = "verified" if top.registry.signature_verified else "package/custom trust"
+        stale = " · stale" if top.registry.stale else ""
+        registry_version = top.registry.registry_version
+        version = f"v{registry_version}" if registry_version is not None else "v?"
+        console.print(f"\n[bold]Registry[/bold]  {version} · {top.registry.source} · {trust}{stale}")
+        if top.registry.warning:
+            console.print(f"  ! {top.registry.warning}")
+    console.print(f"\n[bold]Top candidate[/bold]  {top.model.display_name}")
+    for reason in top.reasons:
+        console.print(f"  + {reason}")
+    for blocker in top.blockers:
+        console.print(f"  - {blocker}")
+    console.print(
+        "  Model source: " + top.model.source_url
+        + (f" @ {top.model.source_revision}" if top.model.source_revision else " @ revision unknown")
+    )
+    if top.benchmark:
+        evidence = top.benchmark
+        console.print(f"  Evidence quality: {evidence.evidence_label}")
+        console.print(f"  Evidence hardware: {evidence.hardware_name or evidence.hardware_id}")
         console.print(
-            "  Source: "
-            f"{top.model.source_url}"
-            + (f" @ {top.model.source_revision}" if top.model.source_revision else "")
+            f"  Evidence runtime: {evidence.runtime} {evidence.runtime_version or 'version unknown'} / {evidence.precision}"
         )
-        if top.model.last_verified:
-            console.print(f"  Model last verified: {top.model.last_verified}")
-        if top.verdict == "BENCHMARK_REQUIRED":
+        console.print(f"  Evidence source date: {evidence.source_date or 'unknown'}")
+        console.print(f"  Evidence model revision: {evidence.model_revision or 'unknown'}")
+        console.print(f"  Evidence artifact SHA-256: {evidence.artifact_sha256 or 'unknown'}")
+        console.print(
+            "  Evidence identity: "
+            + ("exact" if top.evidence_match and top.evidence_match.exact else "context only")
+        )
+        if evidence.power.mean_w is not None:
             console.print(
-                "  Benchmark on this exact device before accepting latency, FPS, "
-                "or power constraints."
+                f"  Evidence power: {evidence.power.mean_w:.2f} W ({evidence.power.scope or 'scope unknown'})"
             )
+    if top.verdict == "BENCHMARK_REQUIRED":
+        console.print(
+            "  Benchmark the exact model artifact on this device before accepting latency, FPS, or power constraints."
+        )

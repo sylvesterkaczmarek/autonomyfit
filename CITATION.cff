@@ -6,7 +6,7 @@ authors:
   - family-names: Kaczmarek
     given-names: Sylvester
 date-released: "2026-08-16"
-version: 0.3.0
+version: 0.4.0
 repository-code: https://github.com/sylvesterkaczmarek/autonomyfit
 url: https://github.com/sylvesterkaczmarek/autonomyfit
 license: MIT

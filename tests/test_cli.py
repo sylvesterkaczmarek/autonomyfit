@@ -15,7 +15,7 @@ def test_scan_json_smoke():
     assert "ram_total_gb" in payload
 
 
-def test_profile_recommendation_smoke():
+def test_profile_recommendation_uses_contextual_vendor_evidence():
     result = runner.invoke(
         app,
         [
@@ -33,9 +33,10 @@ def test_profile_recommendation_smoke():
     assert result.exit_code == 0, result.output
     payload = json.loads(result.stdout)
     yolo26n = next(item for item in payload if item["model_id"] == "yolo26n")
-    assert yolo26n["verdict"] == "VERIFIED_FIT"
-    assert yolo26n["registry"]["source"] in {"cache", "bundled-fallback"}
-    assert yolo26n["model_provenance"]["source_url"]
+    assert yolo26n["verdict"] == "BENCHMARK_REQUIRED"
+    assert yolo26n["latency_ms"] == 4.13
+    assert yolo26n["evidence_confidence"] == "MEDIUM"
+    assert yolo26n["benchmark_match"]["exact"] is False
 
 
 def test_unknown_profile_is_reported_cleanly():
@@ -86,3 +87,19 @@ def test_registry_clear_cache_preserves_security_state_message(tmp_path):
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert payload["security_state_preserved"] is True
+
+
+def test_benchmark_backends_json_smoke():
+    result = runner.invoke(app, ["benchmark-backends", "--json"])
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.stdout)
+    assert {item["name"] for item in payload} >= {"onnxruntime", "tensorrt", "openvino", "coreml"}
+
+
+def test_artifact_matching_requires_model_id(tmp_path):
+    artifact = tmp_path / "model.onnx"
+    artifact.write_bytes(b"model")
+    result = runner.invoke(app, ["recommend", "--offline", "--artifact", str(artifact)])
+    assert result.exit_code != 0
+    assert "requires" in result.output
+    assert "artifact" in result.output

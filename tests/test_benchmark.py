@@ -3,6 +3,7 @@ import pytest
 from autonomyfit.benchmark import (
     _read_ina3221_vdd_in_power_w,
     _shape_for_input,
+    latency_summary,
     parse_nvidia_smi_power_w,
     parse_tegrastats_power_w,
     percentile,
@@ -16,6 +17,14 @@ def test_percentile_interpolates():
 def test_percentile_rejects_empty_input():
     with pytest.raises(ValueError):
         percentile([], 0.5)
+
+
+def test_latency_summary_includes_tail_percentiles():
+    summary = latency_summary([1.0, 2.0, 3.0, 4.0, 5.0])
+    assert summary["median_ms"] == 3.0
+    assert summary["p90_ms"] > summary["median_ms"]
+    assert summary["p99_ms"] >= summary["p95_ms"]
+    assert summary["stdev_ms"] > 0
 
 
 def test_parse_jetson_total_power():

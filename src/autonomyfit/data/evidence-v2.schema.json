@@ -1,0 +1,736 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/sylvesterkaczmarek/autonomyfit/evidence-v2.schema.json",
+  "title": "AutonomyFit normalized evidence store v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "models",
+    "model_revisions",
+    "artifacts",
+    "accuracy_evidence",
+    "compatibility_evidence",
+    "memory_evidence",
+    "benchmark_evidence",
+    "hardware_profiles",
+    "runtime_profiles",
+    "software_stacks"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/model"
+      }
+    },
+    "model_revisions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/modelRevision"
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "accuracy_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/accuracy"
+      }
+    },
+    "compatibility_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/compatibility"
+      }
+    },
+    "memory_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/memory"
+      }
+    },
+    "benchmark_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/benchmark"
+      }
+    },
+    "hardware_profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/hardware"
+      }
+    },
+    "runtime_profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/runtime"
+      }
+    },
+    "software_stacks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stack"
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "uri": {
+      "type": "string",
+      "format": "uri"
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "modelRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model_id",
+        "revision",
+        "source_url"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "model_id": {
+          "$ref": "#/$defs/id"
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_url": {
+          "$ref": "#/$defs/uri"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model_revision_id",
+        "format",
+        "sha256",
+        "source_url",
+        "identity_status"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "model_revision_id": {
+          "$ref": "#/$defs/id"
+        },
+        "format": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "source_url": {
+          "$ref": "#/$defs/uri"
+        },
+        "identity_status": {
+          "enum": [
+            "verified",
+            "unresolved"
+          ]
+        }
+      }
+    },
+    "sourceFields": {
+      "type": "object"
+    },
+    "accuracy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model_revision_id",
+        "metric",
+        "value",
+        "dataset",
+        "quality",
+        "source_id",
+        "source_url",
+        "source_date"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "model_revision_id": {
+          "$ref": "#/$defs/id"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "dataset": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quality": {
+          "$ref": "#/$defs/quality"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_url": {
+          "$ref": "#/$defs/uri"
+        },
+        "source_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model_revision_id",
+        "hardware_profile_id",
+        "runtime_profile_id",
+        "quality",
+        "source_id",
+        "source_url",
+        "source_date"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "model_revision_id": {
+          "$ref": "#/$defs/id"
+        },
+        "hardware_profile_id": {
+          "$ref": "#/$defs/id"
+        },
+        "runtime_profile_id": {
+          "$ref": "#/$defs/id"
+        },
+        "quality": {
+          "$ref": "#/$defs/quality"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_url": {
+          "$ref": "#/$defs/uri"
+        },
+        "source_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      }
+    },
+    "memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model_revision_id",
+        "hardware_profile_id",
+        "memory_mb",
+        "scope",
+        "quality",
+        "source_id",
+        "source_url",
+        "source_date"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "model_revision_id": {
+          "$ref": "#/$defs/id"
+        },
+        "hardware_profile_id": {
+          "$ref": "#/$defs/id"
+        },
+        "memory_mb": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "scope": {
+          "type": "string"
+        },
+        "quality": {
+          "$ref": "#/$defs/quality"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_url": {
+          "$ref": "#/$defs/uri"
+        },
+        "source_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      }
+    },
+    "quality": {
+      "enum": [
+        "local-measured",
+        "standardized",
+        "vendor-published",
+        "third-party-reproducible",
+        "metadata-estimate"
+      ]
+    },
+    "latency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_ms",
+        "mean_ms",
+        "median_ms",
+        "p50_ms",
+        "p90_ms",
+        "p95_ms",
+        "p99_ms",
+        "max_ms",
+        "stdev_ms"
+      ],
+      "properties": {
+        "min_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "mean_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "median_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "p50_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "p90_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "p95_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "p99_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "max_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "stdev_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "power": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "mean_w",
+        "max_w",
+        "energy_j",
+        "scope"
+      ],
+      "properties": {
+        "mean_w": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "max_w": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "energy_j": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "model_revision_id",
+        "artifact_id",
+        "hardware_profile_id",
+        "runtime_profile_id",
+        "software_stack_id",
+        "batch_size",
+        "input_shapes",
+        "power_mode",
+        "clocks",
+        "warmup",
+        "iterations",
+        "latency",
+        "throughput_fps",
+        "power",
+        "peak_memory_mb",
+        "peak_memory_scope",
+        "quality",
+        "source_id",
+        "source_url",
+        "source_date",
+        "verified_identity",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "model_revision_id": {
+          "$ref": "#/$defs/id"
+        },
+        "artifact_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hardware_profile_id": {
+          "$ref": "#/$defs/id"
+        },
+        "runtime_profile_id": {
+          "$ref": "#/$defs/id"
+        },
+        "software_stack_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "batch_size": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "input_shapes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "power_mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "clocks": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "warmup": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "iterations": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "latency": {
+          "$ref": "#/$defs/latency"
+        },
+        "throughput_fps": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "power": {
+          "$ref": "#/$defs/power"
+        },
+        "peak_memory_mb": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "quality": {
+          "$ref": "#/$defs/quality"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "source_url": {
+          "$ref": "#/$defs/uri"
+        },
+        "source_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "verified_identity": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "peak_memory_scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "display_name",
+        "memory_gb",
+        "platform",
+        "source_url"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "memory_gb": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "platform": {
+          "type": "string"
+        },
+        "source_url": {
+          "$ref": "#/$defs/uri"
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "runtime",
+        "version",
+        "provider",
+        "precision",
+        "quantization"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "precision": {
+          "type": "string"
+        },
+        "quantization": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "stack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "os",
+        "driver",
+        "jetpack",
+        "cuda",
+        "tensorrt",
+        "ultralytics",
+        "notes"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "os": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "jetpack": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cuda": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tensorrt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ultralytics": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
