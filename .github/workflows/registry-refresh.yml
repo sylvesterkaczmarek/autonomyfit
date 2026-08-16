@@ -1,4 +1,4 @@
-# Daily continuous discovery; registry-only changes never publish PyPI.
+# Daily continuous discovery; registry-only updates never publish PyPI.
 name: Refresh model intelligence
 
 on:
