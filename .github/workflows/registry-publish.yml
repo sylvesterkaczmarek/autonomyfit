@@ -1,0 +1,70 @@
+name: Publish signed registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - registry/source/registry-v2.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: autonomyfit-registry-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install validator dependencies
+        run: python -m pip install -e .
+      - name: Validate source registry
+        run: python scripts/validate_registry.py registry/source/registry-v2.json
+      - name: Check monotonic registry version
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          source = json.loads(Path("registry/source/registry-v2.json").read_text())
+          published_path = Path("registry/published/registry-v2.json")
+          if published_path.exists():
+              published = json.loads(published_path.read_text())
+              old_version = published["registry"]["registry_version"]
+              new_version = source["registry"]["registry_version"]
+              if new_version < old_version:
+                  raise SystemExit(f"registry rollback: {new_version} < {old_version}")
+              if new_version == old_version and source != published:
+                  raise SystemExit("registry content changed without incrementing registry_version")
+          PY
+      - name: Prepare published registry
+        run: |
+          mkdir -p registry/published
+          cp registry/source/registry-v2.json registry/published/registry-v2.json
+          rm -f registry/published/registry-v2.json.sigstore.json
+      - name: Sign and verify registry
+        uses: sigstore/gh-action-sigstore-python@v3.2.0
+        with:
+          inputs: registry/published/registry-v2.json
+          verify: true
+          verify-cert-identity: https://github.com/sylvesterkaczmarek/autonomyfit/.github/workflows/registry-publish.yml@refs/heads/main
+          verify-oidc-issuer: https://token.actions.githubusercontent.com
+      - name: Commit signed registry
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add registry/published
+          if git diff --cached --quiet; then
+            echo "Published registry already current."
+          else
+            git commit -m "Publish signed registry"
+            git push
+          fi
