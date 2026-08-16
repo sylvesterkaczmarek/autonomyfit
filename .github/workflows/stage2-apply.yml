@@ -1,0 +1,39 @@
+name: Apply Stage 2 discovery refactor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".stage2-g0.tar.gz"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Verify and apply Stage 2 source
+        run: |
+          set -euo pipefail
+          echo "1e5cc9801831aab8b35512e9bd7a73a308fe60342f81630c78c11382d772a7d3  .stage2-g0.tar.gz" | sha256sum -c -
+          echo "c2e22d747696fe82f04ca43e6864aaf5ff78aa5ac4db86cdd01a4a2adeb66919  .stage2-g1.tar.gz" | sha256sum -c -
+          echo "0ea6d1c27048bb6120156c9e818e636664bcf4260ea6e13eff58ea80df4e52a2  .stage2-g2.tar.gz" | sha256sum -c -
+          cat .stage2-g3.part-* | base64 -d > /tmp/stage2-g3.tar.gz
+          echo "7dff92aff570db57eb0c6bef3f4691a9c4b69ecf4d0c2d4b0545f3453b9c8235  /tmp/stage2-g3.tar.gz" | sha256sum -c -
+          tar -xzf .stage2-g0.tar.gz
+          tar -xzf .stage2-g1.tar.gz
+          tar -xzf .stage2-g2.tar.gz
+          tar -xzf /tmp/stage2-g3.tar.gz
+          rm -f .stage2-g*.tar.gz .stage2-g3.part-*
+      - name: Commit Stage 2 source
+        run: |
+          git config user.name "Sylvester Kaczmarek"
+          git config user.email "16242628+sylvesterkaczmarek@users.noreply.github.com"
+          git add -A
+          git commit -m "Add continuous model discovery"
+          git pull --rebase origin main
+          git push
