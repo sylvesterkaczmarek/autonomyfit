@@ -40,11 +40,15 @@ jobs:
                   '    except Exception as exc:\n        return "fail", f"ONNX structural validation failed: {exc}"',
                   '    except Exception as exc:  # noqa: BLE001\n        return "fail", f"ONNX structural validation failed: {exc}"',
               ),
+              Path("src/autonomyfit/benchmark.py"): (
+                  'from .integrity import artifact_sha256, artifact_size_bytes, sha256_file',
+                  'from .integrity import artifact_sha256, artifact_size_bytes, sha256_file as sha256_file',
+              ),
           }
           for path, (old, new) in replacements.items():
               text = path.read_text()
               if old not in text:
-                  raise SystemExit(f"Stage 5 boundary annotation target not found: {path}")
+                  raise SystemExit(f"Stage 5 compatibility annotation target not found: {path}")
               path.write_text(text.replace(old, new, 1))
           PY
           rm stage5_migrate.py
