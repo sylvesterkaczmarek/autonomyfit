@@ -1,0 +1,120 @@
+name: Apply Stage 4 model and ranking expansion
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/stage4-apply.yml
+      - .stage4/**
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Reconstruct and verify reviewed payload
+        run: |
+          cat .stage4/chunk-* > /tmp/stage4.b64
+          base64 --decode /tmp/stage4.b64 > /tmp/stage4.tar.gz
+          echo "4257277ad2251fbf32af654814cbdd7ff26f4e3ba834b13c1453e540b5021f58  /tmp/stage4.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/stage4.tar.gz
+          rm -rf .stage4
+      - name: Apply Stage 4 schema and version migrations
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          tasks = [
+              "detection", "classification", "segmentation", "pose", "depth",
+              "ocr", "vlm", "anomaly", "asr", "embedding",
+          ]
+          schema_path = Path("src/autonomyfit/data/registry-v2.schema.json")
+          schema = json.loads(schema_path.read_text())
+          schema["$defs"]["model"]["properties"]["task"]["enum"] = tasks
+          schema_path.write_text(json.dumps(schema, indent=2) + "\n")
+
+          pyproject = Path("pyproject.toml")
+          text = pyproject.read_text()
+          if 'version = "0.4.0"' not in text:
+              raise SystemExit("expected 0.4.0 package version not found")
+          pyproject.write_text(text.replace('version = "0.4.0"', 'version = "0.5.0"', 1))
+
+          citation = Path("CITATION.cff")
+          text = citation.read_text()
+          if "version: 0.4.0" not in text:
+              raise SystemExit("expected 0.4.0 citation version not found")
+          citation.write_text(text.replace("version: 0.4.0", "version: 0.5.0", 1))
+
+          registry_test = Path("tests/test_registry.py")
+          text = registry_test.read_text()
+          if "assert len(models_from_registry(document)) == 7" not in text:
+              raise SystemExit("registry model-count assertion not found")
+          registry_test.write_text(
+              text.replace(
+                  "assert len(models_from_registry(document)) == 7",
+                  "assert len(models_from_registry(document)) == 45",
+                  1,
+              )
+          )
+
+          cli_test = Path("tests/test_cli.py")
+          text = cli_test.read_text()
+          replacements = {
+              '["catalog", "--offline", "--task", "audio"]':
+                  '["catalog", "--offline", "--task", "not-a-task"]',
+              'assert "task must be detection or vlm" in result.output':
+                  'assert "unknown task" in result.output',
+              'assert payload["fallback"]["registry_version"] == 1':
+                  'assert payload["fallback"]["registry_version"] == 4',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f"CLI migration target not found: {old}")
+              text = text.replace(old, new, 1)
+          cli_test.write_text(text)
+          PY
+      - name: Validate Stage 4 source
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install --upgrade build twine
+          ruff check . --fix
+          ruff check .
+          python scripts/validate_registry.py registry/source/registry-v2.json
+          python scripts/validate_evidence.py
+          pytest -q
+          python - <<'PY'
+          from pathlib import Path
+          size = Path("src/autonomyfit/data/fallback_registry.json").stat().st_size
+          assert size < 150_000, f"bundled fallback registry too large: {size} bytes"
+          PY
+          python -m autonomyfit tasks --json >/dev/null
+          python -m autonomyfit recommend --offline --task classification --hardware-profile apple-m4-pro-24gb --objective memory --top 3 --json >/dev/null
+          python -m autonomyfit recommend --offline --task detection --hardware-profile snapdragon-x-elite-16gb --runtime qnn --objective balanced --top 3 --json >/dev/null
+          python -m autonomyfit compare yolo26n rfdetr-nano --offline --hardware-profile nvidia-t4-16gb --objective balanced --json >/dev/null
+          python -m autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5 --json >/dev/null
+          python -m compileall -q src
+          rm -rf dist build
+          python -m build
+          python -m twine check dist/*
+          python -m pip install --force-reinstall dist/autonomyfit-0.5.0-py3-none-any.whl
+          autonomyfit --version | grep -Fx '0.5.0'
+          autonomyfit tasks --json >/dev/null
+      - name: Commit Stage 4 source
+        run: |
+          git config user.name "Sylvester Kaczmarek"
+          git config user.email "16242628+sylvesterkaczmarek@users.noreply.github.com"
+          git add -A
+          git reset .github/workflows/stage4-apply.yml
+          git commit -m "Broaden models hardware and ranking"
+          git pull --rebase origin main
+          git push
