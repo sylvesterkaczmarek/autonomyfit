@@ -163,6 +163,10 @@ def _numpy_dtype(ort_type: str):
 
 def _shape_for_input(shape: list[object], override: list[int] | None) -> list[int]:
     if override:
+        if len(override) != len(shape):
+            raise ValueError(
+                f"--shape has {len(override)} dimensions but the model input expects {len(shape)}"
+            )
         return override
     resolved: list[int] = []
     for dim in shape:
@@ -192,6 +196,8 @@ def benchmark_onnx(
         ) from exc
 
     available = ort.get_available_providers()
+    if not available:
+        raise RuntimeError("ONNX Runtime reported no available execution providers")
     if provider is None:
         preferred = ["CUDAExecutionProvider", "CoreMLExecutionProvider", "CPUExecutionProvider"]
         provider = next((name for name in preferred if name in available), available[0])
@@ -199,10 +205,13 @@ def benchmark_onnx(
         raise ValueError(f"Provider {provider!r} is unavailable. Available: {', '.join(available)}")
 
     session = ort.InferenceSession(str(model_path), providers=[provider])
+    inputs = session.get_inputs()
+    if shape_override is not None and len(inputs) != 1:
+        raise ValueError("--shape is supported only for single-input ONNX models")
     feeds: dict[str, object] = {}
     input_shapes: dict[str, list[int]] = {}
     rng = np.random.default_rng(0)
-    for input_meta in session.get_inputs():
+    for input_meta in inputs:
         resolved = _shape_for_input(list(input_meta.shape), shape_override)
         dtype = _numpy_dtype(input_meta.type)
         if np.issubdtype(dtype, np.floating):

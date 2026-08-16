@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,15 +8,27 @@ version = "0.1.0"
 description = "Hardware-aware model selection and local benchmarking for edge AI and autonomous systems."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
   {name = "Sylvester Kaczmarek"}
 ]
-keywords = ["edge-ai", "robotics", "autonomy", "jetson", "tensorrt", "onnx", "computer-vision"]
+keywords = [
+  "edge-ai",
+  "robotics",
+  "autonomy",
+  "autonomous-systems",
+  "jetson",
+  "tensorrt",
+  "onnx",
+  "onnxruntime",
+  "computer-vision",
+  "model-selection",
+  "benchmarking",
+]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Console",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: MacOS",
   "Operating System :: POSIX :: Linux",
   "Programming Language :: Python :: 3",

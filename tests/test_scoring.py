@@ -56,3 +56,15 @@ def test_power_constraint_requires_measurement_when_missing():
     items = recommend_models(hardware, Constraints(task="detection", max_power_w=15))
     yolo26n = next(item for item in items if item.model.id == "yolo26n")
     assert yolo26n.verdict == "BENCHMARK_REQUIRED"
+
+
+def test_requested_runtime_and_precision_are_normalized():
+    hardware = hardware_from_profile("jetson-orin-nx-16gb")
+    items = recommend_models(
+        hardware,
+        Constraints(task="detection", runtime=" TensorRT ", precision=" FP16 "),
+    )
+    yolo26n = next(item for item in items if item.model.id == "yolo26n")
+    assert yolo26n.runtime == "tensorrt"
+    assert yolo26n.precision == "fp16"
+    assert yolo26n.verdict == "VERIFIED_FIT"

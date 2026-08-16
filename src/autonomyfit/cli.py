@@ -29,6 +29,24 @@ def _resolve_hardware(profile: str | None):
     return hardware_from_profile(profile) if profile else detect_hardware()
 
 
+def _parse_shape(value: str | None) -> list[int] | None:
+    if value is None:
+        return None
+    try:
+        dims = [int(part.strip()) for part in value.split(",")]
+    except ValueError as exc:
+        raise typer.BadParameter(
+            "shape must be comma-separated positive integers, for example 1,3,640,640",
+            param_hint="--shape",
+        ) from exc
+    if not dims or any(dim <= 0 for dim in dims):
+        raise typer.BadParameter(
+            "shape dimensions must be positive integers",
+            param_hint="--shape",
+        )
+    return dims
+
+
 @app.callback()
 def main(
     ctx: typer.Context,
@@ -60,19 +78,25 @@ def scan(
 @app.command()
 def recommend(
     task: Annotated[str, typer.Option(help="Model task: detection or vlm.")] = "detection",
-    fps: Annotated[float | None, typer.Option("--fps", help="Minimum required FPS.")] = None,
+    fps: Annotated[
+        float | None, typer.Option("--fps", help="Minimum required FPS.", min=0.0)
+    ] = None,
     latency_ms: Annotated[
         float | None,
-        typer.Option("--latency-ms", help="Maximum inference latency in milliseconds."),
+        typer.Option(
+            "--latency-ms", help="Maximum inference latency in milliseconds.", min=0.0
+        ),
     ] = None,
     power_w: Annotated[
-        float | None, typer.Option("--power-w", help="Maximum measured power in watts.")
+        float | None,
+        typer.Option("--power-w", help="Maximum measured power in watts.", min=0.0),
     ] = None,
     min_accuracy: Annotated[
         float | None,
         typer.Option(
             "--min-accuracy",
             help="Minimum catalog accuracy value for the task metric.",
+            min=0.0,
         ),
     ] = None,
     runtime: Annotated[str | None, typer.Option(help="Force target runtime.")] = None,
@@ -89,25 +113,36 @@ def recommend(
     catalog: Annotated[
         Path | None, typer.Option(help="Optional custom model catalog JSON.")
     ] = None,
-    limit: Annotated[int, typer.Option(help="Maximum number of candidates to show.")] = 8,
+    limit: Annotated[
+        int, typer.Option(help="Maximum number of candidates to show.", min=1)
+    ] = 8,
     json_output: Annotated[
         bool, typer.Option("--json", help="Emit machine-readable JSON.")
     ] = False,
 ) -> None:
     """Rank models against the current device or a known hardware profile."""
+    task = task.strip().lower()
     if task not in {"detection", "vlm"}:
-        raise typer.BadParameter("task must be detection or vlm")
-    hardware = _resolve_hardware(hardware_profile)
+        raise typer.BadParameter("task must be detection or vlm", param_hint="--task")
+    try:
+        hardware = _resolve_hardware(hardware_profile)
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc), param_hint="--hardware-profile") from exc
     constraints = Constraints(
         task=task,  # type: ignore[arg-type]
         min_fps=fps,
         max_latency_ms=latency_ms,
         max_power_w=power_w,
         min_accuracy=min_accuracy,
-        runtime=runtime,
-        precision=precision,
+        runtime=runtime.strip().lower() if runtime else None,
+        precision=precision.strip().lower() if precision else None,
     )
-    items = recommend_models(hardware, constraints, catalog_path=catalog)
+    try:
+        items = recommend_models(hardware, constraints, catalog_path=catalog)
+    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+        if catalog is None:
+            raise
+        raise typer.BadParameter(f"invalid catalog: {exc}", param_hint="--catalog") from exc
     if json_output:
         print_recommendations(items, limit=limit, as_json=True)
     else:
@@ -123,6 +158,9 @@ def catalog_command(
     """List bundled model profiles and their evidence sources."""
     models = load_models()
     if task:
+        task = task.strip().lower()
+        if task not in {"detection", "vlm"}:
+            raise typer.BadParameter("task must be detection or vlm", param_hint="--task")
         models = [model for model in models if model.task == task]
     table = Table(title="Bundled model catalog")
     table.add_column("ID")
@@ -181,7 +219,7 @@ def benchmark(
         raise typer.BadParameter(f"model does not exist: {model}")
     if iterations < 1 or warmup < 0:
         raise typer.BadParameter("iterations must be >= 1 and warmup must be >= 0")
-    shape_override = [int(part) for part in shape.split(",")] if shape else None
+    shape_override = _parse_shape(shape)
     hardware = detect_hardware()
     try:
         result = benchmark_onnx(

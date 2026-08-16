@@ -26,7 +26,7 @@ def _runtime_available(hardware: HardwareProfile, runtime: str) -> bool:
 
 def choose_runtime(model: ModelProfile, hardware: HardwareProfile, requested: str | None) -> str:
     if requested:
-        return requested
+        return requested.strip().lower()
     if hardware.platform in {"jetson", "nvidia"} and "tensorrt" in model.runtimes:
         return "tensorrt"
     if hardware.platform == "apple":
@@ -45,7 +45,7 @@ def choose_runtime(model: ModelProfile, hardware: HardwareProfile, requested: st
 
 def choose_precision(model: ModelProfile, hardware: HardwareProfile, requested: str | None) -> str:
     if requested:
-        return requested.lower()
+        return requested.strip().lower()
     if model.task == "vlm":
         return "fp16" if hardware.platform != "cpu" else "fp32"
     if hardware.platform in {"jetson", "nvidia", "apple"}:

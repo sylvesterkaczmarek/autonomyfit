@@ -60,15 +60,37 @@ AutonomyFit uses five outcomes.
 
 Published values remain tied to their source hardware. A T4 number is never treated as a Jetson number, and a Jetson Orin NX measurement is never treated as an arbitrary NVIDIA GPU measurement.
 
-## Quick start
+## Installation
+
+The recommended installation after the first PyPI release is:
 
 ```bash
+pip install autonomyfit
+```
+
+Until that release is available on PyPI, install the current `main` directly from GitHub:
+
+```bash
+pip install git+https://github.com/sylvesterkaczmarek/autonomyfit.git
+```
+
+Or clone the repository for development:
+
+```bash
+git clone https://github.com/sylvesterkaczmarek/autonomyfit.git
+cd autonomyfit
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .
+```
 
+Then run:
+
+```bash
 autonomyfit
 ```
+
+## Quick start
 
 Scan the current machine:
 
@@ -110,7 +132,8 @@ autonomyfit profiles
 Install the optional benchmark dependencies:
 
 ```bash
-pip install -e '.[benchmark]'
+pip install 'autonomyfit[benchmark]'
+# from a clone: pip install -e '.[benchmark]'
 ```
 
 Benchmark a local ONNX model on the actual machine:

@@ -2,6 +2,7 @@ import pytest
 
 from autonomyfit.benchmark import (
     _read_ina3221_vdd_in_power_w,
+    _shape_for_input,
     parse_nvidia_smi_power_w,
     parse_tegrastats_power_w,
     percentile,
@@ -33,3 +34,8 @@ def test_read_jetson_vdd_in_from_ina3221(tmp_path):
 def test_parse_nvidia_smi_power():
     assert parse_nvidia_smi_power_w("72.45") == 72.45
     assert parse_nvidia_smi_power_w("N/A") is None
+
+
+def test_shape_override_must_match_input_rank():
+    with pytest.raises(ValueError, match="expects 4"):
+        _shape_for_input([1, 3, 640, 640], [1, 640, 640])
