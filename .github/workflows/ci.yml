@@ -33,13 +33,23 @@ jobs:
       - name: Smoke
         if: matrix.python-version == '3.12'
         run: |
+          python - <<'PY'
+          import autonomyfit
+          from importlib.metadata import version
+          assert autonomyfit.__version__ == "0.6.0"
+          assert version("autonomyfit") == "0.6.0"
+          PY
           python -m autonomyfit scan --json >/dev/null
           python -m autonomyfit registry status --json >/dev/null
           python -m autonomyfit models --offline --json >/dev/null
           python -m autonomyfit tasks --json >/dev/null
           python -m autonomyfit search smolvlm --offline --json >/dev/null
           python -m autonomyfit info smolvlm-256m-instruct --offline --json >/dev/null
+          python -m autonomyfit artifacts smolvlm-256m-instruct --offline --json >/dev/null
           python -m autonomyfit benchmark-backends --json >/dev/null
+          python -m autonomyfit validate yolo26n --offline --hardware-profile nvidia-t4-16gb --report /tmp/autonomyfit-deployment.json --json >/dev/null
+          python -m autonomyfit report /tmp/autonomyfit-deployment.json --json >/dev/null
+          python -m autonomyfit local-results --json >/dev/null
           python -m autonomyfit recommend --offline --task classification --hardware-profile apple-m4-pro-24gb --objective memory --top 3 --json >/dev/null
           python -m autonomyfit recommend --offline --task detection --hardware-profile qualcomm-snapdragon-x-elite-16gb --runtime qnn --objective balanced --top 3 --json >/dev/null
           python -m autonomyfit compare yolo26n rfdetr-nano --offline --hardware-profile nvidia-t4-16gb --objective balanced --json >/dev/null
@@ -68,11 +78,19 @@ jobs:
         run: python -m pip install --force-reinstall dist/*.whl
       - name: Wheel smoke test
         run: |
-          test "$(autonomyfit --version)" = "0.5.0"
+          test "$(autonomyfit --version)" = "0.6.0"
+          python - <<'PY'
+          import autonomyfit
+          assert autonomyfit.__version__ == "0.6.0"
+          PY
           autonomyfit registry status --json >/dev/null
           autonomyfit models --offline --json >/dev/null
           autonomyfit tasks --json >/dev/null
+          autonomyfit artifacts smolvlm-256m-instruct --offline --json >/dev/null
           autonomyfit benchmark-backends --json >/dev/null
+          autonomyfit validate yolo26n --offline --hardware-profile nvidia-t4-16gb --report /tmp/autonomyfit-wheel-deployment.json --json >/dev/null
+          autonomyfit report /tmp/autonomyfit-wheel-deployment.json --json >/dev/null
+          autonomyfit local-results --json >/dev/null
           autonomyfit recommend --offline --task classification --hardware-profile apple-m4-pro-24gb --objective memory --top 3 --json >/dev/null
           autonomyfit recommend --offline --task detection --hardware-profile qualcomm-snapdragon-x-elite-16gb --runtime qnn --objective balanced --top 3 --json >/dev/null
           autonomyfit compare yolo26n rfdetr-nano --offline --hardware-profile nvidia-t4-16gb --objective balanced --json >/dev/null
