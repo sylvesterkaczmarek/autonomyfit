@@ -69,17 +69,27 @@ jobs:
 
           catalog_test = Path("tests/test_catalog.py")
           text = catalog_test.read_text()
-          replacements = {
-              'assert {model.task for model in models} == {"detection", "vlm"}':
-                  'assert {model.task for model in models} == set(tasks)',
-              'assert loaded.provenance.registry_version == 1':
-                  'assert loaded.provenance.registry_version == 4',
-          }
-          for old, new in replacements.items():
-              if old not in text:
-                  raise SystemExit(f"catalog migration target not found: {old}")
-              text = text.replace(old, new, 1)
-          catalog_test.write_text(text)
+          old = 'assert {model.task for model in models} == {"detection", "vlm"}'
+          new = '''assert {model.task for model in models} == {
+              "anomaly",
+              "asr",
+              "classification",
+              "depth",
+              "detection",
+              "embedding",
+              "ocr",
+              "pose",
+              "segmentation",
+              "vlm",
+          }'''
+          if old not in text:
+              raise SystemExit("catalog task-set migration target not found")
+          text = text.replace(old, new, 1)
+          old = 'assert loaded.provenance.registry_version == 1'
+          new = 'assert loaded.provenance.registry_version == 4'
+          if old not in text:
+              raise SystemExit("catalog registry-version migration target not found")
+          catalog_test.write_text(text.replace(old, new, 1))
 
           cli_test = Path("tests/test_cli.py")
           text = cli_test.read_text()
