@@ -1,0 +1,33 @@
+name: Apply Stage 1 registry refactor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".stage1-payload.part-00"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Apply reviewed Stage 1 source
+        run: |
+          cat .stage1-payload.part-* | base64 -d > /tmp/stage1-files.tar.gz
+          echo "1983cff162e505876d9405cba49b3e1b533d7e657b894931bdbcc069cc945f67  /tmp/stage1-files.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/stage1-files.tar.gz
+          rm -f src/autonomyfit/data/models.json
+          rm -f .stage1-payload.part-*
+          rm -f .github/workflows/stage1-apply.yml
+      - name: Commit Stage 1
+        run: |
+          git config user.name "Sylvester Kaczmarek"
+          git config user.email "16242628+sylvesterkaczmarek@users.noreply.github.com"
+          git add -A
+          git commit -m "Decouple model registry from package"
+          git push
