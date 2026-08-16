@@ -1,8 +1,31 @@
-# Model catalog
+# Registry Schema v2
 
-A custom catalog is JSON with a top-level `models` array.
+The official model registry is a separately versioned data product. The Python engine supports
+schema version 2 and ships a small fallback snapshot of that schema.
 
-Minimal example:
+Each model separates:
+
+- stable model ID, display name, family and variant
+- task and input/output modalities
+- upstream source, revision, release date and last-checked timestamp
+- parameter count, FLOPs and input information
+- runtimes, precisions and quantizations
+- upstream licence metadata
+- accuracy, memory, compatibility and benchmark evidence references
+- verification state and last-verified timestamp
+
+The machine-readable JSON Schema is packaged at
+`src/autonomyfit/data/registry-v2.schema.json`.
+
+## Versioning
+
+`schema_version` changes only when the document shape becomes incompatible.
+`registry.registry_version` increases for every official data change. A model-data change does
+not require a PyPI package version change.
+
+## Legacy custom catalogues
+
+Schema-v1 custom catalogues remain supported for backward compatibility. Example:
 
 ```json
 {
@@ -11,35 +34,21 @@ Minimal example:
     {
       "id": "my-detector",
       "display_name": "My Detector",
-      "family": "Internal",
+      "family": "custom",
       "task": "detection",
-      "params_m": 8.2,
+      "params_m": 8.0,
       "runtimes": ["onnx", "tensorrt"],
-      "source_id": "internal-benchmark-2026-08",
-      "source_url": "https://example.com/evidence"
+      "source_id": "internal-test",
+      "source_url": "https://example.com/model"
     }
   ]
 }
 ```
 
-## Required fields
+Use it with:
 
-- `id` unique machine-readable identifier
-- `display_name` human-readable model name
-- `family` model family
-- `task` either `detection` or `vlm`
-- `params_m` parameter count in millions
-- `runtimes` one or more supported runtime identifiers
-- `source_id` stable evidence identifier
-- `source_url` source for the model metadata
+```bash
+autonomyfit recommend --catalog examples/custom-models.json --task detection
+```
 
-## Optional fields
-
-- `flops_b` forward-pass FLOPs in billions
-- `input_size` nominal square image input size
-- `accuracy` object containing `name`, `value`, and optional `dataset`
-- `published_memory_gb` upstream memory requirement
-- `memory_scope` conditions attached to that memory value
-- `notes` concise qualification
-
-Custom catalogs replace the bundled model list for that invocation. Bundled hardware benchmark records remain available, but they match only when `id` values correspond exactly.
+Local custom catalogues are not presented as official signed registry data.

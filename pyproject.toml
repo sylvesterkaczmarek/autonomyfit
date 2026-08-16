@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autonomyfit"
-version = "0.1.0"
+version = "0.2.0"
 description = "Hardware-aware model selection and local benchmarking for edge AI and autonomous systems."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -39,8 +39,11 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
+  "jsonschema>=4.23",
+  "platformdirs>=4.3",
   "psutil>=5.9",
   "rich>=13.7",
+  "sigstore>=4.4,<5",
   "typer>=0.12",
 ]
 

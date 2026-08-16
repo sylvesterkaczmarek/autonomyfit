@@ -1,11 +1,19 @@
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
 from importlib.resources import files
 from pathlib import Path
 from typing import Any
 
-from .models import AccuracyMetric, BenchmarkRecord, ModelProfile
+from .models import AccuracyMetric, BenchmarkRecord, ModelProfile, RegistryProvenance
+from .registry import RegistryClient, models_from_registry, validate_registry_document
+
+
+@dataclass(frozen=True)
+class LoadedCatalog:
+    models: tuple[ModelProfile, ...]
+    provenance: RegistryProvenance
 
 
 def _read_json(name: str) -> Any:
@@ -13,41 +21,90 @@ def _read_json(name: str) -> Any:
     return json.loads(resource.read_text(encoding="utf-8"))
 
 
-def _load_document(path: Path | None, bundled_name: str) -> Any:
-    if path is None:
-        return _read_json(bundled_name)
+def _load_document(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def load_models(path: Path | None = None) -> list[ModelProfile]:
-    raw = _load_document(path, "models.json")
-    models: list[ModelProfile] = []
-    for item in raw["models"]:
-        accuracy = item.get("accuracy")
-        models.append(
-            ModelProfile(
-                id=item["id"],
-                display_name=item["display_name"],
-                family=item["family"],
-                task=item["task"],
-                params_m=float(item["params_m"]),
-                source_id=item["source_id"],
-                source_url=item["source_url"],
-                runtimes=tuple(item["runtimes"]),
-                accuracy=AccuracyMetric(**accuracy) if accuracy else None,
-                flops_b=float(item["flops_b"]) if item.get("flops_b") is not None else None,
-                input_size=int(item["input_size"]) if item.get("input_size") else None,
-                published_memory_gb=(
-                    float(item["published_memory_gb"])
-                    if item.get("published_memory_gb") is not None
-                    else None
-                ),
-                memory_scope=item.get("memory_scope"),
-                notes=item.get("notes"),
-            )
+def _legacy_model(item: dict[str, Any]) -> ModelProfile:
+    accuracy = item.get("accuracy")
+    return ModelProfile(
+        id=item["id"],
+        display_name=item["display_name"],
+        family=item["family"],
+        task=item["task"],
+        params_m=float(item["params_m"]),
+        source_id=item["source_id"],
+        source_url=item["source_url"],
+        runtimes=tuple(item["runtimes"]),
+        accuracy=AccuracyMetric(**accuracy) if accuracy else None,
+        flops_b=float(item["flops_b"]) if item.get("flops_b") is not None else None,
+        input_size=int(item["input_size"]) if item.get("input_size") else None,
+        published_memory_gb=(
+            float(item["published_memory_gb"])
+            if item.get("published_memory_gb") is not None
+            else None
+        ),
+        memory_scope=item.get("memory_scope"),
+        notes=item.get("notes"),
+        verification_status="legacy-custom",
+    )
+
+
+def _load_custom(path: Path) -> LoadedCatalog:
+    raw = _load_document(path)
+    if not isinstance(raw, dict):
+        raise ValueError("custom catalog must be a JSON object")
+    schema_version = raw.get("schema_version")
+    if schema_version == 2:
+        validate_registry_document(raw)
+        models = models_from_registry(raw)
+        metadata = raw["registry"]
+        provenance = RegistryProvenance(
+            source="custom",
+            registry_version=int(metadata["registry_version"]),
+            generated_at=metadata["generated_at"],
+            expires_at=metadata["expires_at"],
+            signature_verified=False,
+            registry_url=str(path),
         )
-    validate_models(models)
-    return models
+    elif schema_version == 1:
+        items = raw.get("models")
+        if not isinstance(items, list):
+            raise ValueError("legacy custom catalog must contain a models list")
+        models = [_legacy_model(item) for item in items]
+        validate_models(models)
+        provenance = RegistryProvenance(
+            source="custom",
+            signature_verified=False,
+            registry_url=str(path),
+            warning="legacy schema v1 custom catalog",
+        )
+    else:
+        raise ValueError(f"unsupported custom catalog schema {schema_version!r}")
+    return LoadedCatalog(tuple(models), provenance)
+
+
+def load_model_catalog(
+    path: Path | None = None,
+    *,
+    offline: bool = False,
+    force_refresh: bool = False,
+    client: RegistryClient | None = None,
+) -> LoadedCatalog:
+    if path is not None:
+        return _load_custom(path)
+    registry_client = client or RegistryClient()
+    snapshot = registry_client.load(offline=offline, force=force_refresh)
+    return LoadedCatalog(snapshot.models, snapshot.provenance)
+
+
+def load_models(
+    path: Path | None = None,
+    *,
+    offline: bool = False,
+    client: RegistryClient | None = None,
+) -> list[ModelProfile]:
+    return list(load_model_catalog(path, offline=offline, client=client).models)
 
 
 def load_benchmarks() -> list[BenchmarkRecord]:

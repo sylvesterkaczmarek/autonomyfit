@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .catalog import load_benchmarks, load_models
+from .catalog import load_benchmarks, load_model_catalog
 from .models import (
     BenchmarkRecord,
     Constraints,
@@ -10,6 +10,7 @@ from .models import (
     ModelProfile,
     Recommendation,
 )
+from .registry import RegistryClient
 
 
 def _runtime_available(hardware: HardwareProfile, runtime: str) -> bool:
@@ -68,10 +69,7 @@ def estimate_memory_gb(model: ModelProfile, precision: str) -> tuple[float, str]
     weight_gib = model.params_m * 1_000_000 * bytes_per_parameter / (1024**3)
 
     if model.task == "detection":
-        # Conservative screening allowance for engine/workspace/activations at batch 1.
         return max(1.0, weight_gib * 16.0 + 0.75), "screening estimate"
-
-    # VLM memory is highly input/context dependent. This is intentionally conservative.
     return max(1.5, weight_gib * 1.6 + 1.0), "screening estimate"
 
 
@@ -105,14 +103,22 @@ def recommend_models(
     hardware: HardwareProfile,
     constraints: Constraints,
     catalog_path: Path | None = None,
+    *,
+    offline: bool = False,
+    force_registry_refresh: bool = False,
+    registry_client: RegistryClient | None = None,
 ) -> list[Recommendation]:
-    models = [model for model in load_models(catalog_path) if model.task == constraints.task]
+    loaded = load_model_catalog(
+        catalog_path,
+        offline=offline,
+        force_refresh=force_registry_refresh,
+        client=registry_client,
+    )
+    models = [model for model in loaded.models if model.task == constraints.task]
     benchmarks = load_benchmarks()
     recommendations: list[Recommendation] = []
 
-    task_accuracy = [
-        model.accuracy.value for model in models if model.accuracy is not None
-    ]
+    task_accuracy = [model.accuracy.value for model in models if model.accuracy is not None]
     min_acc = min(task_accuracy) if task_accuracy else 0.0
     max_acc = max(task_accuracy) if task_accuracy else 1.0
     acc_span = max(max_acc - min_acc, 1e-9)
@@ -251,6 +257,7 @@ def recommend_models(
                 runtime_available=runtime_ready,
                 reasons=tuple(reasons),
                 blockers=tuple(blockers),
+                registry=loaded.provenance,
             )
         )
 

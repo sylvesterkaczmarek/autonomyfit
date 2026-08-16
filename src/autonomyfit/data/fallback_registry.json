@@ -1,0 +1,565 @@
+{
+  "schema_version": 2,
+  "registry": {
+    "name": "autonomyfit-official",
+    "registry_version": 1,
+    "generated_at": "2026-08-16T09:35:00Z",
+    "expires_at": "2026-11-14T09:35:00Z",
+    "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit",
+    "publisher": "registry-publish.yml@refs/heads/main"
+  },
+  "models": [
+    {
+      "id": "yolo26n",
+      "display_name": "YOLO26n",
+      "family": {
+        "name": "YOLO26",
+        "variant": "n"
+      },
+      "task": "detection",
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "upstream": {
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26",
+        "revision": null,
+        "release_date": null,
+        "last_checked": "2026-08-16T09:35:00Z"
+      },
+      "parameters": {
+        "millions": 2.4,
+        "flops_b": 5.4
+      },
+      "input": {
+        "kind": "image",
+        "size": 640,
+        "width": 640,
+        "height": 640,
+        "notes": "COCO validation input size used by the upstream model table."
+      },
+      "compatibility": {
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "tensorrt"
+        ],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [
+          "int8"
+        ]
+      },
+      "license": {
+        "spdx": "AGPL-3.0-only",
+        "status": "published",
+        "source_url": "https://www.ultralytics.com/license",
+        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms."
+      },
+      "evidence": {
+        "accuracy": [
+          {
+            "metric": "mAP50-95",
+            "value": 40.9,
+            "dataset": "COCO val",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "memory": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "benchmark_refs": [
+          "ultralytics-jetson-2026:yolo26n"
+        ]
+      },
+      "verification": {
+        "status": "benchmarked",
+        "last_verified": "2026-08-16T09:35:00Z"
+      },
+      "notes": "Fused-model parameter/FLOP values from the upstream model table."
+    },
+    {
+      "id": "yolo26s",
+      "display_name": "YOLO26s",
+      "family": {
+        "name": "YOLO26",
+        "variant": "s"
+      },
+      "task": "detection",
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "upstream": {
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26",
+        "revision": null,
+        "release_date": null,
+        "last_checked": "2026-08-16T09:35:00Z"
+      },
+      "parameters": {
+        "millions": 9.5,
+        "flops_b": 20.7
+      },
+      "input": {
+        "kind": "image",
+        "size": 640,
+        "width": 640,
+        "height": 640,
+        "notes": "COCO validation input size used by the upstream model table."
+      },
+      "compatibility": {
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "tensorrt"
+        ],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [
+          "int8"
+        ]
+      },
+      "license": {
+        "spdx": "AGPL-3.0-only",
+        "status": "published",
+        "source_url": "https://www.ultralytics.com/license",
+        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms."
+      },
+      "evidence": {
+        "accuracy": [
+          {
+            "metric": "mAP50-95",
+            "value": 48.6,
+            "dataset": "COCO val",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "memory": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "benchmark_refs": []
+      },
+      "verification": {
+        "status": "source_verified",
+        "last_verified": "2026-08-16T09:35:00Z"
+      },
+      "notes": null
+    },
+    {
+      "id": "yolo26m",
+      "display_name": "YOLO26m",
+      "family": {
+        "name": "YOLO26",
+        "variant": "m"
+      },
+      "task": "detection",
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "upstream": {
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26",
+        "revision": null,
+        "release_date": null,
+        "last_checked": "2026-08-16T09:35:00Z"
+      },
+      "parameters": {
+        "millions": 20.4,
+        "flops_b": 68.2
+      },
+      "input": {
+        "kind": "image",
+        "size": 640,
+        "width": 640,
+        "height": 640,
+        "notes": "COCO validation input size used by the upstream model table."
+      },
+      "compatibility": {
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "tensorrt"
+        ],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [
+          "int8"
+        ]
+      },
+      "license": {
+        "spdx": "AGPL-3.0-only",
+        "status": "published",
+        "source_url": "https://www.ultralytics.com/license",
+        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms."
+      },
+      "evidence": {
+        "accuracy": [
+          {
+            "metric": "mAP50-95",
+            "value": 53.1,
+            "dataset": "COCO val",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "memory": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "benchmark_refs": []
+      },
+      "verification": {
+        "status": "source_verified",
+        "last_verified": "2026-08-16T09:35:00Z"
+      },
+      "notes": null
+    },
+    {
+      "id": "yolo26l",
+      "display_name": "YOLO26l",
+      "family": {
+        "name": "YOLO26",
+        "variant": "l"
+      },
+      "task": "detection",
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "upstream": {
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26",
+        "revision": null,
+        "release_date": null,
+        "last_checked": "2026-08-16T09:35:00Z"
+      },
+      "parameters": {
+        "millions": 24.8,
+        "flops_b": 86.4
+      },
+      "input": {
+        "kind": "image",
+        "size": 640,
+        "width": 640,
+        "height": 640,
+        "notes": "COCO validation input size used by the upstream model table."
+      },
+      "compatibility": {
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "tensorrt"
+        ],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [
+          "int8"
+        ]
+      },
+      "license": {
+        "spdx": "AGPL-3.0-only",
+        "status": "published",
+        "source_url": "https://www.ultralytics.com/license",
+        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms."
+      },
+      "evidence": {
+        "accuracy": [
+          {
+            "metric": "mAP50-95",
+            "value": 55.0,
+            "dataset": "COCO val",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "memory": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "benchmark_refs": []
+      },
+      "verification": {
+        "status": "source_verified",
+        "last_verified": "2026-08-16T09:35:00Z"
+      },
+      "notes": null
+    },
+    {
+      "id": "yolo26x",
+      "display_name": "YOLO26x",
+      "family": {
+        "name": "YOLO26",
+        "variant": "x"
+      },
+      "task": "detection",
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "upstream": {
+        "source_id": "ultralytics-yolo26-2026",
+        "source_url": "https://docs.ultralytics.com/models/yolo26",
+        "revision": null,
+        "release_date": null,
+        "last_checked": "2026-08-16T09:35:00Z"
+      },
+      "parameters": {
+        "millions": 55.7,
+        "flops_b": 193.9
+      },
+      "input": {
+        "kind": "image",
+        "size": 640,
+        "width": 640,
+        "height": 640,
+        "notes": "COCO validation input size used by the upstream model table."
+      },
+      "compatibility": {
+        "runtimes": [
+          "pytorch",
+          "onnx",
+          "tensorrt"
+        ],
+        "precisions": [
+          "fp32",
+          "fp16"
+        ],
+        "quantizations": [
+          "int8"
+        ]
+      },
+      "license": {
+        "spdx": "AGPL-3.0-only",
+        "status": "published",
+        "source_url": "https://www.ultralytics.com/license",
+        "note": "Ultralytics also offers an Enterprise commercial license; downstream use must follow the applicable upstream terms."
+      },
+      "evidence": {
+        "accuracy": [
+          {
+            "metric": "mAP50-95",
+            "value": 57.5,
+            "dataset": "COCO val",
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "memory": [],
+        "compatibility": [
+          {
+            "source_id": "ultralytics-yolo26-2026",
+            "source_url": "https://docs.ultralytics.com/models/yolo26"
+          }
+        ],
+        "benchmark_refs": []
+      },
+      "verification": {
+        "status": "source_verified",
+        "last_verified": "2026-08-16T09:35:00Z"
+      },
+      "notes": null
+    },
+    {
+      "id": "smolvlm-256m-instruct",
+      "display_name": "SmolVLM 256M Instruct",
+      "family": {
+        "name": "SmolVLM",
+        "variant": "256M-Instruct"
+      },
+      "task": "vlm",
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "upstream": {
+        "source_id": "huggingface-smolvlm-256m",
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
+        "revision": null,
+        "release_date": null,
+        "last_checked": "2026-08-16T09:35:00Z"
+      },
+      "parameters": {
+        "millions": 256.0,
+        "flops_b": null
+      },
+      "input": {
+        "kind": "multimodal",
+        "size": null,
+        "width": null,
+        "height": null,
+        "notes": "Image and text input."
+      },
+      "compatibility": {
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ],
+        "precisions": [
+          "fp32",
+          "fp16",
+          "bf16"
+        ],
+        "quantizations": []
+      },
+      "license": {
+        "spdx": "Apache-2.0",
+        "status": "published",
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
+        "note": null
+      },
+      "evidence": {
+        "accuracy": [],
+        "memory": [
+          {
+            "gb": 1.0,
+            "scope": "Upstream states image inference runs with under 1 GB GPU RAM; registry uses 1.0 GB as a conservative screen.",
+            "source_id": "huggingface-smolvlm-256m",
+            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct"
+          }
+        ],
+        "compatibility": [
+          {
+            "source_id": "huggingface-smolvlm-256m",
+            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct"
+          }
+        ],
+        "benchmark_refs": []
+      },
+      "verification": {
+        "status": "source_verified",
+        "last_verified": "2026-08-16T09:35:00Z"
+      },
+      "notes": "Throughput is intentionally left unmeasured until hardware-specific evidence exists."
+    },
+    {
+      "id": "smolvlm2-2.2b-instruct",
+      "display_name": "SmolVLM2 2.2B Instruct",
+      "family": {
+        "name": "SmolVLM2",
+        "variant": "2.2B-Instruct"
+      },
+      "task": "vlm",
+      "modalities": {
+        "input": [
+          "image",
+          "video",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "upstream": {
+        "source_id": "huggingface-smolvlm2-2.2b",
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct",
+        "revision": null,
+        "release_date": null,
+        "last_checked": "2026-08-16T09:35:00Z"
+      },
+      "parameters": {
+        "millions": 2200.0,
+        "flops_b": null
+      },
+      "input": {
+        "kind": "multimodal",
+        "size": null,
+        "width": null,
+        "height": null,
+        "notes": "Video, image and text input."
+      },
+      "compatibility": {
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ],
+        "precisions": [
+          "fp32",
+          "fp16",
+          "bf16"
+        ],
+        "quantizations": []
+      },
+      "license": {
+        "spdx": "Apache-2.0",
+        "status": "published",
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct",
+        "note": null
+      },
+      "evidence": {
+        "accuracy": [],
+        "memory": [
+          {
+            "gb": 5.2,
+            "scope": "Upstream model card reports 5.2 GB GPU RAM for video inference.",
+            "source_id": "huggingface-smolvlm2-2.2b",
+            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct"
+          }
+        ],
+        "compatibility": [
+          {
+            "source_id": "huggingface-smolvlm2-2.2b",
+            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct"
+          }
+        ],
+        "benchmark_refs": []
+      },
+      "verification": {
+        "status": "source_verified",
+        "last_verified": "2026-08-16T09:35:00Z"
+      },
+      "notes": "Throughput is intentionally left unmeasured until hardware-specific evidence exists."
+    }
+  ]
+}

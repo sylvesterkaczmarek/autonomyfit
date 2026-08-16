@@ -1,18 +1,14 @@
-from __future__ import annotations
+from autonomyfit.catalog import load_benchmarks, load_hardware_profiles, load_models
 
-import argparse
-from pathlib import Path
+models = load_models(offline=True)
+benchmarks = load_benchmarks()
+hardware = load_hardware_profiles()
 
-from autonomyfit.catalog import load_models
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("catalog", type=Path, nargs="?")
-    args = parser.parse_args()
-    models = load_models(args.catalog)
-    print(f"valid: {len(models)} model profiles")
-
-
-if __name__ == "__main__":
-    main()
+assert models
+assert benchmarks
+assert hardware
+assert len({model.id for model in models}) == len(models)
+print(
+    f"catalog valid: {len(models)} models, {len(benchmarks)} benchmarks, "
+    f"{len(hardware)} hardware profiles"
+)

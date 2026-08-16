@@ -1,34 +1,29 @@
 # Evidence rules
 
-AutonomyFit distinguishes three kinds of information.
+AutonomyFit separates registry metadata from hardware-specific benchmark evidence.
 
-## Published measurements
+## Model metadata
 
-A benchmark record is bundled only when a source identifies the model, hardware, runtime, precision and latency sufficiently for an exact tuple match.
+Registry Schema v2 records upstream provenance, licence, compatibility declarations, accuracy
+and memory evidence independently. Every published value retains a source URL and source ID.
+Unknown quantities remain unknown.
 
-Current sources include:
+Current bundled exact object-detection benchmark evidence is limited to YOLO26n Jetson tuples
+published by Ultralytics. A result is used only when hardware profile, model ID, runtime and
+precision all match.
 
-- Ultralytics YOLO26 model metadata and T4 latency table: https://docs.ultralytics.com/models/yolo26
-- Ultralytics NVIDIA Jetson benchmark guide: https://docs.ultralytics.com/guides/nvidia-jetson
-- Hugging Face SmolVLM 256M model card: https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct
-- Hugging Face SmolVLM2 2.2B model card: https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct
+SmolVLM memory entries are sourced from their upstream Hugging Face model cards and are used
+only as memory screens. Their throughput remains unmeasured unless a hardware-specific record
+exists.
 
-The first release uses Jetson latency records for YOLO26n where the upstream guide exposes an explicit runtime and precision. It does not infer missing model/hardware combinations.
+## Estimates
 
-## Screening estimates
+When no published inference-memory figure exists, AutonomyFit computes a conservative screen
+from parameter count, precision and workload class. This is labelled `screening estimate` and
+is not a peak-memory measurement.
 
-For models without an upstream memory figure, AutonomyFit estimates a memory screen from parameter count and precision, then adds a task-specific allowance for runtime workspace and activations.
+## Registry provenance
 
-The estimate is intentionally used only for first-pass fit screening. Actual peak memory can differ because of model graph structure, input dimensions, batching, context length, runtime allocator behavior and concurrent processes.
-
-## Local measurements
-
-`autonomyfit benchmark` measures execution latency on a supplied ONNX graph using an ONNX Runtime provider available on the local machine. It uses deterministic synthetic inputs and records mean, p50, p95 and p99 latency.
-
-On supported NVIDIA systems it also attempts power sampling. Absence of a usable power reader produces a missing power value rather than a fabricated estimate.
-
-## Constraint policy
-
-Latency, FPS and power constraints require matching measurements. If evidence is absent, the outcome is `BENCHMARK_REQUIRED`.
-
-Accuracy constraints use the metric stored in the model profile. The caller is responsible for comparing like-for-like metrics and datasets when using a custom catalog.
+The registry itself carries generation, expiry and verification timestamps. Recommendation
+JSON includes both registry provenance and per-model upstream provenance so consumers can
+distinguish current signed registry data, cache, bundled fallback and custom inputs.

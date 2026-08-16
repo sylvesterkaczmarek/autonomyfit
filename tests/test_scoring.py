@@ -20,16 +20,18 @@ def test_exact_jetson_benchmark_can_verify_constraint():
     items = recommend_models(
         hardware,
         Constraints(task="detection", min_fps=200, max_latency_ms=5),
+        offline=True,
     )
     yolo26n = next(item for item in items if item.model.id == "yolo26n")
     assert yolo26n.verdict == "VERIFIED_FIT"
     assert yolo26n.latency_ms == 4.13
     assert yolo26n.fps is not None and yolo26n.fps > 200
+    assert yolo26n.registry is not None
 
 
 def test_unknown_performance_does_not_silently_pass():
     hardware = hardware_from_profile("jetson-orin-nx-16gb")
-    items = recommend_models(hardware, Constraints(task="detection", min_fps=30))
+    items = recommend_models(hardware, Constraints(task="detection", min_fps=30), offline=True)
     yolo26s = next(item for item in items if item.model.id == "yolo26s")
     assert yolo26s.verdict == "BENCHMARK_REQUIRED"
     assert yolo26s.benchmark is None
@@ -37,7 +39,11 @@ def test_unknown_performance_does_not_silently_pass():
 
 def test_measured_constraint_failure_is_reported():
     hardware = hardware_from_profile("jetson-orin-nano-super-8gb")
-    items = recommend_models(hardware, Constraints(task="detection", min_fps=300))
+    items = recommend_models(
+        hardware,
+        Constraints(task="detection", min_fps=300),
+        offline=True,
+    )
     yolo26n = next(item for item in items if item.model.id == "yolo26n")
     assert yolo26n.verdict == "CONSTRAINT_FAIL"
     assert any("measured" in blocker for blocker in yolo26n.blockers)
@@ -45,7 +51,7 @@ def test_measured_constraint_failure_is_reported():
 
 def test_vlm_published_memory_can_fail_small_machine():
     hardware = _cpu_with_ram(0.75)
-    items = recommend_models(hardware, Constraints(task="vlm"))
+    items = recommend_models(hardware, Constraints(task="vlm"), offline=True)
     smol = next(item for item in items if item.model.id == "smolvlm-256m-instruct")
     assert smol.verdict == "NO_FIT"
     assert smol.memory_evidence == "published"
@@ -53,7 +59,11 @@ def test_vlm_published_memory_can_fail_small_machine():
 
 def test_power_constraint_requires_measurement_when_missing():
     hardware = hardware_from_profile("jetson-orin-nx-16gb")
-    items = recommend_models(hardware, Constraints(task="detection", max_power_w=15))
+    items = recommend_models(
+        hardware,
+        Constraints(task="detection", max_power_w=15),
+        offline=True,
+    )
     yolo26n = next(item for item in items if item.model.id == "yolo26n")
     assert yolo26n.verdict == "BENCHMARK_REQUIRED"
 
@@ -63,8 +73,18 @@ def test_requested_runtime_and_precision_are_normalized():
     items = recommend_models(
         hardware,
         Constraints(task="detection", runtime=" TensorRT ", precision=" FP16 "),
+        offline=True,
     )
     yolo26n = next(item for item in items if item.model.id == "yolo26n")
     assert yolo26n.runtime == "tensorrt"
     assert yolo26n.precision == "fp16"
     assert yolo26n.verdict == "VERIFIED_FIT"
+
+
+def test_recommendations_are_deterministic_offline():
+    hardware = hardware_from_profile("jetson-orin-nx-16gb")
+    first = recommend_models(hardware, Constraints(task="detection"), offline=True)
+    second = recommend_models(hardware, Constraints(task="detection"), offline=True)
+    assert [(item.model.id, item.score) for item in first] == [
+        (item.model.id, item.score) for item in second
+    ]

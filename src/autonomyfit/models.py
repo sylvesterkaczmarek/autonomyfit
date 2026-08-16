@@ -11,6 +11,7 @@ Verdict = Literal[
     "CONSTRAINT_FAIL",
     "NO_FIT",
 ]
+RegistrySource = Literal["remote", "cache", "bundled-fallback", "custom"]
 
 
 @dataclass(frozen=True)
@@ -50,6 +51,23 @@ class AccuracyMetric:
 
 
 @dataclass(frozen=True)
+class RegistryProvenance:
+    source: RegistrySource
+    registry_version: int | None = None
+    generated_at: str | None = None
+    expires_at: str | None = None
+    loaded_at: str | None = None
+    signature_verified: bool = False
+    stale: bool = False
+    etag: str | None = None
+    warning: str | None = None
+    registry_url: str | None = None
+
+    def to_dict(self) -> dict[str, object]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
 class ModelProfile:
     id: str
     display_name: str
@@ -65,6 +83,20 @@ class ModelProfile:
     published_memory_gb: float | None = None
     memory_scope: str | None = None
     notes: str | None = None
+    variant: str | None = None
+    input_modalities: tuple[str, ...] = field(default_factory=tuple)
+    output_modalities: tuple[str, ...] = field(default_factory=tuple)
+    source_revision: str | None = None
+    release_date: str | None = None
+    last_checked: str | None = None
+    supported_precisions: tuple[str, ...] = field(default_factory=tuple)
+    quantizations: tuple[str, ...] = field(default_factory=tuple)
+    license_spdx: str | None = None
+    license_status: str = "unknown"
+    license_source_url: str | None = None
+    verification_status: str = "unknown"
+    last_verified: str | None = None
+    benchmark_refs: tuple[str, ...] = field(default_factory=tuple)
 
 
 @dataclass(frozen=True)
@@ -108,6 +140,7 @@ class Recommendation:
     runtime_available: bool
     reasons: tuple[str, ...]
     blockers: tuple[str, ...]
+    registry: RegistryProvenance | None = None
 
     @property
     def latency_ms(self) -> float | None:

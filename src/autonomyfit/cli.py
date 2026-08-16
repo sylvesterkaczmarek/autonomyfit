@@ -9,9 +9,10 @@ from rich.console import Console
 from rich.table import Table
 
 from .benchmark import benchmark_onnx, save_result
-from .catalog import load_hardware_profiles, load_models
+from .catalog import load_hardware_profiles, load_model_catalog
 from .hardware import detect_hardware, hardware_from_profile
 from .models import Constraints
+from .registry import RegistryClient, RegistryError
 from .reporting import print_hardware, print_recommendations
 from .scoring import recommend_models
 
@@ -22,6 +23,8 @@ app = typer.Typer(
     invoke_without_command=True,
     add_completion=False,
 )
+registry_app = typer.Typer(help="Inspect and manage the signed model registry.")
+app.add_typer(registry_app, name="registry")
 console = Console()
 
 
@@ -40,11 +43,32 @@ def _parse_shape(value: str | None) -> list[int] | None:
             param_hint="--shape",
         ) from exc
     if not dims or any(dim <= 0 for dim in dims):
-        raise typer.BadParameter(
-            "shape dimensions must be positive integers",
-            param_hint="--shape",
-        )
+        raise typer.BadParameter("shape dimensions must be positive integers", param_hint="--shape")
     return dims
+
+
+def _print_registry_status(status: dict[str, object], as_json: bool) -> None:
+    if as_json:
+        console.print_json(json.dumps(status))
+        return
+    table = Table(title="AutonomyFit registry", show_header=False)
+    table.add_column("Field", style="bold")
+    table.add_column("Value")
+    cache = status.get("cache")
+    fallback = status["fallback"]
+    table.add_row("Official registry", str(status["registry_url"]))
+    table.add_row("Cache directory", str(status["cache_dir"]))
+    if isinstance(cache, dict):
+        table.add_row("Cached version", str(cache.get("registry_version")))
+        table.add_row("Cached at", str(cache.get("cached_at") or "unknown"))
+        table.add_row("Cached expires", str(cache.get("expires_at") or "unknown"))
+        table.add_row("Cached stale", "yes" if cache.get("stale") else "no")
+    else:
+        table.add_row("Cache", "empty")
+    if isinstance(fallback, dict):
+        table.add_row("Fallback version", str(fallback.get("registry_version")))
+    table.add_row("Highest trusted version", str(status.get("highest_seen_version") or "none"))
+    console.print(table)
 
 
 @app.callback()
@@ -83,9 +107,7 @@ def recommend(
     ] = None,
     latency_ms: Annotated[
         float | None,
-        typer.Option(
-            "--latency-ms", help="Maximum inference latency in milliseconds.", min=0.0
-        ),
+        typer.Option("--latency-ms", help="Maximum inference latency in milliseconds.", min=0.0),
     ] = None,
     power_w: Annotated[
         float | None,
@@ -111,8 +133,11 @@ def recommend(
         ),
     ] = None,
     catalog: Annotated[
-        Path | None, typer.Option(help="Optional custom model catalog JSON.")
+        Path | None, typer.Option(help="Optional custom model catalog JSON (schema v1 or v2).")
     ] = None,
+    offline: Annotated[
+        bool, typer.Option("--offline", help="Use verified cache or bundled fallback only.")
+    ] = False,
     limit: Annotated[
         int, typer.Option(help="Maximum number of candidates to show.", min=1)
     ] = 8,
@@ -138,10 +163,15 @@ def recommend(
         precision=precision.strip().lower() if precision else None,
     )
     try:
-        items = recommend_models(hardware, constraints, catalog_path=catalog)
-    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+        items = recommend_models(
+            hardware,
+            constraints,
+            catalog_path=catalog,
+            offline=offline,
+        )
+    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError, RegistryError) as exc:
         if catalog is None:
-            raise
+            raise typer.BadParameter(f"registry error: {exc}") from exc
         raise typer.BadParameter(f"invalid catalog: {exc}", param_hint="--catalog") from exc
     if json_output:
         print_recommendations(items, limit=limit, as_json=True)
@@ -154,35 +184,44 @@ def recommend(
 @app.command("catalog")
 def catalog_command(
     task: Annotated[str | None, typer.Option(help="Filter to detection or vlm.")] = None,
+    offline: Annotated[
+        bool, typer.Option("--offline", help="Use verified cache or bundled fallback only.")
+    ] = False,
 ) -> None:
-    """List bundled model profiles and their evidence sources."""
-    models = load_models()
+    """List model profiles from the official registry or offline fallback."""
     if task:
         task = task.strip().lower()
         if task not in {"detection", "vlm"}:
             raise typer.BadParameter("task must be detection or vlm", param_hint="--task")
+    loaded = load_model_catalog(offline=offline)
+    models = list(loaded.models)
+    if task:
         models = [model for model in models if model.task == task]
-    table = Table(title="Bundled model catalog")
+    table = Table(title="Model registry")
     table.add_column("ID")
     table.add_column("Task")
     table.add_column("Parameters")
     table.add_column("Accuracy")
     table.add_column("Runtimes")
-    table.add_column("Evidence")
+    table.add_column("Verification")
     for model in models:
         accuracy = "-"
         if model.accuracy:
             accuracy = f"{model.accuracy.value:g} {model.accuracy.name}"
-        evidence = "published memory" if model.published_memory_gb else "model metadata"
         table.add_row(
             model.id,
             model.task,
             f"{model.params_m:g}M",
             accuracy,
             ", ".join(model.runtimes),
-            evidence,
+            model.verification_status,
         )
     console.print(table)
+    console.print(
+        f"Registry v{loaded.provenance.registry_version or '?'} · {loaded.provenance.source}"
+    )
+    if loaded.provenance.warning:
+        console.print(f"Warning: {loaded.provenance.warning}")
 
 
 @app.command("profiles")
@@ -197,6 +236,54 @@ def profiles_command() -> None:
     for profile_id, item in sorted(profiles.items()):
         table.add_row(profile_id, item["display_name"], f"{item['memory_gb']} GB", item["platform"])
     console.print(table)
+
+
+@registry_app.command("status")
+def registry_status(
+    json_output: Annotated[
+        bool, typer.Option("--json", help="Emit machine-readable JSON.")
+    ] = False,
+) -> None:
+    """Show local registry cache and trust state without network access."""
+    _print_registry_status(RegistryClient().status(), json_output)
+
+
+@registry_app.command("update")
+def registry_update(
+    json_output: Annotated[
+        bool, typer.Option("--json", help="Emit machine-readable JSON.")
+    ] = False,
+) -> None:
+    """Fetch and verify the latest official registry now."""
+    try:
+        snapshot = RegistryClient().update()
+    except RegistryError as exc:
+        raise typer.BadParameter(str(exc)) from exc
+    payload = snapshot.provenance.to_dict()
+    payload["model_count"] = len(snapshot.models)
+    if json_output:
+        console.print_json(json.dumps(payload))
+    else:
+        console.print(
+            f"Updated to registry v{snapshot.provenance.registry_version} "
+            f"({len(snapshot.models)} models), Sigstore verified."
+        )
+
+
+@registry_app.command("clear-cache")
+def registry_clear_cache(
+    json_output: Annotated[
+        bool, typer.Option("--json", help="Emit machine-readable JSON.")
+    ] = False,
+) -> None:
+    """Remove cached registry data while preserving rollback-protection state."""
+    client = RegistryClient()
+    removed = client.clear_cache()
+    payload = {"removed": removed, "security_state_preserved": True}
+    if json_output:
+        console.print_json(json.dumps(payload))
+    else:
+        console.print(f"Removed {len(removed)} cache file(s). Rollback trust state preserved.")
 
 
 @app.command()
