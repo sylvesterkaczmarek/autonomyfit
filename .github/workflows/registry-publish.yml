@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - registry/source/registry-v2.json
+      - .github/workflows/registry-publish.yml
   workflow_dispatch:
 
 permissions:
