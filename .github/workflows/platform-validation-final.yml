@@ -1,0 +1,153 @@
+name: Final native backend validation
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  linux-native:
+    if: github.event.head_commit.message == 'Validate final native benchmark backends'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install native runtimes
+        run: python -m pip install -e '.[benchmark]' openvino
+      - name: Build deterministic ONNX graphs
+        run: |
+          python - <<'PY'
+          import onnx
+          from onnx import TensorProto, helper
+
+          identity = helper.make_graph(
+              [helper.make_node("Identity", ["input"], ["output"])],
+              "identity",
+              [helper.make_tensor_value_info("input", TensorProto.FLOAT, [1, 4])],
+              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
+          )
+          model = helper.make_model(identity, opset_imports=[helper.make_opsetid("", 13)])
+          model.ir_version = min(model.ir_version, 10)
+          onnx.save(model, "/tmp/identity.onnx")
+
+          add = helper.make_graph(
+              [helper.make_node("Add", ["left", "right"], ["output"])],
+              "multi-input",
+              [
+                  helper.make_tensor_value_info("left", TensorProto.FLOAT, [1, 4]),
+                  helper.make_tensor_value_info("right", TensorProto.FLOAT, [1, 4]),
+              ],
+              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
+          )
+          multi = helper.make_model(add, opset_imports=[helper.make_opsetid("", 13)])
+          multi.ir_version = min(multi.ir_version, 10)
+          onnx.save(multi, "/tmp/multi.onnx")
+          PY
+      - name: Validate OpenVINO CPU execution
+        run: |
+          autonomyfit benchmark /tmp/identity.onnx \
+            --model-id ci-openvino-final \
+            --model-revision "$GITHUB_SHA" \
+            --backend openvino \
+            --device cpu \
+            --precision fp32 \
+            --batch-size 1 \
+            --iterations 10 \
+            -o /tmp/openvino.json >/dev/null
+          autonomyfit benchmark-inspect /tmp/openvino.json >/dev/null
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/openvino.json'))
+          assert report['quality'] == 'local-measured'
+          assert report['measurement']['machine_source'] == 'detected'
+          assert report['measurement']['artifact_identity_verified'] is True
+          assert report['software']['runtime'] == 'openvino'
+          assert report['software']['runtime_version']
+          assert report['software']['provider'] == 'CPU'
+          assert report['execution']['backend_options']['native_command']
+          assert report['execution']['backend_options']['synthetic_inputs'] is True
+          PY
+      - name: Validate multi-input ONNX Runtime CLI path
+        run: |
+          autonomyfit benchmark /tmp/multi.onnx \
+            --model-id ci-ort-multi-final \
+            --model-revision "$GITHUB_SHA" \
+            --backend onnxruntime \
+            --provider CPUExecutionProvider \
+            --precision fp32 \
+            --batch-size 1 \
+            --input-shape left=1,4 \
+            --input-shape right=1,4 \
+            --iterations 10 \
+            --warmup 2 \
+            -o /tmp/multi.json >/dev/null
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/multi.json'))
+          assert report['execution']['input_shapes'] == {'left': [1, 4], 'right': [1, 4]}
+          command = report['reproducibility']['command'] or ''
+          assert '--input-shape left=1,4' in command
+          assert '--input-shape right=1,4' in command
+          assert '--provider CPUExecutionProvider' in command
+          PY
+
+  macos-coreml:
+    if: github.event.head_commit.message == 'Validate final native benchmark backends'
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install Core ML runtime tooling
+        run: python -m pip install -e '.[benchmark]' coremltools
+      - name: Build and execute Core ML model
+        run: |
+          system_profiler SPHardwareDataType || true
+          python - <<'PY'
+          import coremltools as ct
+          from coremltools.proto import FeatureTypes_pb2, Model_pb2
+
+          spec = Model_pb2.Model()
+          spec.specificationVersion = 5
+          inp = spec.description.input.add()
+          inp.name = "input"
+          inp.type.multiArrayType.dataType = FeatureTypes_pb2.ArrayFeatureType.FLOAT32
+          inp.type.multiArrayType.shape.extend([4])
+          out = spec.description.output.add()
+          out.name = "output"
+          out.type.multiArrayType.dataType = FeatureTypes_pb2.ArrayFeatureType.FLOAT32
+          out.type.multiArrayType.shape.extend([4])
+          layer = spec.neuralNetwork.layers.add()
+          layer.name = "identity"
+          layer.input.append("input")
+          layer.output.append("output")
+          layer.activation.linear.alpha = 1.0
+          ct.models.MLModel(spec).save("/tmp/model.mlmodel")
+          PY
+          autonomyfit benchmark /tmp/model.mlmodel \
+            --model-id ci-coreml-final \
+            --model-revision "$GITHUB_SHA" \
+            --backend coreml \
+            --compute-units ALL \
+            --precision fp32 \
+            --iterations 10 \
+            --warmup 2 \
+            -o /tmp/coreml.json >/dev/null
+          autonomyfit benchmark-inspect /tmp/coreml.json >/dev/null
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/coreml.json'))
+          assert report['quality'] == 'local-measured'
+          assert report['measurement']['machine_source'] == 'detected'
+          assert report['measurement']['artifact_identity_verified'] is True
+          assert report['hardware']['platform'] == 'apple'
+          assert report['software']['runtime'] == 'coreml'
+          assert report['software']['runtime_version']
+          assert report['execution']['batch_size'] is None
+          assert report['execution']['backend_options']['compute_units'] == 'ALL'
+          PY
