@@ -270,9 +270,11 @@ def validate_benchmark_report(document: dict[str, Any]) -> None:
     if not artifact.get("sha256"):
         raise EvidenceSchemaError("local benchmark reports require artifact.sha256")
     measurement = document.get("measurement")
-    if measurement is not None and (
-        measurement.get("machine_source") != "detected" or measurement.get("profile_only")
-    ):
+    if measurement is None:
+        raise EvidenceSchemaError(
+            "local benchmark reports require explicit measurement classification"
+        )
+    if measurement.get("machine_source") != "detected" or measurement.get("profile_only"):
         raise EvidenceSchemaError(
             "local benchmark reports cannot claim measurements from a profile-only hardware target"
         )
@@ -361,6 +363,7 @@ def benchmark_evidence_from_report(document: dict[str, Any]) -> BenchmarkEvidenc
     software = document["software"]
     execution = document["execution"]
     metrics = document["metrics"]
+    measurement = document["measurement"]
     return BenchmarkEvidence(
         id=document["benchmark_id"],
         model_id=model["id"],
@@ -392,9 +395,13 @@ def benchmark_evidence_from_report(document: dict[str, Any]) -> BenchmarkEvidenc
         source_date=document["created_at"][:10],
         software_stack_id=(document.get("reproducibility") or {}).get("software_stack_fingerprint"),
         provider_version=software.get("provider_version"),
-        machine_source=(document.get("measurement") or {}).get("machine_source"),
+        machine_source=measurement.get("machine_source"),
         notes=document.get("notes"),
-        verified_identity=bool(model.get("revision") and artifact.get("sha256")),
+        verified_identity=bool(
+            measurement.get("artifact_identity_verified")
+            and model.get("revision")
+            and artifact.get("sha256")
+        ),
     )
 
 
@@ -647,6 +654,8 @@ def inspect_benchmark_report(path: Path) -> dict[str, Any]:
         "power_scope": evidence.power.scope,
         "peak_memory_mb": evidence.peak_memory_mb,
         "quality": evidence.quality,
+        "machine_source": evidence.machine_source,
+        "verified_identity": evidence.verified_identity,
         "identity_complete": evidence.eligible_for_verified_fit,
     }
 

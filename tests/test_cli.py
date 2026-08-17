@@ -2,7 +2,7 @@ import json
 
 from typer.testing import CliRunner
 
-from autonomyfit.cli import app
+from autonomyfit.cli import _parse_named_shapes, app
 
 runner = CliRunner()
 
@@ -103,3 +103,34 @@ def test_artifact_matching_requires_model_id(tmp_path):
     assert result.exit_code != 0
     assert "requires" in result.output
     assert "artifact" in result.output
+
+
+def test_named_input_shapes_are_parsed_and_duplicates_rejected():
+    assert _parse_named_shapes(["image=1,3,640,640", "mask=1,1,640,640"]) == {
+        "image": [1, 3, 640, 640],
+        "mask": [1, 1, 640, 640],
+    }
+    try:
+        _parse_named_shapes(["image=1,3,640,640", "image=1,3,224,224"])
+    except Exception as exc:
+        assert "duplicate" in str(exc)
+    else:
+        raise AssertionError("duplicate named input shape was accepted")
+
+
+def test_shape_and_named_input_shape_conflict_is_rejected(tmp_path):
+    model = tmp_path / "model.onnx"
+    model.write_bytes(b"placeholder")
+    result = runner.invoke(
+        app,
+        [
+            "benchmark",
+            str(model),
+            "--shape",
+            "1,3,640,640",
+            "--input-shape",
+            "image=1,3,640,640",
+        ],
+    )
+    assert result.exit_code != 0
+    assert "cannot be combined" in result.output

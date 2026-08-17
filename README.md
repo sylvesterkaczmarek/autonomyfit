@@ -155,7 +155,7 @@ Use `autonomyfit benchmark-matrix` to inspect those applicability dimensions and
 autonomyfit local-results
 ```
 
-Local evidence is invalidated rather than silently reused when it becomes stale or a material execution identity changes, including hardware identity, OS identity, driver major version, runtime major version, or required ONNX Runtime execution-provider availability.
+Local evidence is invalidated rather than silently reused when it becomes stale or a material execution identity changes, including hardware identity, OS identity, driver state, power mode, native runtime/provider availability, exact runtime/provider version when known, or the material software-stack fingerprint.
 
 ## Candidate assessment
 
@@ -225,7 +225,7 @@ First-class profiles cover NVIDIA Jetson and discrete GPUs, Apple Silicon, Intel
 
 QNN, XNNPACK, OpenVINO EP, CoreML EP, TensorRT EP, CUDA EP and Vitis AI EP are provider capabilities. Provider availability is never represented as proof that a specific graph is fully supported.
 
-See [docs/hardware.md](docs/hardware.md) and [docs/benchmarking.md](docs/benchmarking.md).
+See [docs/hardware.md](docs/hardware.md) and [docs/benchmarking.md](docs/benchmarking.md). A manual self-hosted hardware-validation workflow is included for collecting exact target evidence without classifying VMs or containers as physical hardware.
 
 ## Registry trust
 

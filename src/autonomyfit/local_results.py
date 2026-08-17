@@ -46,15 +46,20 @@ def _major(value: str | None) -> int | None:
     return int(match.group(1)) if match else None
 
 
-def _runtime_capability_version(hardware: HardwareProfile, runtime: str | None) -> str | None:
+def _runtime_capability(hardware: HardwareProfile, runtime: str | None):
     if not runtime:
         return None
     aliases = {"onnx": "onnxruntime", "onnxruntime": "onnxruntime"}
     target = aliases.get(runtime.casefold(), runtime.casefold())
-    for capability in hardware.runtimes:
-        if capability.name.casefold() == target:
-            return capability.version
-    return None
+    return next(
+        (item for item in hardware.runtimes if item.name.casefold() == target),
+        None,
+    )
+
+
+def _runtime_capability_version(hardware: HardwareProfile, runtime: str | None) -> str | None:
+    capability = _runtime_capability(hardware, runtime)
+    return capability.version if capability else None
 
 
 def local_report_compatibility(
@@ -92,7 +97,9 @@ def local_report_compatibility(
         reasons.append(f"operating-system identity changed ({report_os} -> {hardware.os_name})")
 
     report_driver = report_hardware.get("driver")
-    if report_driver and hardware.driver:
+    if report_driver and not hardware.driver:
+        reasons.append("current driver version could not be established")
+    elif report_driver and hardware.driver:
         report_major = _major(str(report_driver))
         current_major = _major(hardware.driver)
         if report_major is not None and current_major is not None and report_major != current_major:
@@ -101,7 +108,9 @@ def local_report_compatibility(
             )
 
     report_power_mode = report_hardware.get("power_mode")
-    if report_power_mode and hardware.power_mode and str(report_power_mode) != hardware.power_mode:
+    if report_power_mode and not hardware.power_mode:
+        reasons.append("current power mode could not be established")
+    elif report_power_mode and hardware.power_mode and str(report_power_mode) != hardware.power_mode:
         reasons.append(
             f"power mode changed ({report_power_mode} -> {hardware.power_mode})"
         )
@@ -127,10 +136,19 @@ def local_report_compatibility(
             reasons.append(f"execution provider is no longer available ({provider})")
 
     runtime = software.get("runtime")
+    runtime_name = str(runtime) if runtime else None
+    runtime_capability = _runtime_capability(hardware, runtime_name)
+    if runtime_name and (runtime_capability is None or not runtime_capability.available):
+        reasons.append(f"runtime is no longer available ({runtime_name})")
     report_runtime_version = software.get("runtime_version")
-    current_runtime_version = _runtime_capability_version(
-        hardware, str(runtime) if runtime else None
-    )
+    current_runtime_version = _runtime_capability_version(hardware, runtime_name)
+    if (
+        report_runtime_version
+        and runtime_capability is not None
+        and runtime_capability.available
+        and not current_runtime_version
+    ):
+        reasons.append(f"current runtime version could not be established ({runtime_name})")
     if report_runtime_version and current_runtime_version:
         report_major = _major(str(report_runtime_version))
         current_major = _major(current_runtime_version)

@@ -227,3 +227,19 @@ def test_profile_only_local_report_is_rejected():
     }
     with pytest.raises(EvidenceSchemaError, match="profile-only"):
         validate_benchmark_report(report)
+
+
+def test_false_artifact_identity_flag_cannot_be_verified_fit():
+    report = _report()
+    report["measurement"]["artifact_identity_verified"] = False
+    validate_benchmark_report(report)
+    evidence = benchmark_evidence_from_report(report)
+    assert evidence.verified_identity is False
+    assert evidence.eligible_for_verified_fit is False
+
+
+def test_local_report_requires_explicit_measurement_classification():
+    report = _report()
+    report.pop("measurement")
+    with pytest.raises(EvidenceSchemaError):
+        validate_benchmark_report(report)

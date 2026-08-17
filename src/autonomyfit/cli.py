@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shlex
 from dataclasses import asdict
 from datetime import date
 from pathlib import Path
@@ -63,19 +64,46 @@ def _objective(value: str) -> Objective:
     return normalized  # type: ignore[return-value]
 
 
-def _parse_shape(value: str | None) -> list[int] | None:
-    if value is None:
-        return None
+def _parse_dims(value: str, *, param_hint: str) -> list[int]:
     try:
         dims = [int(part.strip()) for part in value.split(",")]
     except ValueError as exc:
         raise typer.BadParameter(
             "shape must be comma-separated positive integers, for example 1,3,640,640",
-            param_hint="--shape",
+            param_hint=param_hint,
         ) from exc
     if not dims or any(dim <= 0 for dim in dims):
-        raise typer.BadParameter("shape dimensions must be positive integers", param_hint="--shape")
+        raise typer.BadParameter(
+            "shape dimensions must be positive integers", param_hint=param_hint
+        )
     return dims
+
+
+def _parse_shape(value: str | None) -> list[int] | None:
+    return None if value is None else _parse_dims(value, param_hint="--shape")
+
+
+def _parse_named_shapes(values: list[str] | None) -> dict[str, list[int]]:
+    result: dict[str, list[int]] = {}
+    for raw in values or []:
+        if "=" not in raw:
+            raise typer.BadParameter(
+                "named input shape must use NAME=1,3,640,640",
+                param_hint="--input-shape",
+            )
+        name, raw_dims = raw.split("=", 1)
+        name = name.strip()
+        if not name:
+            raise typer.BadParameter(
+                "named input shape requires a non-empty input name",
+                param_hint="--input-shape",
+            )
+        if name in result:
+            raise typer.BadParameter(
+                f"duplicate named input shape: {name}", param_hint="--input-shape"
+            )
+        result[name] = _parse_dims(raw_dims, param_hint="--input-shape")
+    return result
 
 
 def _print_registry_status(status: dict[str, object], as_json: bool) -> None:
@@ -644,6 +672,13 @@ def benchmark(
     iterations: Annotated[int, typer.Option(help="Timed inference iterations.", min=1)] = 50,
     warmup: Annotated[int, typer.Option(help="Warm-up setting for the selected backend.", min=0)] = 10,
     shape: Annotated[str | None, typer.Option(help="ONNX dynamic input shape, e.g. 1,3,640,640.")] = None,
+    input_shape: Annotated[
+        list[str] | None,
+        typer.Option(
+            "--input-shape",
+            help="Repeatable named input shape NAME=1,3,640,640 for multi-input ONNX graphs.",
+        ),
+    ] = None,
     provider: Annotated[
         str | None,
         typer.Option(help="ONNX Runtime provider override, including QNN/XNNPACK when installed."),
@@ -669,8 +704,51 @@ def benchmark(
     if not model.exists() or (not model.is_file() and model.suffix.casefold() != ".mlpackage"):
         raise typer.BadParameter(f"model artifact does not exist: {model}")
     shape_override = _parse_shape(shape)
+    named_input_shapes = _parse_named_shapes(input_shape)
+    if shape_override is not None and named_input_shapes:
+        raise typer.BadParameter(
+            "--shape and --input-shape cannot be combined", param_hint="--input-shape"
+        )
     resolved_id = model_id or model.stem
     resolved_revision = _resolve_model_revision(resolved_id, model_revision)
+    normalized_precision = precision.strip().casefold()
+    normalized_quantization = quantization.strip().casefold() if quantization else None
+    command_parts = [
+        "autonomyfit",
+        "benchmark",
+        str(model),
+        "--model-id",
+        resolved_id,
+        "--iterations",
+        str(iterations),
+        "--warmup",
+        str(warmup),
+        "--precision",
+        normalized_precision,
+    ]
+    if resolved_revision:
+        command_parts += ["--model-revision", resolved_revision]
+    if backend:
+        command_parts += ["--backend", backend]
+    if shape:
+        command_parts += ["--shape", shape]
+    for name, dims in sorted(named_input_shapes.items()):
+        command_parts += [
+            "--input-shape",
+            f"{name}={','.join(str(dim) for dim in dims)}",
+        ]
+    if provider:
+        command_parts += ["--provider", provider]
+    if device:
+        command_parts += ["--device", device]
+    if normalized_quantization:
+        command_parts += ["--quantization", normalized_quantization]
+    if batch_size is not None:
+        command_parts += ["--batch-size", str(batch_size)]
+    if trust_artifact:
+        command_parts.append("--trust-artifact")
+    if compute_units:
+        command_parts += ["--compute-units", compute_units]
     hardware = detect_hardware()
     request = BenchmarkRequest(
         model_path=model,
@@ -680,18 +758,15 @@ def benchmark(
         iterations=iterations,
         warmup=warmup,
         shape_override=shape_override,
+        input_shapes=named_input_shapes,
         provider=provider,
         device=device,
-        precision=precision.strip().casefold(),
-        quantization=quantization.strip().casefold() if quantization else None,
+        precision=normalized_precision,
+        quantization=normalized_quantization,
         batch_size=batch_size,
         trusted_artifact=trust_artifact,
         compute_units=compute_units,
-        command=(
-            f"autonomyfit benchmark {model} --model-id {resolved_id} "
-            f"--model-revision {resolved_revision or 'unknown'} "
-            f"--backend {backend or 'auto'} --precision {precision.strip().casefold()}"
-        ),
+        command=shlex.join(command_parts),
     )
     try:
         report = run_benchmark(request, backend)

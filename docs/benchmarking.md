@@ -61,3 +61,12 @@ Reports include an artifact SHA-256, exact machine ID, runtime/provider versions
 ## Validation status
 
 The regular CI executes a real ONNX Runtime `CPUExecutionProvider` benchmark against a generated ONNX graph and validates/imports its report. That is native runtime validation on the GitHub-hosted CI machine, not evidence for Jetson, NVIDIA GPU, Apple Silicon or Intel GPU/NPU hardware. Platform-specific support must be described as physically validated only after a report was measured on that detected target.
+
+
+## Self-hosted target validation
+
+`.github/workflows/hardware-validation.yml` is the permanent manual harness for Jetson, discrete NVIDIA, Intel and physical Apple target runs. Attach the target as a self-hosted GitHub runner, give it a dedicated label such as `autonomyfit-hardware`, preinstall the vendor runtime, and dispatch the workflow with an exact model path, immutable model revision, runtime/provider/device, precision, batch and shape context.
+
+The workflow captures `scan`, backend availability, the schema-v2 benchmark report, an inspected summary and a separate machine-class attestation. `operator_machine_class=physical` is an operator attestation and is recorded as such; AutonomyFit does not independently infer that a self-hosted runner is bare-metal. VM/container runs remain useful native execution validation but must not be described as physical target evidence.
+
+Multi-input ONNX graphs use repeatable `--input-shape NAME=...` values (semicolon-separated in the workflow input). Named shapes are checked against graph input names, ranks and fixed dimensions before execution.

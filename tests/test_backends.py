@@ -6,6 +6,7 @@ from autonomyfit.backends import (
     BackendError,
     BenchmarkRequest,
     CoreMLBackend,
+    _preferred_ort_providers,
     build_openvino_command,
     build_trtexec_command,
     parse_openvino_output,
@@ -141,3 +142,13 @@ def test_openvino_version_falls_back_to_installed_package(monkeypatch):
     availability = OpenVINOBackend().availability()
     assert availability.available is True
     assert availability.version == "2026.3.0"
+
+
+def test_onnxruntime_default_provider_order_is_platform_specific():
+    assert _preferred_ort_providers("nvidia")[:2] == (
+        "CUDAExecutionProvider",
+        "TensorrtExecutionProvider",
+    )
+    assert _preferred_ort_providers("apple")[0] == "CoreMLExecutionProvider"
+    assert _preferred_ort_providers("intel")[0] == "OpenVINOExecutionProvider"
+    assert _preferred_ort_providers("qualcomm")[0] == "QNNExecutionProvider"

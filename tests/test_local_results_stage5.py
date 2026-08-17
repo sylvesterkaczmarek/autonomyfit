@@ -104,3 +104,37 @@ def test_power_mode_change_invalidates_local_result():
     )
     assert valid is False
     assert any("power mode" in reason for reason in reasons)
+
+
+def test_native_runtime_disappearance_invalidates_local_result():
+    hardware = _hardware()
+    document = _report(hardware)
+    document["software"].update(
+        {"runtime": "openvino", "runtime_version": "2026.3.0", "provider": "CPU"}
+    )
+    valid, reasons = local_report_compatibility(
+        document, hardware, now=datetime(2026, 8, 16, tzinfo=timezone.utc)
+    )
+    assert valid is False
+    assert any("runtime is no longer available" in reason for reason in reasons)
+
+
+def test_unknown_current_runtime_version_invalidates_exact_local_context():
+    hardware = _hardware()
+    unknown = HardwareProfile(
+        platform=hardware.platform,
+        os_name=hardware.os_name,
+        architecture=hardware.architecture,
+        cpu=hardware.cpu,
+        ram_total_gb=hardware.ram_total_gb,
+        ram_available_gb=hardware.ram_available_gb,
+        gpu=hardware.gpu,
+        driver=hardware.driver,
+        runtimes=(RuntimeCapability("onnxruntime", True, None, provider="CPUExecutionProvider"),),
+    )
+    document = _report(unknown)
+    valid, reasons = local_report_compatibility(
+        document, unknown, now=datetime(2026, 8, 16, tzinfo=timezone.utc)
+    )
+    assert valid is False
+    assert any("runtime version could not be established" in reason for reason in reasons)
