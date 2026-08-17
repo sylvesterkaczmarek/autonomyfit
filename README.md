@@ -183,6 +183,17 @@ Registry comparisons flag incompatible batch/shape/power-mode/software-stack con
 
 ## Model selection
 
+### How model discovery works
+
+AutonomyFit uses a **multi-source registry**, not a fixed single model list. Scheduled discovery reads machine-readable upstream sources:
+
+- **Hugging Face Hub APIs** for broad discovery across nine task categories, including NVIDIA's official Hugging Face publisher feed.
+- **Official GitHub release/repository APIs** for Ultralytics and configured vendor sources.
+
+Candidates are normalized and deduplicated, tied to exact upstream revisions where available, and must pass source, licence, task, parameter-count and runtime-metadata gates before they can enter the signed Registry v2 used for recommendations. Discovery-only candidates do not affect normal model selection.
+
+See [docs/discovery.md](docs/discovery.md) and [docs/registry.md](docs/registry.md).
+
 AutonomyFit supports ten extensible task categories:
 
 ```text
