@@ -4,6 +4,10 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .release-0.6.1
 
 permissions:
   contents: read
