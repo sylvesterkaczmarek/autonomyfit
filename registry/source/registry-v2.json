@@ -140,6 +140,71 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "detr-resnet-50",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/detr-resnet-50",
+            "source_url": "https://huggingface.co/facebook/detr-resnet-50"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "detr-resnet-50",
+        "variant": null
+      },
+      "id": "detr-resnet-50",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/detr-resnet-50",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 41.631008
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2022-03-02",
+        "revision": "1d5f47bd3bdd2c4bbfa585418ffe6da5028b4c0b",
+        "source_id": "huggingface:facebook/detr-resnet-50",
+        "source_url": "https://huggingface.co/facebook/detr-resnet-50"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16"
@@ -202,6 +267,402 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "Eagle2-1B",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/Eagle2-1B",
+            "source_url": "https://huggingface.co/nvidia/Eagle2-1B"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Eagle2",
+        "variant": "1B"
+      },
+      "id": "eagle2-1b",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream licence requires review: cc-by-nc-4.0",
+        "source_url": "https://huggingface.co/nvidia/Eagle2-1B",
+        "spdx": "cc-by-nc-4.0",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "upstream licence requires review: cc-by-nc-4.0",
+      "parameters": {
+        "flops_b": null,
+        "millions": 1063.205952
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2025-01-10",
+        "revision": "508bc72fb1a946db3d5c1ebca50165079afef782",
+        "source_id": "nvidia:nvidia/Eagle2-1B",
+        "source_url": "https://huggingface.co/nvidia/Eagle2-1B"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "Eagle2-2B",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/Eagle2-2B",
+            "source_url": "https://huggingface.co/nvidia/Eagle2-2B"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Eagle2",
+        "variant": "2B"
+      },
+      "id": "eagle2-2b",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream licence requires review: cc-by-nc-4.0",
+        "source_url": "https://huggingface.co/nvidia/Eagle2-2B",
+        "spdx": "cc-by-nc-4.0",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "upstream licence requires review: cc-by-nc-4.0",
+      "parameters": {
+        "flops_b": null,
+        "millions": 2214.298048
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2025-01-10",
+        "revision": "3ab0a536b1778c885624ae920cd73d06228ae441",
+        "source_id": "nvidia:nvidia/Eagle2-2B",
+        "source_url": "https://huggingface.co/nvidia/Eagle2-2B"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "LocateAnything-3B",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/LocateAnything-3B",
+            "source_url": "https://huggingface.co/nvidia/LocateAnything-3B"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "LocateAnything",
+        "variant": "3B"
+      },
+      "id": "locateanything-3b",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/LocateAnything-3B",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "upstream uses a custom licence; deduplicated corroborating source huggingface:nvidia/LocateAnything-3B",
+      "parameters": {
+        "flops_b": null,
+        "millions": 3830.665968
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2026-03-02",
+        "revision": "c32291ca5e996f5a7a485845b4f57a233936bba0",
+        "source_id": "nvidia:nvidia/LocateAnything-3B",
+        "source_url": "https://huggingface.co/nvidia/LocateAnything-3B"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "microsoft/git-base-textvqa",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/git-base-textvqa",
+            "source_url": "https://huggingface.co/microsoft/git-base-textvqa"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "git",
+        "variant": "base-textvqa"
+      },
+      "id": "microsoft-git-base-textvqa",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/git-base-textvqa",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 177.161663
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2022-12-06",
+        "revision": "231a1d7fa1a2bfb67645166186a0c03086d45e96",
+        "source_id": "huggingface:microsoft/git-base-textvqa",
+        "source_url": "https://huggingface.co/microsoft/git-base-textvqa"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "microsoft/git-base-vqav2",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/git-base-vqav2",
+            "source_url": "https://huggingface.co/microsoft/git-base-vqav2"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "git",
+        "variant": "base-vqav2"
+      },
+      "id": "microsoft-git-base-vqav2",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/git-base-vqav2",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 177.161663
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2022-12-06",
+        "revision": "a1847946b7f6bd5aa92d1326714d50dd7b11aad0",
+        "source_id": "huggingface:microsoft/git-base-vqav2",
+        "source_url": "https://huggingface.co/microsoft/git-base-vqav2"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "microsoft/git-large-vqav2",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/git-large-vqav2",
+            "source_url": "https://huggingface.co/microsoft/git-large-vqav2"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "git",
+        "variant": "large-vqav2"
+      },
+      "id": "microsoft-git-large-vqav2",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/git-large-vqav2",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 394.857407
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2023-01-02",
+        "revision": "075dd1eb169e2cb640f0de2cb344f613d2811a3d",
+        "source_id": "huggingface:microsoft/git-large-vqav2",
+        "source_url": "https://huggingface.co/microsoft/git-large-vqav2"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
         "status": "source_verified"
       }
     },
@@ -423,6 +884,138 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "NVIDIA-Nemotron-Parse-2.0",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-2.0",
+            "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "NVIDIA-Nemotron-Parse-2.0",
+        "variant": null
+      },
+      "id": "nvidia-nemotron-parse-2-0",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 903.049225
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2026-06-30",
+        "revision": "635b84d9b09bb9526b9a684d0b2c953d3cc3df05",
+        "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-2.0",
+        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "NVIDIA-Nemotron-Parse-v1.2",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-v1.2",
+            "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "NVIDIA-Nemotron-Parse-v1.2",
+        "variant": null
+      },
+      "id": "nvidia-nemotron-parse-v1-2",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Image/text model discovered from upstream metadata.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 936.275977
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "release_date": "2026-02-18",
+        "revision": "2bd0189bffd6cdded6280d9f22a4077b25a504e3",
+        "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-v1.2",
+        "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T05:53:31.156187Z",
         "status": "source_verified"
       }
     },
@@ -3551,11 +4144,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-14T12:42:00Z",
-    "generated_at": "2026-08-16T12:42:00Z",
+    "expires_at": "2026-11-15T05:53:31.156187Z",
+    "generated_at": "2026-08-17T05:53:31.156187Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 4,
+    "registry_version": 5,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
