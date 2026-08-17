@@ -6,6 +6,7 @@ on:
     paths:
       - scripts/benchmark_upgrade.py
       - scripts/benchmark_tests_upgrade.py
+      - scripts/benchmark_fixups.py
       - .github/workflows/benchmark-upgrade.yml
 
 permissions:
@@ -31,87 +32,17 @@ jobs:
         run: |
           python scripts/benchmark_upgrade.py
           python scripts/benchmark_tests_upgrade.py
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path("src/autonomyfit/scoring.py")
-          text = path.read_text(encoding="utf-8")
-          old = '''    provider = provider_override or _BRIDGE_RUNTIMES.get(runtime)
-    runtime_candidates = ("onnxruntime",) if provider else (
-'''
-          new = '''    bridge_provider = _BRIDGE_RUNTIMES.get(runtime)
-    provider = provider_override or bridge_provider
-    runtime_candidates = ("onnxruntime",) if bridge_provider else (
-'''
-          if old not in text:
-              raise SystemExit("expected provider routing block not found")
-          path.write_text(text.replace(old, new, 1), encoding="utf-8")
-
-          path = Path("tests/test_deployment_stage5.py")
-          text = path.read_text(encoding="utf-8")
-          text = text.replace(
-              "from autonomyfit.deployment import (\n    ValidationOptions,",
-              "from autonomyfit.deployment import (\n    DeploymentValidationError,\n    ValidationOptions,",
-              1,
-          )
-          text = text.replace("    except Exception as exc:\n", "    except DeploymentValidationError as exc:\n", 1)
-          text = text.replace(
-              '    hardware = hardware_from_profile("jetson-orin-nx-16gb")\n    local = BenchmarkEvidence(',
-              '    hardware = replace(\n        hardware_from_profile("jetson-orin-nx-16gb"),\n        runtimes=(RuntimeCapability("tensorrt", True, "10.0", "local"),),\n    )\n    local = BenchmarkEvidence(',
-              1,
-          )
-          text = text.replace(
-              'runtime="tensorrt", runtime_version=None, provider="trtexec",\n        precision="fp16", quantization=None, batch_size=1, input_shapes={}, power_mode=None,',
-              'runtime="tensorrt", runtime_version="10.0", provider="trtexec",\n        precision="fp16", quantization=None, batch_size=1,\n        input_shapes={"input": [1, 3, 640, 640]}, power_mode=None,',
-              1,
-          )
-          path.write_text(text, encoding="utf-8")
-
-          path = Path("tests/test_confidence_stage4.py")
-          text = path.read_text(encoding="utf-8")
-          text = text.replace(
-              '        software_stack_id=None, verified_identity=True,',
-              '        software_stack_id="stack-1", provider_version="10.0",\n        machine_source="detected", verified_identity=True,',
-              1,
-          )
-          text = text.replace(
-              '        "artifact_sha256": "a" * 64, "runtime": "tensorrt", "precision": "fp16",\n        "max_latency_ms": 5.0,',
-              '        "artifact_sha256": "a" * 64, "runtime": "tensorrt", "precision": "fp16",\n        "provider": "trtexec", "provider_version": "10.0", "batch_size": 1,\n        "input_shapes": {"images": [1, 3, 640, 640]}, "power_mode": "MAXN",\n        "software_stack_id": "stack-1", "max_latency_ms": 5.0,',
-              1,
-          )
-          path.write_text(text, encoding="utf-8")
-
-          path = Path("tests/test_scoring.py")
-          text = path.read_text(encoding="utf-8")
-          text = text.replace(
-              '        software_stack_id=None,\n        verified_identity=True,',
-              '        software_stack_id="stack-1",\n        provider_version="10.0",\n        machine_source="detected",\n        verified_identity=True,',
-              1,
-          )
-          text = text.replace(
-              '            artifact_sha256="a" * 64,\n        ),',
-              '            artifact_sha256="a" * 64,\n            provider="trtexec",\n            provider_version="10.0",\n            batch_size=1,\n            input_shapes={"images": [1, 3, 640, 640]},\n            power_mode="MAXN",\n            software_stack_id="stack-1",\n        ),',
-              1,
-          )
-          path.write_text(text, encoding="utf-8")
-
-          path = Path("tests/test_local_results_stage5.py")
-          text = path.read_text(encoding="utf-8")
-          old = 'def test_power_mode_change_invalidates_local_result():\n    hardware = _hardware()\n    hardware = HardwareProfile(**{**hardware.to_dict(), "power_mode": "MODE_15W"})'
-          new = 'def test_power_mode_change_invalidates_local_result():\n    from dataclasses import replace\n\n    hardware = replace(_hardware(), power_mode="MODE_15W")'
-          text = text.replace(old, new, 1)
-          path.write_text(text, encoding="utf-8")
-          PY
+          python scripts/benchmark_fixups.py
       - name: Install full validation dependencies
         run: python -m pip install -e '.[dev,benchmark,deployment]'
       - name: Normalize generated sources
-        run: ruff check . --fix --unsafe-fixes --exclude scripts/benchmark_upgrade.py --exclude scripts/benchmark_tests_upgrade.py
+        run: ruff check . --fix --unsafe-fixes --exclude scripts/benchmark_upgrade.py --exclude scripts/benchmark_tests_upgrade.py --exclude scripts/benchmark_fixups.py
       - name: Validate registry and evidence
         run: |
           python scripts/validate_registry.py registry/source/registry-v2.json
           python scripts/validate_evidence.py
       - name: Lint
-        run: ruff check . --exclude scripts/benchmark_upgrade.py --exclude scripts/benchmark_tests_upgrade.py
+        run: ruff check . --exclude scripts/benchmark_upgrade.py --exclude scripts/benchmark_tests_upgrade.py --exclude scripts/benchmark_fixups.py
       - name: Test
         run: pytest
       - name: Native ONNX Runtime benchmark smoke
@@ -152,6 +83,8 @@ jobs:
           assert report['measurement']['profile_only'] is False
           assert report['software']['provider'] == 'CPUExecutionProvider'
           assert report['execution']['input_shapes'] == {'input': [1, 4]}
+          assert len(report['reproducibility']['software_stack_fingerprint']) == 64
+          assert matrix['local_measured'] == 1
           assert matrix['exact_context_complete'] == 1
           PY
       - name: Build and check package
@@ -167,7 +100,8 @@ jobs:
           git reset .github/workflows/benchmark-upgrade.yml \
             .github/workflows/ci.yml \
             scripts/benchmark_upgrade.py \
-            scripts/benchmark_tests_upgrade.py
+            scripts/benchmark_tests_upgrade.py \
+            scripts/benchmark_fixups.py
           if git diff --cached --quiet; then
             echo "No benchmark product changes to commit."
             exit 0
