@@ -56,9 +56,6 @@ jobs:
           python -m autonomyfit compare yolo26n rfdetr-nano --offline --hardware-profile nvidia-t4-16gb --objective balanced --json >/dev/null
           python -m autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5 --json >/dev/null
           python -m compileall -q src
-          if [ -f registry/published/registry-v2.json.sigstore.json ]; then
-            AUTONOMYFIT_CACHE_DIR="$RUNNER_TEMP/autonomyfit-registry" python -m autonomyfit registry update --json >/dev/null
-          fi
 
   native-benchmark:
     name: Native ONNX Runtime benchmark
@@ -155,6 +152,3 @@ jobs:
           autonomyfit recommend --offline --task detection --hardware-profile qualcomm-snapdragon-x-elite-16gb --runtime qnn --objective balanced --top 3 --json >/dev/null
           autonomyfit compare yolo26n rfdetr-nano --offline --hardware-profile nvidia-t4-16gb --objective balanced --json >/dev/null
           autonomyfit recommend --offline --hardware-profile jetson-orin-nx-16gb --fps 200 --latency-ms 5 --json >/dev/null
-          if [ -f registry/published/registry-v2.json.sigstore.json ]; then
-            AUTONOMYFIT_CACHE_DIR="$RUNNER_TEMP/autonomyfit-wheel-registry" autonomyfit registry update --json >/dev/null
-          fi
