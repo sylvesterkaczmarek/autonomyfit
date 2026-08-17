@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import importlib.metadata
 import re
 import shutil
 import subprocess
@@ -438,6 +439,11 @@ class OpenVINOBackend(BenchmarkBackend):
             version_text = match.group(1) if match else None
         except (OSError, subprocess.SubprocessError):
             version_text = None
+        if not version_text:
+            try:
+                version_text = importlib.metadata.version("openvino")
+            except importlib.metadata.PackageNotFoundError:
+                version_text = None
         return BackendAvailability(self.name, True, version_text, executable)
 
     def benchmark(self, request: BenchmarkRequest) -> dict[str, Any]:

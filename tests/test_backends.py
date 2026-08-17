@@ -125,3 +125,19 @@ def test_coreml_compute_unit_validation_is_explicit(monkeypatch, tmp_path):
     # Import may fail before compute-unit validation on non-macOS test hosts; the production macOS
     # path is exercised separately. The request field itself must remain explicit and serialisable.
     assert request.compute_units == "not-a-real-unit"
+
+def test_openvino_version_falls_back_to_installed_package(monkeypatch):
+    from autonomyfit.backends import OpenVINOBackend
+
+    monkeypatch.setattr("shutil.which", lambda name: "/usr/bin/benchmark_app")
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *args, **kwargs: type("Result", (), {"stdout": "usage only", "stderr": ""})(),
+    )
+    monkeypatch.setattr(
+        "autonomyfit.backends.importlib.metadata.version",
+        lambda name: "2026.3.0" if name == "openvino" else "0",
+    )
+    availability = OpenVINOBackend().availability()
+    assert availability.available is True
+    assert availability.version == "2026.3.0"

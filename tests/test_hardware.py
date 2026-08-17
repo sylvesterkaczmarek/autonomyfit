@@ -30,3 +30,16 @@ def test_detected_machine_identity_does_not_collapse_to_profile(monkeypatch):
     assert hardware_evidence_id(profile) == "jetson-orin-nx-16gb"
     assert hardware_evidence_id(detected).startswith("local-jetson-")
     assert hardware_evidence_id(detected) != hardware_evidence_id(profile)
+
+def test_linux_cpu_brand_prefers_cpuinfo_model(monkeypatch):
+    from autonomyfit.hardware import _cpu_brand
+
+    monkeypatch.setattr("autonomyfit.hardware.platform.system", lambda: "Linux")
+    monkeypatch.setattr("autonomyfit.hardware.platform.processor", lambda: "x86_64")
+    monkeypatch.setattr(
+        "autonomyfit.hardware.Path.read_text",
+        lambda self, **kwargs: "model name : Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
+        if str(self) == "/proc/cpuinfo"
+        else "",
+    )
+    assert _cpu_brand() == "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"

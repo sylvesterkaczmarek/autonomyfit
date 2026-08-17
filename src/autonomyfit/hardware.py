@@ -233,18 +233,21 @@ def _apple_chip() -> str | None:
 
 
 def _cpu_brand() -> str:
+    if platform.system() == "Linux":
+        try:
+            text = Path("/proc/cpuinfo").read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            text = ""
+        for key in ("model name", "Hardware", "Processor"):
+            match = re.search(
+                rf"^{re.escape(key)}\s*:\s*(.+)$",
+                text,
+                re.MULTILINE | re.IGNORECASE,
+            )
+            if match:
+                return match.group(1).strip()
     value = platform.processor() or platform.uname().processor
-    if value:
-        return value
-    try:
-        text = Path("/proc/cpuinfo").read_text(encoding="utf-8", errors="ignore")
-    except OSError:
-        return "unknown"
-    for key in ("model name", "Hardware", "Processor"):
-        match = re.search(rf"^{re.escape(key)}\s*:\s*(.+)$", text, re.MULTILINE | re.IGNORECASE)
-        if match:
-            return match.group(1).strip()
-    return "unknown"
+    return value or "unknown"
 
 
 def _openvino_devices() -> tuple[str, ...]:
