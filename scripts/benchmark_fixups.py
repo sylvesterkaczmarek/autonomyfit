@@ -20,8 +20,6 @@ def append_once(path: str, addition: str) -> None:
         target.write_text(text.rstrip() + "\n\n" + addition.strip() + "\n", encoding="utf-8")
 
 
-# benchmark_app help output does not always expose a parseable OpenVINO version.
-# Fall back to the installed runtime package so evidence keeps exact runtime identity.
 replace_once(
     "src/autonomyfit/backends.py",
     "import re\n",
@@ -54,8 +52,6 @@ replace_once(
 ''',
 )
 
-# On Linux, platform.processor() can be only "x86_64". Prefer /proc/cpuinfo's
-# model name so Intel/AMD detection is based on the real exposed CPU identity.
 replace_once(
     "src/autonomyfit/hardware.py",
     '''def _cpu_brand() -> str:
@@ -94,6 +90,8 @@ replace_once(
 append_once(
     "tests/test_backends.py",
     '''def test_openvino_version_falls_back_to_installed_package(monkeypatch):
+    from autonomyfit.backends import OpenVINOBackend
+
     monkeypatch.setattr("shutil.which", lambda name: "/usr/bin/benchmark_app")
     monkeypatch.setattr(
         "subprocess.run",
@@ -118,7 +116,7 @@ append_once(
     monkeypatch.setattr("autonomyfit.hardware.platform.processor", lambda: "x86_64")
     monkeypatch.setattr(
         "autonomyfit.hardware.Path.read_text",
-        lambda self, **kwargs: "model name : Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz\n"
+        lambda self, **kwargs: "model name : Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
         if str(self) == "/proc/cpuinfo"
         else "",
     )
