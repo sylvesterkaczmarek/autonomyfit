@@ -20,19 +20,16 @@ jobs:
           python-version: "3.12"
       - name: Install
         run: python -m pip install -e '.[benchmark]' openvino
-      - name: Detect host
-        run: autonomyfit scan --json
-      - name: Build and benchmark OpenVINO
+      - name: Build and benchmark
         run: |
           python - <<'PY'
           import onnx
           from onnx import TensorProto, helper
-          graph = helper.make_graph([helper.make_node('Identity', ['input'], ['output'])], 'id', [helper.make_tensor_value_info('input', TensorProto.FLOAT, [1,4])], [helper.make_tensor_value_info('output', TensorProto.FLOAT, [1,4])])
-          model = helper.make_model(graph, opset_imports=[helper.make_opsetid('',13)])
-          model.ir_version = min(model.ir_version,10)
-          onnx.save(model,'/tmp/model.onnx')
+          g=helper.make_graph([helper.make_node('Identity',['input'],['output'])],'id',[helper.make_tensor_value_info('input',TensorProto.FLOAT,[1,4])],[helper.make_tensor_value_info('output',TensorProto.FLOAT,[1,4])])
+          m=helper.make_model(g,opset_imports=[helper.make_opsetid('',13)]); m.ir_version=min(m.ir_version,10); onnx.save(m,'/tmp/m.onnx')
           PY
-          autonomyfit benchmark /tmp/model.onnx --model-id ci-openvino --model-revision "$GITHUB_SHA" --backend openvino --device CPU --precision fp32 --batch-size 1 --iterations 10 -o /tmp/openvino.json
+          autonomyfit scan --json
+          autonomyfit benchmark /tmp/m.onnx --model-id ci-openvino --model-revision "$GITHUB_SHA" --backend openvino --device CPU --precision fp32 --batch-size 1 --iterations 10 -o /tmp/openvino.json
           autonomyfit benchmark-inspect /tmp/openvino.json
 
   apple:
@@ -45,20 +42,18 @@ jobs:
           python-version: "3.12"
       - name: Install
         run: python -m pip install -e '.[benchmark]' coremltools
-      - name: Detect host
+      - name: Build and benchmark
         run: |
           system_profiler SPHardwareDataType || true
           autonomyfit scan --json
-      - name: Build and benchmark Core ML
-        run: |
           python - <<'PY'
           import coremltools as ct
           from coremltools.proto import FeatureTypes_pb2, Model_pb2
-          spec=Model_pb2.Model(); spec.specificationVersion=5
-          inp=spec.description.input.add(); inp.name='input'; inp.type.multiArrayType.dataType=FeatureTypes_pb2.ArrayFeatureType.FLOAT32; inp.type.multiArrayType.shape.extend([4])
-          out=spec.description.output.add(); out.name='output'; out.type.multiArrayType.dataType=FeatureTypes_pb2.ArrayFeatureType.FLOAT32; out.type.multiArrayType.shape.extend([4])
-          layer=spec.neuralNetwork.layers.add(); layer.name='identity'; layer.input.append('input'); layer.output.append('output'); layer.activation.linear.alpha=1.0
-          ct.models.MLModel(spec).save('/tmp/model.mlmodel')
+          s=Model_pb2.Model(); s.specificationVersion=5
+          i=s.description.input.add(); i.name='input'; i.type.multiArrayType.dataType=FeatureTypes_pb2.ArrayFeatureType.FLOAT32; i.type.multiArrayType.shape.extend([4])
+          o=s.description.output.add(); o.name='output'; o.type.multiArrayType.dataType=FeatureTypes_pb2.ArrayFeatureType.FLOAT32; o.type.multiArrayType.shape.extend([4])
+          l=s.neuralNetwork.layers.add(); l.name='identity'; l.input.append('input'); l.output.append('output'); l.activation.linear.alpha=1.0
+          ct.models.MLModel(s).save('/tmp/m.mlmodel')
           PY
-          autonomyfit benchmark /tmp/model.mlmodel --model-id ci-coreml --model-revision "$GITHUB_SHA" --backend coreml --compute-units ALL --precision fp32 --batch-size 1 --iterations 10 --warmup 2 -o /tmp/coreml.json
+          autonomyfit benchmark /tmp/m.mlmodel --model-id ci-coreml --model-revision "$GITHUB_SHA" --backend coreml --compute-units ALL --precision fp32 --batch-size 1 --iterations 10 --warmup 2 -o /tmp/coreml.json
           autonomyfit benchmark-inspect /tmp/coreml.json
