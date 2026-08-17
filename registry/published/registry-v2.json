@@ -71,6 +71,136 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "C-RADIOv2-B",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/C-RADIOv2-B",
+            "source_url": "https://huggingface.co/nvidia/C-RADIOv2-B"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "C-RADIOv2-B",
+        "variant": null
+      },
+      "id": "c-radiov2-b",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/C-RADIOv2-B",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 98.233353
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-01-13",
+        "revision": "cb109caa670ee8cc38ccf23b8ab0331fa487db0f",
+        "source_id": "nvidia:nvidia/C-RADIOv2-B",
+        "source_url": "https://huggingface.co/nvidia/C-RADIOv2-B"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "C-RADIOv2-g",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/C-RADIOv2-g",
+            "source_url": "https://huggingface.co/nvidia/C-RADIOv2-g"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "C-RADIOv2-g",
+        "variant": null
+      },
+      "id": "c-radiov2-g",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/C-RADIOv2-g",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 1159.618568
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-01-17",
+        "revision": "7c0d37c2585446197863645197e03792338f67e6",
+        "source_id": "nvidia:nvidia/C-RADIOv2-g",
+        "source_url": "https://huggingface.co/nvidia/C-RADIOv2-g"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16"
@@ -147,6 +277,71 @@
           "transformers"
         ]
       },
+      "display_name": "Depth-Anything-V2-Small-hf",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:depth-anything/Depth-Anything-V2-Small-hf",
+            "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Depth-Anything-V2",
+        "variant": "Small-hf"
+      },
+      "id": "depth-anything-v2-small-hf",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 24.785089
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-06-18",
+        "revision": "5426e4f0f36572d16453bbda7a8389317b1bef99",
+        "source_id": "huggingface:depth-anything/Depth-Anything-V2-Small-hf",
+        "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "detr-resnet-50",
       "evidence": {
         "accuracy": [],
@@ -200,6 +395,71 @@
       },
       "verification": {
         "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "dinov2-base",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov2-base",
+            "source_url": "https://huggingface.co/facebook/dinov2-base"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov2",
+        "variant": "base"
+      },
+      "id": "dinov2-base",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/dinov2-base",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 86.58048
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2023-07-17",
+        "revision": "f9e44c814b77203eaa57a6bdbbd535f21ede1415",
+        "source_id": "huggingface:facebook/dinov2-base",
+        "source_url": "https://huggingface.co/facebook/dinov2-base"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -267,6 +527,201 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "dinov3-vitb16-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-vitb16-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-vitb16-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-vitb16-pretrain-lvd1689m",
+        "variant": null
+      },
+      "id": "dinov3-vitb16-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-vitb16-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 85.660416
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-08-05",
+        "revision": "5931719e67bbdb9737e363e781fb0c67687896bc",
+        "source_id": "huggingface:facebook/dinov3-vitb16-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-vitb16-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "dinov3-vitl16-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-vitl16-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-vitl16-pretrain-lvd1689m",
+        "variant": null
+      },
+      "id": "dinov3-vitl16-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 303.1296
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-08-06",
+        "revision": "ea8dc2863c51be0a264bab82070e3e8836b02d51",
+        "source_id": "huggingface:facebook/dinov3-vitl16-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "dinov3-vits16-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-vits16-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-vits16-pretrain-lvd1689m",
+        "variant": null
+      },
+      "id": "dinov3-vits16-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 21.596544
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-08-05",
+        "revision": "114c1379950215c8b35dfcd4e90a5c251dde0d32",
+        "source_id": "huggingface:facebook/dinov3-vits16-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -477,6 +932,266 @@
           "transformers"
         ]
       },
+      "display_name": "MambaVision-L-1K",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/MambaVision-L-1K",
+            "source_url": "https://huggingface.co/nvidia/MambaVision-L-1K"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MambaVision-L-1K",
+        "variant": null
+      },
+      "id": "mambavision-l-1k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-L-1K",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 227.97176
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-07-14",
+        "revision": "63df00c6368147afe70d0cd7936571cf2c5695a8",
+        "source_id": "nvidia:nvidia/MambaVision-L-1K",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-L-1K"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "MambaVision-S-1K",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/MambaVision-S-1K",
+            "source_url": "https://huggingface.co/nvidia/MambaVision-S-1K"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MambaVision-S-1K",
+        "variant": null
+      },
+      "id": "mambavision-s-1k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-S-1K",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 50.145896
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-07-14",
+        "revision": "e4f9ea93877fba6f1e2d231fd0f0a391368ad895",
+        "source_id": "nvidia:nvidia/MambaVision-S-1K",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-S-1K"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "MambaVision-T-1K",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/MambaVision-T-1K",
+            "source_url": "https://huggingface.co/nvidia/MambaVision-T-1K"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MambaVision-T-1K",
+        "variant": null
+      },
+      "id": "mambavision-t-1k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-T-1K",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 31.797992
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-07-14",
+        "revision": "b1de77e17599566d98efb701c0231b1095dc3a67",
+        "source_id": "nvidia:nvidia/MambaVision-T-1K",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-T-1K"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "MambaVision-T2-1K",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/MambaVision-T2-1K",
+            "source_url": "https://huggingface.co/nvidia/MambaVision-T2-1K"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MambaVision-T2-1K",
+        "variant": null
+      },
+      "id": "mambavision-t2-1k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-T2-1K",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 35.107752
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-07-14",
+        "revision": "07f24ef79f4546003687f3aa6e6c842832d0326b",
+        "source_id": "nvidia:nvidia/MambaVision-T2-1K",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-T2-1K"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "microsoft/git-base-textvqa",
       "evidence": {
         "accuracy": [],
@@ -597,6 +1312,72 @@
       },
       "verification": {
         "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "microsoft/git-large-textvqa",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/git-large-textvqa",
+            "source_url": "https://huggingface.co/microsoft/git-large-textvqa"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "git",
+        "variant": "large-textvqa"
+      },
+      "id": "microsoft-git-large-textvqa",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/git-large-textvqa",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 394.857407
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2023-01-02",
+        "revision": "416f91974ee1fb3e797144c9fc93787740787161",
+        "source_id": "huggingface:microsoft/git-large-textvqa",
+        "source_url": "https://huggingface.co/microsoft/git-large-textvqa"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -1021,6 +1802,71 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "parakeet-tdt-0.6b-v3",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/parakeet-tdt-0.6b-v3",
+            "source_url": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "parakeet-tdt",
+        "variant": "0.6b-v3"
+      },
+      "id": "parakeet-tdt-0-6b-v3",
+      "input": {
+        "height": null,
+        "kind": "audio",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3",
+        "spdx": "cc-by-4.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "deduplicated corroborating source huggingface:nvidia/parakeet-tdt-0.6b-v3",
+      "parameters": {
+        "flops_b": null,
+        "millions": 627.057286
+      },
+      "task": "asr",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-08-04",
+        "revision": "541d1f99c6b0c3cd0b11a95167540bb8edefd82b",
+        "source_id": "nvidia:nvidia/parakeet-tdt-0.6b-v3",
+        "source_url": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16",
@@ -1172,6 +2018,201 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "RADIO",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/RADIO",
+            "source_url": "https://huggingface.co/nvidia/RADIO"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RADIO",
+        "variant": null
+      },
+      "id": "radio",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/RADIO",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 651.983368
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2023-12-11",
+        "revision": "10f0448935988a74dd59b4969ac520dbcd7db293",
+        "source_id": "nvidia:nvidia/RADIO",
+        "source_url": "https://huggingface.co/nvidia/RADIO"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "RADIO-B",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/RADIO-B",
+            "source_url": "https://huggingface.co/nvidia/RADIO-B"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RADIO-B",
+        "variant": null
+      },
+      "id": "radio-b",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/RADIO-B",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 98.233353
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-07-23",
+        "revision": "8a88fad34f4d9d397b91f546772daf1ea6edbc00",
+        "source_id": "nvidia:nvidia/RADIO-B",
+        "source_url": "https://huggingface.co/nvidia/RADIO-B"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "RADIO-L",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/RADIO-L",
+            "source_url": "https://huggingface.co/nvidia/RADIO-L"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "RADIO-L",
+        "variant": null
+      },
+      "id": "radio-l",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/RADIO-L",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 319.881225
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-07-23",
+        "revision": "e337932e3abb0c9d9f7d4bbcfad15aca783e91bc",
+        "source_id": "nvidia:nvidia/RADIO-L",
+        "source_url": "https://huggingface.co/nvidia/RADIO-L"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -1400,6 +2441,71 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "resnet-50",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/resnet-50",
+            "source_url": "https://huggingface.co/microsoft/resnet-50"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "resnet-50",
+        "variant": null
+      },
+      "id": "resnet-50",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/resnet-50",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 25.610152
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2022-03-16",
+        "revision": "34c2154c194f829b11125337b98c8f5f9965ff19",
+        "source_id": "huggingface:microsoft/resnet-50",
+        "source_url": "https://huggingface.co/microsoft/resnet-50"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -1713,6 +2819,71 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "segformer-b0-finetuned-ade-512-512",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/segformer-b0-finetuned-ade-512-512",
+            "source_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-ade-512-512"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "segformer-b0-finetuned-ade-512-512",
+        "variant": null
+      },
+      "id": "segformer-b0-finetuned-ade-512-512",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-ade-512-512",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence; deduplicated corroborating source huggingface:nvidia/segformer-b0-finetuned-ade-512-512",
+      "parameters": {
+        "flops_b": null,
+        "millions": 3.753206
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2022-03-02",
+        "revision": "489d5cd81a0b59fab9b7ea758d3548ebe99677da",
+        "source_id": "nvidia:nvidia/segformer-b0-finetuned-ade-512-512",
+        "source_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-ade-512-512"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16",
@@ -1720,11 +2891,12 @@
         ],
         "quantizations": [],
         "runtimes": [
+          "onnx",
           "pytorch",
           "transformers"
         ]
       },
-      "display_name": "SmolVLM 256M Instruct",
+      "display_name": "SmolVLM-256M-Instruct",
       "evidence": {
         "accuracy": [],
         "benchmark_refs": [],
@@ -1758,7 +2930,7 @@
       "license": {
         "note": null,
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
-        "spdx": "Apache-2.0",
+        "spdx": "apache-2.0",
         "status": "published"
       },
       "modalities": {
@@ -1770,21 +2942,21 @@
           "text"
         ]
       },
-      "notes": null,
+      "notes": "upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
-        "millions": 256.0
+        "millions": 256.484928
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-16T12:42:00Z",
-        "release_date": null,
-        "revision": null,
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-01-17",
+        "revision": "7e3e67edbbed1bf9888184d9df282b700a323964",
         "source_id": "huggingface-smolvlm-256m",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-16T12:42:00Z",
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -1801,7 +2973,7 @@
           "transformers"
         ]
       },
-      "display_name": "SmolVLM2 2.2B Instruct",
+      "display_name": "SmolVLM2-2.2B-Instruct",
       "evidence": {
         "accuracy": [],
         "benchmark_refs": [],
@@ -1828,34 +3000,33 @@
       "license": {
         "note": null,
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct",
-        "spdx": "Apache-2.0",
+        "spdx": "apache-2.0",
         "status": "published"
       },
       "modalities": {
         "input": [
           "image",
-          "video",
           "text"
         ],
         "output": [
           "text"
         ]
       },
-      "notes": null,
+      "notes": "upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
-        "millions": 2200.0
+        "millions": 2246.78488
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-16T12:42:00Z",
-        "release_date": null,
-        "revision": null,
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-02-08",
+        "revision": "482adb537c021c86670beed01cd58990d01e72e4",
         "source_id": "huggingface-smolvlm2-2.2b",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-16T12:42:00Z",
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -1868,12 +3039,12 @@
         ],
         "quantizations": [],
         "runtimes": [
+          "onnx",
           "pytorch",
-          "transformers",
-          "onnx"
+          "transformers"
         ]
       },
-      "display_name": "SmolVLM2 500M Video Instruct",
+      "display_name": "SmolVLM2-500M-Video-Instruct",
       "evidence": {
         "accuracy": [],
         "benchmark_refs": [],
@@ -1900,34 +3071,98 @@
       "license": {
         "note": null,
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct",
-        "spdx": "Apache-2.0",
+        "spdx": "apache-2.0",
         "status": "published"
       },
       "modalities": {
         "input": [
           "image",
-          "video",
           "text"
         ],
         "output": [
           "text"
         ]
       },
-      "notes": null,
+      "notes": "upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
-        "millions": 500.0
+        "millions": 507.482304
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-16T12:42:00Z",
-        "release_date": null,
-        "revision": null,
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2025-02-11",
+        "revision": "7b375e1b73b11138ff12fe22c8f2822d8fe03467",
         "source_id": "huggingface-smolvlm2-500m",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-16T12:42:00Z",
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "vit-base-patch16-224",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/vit-base-patch16-224",
+            "source_url": "https://huggingface.co/google/vit-base-patch16-224"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "vit",
+        "variant": "base-patch16-224"
+      },
+      "id": "vit-base-patch16-224",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/vit-base-patch16-224",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 86.567656
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2022-03-02",
+        "revision": "3f49326eb077187dfe1c2a2bb15fbd74e6ab91e3",
+        "source_id": "huggingface:google/vit-base-patch16-224",
+        "source_url": "https://huggingface.co/google/vit-base-patch16-224"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -1995,6 +3230,136 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "whisper-large-v3",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:openai/whisper-large-v3",
+            "source_url": "https://huggingface.co/openai/whisper-large-v3"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "whisper",
+        "variant": "large-v3"
+      },
+      "id": "whisper-large-v3",
+      "input": {
+        "height": null,
+        "kind": "audio",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/openai/whisper-large-v3",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 1543.49056
+      },
+      "task": "asr",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2023-11-07",
+        "revision": "06f233fe06e710322aca913c1bc4249a0d71fce1",
+        "source_id": "huggingface:openai/whisper-large-v3",
+        "source_url": "https://huggingface.co/openai/whisper-large-v3"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "whisper-large-v3-turbo",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:openai/whisper-large-v3-turbo",
+            "source_url": "https://huggingface.co/openai/whisper-large-v3-turbo"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "whisper",
+        "variant": "large-v3-turbo"
+      },
+      "id": "whisper-large-v3-turbo",
+      "input": {
+        "height": null,
+        "kind": "audio",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/openai/whisper-large-v3-turbo",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 808.87808
+      },
+      "task": "asr",
+      "upstream": {
+        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "release_date": "2024-10-01",
+        "revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+        "source_id": "huggingface:openai/whisper-large-v3-turbo",
+        "source_url": "https://huggingface.co/openai/whisper-large-v3-turbo"
+      },
+      "verification": {
+        "last_verified": "2026-08-17T12:47:15.926322Z",
         "status": "source_verified"
       }
     },
@@ -4144,11 +5509,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-15T05:53:31.156187Z",
-    "generated_at": "2026-08-17T05:53:31.156187Z",
+    "expires_at": "2026-11-15T12:47:15.926322Z",
+    "generated_at": "2026-08-17T12:47:15.926322Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 5,
+    "registry_version": 6,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
