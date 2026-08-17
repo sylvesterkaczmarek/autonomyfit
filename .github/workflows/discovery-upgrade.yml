@@ -50,6 +50,8 @@ jobs:
           PY
       - name: Install development dependencies
         run: python -m pip install -e '.[dev]'
+      - name: Normalize generated test imports
+        run: ruff check tests/test_discovery.py --select I --fix
       - name: Validate registry and evidence
         run: |
           python scripts/validate_registry.py registry/source/registry-v2.json
