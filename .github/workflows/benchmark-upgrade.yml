@@ -31,8 +31,22 @@ jobs:
         run: |
           python scripts/benchmark_upgrade.py
           python scripts/benchmark_tests_upgrade.py
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("tests/test_deployment_stage5.py")
+          text = path.read_text(encoding="utf-8")
+          text = text.replace(
+              "from autonomyfit.deployment import (\n    ValidationOptions,",
+              "from autonomyfit.deployment import (\n    DeploymentValidationError,\n    ValidationOptions,",
+              1,
+          )
+          text = text.replace("    except Exception as exc:\n", "    except DeploymentValidationError as exc:\n", 1)
+          path.write_text(text, encoding="utf-8")
+          PY
       - name: Install full validation dependencies
         run: python -m pip install -e '.[dev,benchmark,deployment]'
+      - name: Normalize generated sources
+        run: ruff check . --fix --unsafe-fixes --exclude scripts/benchmark_upgrade.py --exclude scripts/benchmark_tests_upgrade.py
       - name: Validate registry and evidence
         run: |
           python scripts/validate_registry.py registry/source/registry-v2.json
