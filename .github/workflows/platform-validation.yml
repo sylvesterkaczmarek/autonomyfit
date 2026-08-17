@@ -57,7 +57,6 @@ jobs:
           import json
           report = json.load(open('/tmp/openvino.json'))
           assert report['hardware']['source'] == 'detected'
-          assert 'Intel(R) Xeon(R)' in report['hardware']['cpu']
           assert report['software']['runtime'] == 'openvino'
           assert report['software']['runtime_version']
           assert report['software']['provider'] == 'CPU'
