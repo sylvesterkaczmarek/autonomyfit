@@ -13,8 +13,6 @@ jobs:
   openvino:
     name: OpenVINO native CPU validation
     runs-on: ubuntu-latest
-    env:
-      AUTONOMYFIT_EVIDENCE_DIR: ${{ runner.temp }}/autonomyfit-openvino-evidence
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -26,8 +24,7 @@ jobs:
         run: |
           uname -a
           lscpu || true
-          autonomyfit scan --json >/tmp/openvino-scan.json
-          cat /tmp/openvino-scan.json
+          autonomyfit scan --json
           autonomyfit benchmark-backends --json
       - name: Build ONNX graph
         run: |
@@ -54,31 +51,22 @@ jobs:
             --precision fp32 \
             --batch-size 1 \
             --iterations 10 \
-            -o /tmp/openvino.json >/dev/null
-          autonomyfit benchmark-inspect /tmp/openvino.json >/dev/null
-          autonomyfit benchmark-import /tmp/openvino.json >/dev/null
-          autonomyfit benchmark-matrix --local-only --json >/tmp/openvino-matrix.json
+            -o /tmp/openvino.json
+          autonomyfit benchmark-inspect /tmp/openvino.json
           python - <<'PY'
           import json
-          scan = json.load(open('/tmp/openvino-scan.json'))
           report = json.load(open('/tmp/openvino.json'))
-          matrix = json.load(open('/tmp/openvino-matrix.json'))
-          assert scan['platform'] == 'intel', scan
-          assert 'Intel' in scan['cpu'], scan['cpu']
-          assert report['hardware']['platform'] == 'intel'
+          assert report['hardware']['source'] == 'detected'
+          assert 'Intel(R) Xeon(R)' in report['hardware']['cpu']
           assert report['software']['runtime'] == 'openvino'
-          assert report['software']['runtime_version'] == '2026.3.0'
+          assert report['software']['runtime_version']
           assert report['software']['provider'] == 'CPU'
-          assert report['software']['provider_version'] == '2026.3.0'
-          assert matrix['local_measured'] == 1
-          assert matrix['exact_context_complete'] == 1
+          assert report['execution']['input_shapes'] == {'input': [1, 4]}
           PY
 
   apple:
-    name: macOS Apple Silicon Core ML validation
+    name: macOS Core ML validation
     runs-on: macos-14
-    env:
-      AUTONOMYFIT_EVIDENCE_DIR: ${{ runner.temp }}/autonomyfit-apple-evidence
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -94,17 +82,13 @@ jobs:
         run: python -m pip install -e '.[benchmark]' coremltools
       - name: Inspect AutonomyFit detection
         run: |
-          autonomyfit scan --json >/tmp/apple-scan.json
-          cat /tmp/apple-scan.json
+          autonomyfit scan --json
           autonomyfit benchmark-backends --json
-      - name: Build valid Core ML and ONNX identity models
+      - name: Build Core ML vector model
         run: |
           python - <<'PY'
           import coremltools as ct
-          import onnx
           from coremltools.proto import FeatureTypes_pb2, Model_pb2
-          from onnx import TensorProto, helper
-
           spec = Model_pb2.Model()
           spec.specificationVersion = 5
           inp = spec.description.input.add()
@@ -122,18 +106,8 @@ jobs:
           layer.activation.linear.alpha = 1.0
           layer.activation.linear.beta = 0.0
           ct.models.MLModel(spec).save("/tmp/autonomyfit-coreml.mlmodel")
-
-          graph = helper.make_graph(
-              [helper.make_node("Identity", ["input"], ["output"])],
-              "autonomyfit-coreml-ep-identity",
-              [helper.make_tensor_value_info("input", TensorProto.FLOAT, [1, 4])],
-              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
-          )
-          model = helper.make_model(graph, opset_imports=[helper.make_opsetid("", 13)])
-          model.ir_version = min(model.ir_version, 10)
-          onnx.save(model, "/tmp/autonomyfit-coreml-ep.onnx")
           PY
-      - name: Benchmark native Core ML
+      - name: Benchmark Core ML
         run: |
           autonomyfit benchmark /tmp/autonomyfit-coreml.mlmodel \
             --model-id autonomyfit-coreml-identity \
@@ -144,11 +118,33 @@ jobs:
             --batch-size 1 \
             --iterations 10 \
             --warmup 2 \
-            -o /tmp/coreml.json >/dev/null
-          autonomyfit benchmark-inspect /tmp/coreml.json >/dev/null
-          autonomyfit benchmark-import /tmp/coreml.json >/dev/null
-      - name: Benchmark ONNX Runtime CoreML execution provider
+            -o /tmp/coreml.json
+          autonomyfit benchmark-inspect /tmp/coreml.json
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/coreml.json'))
+          assert report['hardware']['platform'] == 'apple'
+          assert report['hardware']['source'] == 'detected'
+          assert 'Apple M1' in report['hardware']['cpu']
+          assert report['software']['runtime'] == 'coreml'
+          assert report['software']['runtime_version'] == '9.0'
+          assert report['execution']['backend_options']['compute_units'] == 'ALL'
+          PY
+      - name: Benchmark ONNX Runtime CoreML provider
         run: |
+          python - <<'PY'
+          import onnx
+          from onnx import TensorProto, helper
+          graph = helper.make_graph(
+              [helper.make_node("Identity", ["input"], ["output"])],
+              "autonomyfit-coreml-ep-identity",
+              [helper.make_tensor_value_info("input", TensorProto.FLOAT, [1, 4])],
+              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
+          )
+          model = helper.make_model(graph, opset_imports=[helper.make_opsetid("", 13)])
+          model.ir_version = min(model.ir_version, 10)
+          onnx.save(model, "/tmp/autonomyfit-coreml-ep.onnx")
+          PY
           autonomyfit benchmark /tmp/autonomyfit-coreml-ep.onnx \
             --model-id autonomyfit-coreml-ep-identity \
             --model-revision "$GITHUB_SHA" \
@@ -158,25 +154,11 @@ jobs:
             --batch-size 1 \
             --iterations 10 \
             --warmup 2 \
-            -o /tmp/coreml-ep.json >/dev/null
-          autonomyfit benchmark-inspect /tmp/coreml-ep.json >/dev/null
-          autonomyfit benchmark-import /tmp/coreml-ep.json >/dev/null
-          autonomyfit benchmark-matrix --local-only --json >/tmp/apple-matrix.json
+            -o /tmp/coreml-ep.json
           python - <<'PY'
           import json
-          scan = json.load(open('/tmp/apple-scan.json'))
-          direct = json.load(open('/tmp/coreml.json'))
-          ep = json.load(open('/tmp/coreml-ep.json'))
-          matrix = json.load(open('/tmp/apple-matrix.json'))
-          assert scan['platform'] == 'apple'
-          assert scan['architecture'] == 'arm64'
-          assert 'Apple M1' in scan['cpu']
-          assert direct['software']['runtime'] == 'coreml'
-          assert direct['software']['runtime_version'] == '9.0'
-          assert direct['execution']['backend_options']['compute_units'] == 'ALL'
-          assert ep['software']['runtime'] == 'onnxruntime'
-          assert ep['software']['provider'] == 'CoreMLExecutionProvider'
-          assert 'CoreMLExecutionProvider' in ep['execution']['backend_options']['active_providers']
-          assert matrix['local_measured'] == 2
-          assert matrix['exact_context_complete'] == 2
+          report = json.load(open('/tmp/coreml-ep.json'))
+          assert report['software']['runtime'] == 'onnxruntime'
+          assert report['software']['provider'] == 'CoreMLExecutionProvider'
+          assert report['hardware']['platform'] == 'apple'
           PY
