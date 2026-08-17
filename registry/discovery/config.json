@@ -1,17 +1,20 @@
 {
-  "huggingface_limit_per_task": 20,
-  "nvidia_limit_per_task": 15,
+  "huggingface_limit_per_task": 12,
+  "nvidia_limit_per_task": 8,
   "schema_version": 1,
   "trusted_publishers": [
     "HuggingFaceTB",
     "IDEA-Research",
+    "PaddlePaddle",
     "PekingU",
     "Qwen",
     "apple",
+    "depth-anything",
     "facebook",
     "google",
     "microsoft",
     "nvidia",
+    "openai",
     "ultralytics"
   ],
   "vendor_github_repositories": []

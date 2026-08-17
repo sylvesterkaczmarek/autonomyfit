@@ -10,7 +10,7 @@ Implemented adapters:
 
 | Adapter | Machine-readable source | Role |
 |---|---|---|
-| `HuggingFaceAdapter` | Hugging Face Hub model APIs | Broad discovery for object detection and compact VLMs. |
+| `HuggingFaceAdapter` | Hugging Face Hub model APIs | Broad discovery for detection, classification, segmentation, pose, depth, OCR, compact VLM, ASR and image embeddings. |
 | `NvidiaAdapter` | NVIDIA's official Hugging Face publisher feed | Higher-priority NVIDIA discovery. |
 | `UltralyticsAdapter` | Official GitHub release and repository-content APIs | Detects official YOLO family/version signals. |
 | `VendorGitHubAdapter` | GitHub Releases REST API | Generic vendor release/version signals. |
@@ -33,15 +33,11 @@ The Hub adapter uses model-list and model-detail API data for:
 - `new_version` relationship
 - safetensors parameter metadata when exposed by the Hub
 
-The selection engine supports ten task categories, but scheduled Hub promotion currently covers object detection and compact VLMs only. The other task categories use curated registry entries until equally conservative provider-specific discovery and normalization rules exist.
+The selection engine supports ten task categories. Scheduled Hub discovery now covers nine of them: detection, classification, segmentation, pose, depth, OCR, compact VLM, ASR and image embeddings. Visual anomaly detection remains curated because the Hub's anomaly tags span unrelated image, video, tabular, log and language tasks and are not a sufficiently precise automatic task boundary. Discovery coverage does not imply automatic promotion: incomplete, untrusted or ambiguous records remain discovery-only.
 
-Current automatic promotion caps are intentionally edge-oriented:
+Current automatic promotion caps are intentionally edge-oriented: compact VLMs are capped at 4 billion parameters and the other supported automatic task categories at 2 billion parameters. Larger models can still be observed in discovery data, but are not promoted into the edge-selection registry.
 
-- VLM: at most 4 billion parameters
-- detection: at most 2 billion parameters
-
-Larger models can still be observed in discovery data, but are not promoted into the
-edge-selection registry.
+OCR is discovered only through the explicit `text_recognition` Hub tag combined with an image-to-text pipeline. Generic image-to-text models are not relabelled as OCR. Existing registry records whose canonical source is a Hugging Face repository are also revisited directly on every refresh, so immutable repository SHAs are refreshed even when the model is not currently trending.
 
 ## NVIDIA
 

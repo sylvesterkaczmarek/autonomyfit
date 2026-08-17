@@ -77,7 +77,7 @@ def main() -> None:
     registry = _read_json(args.registry)
     config = load_discovery_config(args.config)
     try:
-        candidates = run_discovery(config, now=now)
+        candidates = run_discovery(config, now=now, registry=registry)
     except DiscoveryError as exc:
         raise SystemExit(f"discovery failed closed: {exc}") from exc
 

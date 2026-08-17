@@ -11,11 +11,37 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Protocol
 
-SUPPORTED_TASKS = {"detection", "vlm"}
+from .tasks import task_ids, task_spec
+
+SUPPORTED_TASKS = set(task_ids())
 HF_TASKS = {
     "object-detection": "detection",
+    "image-classification": "classification",
+    "image-segmentation": "segmentation",
+    "keypoint-detection": "pose",
+    "depth-estimation": "depth",
     "image-text-to-text": "vlm",
     "visual-question-answering": "vlm",
+    "automatic-speech-recognition": "asr",
+    "image-feature-extraction": "embedding",
+}
+HF_TAG_TASKS = {
+    "text_recognition": ("ocr", frozenset({"image-to-text", "image-text-to-text"})),
+}
+AUTOMATIC_TASKS = frozenset(HF_TASKS.values()) | frozenset(
+    task for task, _ in HF_TAG_TASKS.values()
+)
+TASK_MAX_PARAMS_M = {
+    "detection": 2_000.0,
+    "classification": 2_000.0,
+    "segmentation": 2_000.0,
+    "pose": 2_000.0,
+    "depth": 2_000.0,
+    "ocr": 2_000.0,
+    "vlm": 4_000.0,
+    "anomaly": 2_000.0,
+    "asr": 2_000.0,
+    "embedding": 2_000.0,
 }
 OPEN_LICENSE_PREFIXES = (
     "apache-",
@@ -38,6 +64,23 @@ SOURCE_PRIORITY = {
     "huggingface": 70,
 }
 MAX_METADATA_BYTES = 5 * 1024 * 1024
+_FULL_COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
+
+
+def _immutable_revision(revision: str | None) -> bool:
+    return bool(revision and _FULL_COMMIT_RE.fullmatch(revision))
+
+
+def _valid_hf_repo_id(model_id: str) -> bool:
+    parts = model_id.split("/")
+    if len(parts) != 2:
+        return False
+    for part in parts:
+        if not part or part in {".", ".."} or "\\" in part or "?" in part or "#" in part:
+            return False
+        if any(ord(char) < 32 or ord(char) == 127 for char in part):
+            return False
+    return True
 
 
 class DiscoveryError(RuntimeError):
@@ -93,7 +136,7 @@ class DiscoveryCandidate:
             return "DEPRECATED"
         if not self.metadata_complete:
             return "DISCOVERED"
-        if self.official_publisher and self.revision and self.license_id:
+        if self.official_publisher and _immutable_revision(self.revision) and self.license_id:
             return "SOURCE_VERIFIED"
         return "NORMALIZED"
 
@@ -103,6 +146,7 @@ class DiscoveryCandidate:
         value["identity_key"] = self.identity_key
         value["revision_identity"] = self.revision_identity
         value["lifecycle"] = self.lifecycle()
+        value["immutable_revision"] = _immutable_revision(self.revision)
         value["source_priority"] = SOURCE_PRIORITY.get(self.provider, 0)
         value["aliases"] = sorted(set(value["aliases"]))
         value["runtimes"] = sorted(set(value["runtimes"]))
@@ -286,7 +330,18 @@ class HuggingFaceAdapter:
 
     def _list_url(self, pipeline_tag: str) -> str:
         params = {
-            "filter": pipeline_tag,
+            "pipeline_tag": pipeline_tag,
+            "sort": "trendingScore",
+            "direction": "-1",
+            "limit": str(self.limit_per_task),
+        }
+        if self.author:
+            params["author"] = self.author
+        return "https://huggingface.co/api/models?" + urllib.parse.urlencode(params)
+
+    def _tag_list_url(self, tag: str) -> str:
+        params = {
+            "filter": tag,
             "sort": "trendingScore",
             "direction": "-1",
             "limit": str(self.limit_per_task),
@@ -301,43 +356,149 @@ class HuggingFaceAdapter:
             safe="/",
         )
 
+    def _collect_listing(
+        self,
+        records: dict[str, DiscoveryCandidate],
+        listing: Any,
+        *,
+        task: str,
+        required_tag: str | None = None,
+        allowed_pipeline_tags: frozenset[str] | None = None,
+    ) -> None:
+        if not isinstance(listing, list):
+            raise DiscoveryError("Hugging Face model list was not an array")
+        for summary in listing:
+            if not isinstance(summary, dict) or not summary.get("id"):
+                continue
+            model_id = str(summary["id"])
+            try:
+                detail = self.transport.get_json(self._detail_url(model_id))
+            except DiscoveryError:
+                continue
+            if not isinstance(detail, dict):
+                continue
+            try:
+                candidate = self._candidate(
+                    detail,
+                    task,
+                    required_tag=required_tag,
+                    allowed_pipeline_tags=allowed_pipeline_tags,
+                )
+            except DiscoveryError:
+                continue
+            existing = records.get(candidate.identity_key)
+            if existing is None or (candidate.downloads or 0) > (existing.downloads or 0):
+                records[candidate.identity_key] = candidate
+
     def discover(self, now: datetime) -> list[DiscoveryCandidate]:
         del now
         records: dict[str, DiscoveryCandidate] = {}
+        errors: list[str] = []
         for pipeline_tag, task in HF_TASKS.items():
-            listing = self.transport.get_json(self._list_url(pipeline_tag))
-            if not isinstance(listing, list):
-                raise DiscoveryError("Hugging Face model list was not an array")
-            for summary in listing:
-                if not isinstance(summary, dict) or not summary.get("id"):
-                    continue
-                model_id = str(summary["id"])
-                detail = self.transport.get_json(self._detail_url(model_id))
-                if not isinstance(detail, dict):
-                    continue
-                candidate = self._candidate(detail, task)
-                existing = records.get(candidate.identity_key)
-                if existing is None or (candidate.downloads or 0) > (existing.downloads or 0):
-                    records[candidate.identity_key] = candidate
+            try:
+                listing = self.transport.get_json(self._list_url(pipeline_tag))
+                self._collect_listing(records, listing, task=task)
+            except DiscoveryError as exc:
+                errors.append(f"{pipeline_tag}: {exc}")
+        for tag, (task, allowed_pipeline_tags) in HF_TAG_TASKS.items():
+            try:
+                listing = self.transport.get_json(self._tag_list_url(tag))
+                self._collect_listing(
+                    records,
+                    listing,
+                    task=task,
+                    required_tag=tag,
+                    allowed_pipeline_tags=allowed_pipeline_tags,
+                )
+            except DiscoveryError as exc:
+                errors.append(f"tag:{tag}: {exc}")
+        if not records and errors:
+            raise DiscoveryError("all Hugging Face discovery queries failed: " + "; ".join(errors))
         return sorted(records.values(), key=lambda item: item.identity_key)
 
-    def _candidate(self, payload: dict[str, Any], task: str) -> DiscoveryCandidate:
+    def discover_registry(self, registry: dict[str, Any]) -> list[DiscoveryCandidate]:
+        records: dict[str, DiscoveryCandidate] = {}
+        prefix = "https://huggingface.co/"
+        for item in registry.get("models", []):
+            if not isinstance(item, dict):
+                continue
+            upstream = item.get("upstream")
+            if not isinstance(upstream, dict):
+                continue
+            source_url = str(upstream.get("source_url") or "")
+            if not source_url.startswith(prefix):
+                continue
+            repo_id = source_url[len(prefix):].strip("/")
+            if not _valid_hf_repo_id(repo_id):
+                continue
+            task = str(item.get("task") or "")
+            if task not in SUPPORTED_TASKS:
+                continue
+            try:
+                detail = self.transport.get_json(self._detail_url(repo_id))
+                if not isinstance(detail, dict):
+                    continue
+                if task == "ocr":
+                    ocr_task, allowed = HF_TAG_TASKS["text_recognition"]
+                    candidate = self._candidate(
+                        detail,
+                        ocr_task,
+                        required_tag="text_recognition",
+                        allowed_pipeline_tags=allowed,
+                    )
+                else:
+                    candidate = self._candidate(detail, task)
+            except DiscoveryError:
+                continue
+            if candidate.task != task:
+                continue
+            records[candidate.identity_key] = candidate
+        return sorted(records.values(), key=lambda item: item.identity_key)
+
+    def _candidate(
+        self,
+        payload: dict[str, Any],
+        task: str,
+        *,
+        required_tag: str | None = None,
+        allowed_pipeline_tags: frozenset[str] | None = None,
+    ) -> DiscoveryCandidate:
         model_id = str(payload.get("id") or payload.get("modelId") or "")
         if not model_id:
             raise DiscoveryError("Hugging Face model record has no id")
+        if not _valid_hf_repo_id(model_id):
+            raise DiscoveryError("Hugging Face model record has an unsafe or malformed id")
         publisher = model_id.split("/", 1)[0]
         card = payload.get("cardData")
         if not isinstance(card, dict):
             card = {}
-        pipeline_tag = payload.get("pipeline_tag") or card.get("pipeline_tag")
-        mapped_task = HF_TASKS.get(str(pipeline_tag), task)
+        pipeline_tag = str(payload.get("pipeline_tag") or card.get("pipeline_tag") or "")
+        raw_tags = {str(tag).casefold().replace("-", "_") for tag in payload.get("tags") or []}
+        warnings: list[str] = []
+        if required_tag is not None:
+            normalized_required = required_tag.casefold().replace("-", "_")
+            if normalized_required not in raw_tags:
+                raise DiscoveryError(f"Hub model is missing required task tag {required_tag}")
+            if allowed_pipeline_tags and pipeline_tag not in allowed_pipeline_tags:
+                raise DiscoveryError(
+                    f"Hub model task tag {required_tag} has incompatible pipeline {pipeline_tag or 'missing'}"
+                )
+            mapped_task: str | None = task
+        else:
+            mapped_task = HF_TASKS.get(pipeline_tag)
+            if mapped_task is None:
+                warnings.append("Hub pipeline tag is missing or unsupported")
+            elif mapped_task != task:
+                warnings.append(
+                    f"Hub pipeline tag {pipeline_tag} does not match expected task {task}"
+                )
+                mapped_task = None
         created = _parse_dt(payload.get("createdAt"))
         modified = _parse_dt(payload.get("lastModified"))
         family, variant = _family_variant(model_id)
         license_id = card.get("license")
         if license_id is not None:
             license_id = str(license_id)
-        warnings: list[str] = []
         _, license_warning = _license_status(license_id)
         if license_warning:
             warnings.append(license_warning)
@@ -351,9 +512,14 @@ class HuggingFaceAdapter:
         source_url = f"https://huggingface.co/{model_id}"
         runtimes = _runtime_tags(payload, mapped_task)
         revision = str(payload.get("sha")) if payload.get("sha") else None
-        if revision and not re.fullmatch(r"[0-9a-fA-F]{40}", revision):
+        if revision and not _immutable_revision(revision):
             warnings.append("Hub revision is not a full immutable commit SHA")
             revision = None
+        metadata_complete = (
+            mapped_task in SUPPORTED_TASKS
+            and params_m is not None
+            and bool(runtimes)
+        )
         return DiscoveryCandidate(
             provider=self.name,
             upstream_id=model_id,
@@ -387,7 +553,7 @@ class HuggingFaceAdapter:
             evidence_url=source_url,
             ingestion_method="huggingface-hub-api",
             official_publisher=publisher.casefold() in self.trusted_publishers,
-            metadata_complete=params_m is not None and bool(runtimes),
+            metadata_complete=metadata_complete,
             warnings=tuple(warnings),
             raw=payload,
         )
@@ -630,19 +796,18 @@ def candidate_to_registry_model(
     model_id: str,
     checked_at: str,
 ) -> dict[str, Any] | None:
-    if candidate.task not in SUPPORTED_TASKS:
+    if candidate.task not in SUPPORTED_TASKS or not candidate.metadata_complete:
         return None
     if candidate.params_m is None or candidate.params_m <= 0:
         return None
-    if candidate.task == "vlm" and candidate.params_m > 4_000:
-        return None
-    if candidate.task == "detection" and candidate.params_m > 2_000:
+    max_params = TASK_MAX_PARAMS_M.get(candidate.task)
+    if max_params is not None and candidate.params_m > max_params:
         return None
     if not candidate.runtimes:
         return None
     if not (
         candidate.official_publisher
-        and candidate.revision
+        and _immutable_revision(candidate.revision)
         and candidate.license_id
     ):
         return None
@@ -654,24 +819,24 @@ def candidate_to_registry_model(
         notes.append(license_warning)
     note = "; ".join(dict.fromkeys(notes)) if notes else None
 
-    if candidate.task == "detection":
-        modalities = {"input": ["image"], "output": ["object-detections"]}
-        input_info = {
-            "kind": "image",
-            "size": None,
-            "width": None,
-            "height": None,
-            "notes": "Input shape was not inferred during metadata-only discovery.",
-        }
+    spec = task_spec(candidate.task)
+    modalities = {
+        "input": list(spec.input_modalities),
+        "output": list(spec.output_modalities),
+    }
+    if len(spec.input_modalities) > 1:
+        input_kind = "multimodal"
+    elif spec.input_modalities[0] == "audio":
+        input_kind = "audio"
     else:
-        modalities = {"input": ["image", "text"], "output": ["text"]}
-        input_info = {
-            "kind": "multimodal",
-            "size": None,
-            "width": None,
-            "height": None,
-            "notes": "Image/text model discovered from upstream metadata.",
-        }
+        input_kind = "image"
+    input_info = {
+        "kind": input_kind,
+        "size": None,
+        "width": None,
+        "height": None,
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+    }
 
     source_id = f"{candidate.provider}:{candidate.upstream_id}"
     source_url = candidate.evidence_url or candidate.source_url
@@ -736,6 +901,11 @@ def _merge_existing(
         if revision_changed:
             output["upstream"]["revision"] = new_revision
             output["upstream"]["last_checked"] = discovered["upstream"]["last_checked"]
+            output["verification"] = discovered["verification"]
+            output["evidence"]["benchmark_refs"] = []
+            warning = "upstream revision changed; prior benchmark status was invalidated"
+            old_note = output.get("notes")
+            output["notes"] = f"{old_note}; {warning}" if old_note else warning
         if discovered["upstream"].get("release_date"):
             output["upstream"]["release_date"] = discovered["upstream"]["release_date"]
         discovered_license = discovered["license"]
@@ -750,7 +920,7 @@ def _merge_existing(
             output["compatibility"]["runtimes"]
         )
 
-    if same_source:
+    if same_source and not revision_changed:
         old_status = output["verification"]["status"]
         new_status = discovered["verification"]["status"]
         if _verification_rank(new_status) > _verification_rank(old_status):
@@ -890,6 +1060,8 @@ def apply_discovery(
         "promoted_count": promoted,
         "registry_changed": changed,
         "freshness_refresh": freshness_refresh,
+        "automatic_task_coverage": sorted(AUTOMATIC_TASKS),
+        "curated_only_tasks": sorted(SUPPORTED_TASKS - AUTOMATIC_TASKS),
         "candidates": manifest_items,
     }
     return DiscoveryResult(
@@ -907,15 +1079,17 @@ def run_discovery(
     *,
     now: datetime,
     transport: JsonTransport | None = None,
+    registry: dict[str, Any] | None = None,
 ) -> list[DiscoveryCandidate]:
     transport = transport or JsonTransport()
     trusted = set(config.get("trusted_publishers") or [])
+    huggingface = HuggingFaceAdapter(
+        transport=transport,
+        trusted_publishers=trusted or None,
+        limit_per_task=int(config.get("huggingface_limit_per_task", 25)),
+    )
     adapters: list[ModelSourceAdapter] = [
-        HuggingFaceAdapter(
-            transport=transport,
-            trusted_publishers=trusted or None,
-            limit_per_task=int(config.get("huggingface_limit_per_task", 25)),
-        ),
+        huggingface,
         NvidiaAdapter(
             transport=transport,
             limit_per_task=int(config.get("nvidia_limit_per_task", 20)),
@@ -935,6 +1109,11 @@ def run_discovery(
             records.extend(adapter.discover(now))
         except DiscoveryError as exc:
             errors.append(f"{adapter.name}: {exc}")
+    if registry is not None:
+        try:
+            records.extend(huggingface.discover_registry(registry))
+        except DiscoveryError as exc:
+            errors.append(f"huggingface-registry: {exc}")
     if not records:
         joined = "; ".join(errors) if errors else "no providers returned data"
         raise DiscoveryError(f"discovery produced no candidates: {joined}")

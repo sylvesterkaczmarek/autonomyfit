@@ -240,9 +240,9 @@ See [docs/registry.md](docs/registry.md).
 
 ## Current limitations
 
-- Scheduled automatic model promotion currently covers object detection and compact VLMs; the other supported task categories are curated rather than continuously discovered.
+- Scheduled Hub discovery covers nine of ten task categories; visual anomaly detection remains curated because available upstream anomaly tags are semantically mixed across image, video, tabular, log and language tasks. Discovery coverage does not imply automatic promotion.
 - Exact deployment evidence is still sparse across the full hardware x runtime x model matrix.
-- Many registry entries have source-verified metadata but no immutable upstream revision recorded until an artifact is resolved during deployment validation.
+- Hugging Face-backed registry entries are revisited for immutable repository SHA provenance during scheduled refreshes, but several GitHub/docs-only curated entries still lack an exact model-artifact revision until a stronger authoritative source is available or an artifact is resolved during deployment validation.
 - Generic correctness comparison is only possible for models with compatible deterministic numeric input/output contracts. Task-level accuracy needs a task-specific evaluation dataset and protocol.
 - TensorRT engines are not portable evidence across arbitrary TensorRT/CUDA/GPU stacks.
 - Core ML conversion requires a trusted source graph and explicit input contract; generic ONNX -> Core ML conversion is intentionally not automated.

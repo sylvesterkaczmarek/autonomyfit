@@ -4,11 +4,15 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+import pytest
 from typer.testing import CliRunner
 
 from autonomyfit.cli import app
 from autonomyfit.discovery import (
+    HF_TAG_TASKS,
+    HF_TASKS,
     DiscoveryCandidate,
+    DiscoveryError,
     HuggingFaceAdapter,
     NvidiaAdapter,
     _license_status,
@@ -66,16 +70,23 @@ def _hf_detail(
     }
 
 
-def _hf_transport(detail):
+def _hf_transport(detail, selected_pipeline="image-text-to-text"):
     summary = [{"id": detail["id"]}]
-    return FakeTransport(
-        [
-            ("filter=object-detection", []),
-            ("filter=image-text-to-text", summary),
-            ("filter=visual-question-answering", []),
-            (f"/api/models/{detail['id']}", detail),
-        ]
-    )
+    responses = [
+        (f"pipeline_tag={pipeline}", summary if pipeline == selected_pipeline else [])
+        for pipeline in HF_TASKS
+    ]
+    responses.extend((f"filter={tag}", []) for tag in HF_TAG_TASKS)
+    responses.append((f"/api/models/{detail['id']}", detail))
+    return FakeTransport(responses)
+
+
+def _ocr_transport(detail):
+    summary = [{"id": detail["id"]}]
+    responses = [(f"pipeline_tag={pipeline}", []) for pipeline in HF_TASKS]
+    responses.append(("filter=text_recognition", summary))
+    responses.append((f"/api/models/{detail['id']}", detail))
+    return FakeTransport(responses)
 
 
 def _candidate(**overrides):
@@ -88,7 +99,7 @@ def _candidate(**overrides):
         "family": "TinyVision",
         "variant": "100M",
         "task": "detection",
-        "revision": "deadbeef",
+        "revision": "dddddddddddddddddddddddddddddddddddddddd",
         "release_date": "2026-08-15",
         "last_modified": "2026-08-16T09:00:00Z",
         "params_m": 100.0,
@@ -154,13 +165,12 @@ def test_deduplication_merges_aliases_and_prefers_vendor_adapter():
 
 
 def test_malformed_huggingface_list_record_is_ignored():
-    transport = FakeTransport(
-        [
-            ("filter=object-detection", [{"not_id": "broken"}]),
-            ("filter=image-text-to-text", []),
-            ("filter=visual-question-answering", []),
-        ]
-    )
+    responses = [
+        (f"pipeline_tag={pipeline}", [{"not_id": "broken"}] if pipeline == "object-detection" else [])
+        for pipeline in HF_TASKS
+    ]
+    responses.extend((f"filter={tag}", []) for tag in HF_TAG_TASKS)
+    transport = FakeTransport(responses)
     assert HuggingFaceAdapter(transport=transport).discover(NOW) == []
 
 
@@ -388,6 +398,159 @@ def test_huggingface_short_revision_is_not_source_verified():
         model, model_id="short-revision", checked_at="2026-08-16T10:00:00Z"
     ) is None
 
+
+@pytest.mark.parametrize(
+    ("pipeline_tag", "expected_task", "expected_output"),
+    [
+        ("image-classification", "classification", "class-label"),
+        ("image-segmentation", "segmentation", "mask"),
+        ("keypoint-detection", "pose", "keypoints"),
+        ("depth-estimation", "depth", "depth-map"),
+        ("automatic-speech-recognition", "asr", "text"),
+        ("image-feature-extraction", "embedding", "embedding"),
+    ],
+)
+def test_huggingface_discovers_additional_canonical_tasks(
+    pipeline_tag, expected_task, expected_output
+):
+    detail = _hf_detail(
+        model_id="google/TinyEdge-100M",
+        params=100_000_000,
+        pipeline_tag=pipeline_tag,
+    )
+    adapter = HuggingFaceAdapter(
+        transport=_hf_transport(detail, selected_pipeline=pipeline_tag),
+        trusted_publishers={"google"},
+    )
+    model = adapter.discover(NOW)[0]
+    assert model.task == expected_task
+    assert model.lifecycle() == "SOURCE_VERIFIED"
+    converted = candidate_to_registry_model(
+        model, model_id=f"tiny-{expected_task}", checked_at="2026-08-16T10:00:00Z"
+    )
+    assert converted is not None
+    assert expected_output in converted["modalities"]["output"]
+    if expected_task == "asr":
+        assert converted["modalities"]["input"] == ["audio"]
+
+
+def test_ocr_requires_explicit_text_recognition_tag_and_compatible_pipeline():
+    detail = _hf_detail(
+        model_id="PaddlePaddle/TinyOCR-10M",
+        params=10_000_000,
+        pipeline_tag="image-to-text",
+    )
+    detail["tags"] = ["transformers", "safetensors", "text_recognition"]
+    adapter = HuggingFaceAdapter(
+        transport=_ocr_transport(detail),
+        trusted_publishers={"PaddlePaddle"},
+    )
+    model = adapter.discover(NOW)[0]
+    assert model.task == "ocr"
+    converted = candidate_to_registry_model(
+        model, model_id="tiny-ocr", checked_at="2026-08-16T10:00:00Z"
+    )
+    assert converted is not None
+    assert converted["modalities"] == {"input": ["image"], "output": ["text"]}
+
+
+def test_ocr_free_form_image_to_text_without_task_tag_is_not_discovered_as_ocr():
+    detail = _hf_detail(
+        model_id="PaddlePaddle/Captioner-10M",
+        params=10_000_000,
+        pipeline_tag="image-to-text",
+    )
+    detail["tags"] = ["transformers", "safetensors"]
+    adapter = HuggingFaceAdapter(
+        transport=_ocr_transport(detail),
+        trusted_publishers={"PaddlePaddle"},
+    )
+    assert adapter.discover(NOW) == []
+
+
+def test_partial_huggingface_query_failure_does_not_drop_other_tasks():
+    detail = _hf_detail(
+        model_id="google/TinyClassifier-100M",
+        params=100_000_000,
+        pipeline_tag="image-classification",
+    )
+    responses = []
+    for pipeline in HF_TASKS:
+        if pipeline == "depth-estimation":
+            responses.append((f"pipeline_tag={pipeline}", DiscoveryError("temporary outage")))
+        elif pipeline == "image-classification":
+            responses.append((f"pipeline_tag={pipeline}", [{"id": detail["id"]}]))
+        else:
+            responses.append((f"pipeline_tag={pipeline}", []))
+    responses.extend((f"filter={tag}", []) for tag in HF_TAG_TASKS)
+    responses.append((f"/api/models/{detail['id']}", detail))
+    records = HuggingFaceAdapter(transport=FakeTransport(responses)).discover(NOW)
+    assert len(records) == 1
+    assert records[0].task == "classification"
+
+
+def test_malformed_huggingface_repo_id_is_ignored():
+    detail = _hf_detail(model_id="../escape", pipeline_tag="image-classification")
+    adapter = HuggingFaceAdapter(
+        transport=_hf_transport(detail, selected_pipeline="image-classification")
+    )
+    assert adapter.discover(NOW) == []
+
+
+def test_existing_huggingface_registry_source_is_revisited_even_when_not_trending():
+    detail = _hf_detail(
+        model_id="HuggingFaceTB/SeedModel-100M",
+        params=100_000_000,
+        pipeline_tag="image-text-to-text",
+    )
+    registry = {
+        "models": [
+            {
+                "id": "seed-model",
+                "task": "vlm",
+                "upstream": {
+                    "source_url": "https://huggingface.co/HuggingFaceTB/SeedModel-100M"
+                },
+            }
+        ]
+    }
+    adapter = HuggingFaceAdapter(
+        transport=FakeTransport([(f"/api/models/{detail['id']}", detail)]),
+        trusted_publishers={"HuggingFaceTB"},
+    )
+    records = adapter.discover_registry(registry)
+    assert len(records) == 1
+    assert records[0].revision == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+
+def test_short_direct_revision_cannot_be_promoted():
+    model = _candidate(revision="mutable-main")
+    assert model.lifecycle() == "NORMALIZED"
+    assert candidate_to_registry_model(
+        model, model_id="mutable", checked_at="2026-08-16T10:00:00Z"
+    ) is None
+
+
+def test_upstream_revision_change_invalidates_old_benchmark_status():
+    registry = _registry()
+    target = next(item for item in registry["models"] if item["id"] == "detr-resnet-50")
+    target["verification"]["status"] = "benchmarked"
+    target["evidence"]["benchmark_refs"] = ["old-exact-benchmark"]
+    candidate = _candidate(
+        upstream_id="facebook/detr-resnet-50",
+        source_url="https://huggingface.co/facebook/detr-resnet-50",
+        publisher="facebook",
+        display_name="detr-resnet-50",
+        family="detr-resnet",
+        variant="50",
+        revision="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        params_m=41.631008,
+    )
+    result = apply_discovery(registry, [candidate], now=NOW)
+    updated = next(item for item in result.registry["models"] if item["id"] == "detr-resnet-50")
+    assert updated["upstream"]["revision"] == candidate.revision
+    assert updated["verification"]["status"] == "source_verified"
+    assert updated["evidence"]["benchmark_refs"] == []
 
 def test_slug_collision_from_unrelated_source_gets_unique_id():
     registry = _registry()
