@@ -21,31 +21,18 @@ jobs:
       - name: Install
         run: python -m pip install -e '.[benchmark]' openvino
       - name: Detect host
-        run: |
-          autonomyfit scan --json
-          autonomyfit benchmark-backends --json
-      - name: Build ONNX graph
+        run: autonomyfit scan --json
+      - name: Build and benchmark OpenVINO
         run: |
           python - <<'PY'
           import onnx
           from onnx import TensorProto, helper
-          graph = helper.make_graph(
-              [helper.make_node("Identity", ["input"], ["output"])],
-              "autonomyfit-openvino-identity",
-              [helper.make_tensor_value_info("input", TensorProto.FLOAT, [1, 4])],
-              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
-          )
-          model = helper.make_model(graph, opset_imports=[helper.make_opsetid("", 13)])
-          model.ir_version = min(model.ir_version, 10)
-          onnx.save(model, "/tmp/autonomyfit-openvino.onnx")
+          graph = helper.make_graph([helper.make_node('Identity', ['input'], ['output'])], 'id', [helper.make_tensor_value_info('input', TensorProto.FLOAT, [1,4])], [helper.make_tensor_value_info('output', TensorProto.FLOAT, [1,4])])
+          model = helper.make_model(graph, opset_imports=[helper.make_opsetid('',13)])
+          model.ir_version = min(model.ir_version,10)
+          onnx.save(model,'/tmp/model.onnx')
           PY
-      - name: Benchmark OpenVINO CPU
-        run: |
-          autonomyfit benchmark /tmp/autonomyfit-openvino.onnx \
-            --model-id autonomyfit-openvino-identity \
-            --model-revision "$GITHUB_SHA" \
-            --backend openvino --device CPU --precision fp32 --batch-size 1 --iterations 10 \
-            -o /tmp/openvino.json
+          autonomyfit benchmark /tmp/model.onnx --model-id ci-openvino --model-revision "$GITHUB_SHA" --backend openvino --device CPU --precision fp32 --batch-size 1 --iterations 10 -o /tmp/openvino.json
           autonomyfit benchmark-inspect /tmp/openvino.json
 
   apple:
@@ -62,30 +49,16 @@ jobs:
         run: |
           system_profiler SPHardwareDataType || true
           autonomyfit scan --json
-          autonomyfit benchmark-backends --json
-      - name: Build Core ML vector model
+      - name: Build and benchmark Core ML
         run: |
           python - <<'PY'
           import coremltools as ct
           from coremltools.proto import FeatureTypes_pb2, Model_pb2
-          spec = Model_pb2.Model()
-          spec.specificationVersion = 5
-          inp = spec.description.input.add(); inp.name = "input"
-          inp.type.multiArrayType.dataType = FeatureTypes_pb2.ArrayFeatureType.FLOAT32
-          inp.type.multiArrayType.shape.extend([4])
-          out = spec.description.output.add(); out.name = "output"
-          out.type.multiArrayType.dataType = FeatureTypes_pb2.ArrayFeatureType.FLOAT32
-          out.type.multiArrayType.shape.extend([4])
-          layer = spec.neuralNetwork.layers.add(); layer.name = "identity"
-          layer.input.append("input"); layer.output.append("output")
-          layer.activation.linear.alpha = 1.0
-          ct.models.MLModel(spec).save("/tmp/autonomyfit-coreml.mlmodel")
+          spec=Model_pb2.Model(); spec.specificationVersion=5
+          inp=spec.description.input.add(); inp.name='input'; inp.type.multiArrayType.dataType=FeatureTypes_pb2.ArrayFeatureType.FLOAT32; inp.type.multiArrayType.shape.extend([4])
+          out=spec.description.output.add(); out.name='output'; out.type.multiArrayType.dataType=FeatureTypes_pb2.ArrayFeatureType.FLOAT32; out.type.multiArrayType.shape.extend([4])
+          layer=spec.neuralNetwork.layers.add(); layer.name='identity'; layer.input.append('input'); layer.output.append('output'); layer.activation.linear.alpha=1.0
+          ct.models.MLModel(spec).save('/tmp/model.mlmodel')
           PY
-      - name: Benchmark Core ML
-        run: |
-          autonomyfit benchmark /tmp/autonomyfit-coreml.mlmodel \
-            --model-id autonomyfit-coreml-identity \
-            --model-revision "$GITHUB_SHA" \
-            --backend coreml --compute-units ALL --precision fp32 --batch-size 1 \
-            --iterations 10 --warmup 2 -o /tmp/coreml.json
+          autonomyfit benchmark /tmp/model.mlmodel --model-id ci-coreml --model-revision "$GITHUB_SHA" --backend coreml --compute-units ALL --precision fp32 --batch-size 1 --iterations 10 --warmup 2 -o /tmp/coreml.json
           autonomyfit benchmark-inspect /tmp/coreml.json
