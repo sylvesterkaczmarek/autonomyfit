@@ -1,0 +1,104 @@
+name: Apply benchmark evidence upgrade
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/benchmark_upgrade.py
+      - scripts/benchmark_tests_upgrade.py
+      - .github/workflows/benchmark-upgrade.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: autonomyfit-benchmark-upgrade
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Apply benchmark upgrade
+        run: |
+          python scripts/benchmark_upgrade.py
+          python scripts/benchmark_tests_upgrade.py
+      - name: Install full validation dependencies
+        run: python -m pip install -e '.[dev,benchmark,deployment]'
+      - name: Validate registry and evidence
+        run: |
+          python scripts/validate_registry.py registry/source/registry-v2.json
+          python scripts/validate_evidence.py
+      - name: Lint
+        run: ruff check . --exclude scripts/benchmark_upgrade.py --exclude scripts/benchmark_tests_upgrade.py
+      - name: Test
+        run: pytest
+      - name: Native ONNX Runtime benchmark smoke
+        env:
+          AUTONOMYFIT_EVIDENCE_DIR: ${{ runner.temp }}/autonomyfit-native-evidence
+        run: |
+          python - <<'PY'
+          import onnx
+          from onnx import TensorProto, helper
+          graph = helper.make_graph(
+              [helper.make_node("Identity", ["input"], ["output"])],
+              "autonomyfit-ci-identity",
+              [helper.make_tensor_value_info("input", TensorProto.FLOAT, [1, 4])],
+              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
+          )
+          model = helper.make_model(graph, opset_imports=[helper.make_opsetid("", 13)])
+          model.ir_version = min(model.ir_version, 10)
+          onnx.save(model, "/tmp/autonomyfit-ci.onnx")
+          PY
+          autonomyfit benchmark /tmp/autonomyfit-ci.onnx \
+            --model-id autonomyfit-ci-identity \
+            --model-revision "$GITHUB_SHA" \
+            --backend onnxruntime \
+            --provider CPUExecutionProvider \
+            --precision fp32 \
+            --batch-size 1 \
+            --iterations 10 \
+            --warmup 2 \
+            -o /tmp/autonomyfit-native.json >/dev/null
+          autonomyfit benchmark-inspect /tmp/autonomyfit-native.json >/dev/null
+          autonomyfit benchmark-import /tmp/autonomyfit-native.json >/dev/null
+          autonomyfit benchmark-matrix --local-only --json >/tmp/autonomyfit-matrix.json
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/autonomyfit-native.json'))
+          matrix = json.load(open('/tmp/autonomyfit-matrix.json'))
+          assert report['measurement']['machine_source'] == 'detected'
+          assert report['measurement']['profile_only'] is False
+          assert report['software']['provider'] == 'CPUExecutionProvider'
+          assert report['execution']['input_shapes'] == {'input': [1, 4]}
+          assert matrix['exact_context_complete'] == 1
+          PY
+      - name: Build and check package
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build
+          python -m twine check dist/*
+      - name: Commit validated product changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git reset .github/workflows/benchmark-upgrade.yml \
+            .github/workflows/ci.yml \
+            scripts/benchmark_upgrade.py \
+            scripts/benchmark_tests_upgrade.py
+          if git diff --cached --quiet; then
+            echo "No benchmark product changes to commit."
+            exit 0
+          fi
+          git commit -m "Harden benchmark evidence and hardware validation"
+          git pull --rebase origin main
+          git push
