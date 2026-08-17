@@ -1,4 +1,5 @@
 # Daily continuous discovery; registry-only updates never publish PyPI.
+# Third-party actions are pinned to immutable upstream commit SHAs.
 name: Refresh model intelligence
 
 on:
