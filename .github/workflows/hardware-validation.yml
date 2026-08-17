@@ -1,0 +1,190 @@
+name: Hardware validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner_label:
+        description: Self-hosted runner label for the target machine
+        required: true
+        default: autonomyfit-hardware
+        type: string
+      operator_machine_class:
+        description: Operator attestation of the runner machine class
+        required: true
+        default: unknown
+        type: choice
+        options:
+          - unknown
+          - physical
+          - virtual-machine
+          - container
+      model_path:
+        description: Absolute or workspace-relative path to the model artifact already present on the runner
+        required: true
+        type: string
+      model_id:
+        description: Canonical model ID
+        required: true
+        type: string
+      model_revision:
+        description: Exact immutable model revision
+        required: true
+        type: string
+      backend:
+        description: Native benchmark backend
+        required: true
+        default: onnxruntime
+        type: choice
+        options:
+          - onnxruntime
+          - tensorrt
+          - openvino
+          - coreml
+      provider:
+        description: ONNX Runtime execution provider, if applicable
+        required: false
+        type: string
+      device:
+        description: Native OpenVINO device, if applicable
+        required: false
+        type: string
+      compute_units:
+        description: Core ML compute units, if applicable
+        required: false
+        type: string
+      precision:
+        description: Exact execution precision label
+        required: true
+        default: fp16
+        type: string
+      quantization:
+        description: Quantisation label, if applicable
+        required: false
+        type: string
+      batch_size:
+        description: Explicit batch size, if applicable
+        required: false
+        default: "1"
+        type: string
+      shape:
+        description: Single-input ONNX shape, comma-separated
+        required: false
+        type: string
+      input_shapes:
+        description: Semicolon-separated named shapes, e.g. image=1,3,640,640;mask=1,1,640,640
+        required: false
+        type: string
+      iterations:
+        description: Timed iterations
+        required: true
+        default: "50"
+        type: string
+      warmup:
+        description: Backend warm-up setting
+        required: true
+        default: "10"
+        type: string
+      trust_artifact:
+        description: Trust a serialized executable artifact such as a TensorRT engine
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: [self-hosted, "${{ inputs.runner_label }}"]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Install AutonomyFit without replacing the vendor runtime
+        shell: bash
+        run: python -m pip install -e '.[deployment]'
+      - name: Capture detected hardware and backend state
+        shell: bash
+        run: |
+          autonomyfit scan --json > "$RUNNER_TEMP/autonomyfit-scan.json"
+          autonomyfit benchmark-backends --json > "$RUNNER_TEMP/autonomyfit-backends.json"
+      - name: Execute exact native benchmark
+        shell: bash
+        env:
+          MODEL_PATH: ${{ inputs.model_path }}
+          MODEL_ID: ${{ inputs.model_id }}
+          MODEL_REVISION: ${{ inputs.model_revision }}
+          BACKEND: ${{ inputs.backend }}
+          PROVIDER: ${{ inputs.provider }}
+          DEVICE: ${{ inputs.device }}
+          COMPUTE_UNITS: ${{ inputs.compute_units }}
+          PRECISION: ${{ inputs.precision }}
+          QUANTIZATION: ${{ inputs.quantization }}
+          BATCH_SIZE: ${{ inputs.batch_size }}
+          SHAPE: ${{ inputs.shape }}
+          INPUT_SHAPES: ${{ inputs.input_shapes }}
+          ITERATIONS: ${{ inputs.iterations }}
+          WARMUP: ${{ inputs.warmup }}
+          TRUST_ARTIFACT: ${{ inputs.trust_artifact }}
+        run: |
+          report="$RUNNER_TEMP/autonomyfit-hardware-report.json"
+          args=(autonomyfit benchmark "$MODEL_PATH" --model-id "$MODEL_ID" --model-revision "$MODEL_REVISION" --backend "$BACKEND" --precision "$PRECISION" --iterations "$ITERATIONS" --warmup "$WARMUP")
+          [[ -n "$PROVIDER" ]] && args+=(--provider "$PROVIDER")
+          [[ -n "$DEVICE" ]] && args+=(--device "$DEVICE")
+          [[ -n "$COMPUTE_UNITS" ]] && args+=(--compute-units "$COMPUTE_UNITS")
+          [[ -n "$QUANTIZATION" ]] && args+=(--quantization "$QUANTIZATION")
+          [[ -n "$BATCH_SIZE" ]] && args+=(--batch-size "$BATCH_SIZE")
+          [[ -n "$SHAPE" ]] && args+=(--shape "$SHAPE")
+          if [[ -n "$INPUT_SHAPES" ]]; then
+            IFS=';' read -r -a named_shapes <<< "$INPUT_SHAPES"
+            for item in "${named_shapes[@]}"; do
+              [[ -n "$item" ]] && args+=(--input-shape "$item")
+            done
+          fi
+          [[ "$TRUST_ARTIFACT" == "true" ]] && args+=(--trust-artifact)
+          "${args[@]}" -o "$report" >/dev/null
+          autonomyfit benchmark-inspect "$report" > "$RUNNER_TEMP/autonomyfit-hardware-inspect.json"
+      - name: Record evidence classification
+        shell: bash
+        env:
+          OPERATOR_MACHINE_CLASS: ${{ inputs.operator_machine_class }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ["RUNNER_TEMP"])
+          report = json.loads((root / "autonomyfit-hardware-report.json").read_text())
+          machine_class = os.environ["OPERATOR_MACHINE_CLASS"]
+          payload = {
+              "schema_version": 1,
+              "workflow_run_id": os.environ.get("GITHUB_RUN_ID"),
+              "evidence_quality": report["quality"],
+              "machine_source": report["measurement"]["machine_source"],
+              "artifact_identity_verified": report["measurement"]["artifact_identity_verified"],
+              "hardware_id": report["hardware"]["id"],
+              "runtime": report["software"]["runtime"],
+              "runtime_version": report["software"]["runtime_version"],
+              "provider": report["software"]["provider"],
+              "operator_machine_class": machine_class,
+              "physical_target_claim": machine_class == "physical",
+              "physical_target_claim_source": "workflow_dispatch operator attestation",
+              "physical_target_claim_independently_verified": False,
+          }
+          (root / "autonomyfit-hardware-attestation.json").write_text(
+              json.dumps(payload, indent=2, sort_keys=True) + "\n"
+          )
+          PY
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: autonomyfit-hardware-validation-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/autonomyfit-scan.json
+            ${{ runner.temp }}/autonomyfit-backends.json
+            ${{ runner.temp }}/autonomyfit-hardware-report.json
+            ${{ runner.temp }}/autonomyfit-hardware-inspect.json
+            ${{ runner.temp }}/autonomyfit-hardware-attestation.json
+          if-no-files-found: warn
+          retention-days: 30
