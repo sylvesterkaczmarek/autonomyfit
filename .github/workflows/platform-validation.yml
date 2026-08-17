@@ -22,8 +22,6 @@ jobs:
         run: python -m pip install -e '.[benchmark]' openvino
       - name: Detect host
         run: |
-          uname -a
-          lscpu || true
           autonomyfit scan --json
           autonomyfit benchmark-backends --json
       - name: Build ONNX graph
@@ -46,11 +44,7 @@ jobs:
           autonomyfit benchmark /tmp/autonomyfit-openvino.onnx \
             --model-id autonomyfit-openvino-identity \
             --model-revision "$GITHUB_SHA" \
-            --backend openvino \
-            --device CPU \
-            --precision fp32 \
-            --batch-size 1 \
-            --iterations 10 \
+            --backend openvino --device CPU --precision fp32 --batch-size 1 --iterations 10 \
             -o /tmp/openvino.json
           autonomyfit benchmark-inspect /tmp/openvino.json
 
@@ -66,8 +60,6 @@ jobs:
         run: python -m pip install -e '.[benchmark]' coremltools
       - name: Detect host
         run: |
-          uname -a
-          uname -m
           system_profiler SPHardwareDataType || true
           autonomyfit scan --json
           autonomyfit benchmark-backends --json
@@ -78,20 +70,15 @@ jobs:
           from coremltools.proto import FeatureTypes_pb2, Model_pb2
           spec = Model_pb2.Model()
           spec.specificationVersion = 5
-          inp = spec.description.input.add()
-          inp.name = "input"
+          inp = spec.description.input.add(); inp.name = "input"
           inp.type.multiArrayType.dataType = FeatureTypes_pb2.ArrayFeatureType.FLOAT32
           inp.type.multiArrayType.shape.extend([4])
-          out = spec.description.output.add()
-          out.name = "output"
+          out = spec.description.output.add(); out.name = "output"
           out.type.multiArrayType.dataType = FeatureTypes_pb2.ArrayFeatureType.FLOAT32
           out.type.multiArrayType.shape.extend([4])
-          layer = spec.neuralNetwork.layers.add()
-          layer.name = "identity"
-          layer.input.append("input")
-          layer.output.append("output")
+          layer = spec.neuralNetwork.layers.add(); layer.name = "identity"
+          layer.input.append("input"); layer.output.append("output")
           layer.activation.linear.alpha = 1.0
-          layer.activation.linear.beta = 0.0
           ct.models.MLModel(spec).save("/tmp/autonomyfit-coreml.mlmodel")
           PY
       - name: Benchmark Core ML
@@ -99,11 +86,6 @@ jobs:
           autonomyfit benchmark /tmp/autonomyfit-coreml.mlmodel \
             --model-id autonomyfit-coreml-identity \
             --model-revision "$GITHUB_SHA" \
-            --backend coreml \
-            --compute-units ALL \
-            --precision fp32 \
-            --batch-size 1 \
-            --iterations 10 \
-            --warmup 2 \
-            -o /tmp/coreml.json
+            --backend coreml --compute-units ALL --precision fp32 --batch-size 1 \
+            --iterations 10 --warmup 2 -o /tmp/coreml.json
           autonomyfit benchmark-inspect /tmp/coreml.json
