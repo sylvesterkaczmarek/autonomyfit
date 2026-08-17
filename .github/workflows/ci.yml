@@ -47,6 +47,7 @@ jobs:
           python -m autonomyfit info smolvlm-256m-instruct --offline --json >/dev/null
           python -m autonomyfit artifacts smolvlm-256m-instruct --offline --json >/dev/null
           python -m autonomyfit benchmark-backends --json >/dev/null
+          python -m autonomyfit benchmark-matrix --json >/dev/null
           python -m autonomyfit validate yolo26n --offline --hardware-profile nvidia-t4-16gb --report /tmp/autonomyfit-deployment.json --json >/dev/null
           python -m autonomyfit report /tmp/autonomyfit-deployment.json --json >/dev/null
           python -m autonomyfit local-results --json >/dev/null
@@ -58,6 +59,64 @@ jobs:
           if [ -f registry/published/registry-v2.json.sigstore.json ]; then
             AUTONOMYFIT_CACHE_DIR="$RUNNER_TEMP/autonomyfit-registry" python -m autonomyfit registry update --json >/dev/null
           fi
+
+  native-benchmark:
+    name: Native ONNX Runtime benchmark
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install native benchmark dependencies
+        run: python -m pip install -e '.[dev,benchmark,deployment]'
+      - name: Build deterministic ONNX identity graph
+        run: |
+          python - <<'PY'
+          import onnx
+          from onnx import TensorProto, helper
+          graph = helper.make_graph(
+              [helper.make_node("Identity", ["input"], ["output"])],
+              "autonomyfit-ci-identity",
+              [helper.make_tensor_value_info("input", TensorProto.FLOAT, [1, 4])],
+              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
+          )
+          model = helper.make_model(graph, opset_imports=[helper.make_opsetid("", 13)])
+          model.ir_version = min(model.ir_version, 10)
+          onnx.save(model, "/tmp/autonomyfit-ci.onnx")
+          PY
+      - name: Execute and inspect native benchmark
+        env:
+          AUTONOMYFIT_EVIDENCE_DIR: ${{ runner.temp }}/autonomyfit-native-evidence
+        run: |
+          autonomyfit benchmark /tmp/autonomyfit-ci.onnx \
+            --model-id autonomyfit-ci-identity \
+            --model-revision "$GITHUB_SHA" \
+            --backend onnxruntime \
+            --provider CPUExecutionProvider \
+            --precision fp32 \
+            --batch-size 1 \
+            --iterations 10 \
+            --warmup 2 \
+            -o /tmp/autonomyfit-native.json >/dev/null
+          autonomyfit benchmark-inspect /tmp/autonomyfit-native.json >/dev/null
+          autonomyfit benchmark-import /tmp/autonomyfit-native.json >/dev/null
+          autonomyfit benchmark-matrix --local-only --json >/tmp/autonomyfit-matrix.json
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/autonomyfit-native.json'))
+          matrix = json.load(open('/tmp/autonomyfit-matrix.json'))
+          assert report['measurement']['machine_source'] == 'detected'
+          assert report['measurement']['profile_only'] is False
+          assert report['software']['provider'] == 'CPUExecutionProvider'
+          assert report['software']['provider_version']
+          assert report['execution']['batch_size'] == 1
+          assert report['execution']['input_shapes'] == {'input': [1, 4]}
+          assert len(report['reproducibility']['software_stack_fingerprint']) == 64
+          assert matrix['local_measured'] == 1
+          assert matrix['exact_context_complete'] == 1
+          PY
 
   package:
     name: Build package
@@ -88,6 +147,7 @@ jobs:
           autonomyfit tasks --json >/dev/null
           autonomyfit artifacts smolvlm-256m-instruct --offline --json >/dev/null
           autonomyfit benchmark-backends --json >/dev/null
+          autonomyfit benchmark-matrix --json >/dev/null
           autonomyfit validate yolo26n --offline --hardware-profile nvidia-t4-16gb --report /tmp/autonomyfit-wheel-deployment.json --json >/dev/null
           autonomyfit report /tmp/autonomyfit-wheel-deployment.json --json >/dev/null
           autonomyfit local-results --json >/dev/null
