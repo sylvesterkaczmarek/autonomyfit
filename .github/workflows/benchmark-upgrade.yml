@@ -34,6 +34,19 @@ jobs:
           python - <<'PY'
           from pathlib import Path
 
+          path = Path("src/autonomyfit/scoring.py")
+          text = path.read_text(encoding="utf-8")
+          old = '''    provider = provider_override or _BRIDGE_RUNTIMES.get(runtime)
+    runtime_candidates = ("onnxruntime",) if provider else (
+'''
+          new = '''    bridge_provider = _BRIDGE_RUNTIMES.get(runtime)
+    provider = provider_override or bridge_provider
+    runtime_candidates = ("onnxruntime",) if bridge_provider else (
+'''
+          if old not in text:
+              raise SystemExit("expected provider routing block not found")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+
           path = Path("tests/test_deployment_stage5.py")
           text = path.read_text(encoding="utf-8")
           text = text.replace(
