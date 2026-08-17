@@ -46,7 +46,9 @@ def _evidence(**overrides):
         "source_id": "local",
         "source_url": "local://benchmark",
         "source_date": "2026-08-16",
-        "software_stack_id": None,
+        "software_stack_id": "stack-1",
+        "provider_version": "1.0",
+        "machine_source": "detected",
         "verified_identity": True,
     }
     values.update(overrides)
@@ -62,6 +64,11 @@ def _match(evidence, **overrides):
         "precision": "fp16",
         "artifact_sha256": "a" * 64,
         "runtime_version": "1.0",
+        "provider": "CPUExecutionProvider",
+        "provider_version": "1.0",
+        "batch_size": 1,
+        "input_shapes": {"input": [1, 3, 640, 640]},
+        "software_stack_id": "stack-1",
         "today": date(2026, 8, 16),
     }
     values.update(overrides)
@@ -144,7 +151,13 @@ def _report():
             "throughput_fps": 200.0, "peak_memory_mb": 150.0, "peak_memory_scope": "process RSS",
             "power": {"mean_w": 12.0, "max_w": 14.0, "energy_j": 6.0, "scope": "Jetson VDD_IN rail"},
         },
-        "reproducibility": {"command": "autonomyfit benchmark", "hostname_hash": "abc", "environment_fingerprint": "12345678"},
+        "measurement": {"machine_source": "detected", "profile_only": False, "artifact_identity_verified": True},
+        "reproducibility": {
+            "command": "autonomyfit benchmark",
+            "hostname_hash": "abc",
+            "environment_fingerprint": "12345678",
+            "software_stack_fingerprint": "1" * 64,
+        },
     }
 
 
@@ -191,4 +204,26 @@ def test_future_dated_benchmark_report_is_rejected():
     report = _report()
     report["created_at"] = "2099-01-01T00:00:00Z"
     with pytest.raises(EvidenceSchemaError, match="future"):
+        validate_benchmark_report(report)
+
+def test_local_evidence_requires_full_execution_context_for_exact_match():
+    evidence = _evidence()
+    assert _match(evidence, batch_size=2) == []
+    assert _match(evidence, input_shapes={"input": [1, 3, 224, 224]}) == []
+    assert _match(evidence, provider_version="2.0") == []
+    assert _match(evidence, software_stack_id="stack-2") == []
+
+    contextual = _match(evidence, software_stack_id=None)[0]
+    assert contextual.exact is False
+    assert any("software stack" in reason for reason in contextual.reasons)
+
+
+def test_profile_only_local_report_is_rejected():
+    report = _report()
+    report["measurement"] = {
+        "machine_source": "profile",
+        "profile_only": True,
+        "artifact_identity_verified": True,
+    }
+    with pytest.raises(EvidenceSchemaError, match="profile-only"):
         validate_benchmark_report(report)

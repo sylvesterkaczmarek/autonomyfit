@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-from .benchmark import hardware_evidence_id
+from .benchmark import hardware_evidence_id, software_stack_fingerprint
 from .models import HardwareProfile
 
 LOCAL_RESULT_MAX_AGE_DAYS = 180
@@ -100,6 +100,12 @@ def local_report_compatibility(
                 f"driver major version changed ({report_driver} -> {hardware.driver})"
             )
 
+    report_power_mode = report_hardware.get("power_mode")
+    if report_power_mode and hardware.power_mode and str(report_power_mode) != hardware.power_mode:
+        reasons.append(
+            f"power mode changed ({report_power_mode} -> {hardware.power_mode})"
+        )
+
     software = document.get("software") or {}
 
     provider = software.get("provider")
@@ -133,6 +139,24 @@ def local_report_compatibility(
                 "runtime major version changed "
                 f"({report_runtime_version} -> {current_runtime_version})"
             )
+
+    recorded_stack = (document.get("reproducibility") or {}).get(
+        "software_stack_fingerprint"
+    )
+    if recorded_stack and runtime and current_runtime_version:
+        current_stack = software_stack_fingerprint(
+            hardware,
+            runtime=str(runtime),
+            runtime_version=current_runtime_version,
+            provider=str(provider) if provider else None,
+            provider_version=(
+                f"onnxruntime-{current_runtime_version}"
+                if provider and str(runtime).casefold() in {"onnx", "onnxruntime"}
+                else (current_runtime_version if provider else None)
+            ),
+        )
+        if recorded_stack != current_stack:
+            reasons.append("material software stack fingerprint changed")
 
     return not reasons, tuple(reasons)
 

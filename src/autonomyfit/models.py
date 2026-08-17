@@ -156,6 +156,13 @@ class Constraints:
     min_confidence: float | None = None
     verified_only: bool = False
     include_experimental: bool = False
+    provider: str | None = None
+    provider_version: str | None = None
+    quantization: str | None = None
+    batch_size: int | None = None
+    input_shapes: dict[str, list[int]] = field(default_factory=dict)
+    power_mode: str | None = None
+    software_stack_id: str | None = None
 
 
 @dataclass(frozen=True)

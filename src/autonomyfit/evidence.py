@@ -94,6 +94,8 @@ class BenchmarkEvidence:
     source_url: str
     source_date: str | None
     software_stack_id: str | None
+    provider_version: str | None = None
+    machine_source: str | None = None
     notes: str | None = None
     verified_identity: bool = False
 
@@ -114,11 +116,20 @@ class BenchmarkEvidence:
 
     @property
     def eligible_for_verified_fit(self) -> bool:
+        local_machine_ok = self.quality != "local-measured" or self.machine_source == "detected"
         return (
             self.quality in {"local-measured", "standardized"}
+            and local_machine_ok
             and self.verified_identity
             and bool(self.model_revision)
             and bool(self.artifact_sha256)
+            and bool(self.runtime_version)
+            and bool(self.provider)
+            and bool(self.provider_version)
+            and self.precision.casefold() != "artifact"
+            and self.batch_size is not None
+            and bool(self.input_shapes)
+            and bool(self.software_stack_id)
         )
 
 
@@ -258,6 +269,13 @@ def validate_benchmark_report(document: dict[str, Any]) -> None:
     artifact = document["artifact"]
     if not artifact.get("sha256"):
         raise EvidenceSchemaError("local benchmark reports require artifact.sha256")
+    measurement = document.get("measurement")
+    if measurement is not None and (
+        measurement.get("machine_source") != "detected" or measurement.get("profile_only")
+    ):
+        raise EvidenceSchemaError(
+            "local benchmark reports cannot claim measurements from a profile-only hardware target"
+        )
 
 
 def _latency_from_dict(value: dict[str, Any]) -> LatencyStats:
@@ -326,6 +344,8 @@ def _bundled_benchmarks(document: dict[str, Any]) -> tuple[BenchmarkEvidence, ..
                 source_url=item["source_url"],
                 source_date=item.get("source_date"),
                 software_stack_id=item.get("software_stack_id"),
+                provider_version=runtime.get("version"),
+                machine_source=None,
                 notes=item.get("notes"),
                 verified_identity=bool(item.get("verified_identity", False)),
             )
@@ -370,7 +390,9 @@ def benchmark_evidence_from_report(document: dict[str, Any]) -> BenchmarkEvidenc
         source_id="autonomyfit-local",
         source_url="local://autonomyfit-benchmark",
         source_date=document["created_at"][:10],
-        software_stack_id=None,
+        software_stack_id=(document.get("reproducibility") or {}).get("software_stack_fingerprint"),
+        provider_version=software.get("provider_version"),
+        machine_source=(document.get("measurement") or {}).get("machine_source"),
         notes=document.get("notes"),
         verified_identity=bool(model.get("revision") and artifact.get("sha256")),
     )
@@ -472,6 +494,12 @@ def match_benchmarks(
     artifact_sha256: str | None = None,
     runtime_version: str | None = None,
     provider: str | None = None,
+    provider_version: str | None = None,
+    quantization: str | None = None,
+    batch_size: int | None = None,
+    input_shapes: dict[str, list[int]] | None = None,
+    power_mode: str | None = None,
+    software_stack_id: str | None = None,
     max_age_days: int = 730,
     today: date | None = None,
 ) -> list[EvidenceMatch]:
@@ -507,6 +535,30 @@ def match_benchmarks(
             continue
         if provider and evidence.provider and evidence.provider.casefold() != provider.casefold():
             continue
+        if (
+            provider_version
+            and evidence.provider_version
+            and evidence.provider_version.casefold() != provider_version.casefold()
+        ):
+            continue
+        if (quantization is not None or evidence.quantization is not None) and (
+            (quantization or "").casefold() != (evidence.quantization or "").casefold()
+        ):
+            continue
+        if batch_size is not None and evidence.batch_size is not None and evidence.batch_size != batch_size:
+            continue
+        if input_shapes and evidence.input_shapes and evidence.input_shapes != input_shapes:
+            continue
+        if (power_mode is not None or evidence.power_mode is not None) and (
+            (power_mode or "").casefold() != (evidence.power_mode or "").casefold()
+        ):
+            continue
+        if (
+            software_stack_id
+            and evidence.software_stack_id
+            and evidence.software_stack_id.casefold() != software_stack_id.casefold()
+        ):
+            continue
 
         reasons: list[str] = []
         identity_complete = True
@@ -522,6 +574,26 @@ def match_benchmarks(
         if provider and not evidence.provider:
             identity_complete = False
             reasons.append("target execution provider is pinned but evidence provider is unknown")
+        strict_context = evidence.quality in {"local-measured", "standardized"}
+        if strict_context:
+            if runtime_version is None or evidence.runtime_version is None:
+                identity_complete = False
+                reasons.append("runtime version is not pinned on both sides")
+            if provider is None or evidence.provider is None:
+                identity_complete = False
+                reasons.append("execution provider is not pinned on both sides")
+            if provider_version is None or evidence.provider_version is None:
+                identity_complete = False
+                reasons.append("provider version is not pinned on both sides")
+            if batch_size is None or evidence.batch_size is None:
+                identity_complete = False
+                reasons.append("batch size is not pinned on both sides")
+            if not input_shapes or not evidence.input_shapes:
+                identity_complete = False
+                reasons.append("input shapes are not pinned on both sides")
+            if software_stack_id is None or evidence.software_stack_id is None:
+                identity_complete = False
+                reasons.append("software stack is not pinned on both sides")
         if _date_is_stale(evidence.source_date, max_age_days, today=today):
             reasons.append("evidence is older than the configured freshness window")
 
@@ -567,6 +639,7 @@ def inspect_benchmark_report(path: Path) -> dict[str, Any]:
         "runtime": evidence.runtime,
         "runtime_version": evidence.runtime_version,
         "provider": evidence.provider,
+        "provider_version": evidence.provider_version,
         "precision": evidence.precision,
         "latency_ms": evidence.latency_ms,
         "fps": evidence.fps,

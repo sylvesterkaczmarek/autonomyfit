@@ -23,7 +23,8 @@ def _store(source_date: str, quality: str = "local-measured") -> EvidenceStore:
         throughput_fps=250.0, power=PowerStats(mean_w=12.0, scope="Jetson VDD_IN rail"),
         peak_memory_mb=1200.0, peak_memory_scope="process RSS", quality=quality,
         source_id="local", source_url="local://benchmark", source_date=source_date,
-        software_stack_id=None, verified_identity=True,
+        software_stack_id="stack-1", provider_version="10.0",
+        machine_source="detected", verified_identity=True,
     )
     return EvidenceStore(document={}, benchmarks=(evidence,))
 
@@ -39,7 +40,9 @@ def _constraints(**kwargs):
     values = {
         "task": "detection", "model_id": "yolo26n", "model_revision": "r1",
         "artifact_sha256": "a" * 64, "runtime": "tensorrt", "precision": "fp16",
-        "max_latency_ms": 5.0,
+        "provider": "trtexec", "provider_version": "10.0", "batch_size": 1,
+        "input_shapes": {"images": [1, 3, 640, 640]}, "power_mode": "MAXN",
+        "software_stack_id": "stack-1", "max_latency_ms": 5.0,
     }
     values.update(kwargs)
     return Constraints(**values)

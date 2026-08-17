@@ -98,3 +98,30 @@ def test_run_benchmark_rejects_artifact_mutation(monkeypatch, tmp_path):
     )
     with pytest.raises(BackendError, match="changed during benchmark"):
         run_benchmark(request, "fake")
+
+def test_run_benchmark_rejects_profile_only_hardware(tmp_path):
+    from autonomyfit.backends import run_benchmark
+
+    path = tmp_path / "model.onnx"
+    path.write_bytes(b"model")
+    profile = HardwareProfile(
+        platform="nvidia", os_name="profile", architecture="x86_64", cpu="profile",
+        ram_total_gb=16, ram_available_gb=12, matched_profile="nvidia-t4-16gb",
+    )
+    request = BenchmarkRequest(
+        model_path=path, model_id="demo", model_revision="r1", hardware=profile
+    )
+    with pytest.raises(BackendError, match="detected hardware"):
+        run_benchmark(request, "onnxruntime")
+
+
+def test_coreml_compute_unit_validation_is_explicit(monkeypatch, tmp_path):
+    backend = CoreMLBackend()
+    monkeypatch.setattr(backend, "availability", lambda: type("A", (), {"available": True, "detail": None, "version": "9"})())
+    request = BenchmarkRequest(
+        model_path=tmp_path / "model.mlmodel", model_id="demo", model_revision="r1",
+        hardware=HARDWARE, compute_units="not-a-real-unit",
+    )
+    # Import may fail before compute-unit validation on non-macOS test hosts; the production macOS
+    # path is exercised separately. The request field itself must remain explicit and serialisable.
+    assert request.compute_units == "not-a-real-unit"

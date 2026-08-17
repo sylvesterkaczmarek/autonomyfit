@@ -57,6 +57,7 @@ dependencies = [
 [project.optional-dependencies]
 benchmark = [
   "numpy>=1.26",
+  "onnx>=1.16",
   "onnxruntime>=1.19",
 ]
 deployment = [

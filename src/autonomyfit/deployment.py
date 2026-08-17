@@ -79,6 +79,7 @@ class ValidationOptions:
     max_power_w: float | None = None
     max_memory_gb: float | None = None
     allow_restricted_license: bool = False
+    compute_units: str | None = None
 
 
 def _package_version() -> str:
@@ -389,7 +390,12 @@ def _recommendation_after_local_measurement(
     runtime: str,
     precision: str,
     options: ValidationOptions,
+    benchmark: dict[str, Any],
 ) -> dict[str, Any] | None:
+    software = benchmark.get("software") or {}
+    execution = benchmark.get("execution") or {}
+    benchmark_hardware = benchmark.get("hardware") or {}
+    reproducibility = benchmark.get("reproducibility") or {}
     constraints = Constraints(
         task=model.task,
         model_id=model.id,
@@ -402,6 +408,13 @@ def _recommendation_after_local_measurement(
         max_power_w=options.max_power_w,
         max_memory_gb=options.max_memory_gb,
         include_experimental=True,
+        provider=software.get("provider"),
+        provider_version=software.get("provider_version"),
+        quantization=execution.get("quantization"),
+        batch_size=execution.get("batch_size"),
+        input_shapes=execution.get("input_shapes") or {},
+        power_mode=benchmark_hardware.get("power_mode"),
+        software_stack_id=reproducibility.get("software_stack_fingerprint"),
     )
     items = recommend_models(hardware, constraints, offline=options.offline)
     if not items:
@@ -639,6 +652,7 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                 command=command,
                 trusted_artifact=final_artifact.trusted_for_execution,
                 expected_sha256=final_artifact.sha256,
+                compute_units=options.compute_units,
             )
             try:
                 benchmark_report = run_benchmark(request, backend_name)
@@ -676,6 +690,7 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                     runtime=runtime,
                     precision=precision,
                     options=options,
+                    benchmark=benchmark_report,
                 )
                 reproducibility.append(command)
 
@@ -771,7 +786,11 @@ def assess_candidates(
             )
         )
         reports.append(report)
-    hardware = _resolve_hardware(hardware_profile)
+    hardware = detect_hardware()
+    if hardware_profile and hardware.matched_profile != hardware_profile:
+        raise DeploymentValidationError(
+            "candidate assessment measured the current machine but the requested hardware profile no longer matches it"
+        )
     loaded = load_model_catalog(offline=offline)
     selected = [item for item in loaded.models if item.id in set(model_ids)]
     tasks = {item.task for item in selected}
@@ -782,6 +801,11 @@ def assess_candidates(
     for model in selected:
         report = report_by_model[model.id]
         artifact = report.get("artifact") or {}
+        benchmark = report.get("benchmark") or {}
+        software = benchmark.get("software") or {}
+        execution = benchmark.get("execution") or {}
+        benchmark_hardware = benchmark.get("hardware") or {}
+        reproducibility = benchmark.get("reproducibility") or {}
         exact = recommend_models(
             hardware,
             Constraints(
@@ -792,6 +816,13 @@ def assess_candidates(
                 runtime=runtime,
                 precision=precision,
                 include_experimental=True,
+                provider=software.get("provider"),
+                provider_version=software.get("provider_version"),
+                quantization=execution.get("quantization"),
+                batch_size=execution.get("batch_size"),
+                input_shapes=execution.get("input_shapes") or {},
+                power_mode=benchmark_hardware.get("power_mode"),
+                software_stack_id=reproducibility.get("software_stack_fingerprint"),
             ),
             offline=offline,
         )

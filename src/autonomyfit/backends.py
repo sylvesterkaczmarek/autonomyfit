@@ -5,7 +5,7 @@ import shutil
 import subprocess
 import time
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -43,6 +43,7 @@ class BenchmarkRequest:
     command: str | None = None
     trusted_artifact: bool = False
     expected_sha256: str | None = None
+    compute_units: str | None = None
 
 
 @dataclass(frozen=True)
@@ -83,6 +84,57 @@ def _numpy_dtype(ort_type: str):
 
 
 
+def _infer_batch_size(
+    explicit: int | None, input_shapes: dict[str, list[int]]
+) -> int | None:
+    if explicit is not None:
+        return explicit
+    first_dims = {dims[0] for dims in input_shapes.values() if dims}
+    return next(iter(first_dims)) if len(first_dims) == 1 else None
+
+
+def _resolve_onnx_input_shapes(request: BenchmarkRequest) -> dict[str, list[int]]:
+    if request.input_shapes:
+        return dict(request.input_shapes)
+    try:
+        import onnx
+    except ImportError as exc:
+        raise BackendError(
+            "native ONNX shape discovery requires the benchmark extra with onnx installed"
+        ) from exc
+    try:
+        model = onnx.load(str(request.model_path), load_external_data=False)
+    except Exception as exc:
+        raise BackendError(f"could not inspect ONNX inputs: {exc}") from exc
+    initializer_names = {item.name for item in model.graph.initializer}
+    inputs = [item for item in model.graph.input if item.name not in initializer_names]
+    if request.shape_override is not None:
+        if len(inputs) != 1:
+            raise BackendError(
+                "--shape is supported only for single-input ONNX models; provide named input shapes for multi-input graphs"
+            )
+        return {inputs[0].name: list(request.shape_override)}
+    resolved: dict[str, list[int]] = {}
+    for item in inputs:
+        dims: list[int] = []
+        tensor_type = item.type.tensor_type
+        for index, dim in enumerate(tensor_type.shape.dim):
+            if dim.HasField("dim_value") and dim.dim_value > 0:
+                dims.append(int(dim.dim_value))
+            elif index == 0:
+                dims.append(request.batch_size or 1)
+            else:
+                raise BackendError(
+                    f"ONNX input {item.name!r} has a dynamic non-batch dimension; use --shape for a single-input graph"
+                )
+        if not dims:
+            raise BackendError(f"ONNX input {item.name!r} has no resolvable shape")
+        resolved[item.name] = dims
+    if not resolved:
+        raise BackendError("ONNX graph exposes no benchmarkable inputs")
+    return resolved
+
+
 class OnnxRuntimeBackend(BenchmarkBackend):
     name = "onnxruntime"
 
@@ -116,7 +168,22 @@ class OnnxRuntimeBackend(BenchmarkBackend):
         memory.start()
         started = time.perf_counter_ns()
         try:
-            session = ort.InferenceSession(str(request.model_path), providers=[provider])
+            session_options = ort.SessionOptions()
+            if provider != "CPUExecutionProvider":
+                try:
+                    session_options.add_session_config_entry("session.disable_cpu_ep_fallback", "1")
+                except Exception as exc:
+                    raise BackendError(
+                        "could not disable ONNX Runtime CPU fallback for an accelerator provider"
+                    ) from exc
+            session = ort.InferenceSession(
+                str(request.model_path), sess_options=session_options, providers=[provider]
+            )
+            active_providers = session.get_providers()
+            if not active_providers or active_providers[0] != provider:
+                raise BackendError(
+                    f"requested provider {provider!r} was not the active primary provider: {active_providers}"
+                )
             load_ms = (time.perf_counter_ns() - started) / 1_000_000.0
             inputs = session.get_inputs()
             if request.shape_override is not None and len(inputs) != 1:
@@ -164,14 +231,21 @@ class OnnxRuntimeBackend(BenchmarkBackend):
             runtime="onnxruntime",
             runtime_version=ort.__version__,
             provider=provider,
-            provider_version=ort.__version__,
+            provider_version=f"onnxruntime-{ort.__version__}",
             precision=request.precision,
             quantization=request.quantization,
-            batch_size=request.batch_size,
+            batch_size=_infer_batch_size(request.batch_size, input_shapes),
             input_shapes=input_shapes,
             warmup=request.warmup,
             iterations=request.iterations,
-            backend_options={"providers": [provider], "synthetic_inputs": True},
+            backend_options={
+                "requested_provider": provider,
+                "active_providers": active_providers,
+                "provider_options": session.get_provider_options().get(provider, {}),
+                "ort_build_info": getattr(ort, "get_build_info", lambda: None)(),
+                "cpu_fallback_disabled": provider != "CPUExecutionProvider",
+                "synthetic_inputs": True,
+            },
             load_ms=load_ms,
             latency=summary,
             throughput_fps=1000.0 / mean_ms if mean_ms else None,
@@ -260,7 +334,10 @@ class TensorRTBackend(BenchmarkBackend):
             raise BackendError(
                 "refusing to deserialize an untrusted TensorRT engine; use --trust-artifact only for an engine you built or independently trust"
             )
-        command = build_trtexec_command(request, availability.executable)
+        native_request = request
+        if request.model_path.suffix.casefold() == ".onnx" and not request.input_shapes:
+            native_request = replace(request, input_shapes=_resolve_onnx_input_shapes(request))
+        command = build_trtexec_command(native_request, availability.executable)
         reader, scope = power_reader(request.hardware.platform)
         sampler = PowerSampler(reader) if reader else None
         if sampler:
@@ -286,8 +363,8 @@ class TensorRTBackend(BenchmarkBackend):
             provider_version=availability.version,
             precision=request.precision,
             quantization=request.quantization,
-            batch_size=request.batch_size,
-            input_shapes=request.input_shapes,
+            batch_size=_infer_batch_size(native_request.batch_size, native_request.input_shapes),
+            input_shapes=native_request.input_shapes,
             warmup=request.warmup,
             iterations=request.iterations,
             backend_options={"native_warmup_semantics": "milliseconds", "wall_ms": wall_ms},
@@ -367,7 +444,21 @@ class OpenVINOBackend(BenchmarkBackend):
         availability = self.availability()
         if not availability.available or not availability.executable:
             raise BackendError("OpenVINO backend unavailable: benchmark_app not found")
-        command = build_openvino_command(request, availability.executable)
+        native_request = request
+        if request.model_path.suffix.casefold() == ".onnx" and not request.input_shapes:
+            native_request = replace(request, input_shapes=_resolve_onnx_input_shapes(request))
+        device = request.device or "CPU"
+        try:
+            import openvino as ov
+            available_devices = tuple(ov.Core().available_devices)
+        except Exception:  # noqa: BLE001
+            available_devices = ()
+        if available_devices and device not in available_devices:
+            raise BackendError(
+                f"OpenVINO device {device!r} unavailable. Available: {', '.join(available_devices)}"
+            )
+        native_request = replace(native_request, device=device)
+        command = build_openvino_command(native_request, availability.executable)
         started = time.perf_counter_ns()
         result = subprocess.run(command, capture_output=True, text=True, timeout=600, check=False)
         wall_ms = (time.perf_counter_ns() - started) / 1_000_000.0
@@ -382,15 +473,22 @@ class OpenVINOBackend(BenchmarkBackend):
             hardware=request.hardware,
             runtime="openvino",
             runtime_version=availability.version,
-            provider=request.device or "AUTO",
+            provider=device,
             provider_version=availability.version,
             precision=request.precision,
             quantization=request.quantization,
-            batch_size=request.batch_size,
-            input_shapes=request.input_shapes,
-            warmup=request.warmup,
+            batch_size=_infer_batch_size(native_request.batch_size, native_request.input_shapes),
+            input_shapes=native_request.input_shapes,
+            warmup=0,
             iterations=request.iterations,
-            backend_options={"performance_hint": "latency", "native_warmup": True, "wall_ms": wall_ms},
+            backend_options={
+                "performance_hint": "latency",
+                "native_warmup": True,
+                "requested_warmup_count_not_applied": request.warmup,
+                "device": device,
+                "available_devices": list(available_devices),
+                "wall_ms": wall_ms,
+            },
             load_ms=None,
             latency=parsed["latency"],
             throughput_fps=parsed["throughput_fps"],
@@ -428,7 +526,20 @@ class CoreMLBackend(BenchmarkBackend):
         memory.start()
         started = time.perf_counter_ns()
         try:
-            model = ct.models.MLModel(str(request.model_path))
+            compute_name = (request.compute_units or "ALL").strip().upper()
+            compute_map = {
+                "ALL": ct.ComputeUnit.ALL,
+                "CPU_ONLY": ct.ComputeUnit.CPU_ONLY,
+                "CPU_AND_GPU": ct.ComputeUnit.CPU_AND_GPU,
+                "CPU_AND_NE": ct.ComputeUnit.CPU_AND_NE,
+            }
+            if compute_name not in compute_map:
+                raise BackendError(
+                    "Core ML compute units must be ALL, CPU_ONLY, CPU_AND_GPU or CPU_AND_NE"
+                )
+            model = ct.models.MLModel(
+                str(request.model_path), compute_units=compute_map[compute_name]
+            )
             load_ms = (time.perf_counter_ns() - started) / 1_000_000.0
             spec = model.get_spec()
             feeds: dict[str, Any] = {}
@@ -463,9 +574,9 @@ class CoreMLBackend(BenchmarkBackend):
             runtime="coreml", runtime_version=availability.version,
             provider="MLModel.predict", provider_version=availability.version,
             precision=request.precision, quantization=request.quantization,
-            batch_size=request.batch_size, input_shapes=input_shapes,
+            batch_size=_infer_batch_size(request.batch_size, input_shapes), input_shapes=input_shapes,
             warmup=request.warmup, iterations=request.iterations,
-            backend_options={"compute_units":"model-default","synthetic_inputs":True},
+            backend_options={"compute_units":compute_name,"synthetic_inputs":True},
             load_ms=load_ms, latency=summary,
             throughput_fps=1000.0/mean_ms if mean_ms else None,
             peak_memory_mb=peak_memory, power=None, power_scope=None,
@@ -516,6 +627,10 @@ def backend_status() -> list[BackendAvailability]:
 
 
 def run_benchmark(request: BenchmarkRequest, backend_name: str | None = None) -> dict[str, Any]:
+    if request.hardware.os_name == "profile":
+        raise BackendError(
+            "local benchmark evidence requires detected hardware; bundled profiles are screening targets only"
+        )
     try:
         before = artifact_sha256(request.model_path)
     except (OSError, ValueError) as exc:

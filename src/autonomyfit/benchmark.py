@@ -250,22 +250,80 @@ class MemorySampler:
 
 
 
+def _machine_identity_hash() -> str:
+    for candidate in (Path("/etc/machine-id"), Path("/var/lib/dbus/machine-id")):
+        try:
+            value = candidate.read_text(encoding="utf-8").strip()
+        except OSError:
+            continue
+        if value:
+            return hashlib.sha256(value.encode()).hexdigest()[:20]
+    if sys.platform == "darwin":
+        try:
+            result = subprocess.run(
+                ["ioreg", "-rd1", "-c", "IOPlatformExpertDevice"],
+                check=False, capture_output=True, text=True, timeout=2.0,
+            )
+            match = re.search(r'"IOPlatformUUID"\s*=\s*"([^"]+)"', result.stdout)
+            if match:
+                return hashlib.sha256(match.group(1).encode()).hexdigest()[:20]
+        except (OSError, subprocess.SubprocessError):
+            pass
+    return hashlib.sha256(socket.gethostname().encode()).hexdigest()[:20]
+
+
 def hardware_evidence_id(hardware: HardwareProfile) -> str:
-    if hardware.matched_profile:
+    if hardware.os_name == "profile" and hardware.matched_profile:
         return hardware.matched_profile
     payload = {
+        "machine": _machine_identity_hash(),
         "platform": hardware.platform,
         "architecture": hardware.architecture,
         "cpu": hardware.cpu,
         "gpu": hardware.gpu,
         "ram_total_gb": round(hardware.ram_total_gb, 2),
+        "accelerator_memory_gb": (
+            round(hardware.accelerator_memory_gb, 2)
+            if hardware.accelerator_memory_gb is not None
+            else None
+        ),
+        "memory_topology": hardware.memory_topology,
+        "matched_profile": hardware.matched_profile,
     }
-    digest = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
+    digest = hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()[:20]
     return f"local-{hardware.platform}-{digest}"
 
 
 def _hostname_hash() -> str:
     return hashlib.sha256(socket.gethostname().encode()).hexdigest()[:16]
+
+
+def software_stack_fingerprint(
+    hardware: HardwareProfile,
+    *,
+    runtime: str,
+    runtime_version: str | None,
+    provider: str | None,
+    provider_version: str | None,
+) -> str:
+    payload = {
+        "platform": hardware.platform,
+        "os": hardware.os_name,
+        "architecture": hardware.architecture,
+        "driver": hardware.driver,
+        "jetpack": hardware.jetpack,
+        "power_mode": hardware.power_mode,
+        "software_stack": list(hardware.software_stack),
+        "runtime": runtime,
+        "runtime_version": runtime_version,
+        "provider": provider,
+        "provider_version": provider_version,
+    }
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def environment_fingerprint(
@@ -324,6 +382,8 @@ def make_benchmark_report(
     artifact_hash = artifact_sha256(model_path)
     hardware_dict = {
         "id": hardware_evidence_id(hardware),
+        "source": "profile" if hardware.os_name == "profile" else "detected",
+        "profile_id": hardware.matched_profile,
         "platform": hardware.platform,
         "device": hardware.gpu,
         "cpu": hardware.cpu,
@@ -331,7 +391,9 @@ def make_benchmark_report(
         "os": hardware.os_name,
         "architecture": hardware.architecture,
         "driver": hardware.driver,
+        "jetpack": hardware.jetpack,
         "power_mode": hardware.power_mode,
+        "software_stack": list(hardware.software_stack),
         "clocks": {},
         "thermal_c": read_thermal_c(hardware.platform),
     }
@@ -356,6 +418,13 @@ def make_benchmark_report(
     fingerprint = environment_fingerprint(
         hardware=hardware_dict, software=software_dict, execution=execution
     )
+    stack_fingerprint = software_stack_fingerprint(
+        hardware,
+        runtime=runtime,
+        runtime_version=runtime_version,
+        provider=provider,
+        provider_version=provider_version,
+    )
     benchmark_id = "local-" + hashlib.sha256(
         f"{created}|{artifact_hash}|{hardware_dict['id']}|{runtime}|{precision}".encode()
     ).hexdigest()[:24]
@@ -372,6 +441,11 @@ def make_benchmark_report(
         "benchmark_id": benchmark_id,
         "created_at": created,
         "quality": "local-measured",
+        "measurement": {
+            "machine_source": "profile" if hardware.os_name == "profile" else "detected",
+            "profile_only": hardware.os_name == "profile",
+            "artifact_identity_verified": True,
+        },
         "notes": notes,
         "model": {"id": model_id, "revision": model_revision},
         "artifact": {
@@ -395,6 +469,7 @@ def make_benchmark_report(
             "command": command,
             "hostname_hash": _hostname_hash(),
             "environment_fingerprint": fingerprint,
+            "software_stack_fingerprint": stack_fingerprint,
         },
     }
 

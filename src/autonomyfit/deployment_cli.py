@@ -108,6 +108,10 @@ def register_deployment_commands(app: typer.Typer, console: Console) -> None:
         precision: Annotated[str | None, typer.Option(help="Target precision.")] = None,
         provider: Annotated[str | None, typer.Option(help="ONNX Runtime provider override.")] = None,
         device: Annotated[str | None, typer.Option(help="Native runtime device, e.g. CPU/GPU/NPU.")] = None,
+        compute_units: Annotated[
+            str | None,
+            typer.Option("--compute-units", help="Core ML compute units: ALL, CPU_ONLY, CPU_AND_GPU or CPU_AND_NE."),
+        ] = None,
         convert: Annotated[bool, typer.Option("--convert", help="Persist a supported local conversion before benchmarking.")] = False,
         benchmark: Annotated[bool, typer.Option("--benchmark", help="Run the viable artifact on this machine and import exact local evidence.")] = False,
         iterations: Annotated[int, typer.Option(help="Timed benchmark iterations.", min=1)] = 50,
@@ -157,6 +161,7 @@ def register_deployment_commands(app: typer.Typer, console: Console) -> None:
                     precision=precision,
                     provider=provider,
                     device=device,
+                    compute_units=compute_units,
                     convert=convert,
                     benchmark=benchmark,
                     iterations=iterations,

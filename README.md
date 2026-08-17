@@ -147,7 +147,9 @@ For ONNX -> OpenVINO, AutonomyFit attempts a deterministic numeric output compar
 
 ## Local evidence and recommendation override
 
-Successful validation benchmarks can be imported automatically into the local-results layer. Exact local measurements outrank generic vendor/reference evidence for the same artifact, hardware, runtime and precision.
+Successful validation benchmarks can be imported automatically into the local-results layer. Exact local measurements outrank generic vendor/reference evidence only when model revision, artifact hash, detected machine, runtime/provider versions, precision/quantisation, batch/input shapes, relevant power mode and material software stack match.
+
+Use `autonomyfit benchmark-matrix` to inspect those applicability dimensions and see which records are complete enough for exact-context use.
 
 ```bash
 autonomyfit local-results
@@ -219,7 +221,7 @@ See [docs/evidence.md](docs/evidence.md).
 
 ## Hardware and runtimes
 
-First-class profiles cover NVIDIA Jetson and discrete GPUs, Apple Silicon, Intel CPU/GPU/NPU systems, AMD Ryzen AI systems, Qualcomm Snapdragon X Elite and Arm CPU targets. Native benchmark paths include ONNX Runtime, TensorRT, OpenVINO and Core ML where the required tooling exists.
+First-class profiles cover NVIDIA Jetson and discrete GPUs, Apple Silicon, Intel CPU/GPU/NPU systems, AMD Ryzen AI systems, Qualcomm Snapdragon X Elite and Arm CPU targets. Native benchmark paths include ONNX Runtime, TensorRT, OpenVINO and Core ML where the required tooling exists. Profiles describe targets; detected runtime availability, successful native execution and physical target evidence are reported as separate levels.
 
 QNN, XNNPACK, OpenVINO EP, CoreML EP, TensorRT EP, CUDA EP and Vitis AI EP are provider capabilities. Provider availability is never represented as proof that a specific graph is fully supported.
 
@@ -241,7 +243,7 @@ See [docs/registry.md](docs/registry.md).
 ## Current limitations
 
 - Scheduled Hub discovery covers nine of ten task categories; visual anomaly detection remains curated because available upstream anomaly tags are semantically mixed across image, video, tabular, log and language tasks. Discovery coverage does not imply automatic promotion.
-- Exact deployment evidence is still sparse across the full hardware x runtime x model matrix.
+- Exact deployment evidence is still sparse across the full hardware x runtime x model matrix. The benchmark matrix tooling prevents sparse profile/vendor data from being presented as exact local measurements.
 - Hugging Face-backed registry entries are revisited for immutable repository SHA provenance during scheduled refreshes, but several GitHub/docs-only curated entries still lack an exact model-artifact revision until a stronger authoritative source is available or an artifact is resolved during deployment validation.
 - Generic correctness comparison is only possible for models with compatible deterministic numeric input/output contracts. Task-level accuracy needs a task-specific evaluation dataset and protocol.
 - TensorRT engines are not portable evidence across arbitrary TensorRT/CUDA/GPU stacks.

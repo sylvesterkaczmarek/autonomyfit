@@ -92,3 +92,15 @@ def test_future_dated_local_result_is_invalid():
     )
     assert valid is False
     assert any("future" in reason for reason in reasons)
+
+def test_power_mode_change_invalidates_local_result():
+    from dataclasses import replace
+
+    hardware = replace(_hardware(), power_mode="MODE_15W")
+    report = _report(hardware)
+    report["hardware"]["power_mode"] = "MODE_30W"
+    valid, reasons = local_report_compatibility(
+        report, hardware, now=datetime(2026, 8, 16, tzinfo=timezone.utc)
+    )
+    assert valid is False
+    assert any("power mode" in reason for reason in reasons)

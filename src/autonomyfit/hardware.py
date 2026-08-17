@@ -55,14 +55,19 @@ def _detect_runtimes(platform_kind: str) -> tuple[RuntimeCapability, ...]:
             providers = list(ort.get_available_providers())
         except Exception:  # noqa: BLE001
             providers = []
+    primary_provider = (
+        "CPUExecutionProvider"
+        if "CPUExecutionProvider" in providers
+        else (providers[0] if providers else None)
+    )
     capabilities.append(
         RuntimeCapability(
             "onnxruntime",
-            bool(ort_version),
+            bool(ort_version and providers),
             ort_version,
-            ", ".join(providers) if providers else None,
-            provider="CPUExecutionProvider" if ort_version else None,
-            verified=True,
+            ", ".join(providers) if providers else ("installed but no providers exposed" if ort_version else None),
+            provider=primary_provider,
+            verified=bool(ort_version and providers),
         )
     )
     provider_map = {
@@ -118,12 +123,16 @@ def _detect_runtimes(platform_kind: str) -> tuple[RuntimeCapability, ...]:
 
     openvino_version = _package_version("openvino")
     benchmark_app = shutil.which("benchmark_app")
+    ov_devices = _openvino_devices()
+    ov_detail = "native OpenVINO runtime"
+    if ov_devices:
+        ov_detail += "; devices=" + ",".join(ov_devices)
     capabilities.append(
         RuntimeCapability(
             "openvino",
             bool(openvino_version or benchmark_app),
             openvino_version,
-            "native OpenVINO runtime",
+            ov_detail,
         )
     )
 
@@ -152,14 +161,23 @@ def _jetson_model() -> str | None:
 
 
 def _jetpack_version() -> str | None:
+    jetpack = None
+    if shutil.which("dpkg-query"):
+        jetpack = _run(
+            ["dpkg-query", "-W", "-f=${Version}", "nvidia-jetpack"],
+            timeout=2.0,
+        )
+    l4t = None
     release = Path("/etc/nv_tegra_release")
     if release.exists():
         text = release.read_text(encoding="utf-8", errors="ignore")
         match = re.search(r"R(\d+)\s*\(release\).*REVISION:\s*([\d.]+)", text)
-        if match:
-            return f"L4T R{match.group(1)}.{match.group(2)}"
-        return text.splitlines()[0].strip()
-    return None
+        l4t = f"L4T R{match.group(1)}.{match.group(2)}" if match else text.splitlines()[0].strip()
+    if jetpack and l4t:
+        return f"JetPack {jetpack}; {l4t}"
+    if jetpack:
+        return f"JetPack {jetpack}"
+    return l4t
 
 
 def _jetson_power_mode() -> str | None:
@@ -170,9 +188,13 @@ def _jetson_power_mode() -> str | None:
         return None
     for line in text.splitlines():
         stripped = line.strip()
-        if stripped and not stripped.startswith("NV Power Mode") and not stripped.isdigit():
+        if stripped.casefold().startswith("nv power mode") and ":" in stripped:
+            return stripped.split(":", 1)[1].strip() or stripped
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped and not stripped.isdigit():
             return stripped
-    return text.splitlines()[0].strip()
+    return None
 
 
 def _nvidia_smi() -> tuple[str | None, float | None, str | None]:

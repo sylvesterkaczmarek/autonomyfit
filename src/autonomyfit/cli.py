@@ -12,6 +12,7 @@ from rich.table import Table
 
 from .backends import BackendError, BenchmarkRequest, backend_status, run_benchmark
 from .benchmark import save_result
+from .benchmark_matrix import benchmark_matrix
 from .catalog import load_hardware_profiles, load_model_catalog
 from .deployment_cli import register_deployment_commands
 from .evidence import (
@@ -659,6 +660,10 @@ def benchmark(
             help="Explicitly trust a serialized executable artifact such as a TensorRT engine you control.",
         ),
     ] = False,
+    compute_units: Annotated[
+        str | None,
+        typer.Option("--compute-units", help="Core ML compute units: ALL, CPU_ONLY, CPU_AND_GPU or CPU_AND_NE."),
+    ] = None,
 ) -> None:
     """Benchmark an exact local artifact and emit a schema-v2 evidence report."""
     if not model.exists() or (not model.is_file() and model.suffix.casefold() != ".mlpackage"):
@@ -681,6 +686,12 @@ def benchmark(
         quantization=quantization.strip().casefold() if quantization else None,
         batch_size=batch_size,
         trusted_artifact=trust_artifact,
+        compute_units=compute_units,
+        command=(
+            f"autonomyfit benchmark {model} --model-id {resolved_id} "
+            f"--model-revision {resolved_revision or 'unknown'} "
+            f"--backend {backend or 'auto'} --precision {precision.strip().casefold()}"
+        ),
     )
     try:
         report = run_benchmark(request, backend)
@@ -742,6 +753,48 @@ def benchmark_import_command(
         raise typer.BadParameter(str(exc)) from exc
     payload["imported_path"] = str(target)
     console.print_json(json.dumps(payload))
+
+
+@app.command("benchmark-matrix")
+def benchmark_matrix_command(
+    local_only: Annotated[bool, typer.Option("--local-only", help="Show only locally measured evidence.")] = False,
+    model_id: Annotated[str | None, typer.Option("--model-id", help="Filter one model ID.")] = None,
+    hardware_id: Annotated[str | None, typer.Option("--hardware-id", help="Filter one exact hardware ID.")] = None,
+    json_output: Annotated[bool, typer.Option("--json", help="Emit machine-readable JSON.")] = False,
+) -> None:
+    """Inspect the exact model/artifact/hardware/runtime benchmark evidence matrix."""
+    payload = benchmark_matrix(
+        local_only=local_only, model_id=model_id, hardware_id=hardware_id
+    )
+    if json_output:
+        console.print_json(json.dumps(payload))
+        return
+    table = Table(title="Benchmark evidence matrix")
+    table.add_column("Model")
+    table.add_column("Hardware")
+    table.add_column("Runtime/provider")
+    table.add_column("Precision")
+    table.add_column("Batch/shape")
+    table.add_column("Quality")
+    table.add_column("Exact context")
+    for item in payload["matrix"]:
+        shapes = ";".join(
+            f"{name}={','.join(str(dim) for dim in dims)}"
+            for name, dims in sorted(item["input_shapes"].items())
+        ) or "unknown"
+        table.add_row(
+            str(item["model_id"]),
+            str(item["hardware_id"]),
+            f"{item['runtime']}/{item.get('provider') or '-'}",
+            str(item["precision"]),
+            f"{item.get('batch_size') or '?'} / {shapes}",
+            str(item["quality"]),
+            "yes" if item["exact_context_complete"] else "no",
+        )
+    console.print(table)
+    console.print(
+        f"{payload['record_count']} records; {payload['exact_context_complete']} exact-context complete"
+    )
 
 
 register_deployment_commands(app, console)

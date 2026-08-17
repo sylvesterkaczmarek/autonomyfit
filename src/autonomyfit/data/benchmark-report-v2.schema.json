@@ -158,6 +158,30 @@
           "additionalProperties": {
             "type": "number"
           }
+        },
+        "source": {
+          "enum": [
+            "detected",
+            "profile"
+          ]
+        },
+        "profile_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "jetpack": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "software_stack": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -449,6 +473,33 @@
         "environment_fingerprint": {
           "type": "string",
           "minLength": 8
+        },
+        "software_stack_fingerprint": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "machine_source",
+        "profile_only",
+        "artifact_identity_verified"
+      ],
+      "properties": {
+        "machine_source": {
+          "enum": [
+            "detected",
+            "profile"
+          ]
+        },
+        "profile_only": {
+          "type": "boolean"
+        },
+        "artifact_identity_verified": {
+          "type": "boolean"
         }
       }
     }

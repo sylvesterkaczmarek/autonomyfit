@@ -6,6 +6,7 @@ from pathlib import Path
 from autonomyfit.artifacts import ManagedArtifact
 from autonomyfit.backends import BackendError
 from autonomyfit.deployment import (
+    DeploymentValidationError,
     ValidationOptions,
     structural_checks,
     validate_deployment,
@@ -158,16 +159,21 @@ def test_benchmark_success_and_failure_are_reflected_in_validation(monkeypatch, 
 
 
 def test_exact_local_evidence_precedes_generic_vendor_reference():
-    hardware = hardware_from_profile("jetson-orin-nx-16gb")
+    hardware = replace(
+        hardware_from_profile("jetson-orin-nx-16gb"),
+        runtimes=(RuntimeCapability("tensorrt", True, "10.0", "local"),),
+    )
     local = BenchmarkEvidence(
         id="local", model_id="yolo26n", model_revision="r1", artifact_id="a",
         artifact_sha256="a" * 64, artifact_format="onnx", hardware_id="jetson-orin-nx-16gb",
-        hardware_name="Jetson", runtime="tensorrt", runtime_version=None, provider="trtexec",
-        precision="fp16", quantization=None, batch_size=1, input_shapes={}, power_mode=None,
+        hardware_name="Jetson", runtime="tensorrt", runtime_version="10.0", provider="trtexec",
+        precision="fp16", quantization=None, batch_size=1,
+        input_shapes={"input": [1, 3, 640, 640]}, power_mode=None,
         clocks={}, warmup=5, iterations=10, latency=LatencyStats(mean_ms=3.0, median_ms=3.0),
         throughput_fps=333.3, power=PowerStats(), peak_memory_mb=None, peak_memory_scope=None,
         quality="local-measured", source_id="local", source_url="local://benchmark",
-        source_date="2026-08-16", software_stack_id=None, verified_identity=True,
+        source_date="2026-08-16", software_stack_id="stack-1", provider_version="trtexec-1",
+        machine_source="detected", verified_identity=True,
     )
     vendor = replace(
         local,
@@ -183,6 +189,8 @@ def test_exact_local_evidence_precedes_generic_vendor_reference():
         Constraints(
             task="detection", model_id="yolo26n", model_revision="r1",
             artifact_sha256="a" * 64, runtime="tensorrt", precision="fp16",
+            provider="trtexec", provider_version="trtexec-1", batch_size=1,
+            input_shapes={"input": [1, 3, 640, 640]}, software_stack_id="stack-1",
             max_latency_ms=5.0,
         ),
         offline=True,
@@ -248,3 +256,18 @@ def test_candidate_assessment_reranks_exact_supplied_artifacts(monkeypatch, tmp_
     assert [item["model_id"] for item in result["reordered_recommendations"]] == [
         "first", "second"
     ]
+
+def test_profile_benchmark_mismatch_is_refused(monkeypatch):
+    actual = _fake_hardware()
+    monkeypatch.setattr("autonomyfit.deployment.detect_hardware", lambda: actual)
+    try:
+        validate_deployment(
+            ValidationOptions(
+                model_id="yolo26n", offline=True, benchmark=True,
+                hardware_profile="nvidia-t4-16gb",
+            )
+        )
+    except DeploymentValidationError as exc:
+        assert "actual machine" in str(exc) or "does not match" in str(exc)
+    else:
+        raise AssertionError("profile-only benchmark should have been refused")

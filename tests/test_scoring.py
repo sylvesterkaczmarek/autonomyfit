@@ -53,7 +53,9 @@ def _exact_local_yolo_evidence() -> EvidenceStore:
         source_id="autonomyfit-local",
         source_url="local://benchmark",
         source_date="2026-08-16",
-        software_stack_id=None,
+        software_stack_id="stack-1",
+        provider_version="10.0",
+        machine_source="detected",
         verified_identity=True,
     )
     return EvidenceStore(document={}, benchmarks=(evidence,))
@@ -90,6 +92,12 @@ def test_exact_local_identity_can_verify_constraint():
             model_id="yolo26n",
             model_revision="revision-1",
             artifact_sha256="a" * 64,
+            provider="trtexec",
+            provider_version="10.0",
+            batch_size=1,
+            input_shapes={"images": [1, 3, 640, 640]},
+            power_mode="MAXN",
+            software_stack_id="stack-1",
         ),
         offline=True,
         evidence_store=_exact_local_yolo_evidence(),

@@ -147,9 +147,17 @@ def _select_evidence(
     runtime: str,
     precision: str,
     artifact_sha256: str | None,
+    provider_override: str | None = None,
+    provider_version: str | None = None,
+    quantization: str | None = None,
+    batch_size: int | None = None,
+    input_shapes: dict[str, list[int]] | None = None,
+    power_mode: str | None = None,
+    software_stack_id: str | None = None,
 ) -> EvidenceMatch | None:
-    provider = _BRIDGE_RUNTIMES.get(runtime)
-    runtime_candidates = ("onnxruntime",) if provider else (
+    bridge_provider = _BRIDGE_RUNTIMES.get(runtime)
+    provider = provider_override or bridge_provider
+    runtime_candidates = ("onnxruntime",) if bridge_provider else (
         ("onnxruntime", "onnx") if runtime in {"onnx", "onnxruntime"} else (runtime,)
     )
     for runtime_alias in runtime_candidates:
@@ -163,9 +171,35 @@ def _select_evidence(
             artifact_sha256=artifact_sha256,
             runtime_version=_runtime_version(hardware, runtime),
             provider=provider,
+            provider_version=provider_version,
+            quantization=quantization,
+            batch_size=batch_size,
+            input_shapes=input_shapes,
+            power_mode=power_mode,
+            software_stack_id=software_stack_id,
         )
         if matches:
             return matches[0]
+        if hardware.os_name != "profile" and hardware.matched_profile:
+            profile_matches = match_benchmarks(
+                store.benchmarks,
+                model_id=model.id,
+                model_revision=model_revision,
+                hardware_id=hardware.matched_profile,
+                runtime=runtime_alias,
+                precision=precision,
+                artifact_sha256=artifact_sha256,
+                runtime_version=_runtime_version(hardware, runtime),
+                provider=provider,
+            )
+            if profile_matches:
+                contextual = profile_matches[0]
+                return EvidenceMatch(
+                    evidence=contextual.evidence,
+                    exact=False,
+                    identity_complete=False,
+                    reasons=("profile-level evidence is contextual for this detected machine", *contextual.reasons),
+                )
     return None
 
 
@@ -347,6 +381,13 @@ def recommend_models(
             runtime=runtime,
             precision=precision,
             artifact_sha256=artifact_sha,
+            provider_override=constraints.provider,
+            provider_version=constraints.provider_version,
+            quantization=constraints.quantization,
+            batch_size=constraints.batch_size,
+            input_shapes=constraints.input_shapes,
+            power_mode=constraints.power_mode,
+            software_stack_id=constraints.software_stack_id,
         )
         benchmark = match.evidence if match else None
         exact_performance = bool(match and match.exact and benchmark.eligible_for_verified_fit)
