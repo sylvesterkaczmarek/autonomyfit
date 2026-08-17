@@ -13,59 +13,117 @@ def replace_once(path: str, old: str, new: str) -> None:
     target.write_text(text.replace(old, new, 1), encoding="utf-8")
 
 
+def append_once(path: str, addition: str) -> None:
+    target = ROOT / path
+    text = target.read_text(encoding="utf-8")
+    if addition.strip() not in text:
+        target.write_text(text.rstrip() + "\n\n" + addition.strip() + "\n", encoding="utf-8")
+
+
+# benchmark_app help output does not always expose a parseable OpenVINO version.
+# Fall back to the installed runtime package so evidence keeps exact runtime identity.
 replace_once(
-    "src/autonomyfit/scoring.py",
-    '    provider = provider_override or _BRIDGE_RUNTIMES.get(runtime)\n    runtime_candidates = ("onnxruntime",) if provider else (\n',
-    '    bridge_provider = _BRIDGE_RUNTIMES.get(runtime)\n    provider = provider_override or bridge_provider\n    runtime_candidates = ("onnxruntime",) if bridge_provider else (\n',
+    "src/autonomyfit/backends.py",
+    "import re\n",
+    "import importlib.metadata\nimport re\n",
+)
+replace_once(
+    "src/autonomyfit/backends.py",
+    '''        except (OSError, subprocess.SubprocessError):
+            version_text = None
+        return BackendAvailability(self.name, True, version_text, executable)
+
+    def benchmark(self, request: BenchmarkRequest) -> dict[str, Any]:
+        availability = self.availability()
+        if not availability.available or not availability.executable:
+            raise BackendError("OpenVINO backend unavailable: benchmark_app not found")
+''',
+    '''        except (OSError, subprocess.SubprocessError):
+            version_text = None
+        if not version_text:
+            try:
+                version_text = importlib.metadata.version("openvino")
+            except importlib.metadata.PackageNotFoundError:
+                version_text = None
+        return BackendAvailability(self.name, True, version_text, executable)
+
+    def benchmark(self, request: BenchmarkRequest) -> dict[str, Any]:
+        availability = self.availability()
+        if not availability.available or not availability.executable:
+            raise BackendError("OpenVINO backend unavailable: benchmark_app not found")
+''',
 )
 
+# On Linux, platform.processor() can be only "x86_64". Prefer /proc/cpuinfo's
+# model name so Intel/AMD detection is based on the real exposed CPU identity.
 replace_once(
-    "tests/test_deployment_stage5.py",
-    "from autonomyfit.deployment import (\n    ValidationOptions,",
-    "from autonomyfit.deployment import (\n    DeploymentValidationError,\n    ValidationOptions,",
-)
-replace_once(
-    "tests/test_deployment_stage5.py",
-    "    except Exception as exc:\n",
-    "    except DeploymentValidationError as exc:\n",
-)
-replace_once(
-    "tests/test_deployment_stage5.py",
-    '    hardware = hardware_from_profile("jetson-orin-nx-16gb")\n    local = BenchmarkEvidence(',
-    '    hardware = replace(\n        hardware_from_profile("jetson-orin-nx-16gb"),\n        runtimes=(RuntimeCapability("tensorrt", True, "10.0", "local"),),\n    )\n    local = BenchmarkEvidence(',
-)
-replace_once(
-    "tests/test_deployment_stage5.py",
-    'runtime="tensorrt", runtime_version=None, provider="trtexec",\n        precision="fp16", quantization=None, batch_size=1, input_shapes={}, power_mode=None,',
-    'runtime="tensorrt", runtime_version="10.0", provider="trtexec",\n        precision="fp16", quantization=None, batch_size=1,\n        input_shapes={"input": [1, 3, 640, 640]}, power_mode=None,',
-)
-
-replace_once(
-    "tests/test_confidence_stage4.py",
-    "        software_stack_id=None, verified_identity=True,",
-    '        software_stack_id="stack-1", provider_version="10.0",\n        machine_source="detected", verified_identity=True,',
-)
-replace_once(
-    "tests/test_confidence_stage4.py",
-    '        "artifact_sha256": "a" * 64, "runtime": "tensorrt", "precision": "fp16",\n        "max_latency_ms": 5.0,',
-    '        "artifact_sha256": "a" * 64, "runtime": "tensorrt", "precision": "fp16",\n        "provider": "trtexec", "provider_version": "10.0", "batch_size": 1,\n        "input_shapes": {"images": [1, 3, 640, 640]}, "power_mode": "MAXN",\n        "software_stack_id": "stack-1", "max_latency_ms": 5.0,',
-)
-
-replace_once(
-    "tests/test_scoring.py",
-    "        software_stack_id=None,\n        verified_identity=True,",
-    '        software_stack_id="stack-1",\n        provider_version="10.0",\n        machine_source="detected",\n        verified_identity=True,',
-)
-replace_once(
-    "tests/test_scoring.py",
-    '            artifact_sha256="a" * 64,\n        ),',
-    '            artifact_sha256="a" * 64,\n            provider="trtexec",\n            provider_version="10.0",\n            batch_size=1,\n            input_shapes={"images": [1, 3, 640, 640]},\n            power_mode="MAXN",\n            software_stack_id="stack-1",\n        ),',
+    "src/autonomyfit/hardware.py",
+    '''def _cpu_brand() -> str:
+    value = platform.processor() or platform.uname().processor
+    if value:
+        return value
+    try:
+        text = Path("/proc/cpuinfo").read_text(encoding="utf-8", errors="ignore")
+    except OSError:
+        return "unknown"
+    for key in ("model name", "Hardware", "Processor"):
+        match = re.search(rf"^{re.escape(key)}\s*:\s*(.+)$", text, re.MULTILINE | re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+    return "unknown"
+''',
+    '''def _cpu_brand() -> str:
+    if platform.system() == "Linux":
+        try:
+            text = Path("/proc/cpuinfo").read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            text = ""
+        for key in ("model name", "Hardware", "Processor"):
+            match = re.search(
+                rf"^{re.escape(key)}\s*:\s*(.+)$",
+                text,
+                re.MULTILINE | re.IGNORECASE,
+            )
+            if match:
+                return match.group(1).strip()
+    value = platform.processor() or platform.uname().processor
+    return value or "unknown"
+''',
 )
 
-replace_once(
-    "tests/test_local_results_stage5.py",
-    'def test_power_mode_change_invalidates_local_result():\n    hardware = _hardware()\n    hardware = HardwareProfile(**{**hardware.to_dict(), "power_mode": "MODE_15W"})',
-    'def test_power_mode_change_invalidates_local_result():\n    from dataclasses import replace\n\n    hardware = replace(_hardware(), power_mode="MODE_15W")',
+append_once(
+    "tests/test_backends.py",
+    '''def test_openvino_version_falls_back_to_installed_package(monkeypatch):
+    monkeypatch.setattr("shutil.which", lambda name: "/usr/bin/benchmark_app")
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *args, **kwargs: type("Result", (), {"stdout": "usage only", "stderr": ""})(),
+    )
+    monkeypatch.setattr(
+        "autonomyfit.backends.importlib.metadata.version",
+        lambda name: "2026.3.0" if name == "openvino" else "0",
+    )
+    availability = OpenVINOBackend().availability()
+    assert availability.available is True
+    assert availability.version == "2026.3.0"
+''',
 )
 
-print("AutonomyFit benchmark validation fixups applied")
+append_once(
+    "tests/test_hardware.py",
+    '''def test_linux_cpu_brand_prefers_cpuinfo_model(monkeypatch):
+    from autonomyfit.hardware import _cpu_brand
+
+    monkeypatch.setattr("autonomyfit.hardware.platform.system", lambda: "Linux")
+    monkeypatch.setattr("autonomyfit.hardware.platform.processor", lambda: "x86_64")
+    monkeypatch.setattr(
+        "autonomyfit.hardware.Path.read_text",
+        lambda self, **kwargs: "model name : Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz\n"
+        if str(self) == "/proc/cpuinfo"
+        else "",
+    )
+    assert _cpu_brand() == "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
+''',
+)
+
+print("AutonomyFit native platform follow-up fixes applied")
