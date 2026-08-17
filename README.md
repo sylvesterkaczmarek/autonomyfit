@@ -279,9 +279,20 @@ make smoke
 
 CI covers Python 3.10 through 3.13, registry/evidence validation, Ruff, the full test suite, distribution build, `twine check`, installed-wheel smoke tests and signed-registry behavior.
 
-## Cite
+## Cite this repository
 
-> Kaczmarek, S. (2026). *AutonomyFit*. GitHub.
+If you use or adapt this repository, please cite:
+
+> Kaczmarek, S. (2026). *AutonomyFit*. GitHub. https://github.com/sylvesterkaczmarek/autonomyfit
+
+```bibtex
+@software{Kaczmarek_2026_AutonomyFit,
+  author = {Sylvester Kaczmarek},
+  title  = {AutonomyFit},
+  year   = {2026},
+  url    = {https://github.com/sylvesterkaczmarek/autonomyfit}
+}
+```
 
 ## License
 
