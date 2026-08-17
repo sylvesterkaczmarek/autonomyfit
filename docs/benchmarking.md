@@ -34,4 +34,6 @@ autonomyfit benchmark-import result.json
 
 A report includes an artifact SHA-256, model revision, hardware identity, runtime/provider versions, deterministic seed, input shapes, load time, latency distribution, throughput, process-RSS peak, scoped power where available and a reproducibility fingerprint. Full local filesystem paths are not embedded in the report.
 
-Imported reports are schema validated. Corrupt or malformed reports are not added to the local evidence store.
+Imported reports are schema validated, benchmark IDs are constrained to cache-safe filenames, and writes are atomic. Corrupt, path-escaping or malformed reports are not added to the local evidence store.
+
+The artifact digest is established before native benchmarking and checked again after execution. If the artifact changes during the run, AutonomyFit discards the benchmark instead of attaching the measurements to the wrong bytes.

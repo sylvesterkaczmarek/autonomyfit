@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -71,7 +71,10 @@ def local_report_compatibility(
         created = datetime.fromisoformat(str(created_raw).replace("Z", "+00:00"))
         if created.tzinfo is None:
             raise ValueError
-        age_days = (current - created.astimezone(timezone.utc)).days
+        created_utc = created.astimezone(timezone.utc)
+        if created_utc > current + timedelta(minutes=10):
+            reasons.append("local result timestamp is implausibly far in the future")
+        age_days = (current - created_utc).days
         if age_days > max_age_days:
             reasons.append(f"local result is stale ({age_days} days > {max_age_days})")
     except (TypeError, ValueError):
@@ -150,6 +153,22 @@ def inspect_local_result(
     if not isinstance(value, dict):
         return LocalResultStatus(
             path, None, None, False, ("report root is not a JSON object",), None, None, None, None
+        )
+    from .evidence import EvidenceError, validate_benchmark_report
+
+    try:
+        validate_benchmark_report(value)
+    except EvidenceError as exc:
+        return LocalResultStatus(
+            path,
+            value.get("benchmark_id"),
+            (value.get("model") or {}).get("id"),
+            False,
+            (f"benchmark report validation failed: {exc}",),
+            value.get("created_at"),
+            (value.get("software") or {}).get("runtime"),
+            (value.get("software") or {}).get("runtime_version"),
+            (value.get("artifact") or {}).get("sha256"),
         )
     valid, reasons = local_report_compatibility(
         value, hardware, max_age_days=max_age_days, now=now

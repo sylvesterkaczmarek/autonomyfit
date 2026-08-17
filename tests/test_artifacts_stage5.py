@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import sys
 import types
 from pathlib import Path
@@ -149,3 +150,42 @@ def test_multifile_and_directory_artifact_identity_covers_all_members(tmp_path):
     first_package = artifact_sha256(package)
     (nested / "weights.bin").write_bytes(b"y")
     assert artifact_sha256(package) != first_package
+
+def test_artifact_bundle_rejects_symbolic_links(tmp_path):
+    package = tmp_path / "model.mlpackage"
+    package.mkdir()
+    outside = tmp_path / "outside.bin"
+    outside.write_bytes(b"outside")
+    (package / "Manifest.json").write_text("{}")
+    (package / "weights.bin").symlink_to(outside)
+    with pytest.raises(ValueError, match="symbolic links"):
+        artifact_sha256(package)
+
+
+def test_cache_record_cannot_escape_record_directory(tmp_path):
+    manager = ArtifactManager(tmp_path / "cache")
+    model = _model()
+    artifact = tmp_path / "model.onnx"
+    artifact.write_bytes(b"safe")
+    managed = manager.manage_local(model, artifact)
+    root = manager._record_root(model.id, managed.resolved_revision, managed.filename)
+    root.mkdir(parents=True, exist_ok=True)
+    outside = tmp_path / "outside.onnx"
+    outside.write_bytes(b"safe")
+    record = managed.to_dict()
+    record["path"] = "../../outside.onnx"
+    record["cached"] = True
+    (root / "artifact.json").write_text(json.dumps(record))
+    with pytest.raises(ArtifactCacheError):
+        manager._read_record(root)
+
+
+def test_managed_artifact_identity_recheck_detects_mutation(tmp_path):
+    from autonomyfit.artifacts import verify_artifact_identity
+
+    path = tmp_path / "model.onnx"
+    path.write_bytes(b"before")
+    artifact = ArtifactManager(tmp_path / "cache").manage_local(_model(), path)
+    path.write_bytes(b"after")
+    with pytest.raises(ArtifactIntegrityError, match="identity changed"):
+        verify_artifact_identity(artifact)

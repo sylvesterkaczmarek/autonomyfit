@@ -287,7 +287,7 @@ def convert_trusted_torchscript(
     raise ConversionError(f"unsupported trusted PyTorch target runtime: {target_runtime}")
 
 
-def convert_artifact(
+def _convert_artifact_unchecked(
     source: Path,
     target_runtime: str,
     output_dir: Path,
@@ -333,6 +333,45 @@ def convert_artifact(
             "generic ONNX-to-Core ML conversion is intentionally not automated; current Core ML Tools guidance prefers direct PyTorch/TensorFlow conversion, which requires a trusted source graph and input contract"
         )
     raise ConversionError(f"no safe conversion path from {fmt} to {target_runtime}")
+
+
+def convert_artifact(
+    source: Path,
+    target_runtime: str,
+    output_dir: Path,
+    *,
+    precision: str = "fp16",
+    input_shape: list[int] | None = None,
+    input_shapes: dict[str, list[int]] | None = None,
+    trust_source: bool = False,
+    expected_source_sha256: str | None = None,
+) -> ConversionResult:
+    try:
+        before = artifact_sha256(source)
+    except (OSError, ValueError) as exc:
+        raise ConversionError(f"source artifact identity could not be established: {exc}") from exc
+    if expected_source_sha256 and before.casefold() != expected_source_sha256.casefold():
+        raise ConversionError(
+            f"source artifact identity changed before conversion: expected {expected_source_sha256}, got {before}"
+        )
+    result = _convert_artifact_unchecked(
+        source,
+        target_runtime,
+        output_dir,
+        precision=precision,
+        input_shape=input_shape,
+        input_shapes=input_shapes,
+        trust_source=trust_source,
+    )
+    try:
+        after = artifact_sha256(source)
+    except (OSError, ValueError) as exc:
+        raise ConversionError(f"source artifact identity could not be revalidated: {exc}") from exc
+    if after.casefold() != before.casefold() or result.source_sha256.casefold() != before.casefold():
+        raise ConversionError(
+            f"source artifact changed during conversion: expected {before}, got {after}"
+        )
+    return result
 
 
 def compare_onnx_openvino_outputs(

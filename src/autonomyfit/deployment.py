@@ -14,6 +14,7 @@ from .artifacts import (
     ArtifactError,
     ArtifactManager,
     ManagedArtifact,
+    verify_artifact_identity,
 )
 from .backends import BackendError, BenchmarkRequest, backend_status, run_benchmark
 from .catalog import load_model_catalog
@@ -32,6 +33,7 @@ from .evidence import (
 from .hardware import detect_hardware, hardware_from_profile
 from .integrity import artifact_size_bytes
 from .models import Constraints, HardwareProfile, ModelProfile
+from .ranking import rank_recommendations
 from .reporting import recommendation_dict
 from .scoring import choose_precision, choose_runtime, recommend_models
 
@@ -549,6 +551,11 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
     except ArtifactError as exc:
         raise DeploymentValidationError(str(exc)) from exc
 
+    try:
+        verify_artifact_identity(managed)
+    except ArtifactError as exc:
+        raise DeploymentValidationError(str(exc)) from exc
+
     checks, artifact_warnings = structural_checks(
         managed, runtime=runtime, runtime_available=available, model=model
     )
@@ -567,6 +574,7 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                 input_shape=options.shape,
                 input_shapes=({"input": options.shape} if options.shape else None),
                 trust_source=options.trust_artifact,
+                expected_source_sha256=managed.sha256,
             )
             if conversion.target_runtime == "openvino" and managed.format == "onnx":
                 equivalence = compare_onnx_openvino_outputs(
@@ -630,6 +638,7 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                 precision=precision,
                 command=command,
                 trusted_artifact=final_artifact.trusted_for_execution,
+                expected_sha256=final_artifact.sha256,
             )
             try:
                 benchmark_report = run_benchmark(request, backend_name)
@@ -768,17 +777,27 @@ def assess_candidates(
     tasks = {item.task for item in selected}
     if len(tasks) != 1:
         raise DeploymentValidationError("candidate assessment requires models from one task")
-    ranked = recommend_models(
-        hardware,
-        Constraints(
-            task=next(iter(tasks)),
-            runtime=runtime,
-            precision=precision,
-            include_experimental=True,
-        ),
-        offline=offline,
-    )
-    chosen = [item for item in ranked if item.model.id in set(model_ids)]
+    report_by_model = {str(item["model"]["id"]): item for item in reports}
+    chosen = []
+    for model in selected:
+        report = report_by_model[model.id]
+        artifact = report.get("artifact") or {}
+        exact = recommend_models(
+            hardware,
+            Constraints(
+                task=next(iter(tasks)),
+                model_id=model.id,
+                model_revision=(report.get("model") or {}).get("revision"),
+                artifact_sha256=artifact.get("sha256"),
+                runtime=runtime,
+                precision=precision,
+                include_experimental=True,
+            ),
+            offline=offline,
+        )
+        if exact:
+            chosen.append(exact[0])
+    chosen = rank_recommendations(chosen, "balanced")
     return {
         "hardware": hardware.to_dict(),
         "reports": reports,

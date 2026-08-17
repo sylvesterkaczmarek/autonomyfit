@@ -3,8 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import tempfile
 from dataclasses import asdict, dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from importlib.resources import files
 from pathlib import Path
 from typing import Any, Literal
@@ -250,6 +251,8 @@ def validate_benchmark_report(document: dict[str, Any]) -> None:
     created = datetime.fromisoformat(document["created_at"].replace("Z", "+00:00"))
     if created.tzinfo is None:
         raise EvidenceSchemaError("benchmark report created_at must include a timezone")
+    if created.astimezone(timezone.utc) > datetime.now(timezone.utc) + timedelta(minutes=10):
+        raise EvidenceSchemaError("benchmark report created_at is implausibly far in the future")
     if document["quality"] != "local-measured":
         raise EvidenceSchemaError("local benchmark reports must use quality=local-measured")
     artifact = document["artifact"]
@@ -415,11 +418,23 @@ def import_benchmark_report(path: Path, directory: Path | None = None) -> Path:
     if not isinstance(document, dict):
         raise EvidenceSchemaError("benchmark report must be a JSON object")
     validate_benchmark_report(document)
-    target_dir = directory or local_benchmark_dir()
+    target_dir = (directory or local_benchmark_dir()).expanduser()
     target_dir.mkdir(parents=True, exist_ok=True)
-    target = target_dir / f"{document['benchmark_id']}.json"
+    target_dir = target_dir.resolve()
+    benchmark_id = str(document["benchmark_id"])
+    target = target_dir / f"{benchmark_id}.json"
+    if target.parent != target_dir:
+        raise EvidenceSchemaError("benchmark_id would escape the local evidence directory")
     payload = (json.dumps(document, indent=2, sort_keys=True) + "\n").encode()
-    target.write_bytes(payload)
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{benchmark_id}.", dir=target_dir)
+    try:
+        with os.fdopen(fd, "wb") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(tmp_name, target)
+    finally:
+        Path(tmp_name).unlink(missing_ok=True)
     return target
 
 

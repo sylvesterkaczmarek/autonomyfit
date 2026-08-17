@@ -39,7 +39,7 @@ class FakeTransport:
 def _hf_detail(
     model_id="HuggingFaceTB/SmolVLM-500M-Instruct",
     *,
-    sha="abc123",
+    sha="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     license_id="apache-2.0",
     params=500_000_000,
     pipeline_tag="image-text-to-text",
@@ -120,7 +120,7 @@ def test_huggingface_discovers_new_compact_vlm():
     model = records[0]
     assert model.task == "vlm"
     assert model.params_m == 500.0
-    assert model.revision == "abc123"
+    assert model.revision == "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     assert model.lifecycle() == "SOURCE_VERIFIED"
 
 
@@ -309,11 +309,13 @@ def test_mirror_does_not_duplicate_or_replace_curated_canonical_source():
         family="YOLO26",
         variant="n",
         params_m=2.4,
+        runtimes=("transformers",),
     )
     result = apply_discovery(registry, [mirror], now=NOW)
     matches = [item for item in result.registry["models"] if item["id"] == "yolo26n"]
     assert len(matches) == 1
     assert matches[0]["upstream"]["source_url"] == original["upstream"]["source_url"]
+    assert matches[0]["compatibility"]["runtimes"] == original["compatibility"]["runtimes"]
 
 
 def test_untrusted_complete_record_stays_out_of_signed_registry():
@@ -372,3 +374,38 @@ def test_search_and_info_commands_work_offline():
     payload = json.loads(info.stdout)
     assert payload["model"]["id"] == model_id
     assert payload["model"]["license_status"]
+
+def test_huggingface_short_revision_is_not_source_verified():
+    detail = _hf_detail(sha="abc123")
+    adapter = HuggingFaceAdapter(
+        transport=_hf_transport(detail),
+        trusted_publishers={"HuggingFaceTB"},
+    )
+    model = adapter.discover(NOW)[0]
+    assert model.revision is None
+    assert model.lifecycle() == "NORMALIZED"
+    assert candidate_to_registry_model(
+        model, model_id="short-revision", checked_at="2026-08-16T10:00:00Z"
+    ) is None
+
+
+def test_slug_collision_from_unrelated_source_gets_unique_id():
+    registry = _registry()
+    existing = next(item for item in registry["models"] if item["id"] == "yolo26n")
+    original_runtimes = list(existing["compatibility"]["runtimes"])
+    collision = _candidate(
+        upstream_id="Vendor/Unrelated-Model",
+        source_url="https://huggingface.co/Vendor/Unrelated-Model",
+        display_name="YOLO26n",
+        family="Unrelated",
+        variant="other",
+        runtimes=("transformers",),
+    )
+    result = apply_discovery(registry, [collision], now=NOW)
+    assert any(
+        item["id"].startswith("yolo26n-")
+        and item["upstream"]["source_url"] == collision.source_url
+        for item in result.registry["models"]
+    )
+    preserved = next(item for item in result.registry["models"] if item["id"] == "yolo26n")
+    assert preserved["compatibility"]["runtimes"] == original_runtimes

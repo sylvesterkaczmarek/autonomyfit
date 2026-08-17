@@ -39,7 +39,9 @@ A serialized TensorRT engine is treated as executable state. AutonomyFit refuses
 
 Single-file artifacts use the ordinary byte SHA-256.
 
-OpenVINO IR is a multi-file identity when a sibling `.bin` exists. Core ML `.mlpackage` artifacts are directory identities. These use a deterministic manifest digest over relative member names and each member's byte SHA-256. Modifying any member changes the deployment artifact identity.
+OpenVINO IR is a multi-file identity when a sibling `.bin` exists. Core ML `.mlpackage` artifacts are directory identities. These use a deterministic manifest digest over relative member names and each member's byte SHA-256. Symbolic links are rejected so a bundle cannot silently pull bytes from outside its identity boundary. Modifying any member changes the deployment artifact identity.
+
+Before conversion or benchmarking, the admitted digest is rechecked. Conversion and benchmarking also compare the source digest before and after execution and fail rather than recording evidence if the input identity changes.
 
 ## Conversion
 

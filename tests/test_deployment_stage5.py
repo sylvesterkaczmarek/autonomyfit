@@ -191,3 +191,60 @@ def test_exact_local_evidence_precedes_generic_vendor_reference():
     assert items[0].benchmark is not None
     assert items[0].benchmark.id == "local"
     assert items[0].verdict == "VERIFIED_FIT"
+
+def test_candidate_assessment_reranks_exact_supplied_artifacts(monkeypatch, tmp_path):
+    from types import SimpleNamespace
+
+    from autonomyfit.deployment import assess_candidates
+
+    first = replace(
+        _model(), id="first", source_url="https://example.com/first",
+        runtimes=("onnx",), supported_precisions=("fp32",),
+    )
+    second = replace(
+        _model(), id="second", source_url="https://example.com/second",
+        runtimes=("onnx",), supported_precisions=("fp32",),
+    )
+    hashes = {"first": "1" * 64, "second": "2" * 64}
+
+    def fake_validate(options):
+        return {
+            "model": {"id": options.model_id, "revision": f"rev-{options.model_id}"},
+            "artifact": {"sha256": hashes[options.model_id]},
+        }
+
+    calls = []
+
+    def fake_recommend(hardware, constraints, **kwargs):
+        calls.append(
+            (constraints.model_id, constraints.model_revision, constraints.artifact_sha256)
+        )
+        return [SimpleNamespace(model=SimpleNamespace(id=constraints.model_id))]
+
+    monkeypatch.setattr("autonomyfit.deployment.validate_deployment", fake_validate)
+    monkeypatch.setattr("autonomyfit.deployment._resolve_hardware", lambda profile: _fake_hardware())
+    monkeypatch.setattr(
+        "autonomyfit.deployment.load_model_catalog",
+        lambda **kwargs: SimpleNamespace(models=(first, second)),
+    )
+    monkeypatch.setattr("autonomyfit.deployment.recommend_models", fake_recommend)
+    monkeypatch.setattr("autonomyfit.deployment.rank_recommendations", lambda items, objective: items)
+    monkeypatch.setattr(
+        "autonomyfit.deployment.recommendation_dict",
+        lambda item: {"model_id": item.model.id},
+    )
+
+    result = assess_candidates(
+        ["first", "second"],
+        {"first": tmp_path / "first.onnx", "second": tmp_path / "second.onnx"},
+        runtime="onnx",
+        precision="fp32",
+        offline=True,
+    )
+    assert calls == [
+        ("first", "rev-first", hashes["first"]),
+        ("second", "rev-second", hashes["second"]),
+    ]
+    assert [item["model_id"] for item in result["reordered_recommendations"]] == [
+        "first", "second"
+    ]

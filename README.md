@@ -240,6 +240,7 @@ See [docs/registry.md](docs/registry.md).
 
 ## Current limitations
 
+- Scheduled automatic model promotion currently covers object detection and compact VLMs; the other supported task categories are curated rather than continuously discovered.
 - Exact deployment evidence is still sparse across the full hardware x runtime x model matrix.
 - Many registry entries have source-verified metadata but no immutable upstream revision recorded until an artifact is resolved during deployment validation.
 - Generic correctness comparison is only possible for models with compatible deterministic numeric input/output contracts. Task-level accuracy needs a task-specific evaluation dataset and protocol.

@@ -350,6 +350,10 @@ class HuggingFaceAdapter:
         new_version = card.get("new_version")
         source_url = f"https://huggingface.co/{model_id}"
         runtimes = _runtime_tags(payload, mapped_task)
+        revision = str(payload.get("sha")) if payload.get("sha") else None
+        if revision and not re.fullmatch(r"[0-9a-fA-F]{40}", revision):
+            warnings.append("Hub revision is not a full immutable commit SHA")
+            revision = None
         return DiscoveryCandidate(
             provider=self.name,
             upstream_id=model_id,
@@ -359,7 +363,7 @@ class HuggingFaceAdapter:
             family=family,
             variant=variant,
             task=mapped_task,
-            revision=str(payload.get("sha")) if payload.get("sha") else None,
+            revision=revision,
             release_date=_date_only(created),
             last_modified=modified,
             params_m=params_m,
@@ -591,21 +595,31 @@ def _verification_rank(value: str) -> int:
 def _candidate_model_id(
     candidate: DiscoveryCandidate,
     existing_by_url: dict[str, str],
+    existing_by_id: dict[str, dict[str, Any]],
     used_ids: set[str],
 ) -> str:
     existing = existing_by_url.get(candidate.source_url.rstrip("/").casefold())
     if existing:
         return existing
-    base = _slug(candidate.display_name)
-    if not base:
-        base = _slug(candidate.upstream_id)
-    if base in used_ids:
+    base = _slug(candidate.display_name) or _slug(candidate.upstream_id)
+    if base not in used_ids:
         return base
+
+    occupied = existing_by_id.get(base)
+    family = occupied.get("family") if isinstance(occupied, dict) else None
+    same_family = bool(
+        isinstance(family, dict)
+        and _slug(str(family.get("name") or "")) == _slug(candidate.family)
+        and _slug(str(family.get("variant") or "")) == _slug(candidate.variant or "")
+    )
+    upstream_slug = _slug(candidate.upstream_id.rsplit("/", 1)[-1])
+    if occupied is not None and same_family and upstream_slug == base:
+        return base
+
     candidate_id = base
     suffix = 2
-    original = candidate_id
     while candidate_id in used_ids:
-        candidate_id = f"{original}-{suffix}"
+        candidate_id = f"{base}-{suffix}"
         suffix += 1
     return candidate_id
 
@@ -728,10 +742,13 @@ def _merge_existing(
         if discovered_license.get("spdx"):
             output["license"] = discovered_license
 
-    for runtime in discovered["compatibility"]["runtimes"]:
-        if runtime not in output["compatibility"]["runtimes"]:
-            output["compatibility"]["runtimes"].append(runtime)
-    output["compatibility"]["runtimes"] = sorted(output["compatibility"]["runtimes"])
+    if same_source:
+        for runtime in discovered["compatibility"]["runtimes"]:
+            if runtime not in output["compatibility"]["runtimes"]:
+                output["compatibility"]["runtimes"].append(runtime)
+        output["compatibility"]["runtimes"] = sorted(
+            output["compatibility"]["runtimes"]
+        )
 
     if same_source:
         old_status = output["verification"]["status"]
@@ -795,7 +812,9 @@ def apply_discovery(
     promoted = 0
 
     for candidate in deduped:
-        model_id = _candidate_model_id(candidate, existing_by_url, used_ids)
+        model_id = _candidate_model_id(
+            candidate, existing_by_url, existing_by_id, used_ids
+        )
         converted = candidate_to_registry_model(
             candidate,
             model_id=model_id,

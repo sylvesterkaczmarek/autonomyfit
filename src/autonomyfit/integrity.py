@@ -14,9 +14,19 @@ def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
 
 def artifact_members(path: Path) -> tuple[Path, ...]:
     """Return the byte-bearing members that define one deployment artifact identity."""
-    path = path.expanduser().resolve()
+    expanded = path.expanduser()
+    if expanded.is_symlink():
+        raise ValueError(f"artifact root may not be a symbolic link: {expanded}")
+    path = expanded.resolve()
     if path.is_dir():
-        members = tuple(sorted(item for item in path.rglob("*") if item.is_file()))
+        entries = tuple(sorted(path.rglob("*")))
+        symlinks = [item for item in entries if item.is_symlink()]
+        if symlinks:
+            raise ValueError(
+                "artifact bundle may not contain symbolic links: "
+                + ", ".join(str(item.relative_to(path)) for item in symlinks[:5])
+            )
+        members = tuple(item for item in entries if item.is_file())
         if not members:
             raise ValueError(f"artifact directory is empty: {path}")
         return members
@@ -24,6 +34,8 @@ def artifact_members(path: Path) -> tuple[Path, ...]:
         raise ValueError(f"artifact does not exist: {path}")
     if path.suffix.casefold() == ".xml":
         companion = path.with_suffix(".bin")
+        if companion.is_symlink():
+            raise ValueError(f"OpenVINO companion may not be a symbolic link: {companion}")
         if companion.is_file():
             return (path, companion)
     return (path,)

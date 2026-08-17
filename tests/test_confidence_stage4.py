@@ -74,3 +74,22 @@ def test_unresolved_constraint_caps_confidence():
     assert item.confidence is not None
     assert item.confidence.score <= 55
     assert item.next_benchmark
+
+def test_stale_registry_caps_recommendation_confidence(monkeypatch):
+    from autonomyfit.catalog import LoadedCatalog, load_model_catalog
+    from autonomyfit.models import RegistryProvenance
+
+    loaded = load_model_catalog(offline=True)
+    model = next(item for item in loaded.models if item.id == "yolo26n")
+    stale = LoadedCatalog(
+        models=(model,),
+        provenance=RegistryProvenance(source="cache", stale=True, signature_verified=True),
+    )
+    monkeypatch.setattr("autonomyfit.scoring.load_model_catalog", lambda *args, **kwargs: stale)
+    item = recommend_models(
+        _hardware(), _constraints(), offline=True, evidence_store=_store("2026-08-16")
+    )[0]
+    assert item.confidence is not None
+    assert item.confidence.score <= 55
+    assert "registry freshness" in item.confidence.unresolved_constraints
+    assert "current registry freshness" in item.unknowns

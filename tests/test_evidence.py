@@ -176,3 +176,19 @@ def test_bundled_vendor_evidence_is_normalized_and_not_verified_fit():
     assert len(store.benchmarks) == 20
     assert all(item.quality == "vendor-published" for item in store.benchmarks)
     assert not any(item.eligible_for_verified_fit for item in store.benchmarks)
+
+def test_benchmark_import_rejects_path_escaping_id(tmp_path):
+    report = _report()
+    report["benchmark_id"] = "../../outside-report"
+    source = tmp_path / "report.json"
+    source.write_text(json.dumps(report))
+    with pytest.raises(EvidenceSchemaError):
+        import_benchmark_report(source, tmp_path / "store")
+    assert not (tmp_path / "outside-report.json").exists()
+
+
+def test_future_dated_benchmark_report_is_rejected():
+    report = _report()
+    report["created_at"] = "2099-01-01T00:00:00Z"
+    with pytest.raises(EvidenceSchemaError, match="future"):
+        validate_benchmark_report(report)

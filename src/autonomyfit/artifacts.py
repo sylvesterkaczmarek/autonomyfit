@@ -101,6 +101,16 @@ class ManagedArtifact:
         return value
 
 
+def verify_artifact_identity(artifact: ManagedArtifact) -> None:
+    try:
+        actual = artifact_sha256(artifact.path)
+    except (OSError, ValueError) as exc:
+        raise ArtifactIntegrityError(f"artifact identity could not be revalidated: {exc}") from exc
+    if actual.casefold() != artifact.sha256.casefold():
+        raise ArtifactIntegrityError(
+            f"artifact identity changed: expected {artifact.sha256}, got {actual}"
+        )
+
 
 def artifact_format(path: Path) -> str:
     suffix = path.suffix.casefold()
@@ -212,6 +222,8 @@ class ArtifactManager:
         )
 
     def _record_root(self, model_id: str, revision: str | None, filename: str) -> Path:
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", model_id):
+            raise ArtifactSecurityError(f"unsafe model id for artifact cache: {model_id!r}")
         key = hashlib.sha256(
             f"{model_id}|{revision or 'unversioned'}|{filename}".encode()
         ).hexdigest()[:20]
@@ -235,9 +247,16 @@ class ArtifactManager:
         except (OSError, json.JSONDecodeError):
             return None
         try:
-            path = root / str(value["path"])
+            relative = _safe_relpath(str(value["path"]))
+            if len(relative.parts) != 1:
+                raise ArtifactCacheError("cached artifact record must name one cache-local file")
+            path = root / relative
+            if path.is_symlink():
+                raise ArtifactCacheError(f"cached artifact may not be a symbolic link: {path}")
             if not path.exists():
                 raise ArtifactCacheError(f"cached artifact bytes are missing: {path}")
+            if str(value["model_id"]) != root.parent.name:
+                raise ArtifactCacheError("cached artifact model id does not match its cache directory")
             actual = artifact_sha256(path)
             expected = str(value["sha256"])
             if actual.casefold() != expected.casefold():
@@ -262,7 +281,7 @@ class ArtifactManager:
                 cached=True,
                 acquired_at=str(value["acquired_at"]),
             )
-        except (KeyError, TypeError, ValueError) as exc:
+        except (KeyError, TypeError, ValueError, ArtifactSecurityError, OSError) as exc:
             raise ArtifactCacheError(f"invalid artifact cache record in {root}") from exc
 
     def manage_local(
@@ -279,7 +298,10 @@ class ArtifactManager:
             raise ArtifactError(f"artifact does not exist: {path}")
         if path.is_dir() and path.suffix.casefold() != ".mlpackage":
             raise ArtifactError(f"unsupported artifact directory: {path}")
-        digest = artifact_sha256(path)
+        try:
+            digest = artifact_sha256(path)
+        except (OSError, ValueError) as exc:
+            raise ArtifactSecurityError(f"unsafe or unreadable artifact bundle: {exc}") from exc
         if expected_sha256 and digest.casefold() != expected_sha256.casefold():
             raise ArtifactIntegrityError(
                 f"artifact SHA-256 mismatch: expected {expected_sha256}, got {digest}"
@@ -547,11 +569,15 @@ class ArtifactManager:
         return artifact
 
     def cached_for_model(self, model_id: str) -> list[ManagedArtifact]:
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", model_id):
+            raise ArtifactSecurityError(f"unsafe model id for artifact cache: {model_id!r}")
         root = self.cache_dir / model_id
         if not root.exists():
             return []
         result: list[ManagedArtifact] = []
-        for directory in sorted(path for path in root.iterdir() if path.is_dir()):
+        for directory in sorted(
+            path for path in root.iterdir() if path.is_dir() and not path.is_symlink()
+        ):
             record = self._read_record(directory)
             if record is not None:
                 result.append(record)

@@ -45,3 +45,15 @@ def test_identity_conversion_preserves_artifact_digest(tmp_path):
     assert result.source_sha256 == result.target_sha256
     assert result.target_path == source
     assert result.built_locally is False
+
+def test_conversion_rejects_source_identity_mismatch(tmp_path):
+    source = tmp_path / "model.onnx"
+    source.write_bytes(b"onnx")
+    with pytest.raises(ConversionError, match="changed before conversion"):
+        convert_artifact(
+            source,
+            "onnxruntime",
+            tmp_path / "out",
+            precision="fp32",
+            expected_source_sha256="0" * 64,
+        )

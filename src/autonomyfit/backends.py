@@ -17,6 +17,7 @@ from .benchmark import (
     make_benchmark_report,
     power_reader,
 )
+from .integrity import artifact_sha256
 from .models import HardwareProfile
 
 
@@ -41,6 +42,7 @@ class BenchmarkRequest:
     batch_size: int | None = None
     command: str | None = None
     trusted_artifact: bool = False
+    expected_sha256: str | None = None
 
 
 @dataclass(frozen=True)
@@ -514,5 +516,25 @@ def backend_status() -> list[BackendAvailability]:
 
 
 def run_benchmark(request: BenchmarkRequest, backend_name: str | None = None) -> dict[str, Any]:
+    try:
+        before = artifact_sha256(request.model_path)
+    except (OSError, ValueError) as exc:
+        raise BackendError(f"artifact identity could not be established before benchmark: {exc}") from exc
+    if request.expected_sha256 and before.casefold() != request.expected_sha256.casefold():
+        raise BackendError(
+            f"artifact identity changed before benchmark: expected {request.expected_sha256}, got {before}"
+        )
     backend = get_backend(backend_name or infer_backend(request.model_path))
-    return backend.benchmark(request)
+    report = backend.benchmark(request)
+    try:
+        after = artifact_sha256(request.model_path)
+    except (OSError, ValueError) as exc:
+        raise BackendError(f"artifact identity could not be revalidated after benchmark: {exc}") from exc
+    if after.casefold() != before.casefold():
+        raise BackendError(
+            f"artifact changed during benchmark: expected {before}, got {after}"
+        )
+    reported = (report.get("artifact") or {}).get("sha256")
+    if not isinstance(reported, str) or reported.casefold() != before.casefold():
+        raise BackendError("benchmark report artifact identity does not match the measured input")
+    return report

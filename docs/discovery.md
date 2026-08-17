@@ -10,7 +10,7 @@ Implemented adapters:
 
 | Adapter | Machine-readable source | Role |
 |---|---|---|
-| `HuggingFaceAdapter` | Hugging Face Hub model APIs | Broad discovery for supported tasks. |
+| `HuggingFaceAdapter` | Hugging Face Hub model APIs | Broad discovery for object detection and compact VLMs. |
 | `NvidiaAdapter` | NVIDIA's official Hugging Face publisher feed | Higher-priority NVIDIA discovery. |
 | `UltralyticsAdapter` | Official GitHub release and repository-content APIs | Detects official YOLO family/version signals. |
 | `VendorGitHubAdapter` | GitHub Releases REST API | Generic vendor release/version signals. |
@@ -33,7 +33,7 @@ The Hub adapter uses model-list and model-detail API data for:
 - `new_version` relationship
 - safetensors parameter metadata when exposed by the Hub
 
-Only supported task families are considered for registry promotion.
+The selection engine supports ten task categories, but scheduled Hub promotion currently covers object detection and compact VLMs only. The other task categories use curated registry entries until equally conservative provider-specific discovery and normalization rules exist.
 
 Current automatic promotion caps are intentionally edge-oriented:
 

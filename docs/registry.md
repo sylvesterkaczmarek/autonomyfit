@@ -39,9 +39,12 @@ and issuer:
 `https://token.actions.githubusercontent.com`
 
 A successful signature is necessary but not sufficient. The client also stores the highest
-accepted registry version and digest. It rejects a lower version and rejects different content
-that reuses the same version. The signed document contains generation and expiry times so a
-stale/frozen registry is detectable.
+accepted registry version and digest. Every cached registry load is rebound to that preserved
+security state, so changing both cached bytes and mutable cache metadata cannot bypass the last
+accepted version/digest. It rejects a lower version and rejects different content that reuses
+the same version. The signed document contains generation and expiry times so a stale/frozen
+registry is detectable. Stale data can remain available offline, but recommendation confidence
+is capped until a fresh signed registry is available.
 
 Cache clearing does not erase this rollback-protection state.
 

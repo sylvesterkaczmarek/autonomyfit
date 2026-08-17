@@ -246,3 +246,19 @@ def test_duplicate_ids_are_rejected():
     document["models"].append(document["models"][0])
     with pytest.raises(RegistrySchemaError, match="duplicate model ids"):
         validate_registry_document(document)
+
+def test_cache_cannot_override_preserved_security_state(tmp_path):
+    client, _ = _client(tmp_path, _remote_pair(_document(version=7)))
+    client.update()
+
+    tampered = _document(version=8)
+    tampered_bytes = _bytes(tampered)
+    client.registry_path.write_bytes(tampered_bytes)
+    state = json.loads(client.cache_state_path.read_text())
+    import hashlib
+    state["sha256"] = hashlib.sha256(tampered_bytes).hexdigest()
+    state["registry_version"] = 8
+    client.cache_state_path.write_text(json.dumps(state))
+
+    snapshot = client.load(offline=True)
+    assert snapshot.provenance.source == "bundled-fallback"

@@ -211,6 +211,7 @@ def _confidence(
     unresolved: list[str],
     known_quantities: int,
     target_quantities: int,
+    registry_stale: bool,
 ) -> ConfidenceBreakdown:
     evidence = match.evidence if match else None
     if match and match.exact:
@@ -257,7 +258,10 @@ def _confidence(
         quantity_coverage,
     )
     score = 100.0 * sum(components) / len(components)
-    if unresolved:
+    confidence_unresolved = list(unresolved)
+    if registry_stale:
+        confidence_unresolved.append("registry freshness")
+    if confidence_unresolved:
         score = min(score, 55.0)
     score = round(max(0.0, min(100.0, score)), 1)
     return ConfidenceBreakdown(
@@ -269,7 +273,7 @@ def _confidence(
         freshness=round(freshness, 3),
         revision_identity=round(revision_identity, 3),
         quantity_coverage=round(quantity_coverage, 3),
-        unresolved_constraints=tuple(unresolved),
+        unresolved_constraints=tuple(dict.fromkeys(confidence_unresolved)),
     )
 
 
@@ -356,6 +360,12 @@ def recommend_models(
         unresolved: list[str] = []
         performance_unknown = False
         power_unknown = False
+
+        if loaded.provenance.stale:
+            reasons.append(
+                "registry data is stale; confidence is capped until a fresh signed registry is available"
+            )
+            unknowns.append("current registry freshness")
 
         if not runtime_compatible:
             blockers.append(runtime_note or f"{runtime} is not compatible")
@@ -550,6 +560,7 @@ def recommend_models(
             unresolved=sorted(set(unresolved)),
             known_quantities=max(0, known_count),
             target_quantities=max(1, target_count),
+            registry_stale=loaded.provenance.stale,
         )
         next_benchmark = None
         if unresolved:

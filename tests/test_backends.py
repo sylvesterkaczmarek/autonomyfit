@@ -73,3 +73,28 @@ def test_coreml_reports_unavailable_off_macos(monkeypatch):
     monkeypatch.setattr(platform, "system", lambda: "Linux")
     status = CoreMLBackend().availability()
     assert status.available is False
+
+def test_run_benchmark_rejects_artifact_mutation(monkeypatch, tmp_path):
+    from autonomyfit.backends import run_benchmark
+    from autonomyfit.integrity import artifact_sha256
+
+    path = tmp_path / "model.onnx"
+    path.write_bytes(b"before")
+    before = artifact_sha256(path)
+
+    class FakeBackend:
+        def benchmark(self, request):
+            report = {"artifact": {"sha256": before}}
+            path.write_bytes(b"after")
+            return report
+
+    monkeypatch.setattr("autonomyfit.backends.get_backend", lambda name: FakeBackend())
+    request = BenchmarkRequest(
+        model_path=path,
+        model_id="model",
+        model_revision="revision",
+        hardware=HARDWARE,
+        expected_sha256=before,
+    )
+    with pytest.raises(BackendError, match="changed during benchmark"):
+        run_benchmark(request, "fake")

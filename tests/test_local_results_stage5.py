@@ -83,3 +83,12 @@ def test_provider_disappearance_invalidates_bridge_result():
     )
     assert valid is False
     assert any("no longer available" in reason for reason in reasons)
+
+def test_future_dated_local_result_is_invalid():
+    hardware = _hardware()
+    future = _report(hardware, created="2099-01-01T00:00:00Z")
+    valid, reasons = local_report_compatibility(
+        future, hardware, now=datetime(2026, 8, 16, tzinfo=timezone.utc)
+    )
+    assert valid is False
+    assert any("future" in reason for reason in reasons)

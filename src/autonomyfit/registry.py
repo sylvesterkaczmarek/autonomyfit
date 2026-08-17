@@ -319,14 +319,23 @@ class RegistryClient:
         except OSError:
             return None
 
+        digest = _sha256(registry_bytes)
         cache_state = self._read_state(self.cache_state_path)
         expected_digest = cache_state.get("sha256")
-        if not expected_digest or expected_digest != _sha256(registry_bytes):
+        if not expected_digest or expected_digest != digest:
             return None
         try:
             document = _read_json_bytes(registry_bytes, "cached registry")
             validate_registry_document(document)
         except RegistryError:
+            return None
+        security_state = self._read_state(self.security_state_path)
+        highest = security_state.get("highest_seen_version")
+        trusted_digest = security_state.get("sha256")
+        version = int(document["registry"]["registry_version"])
+        if not isinstance(highest, int) or not isinstance(trusted_digest, str):
+            return None
+        if version != highest or digest != trusted_digest:
             return None
         return document, registry_bytes, bundle_bytes
 
