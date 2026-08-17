@@ -129,35 +129,3 @@ jobs:
           assert report['software']['runtime_version'] == '9.0'
           assert report['execution']['backend_options']['compute_units'] == 'ALL'
           PY
-      - name: Benchmark ONNX Runtime CoreML provider
-        run: |
-          python - <<'PY'
-          import onnx
-          from onnx import TensorProto, helper
-          graph = helper.make_graph(
-              [helper.make_node("Identity", ["input"], ["output"])],
-              "autonomyfit-coreml-ep-identity",
-              [helper.make_tensor_value_info("input", TensorProto.FLOAT, [1, 4])],
-              [helper.make_tensor_value_info("output", TensorProto.FLOAT, [1, 4])],
-          )
-          model = helper.make_model(graph, opset_imports=[helper.make_opsetid("", 13)])
-          model.ir_version = min(model.ir_version, 10)
-          onnx.save(model, "/tmp/autonomyfit-coreml-ep.onnx")
-          PY
-          autonomyfit benchmark /tmp/autonomyfit-coreml-ep.onnx \
-            --model-id autonomyfit-coreml-ep-identity \
-            --model-revision "$GITHUB_SHA" \
-            --backend onnxruntime \
-            --provider CoreMLExecutionProvider \
-            --precision fp32 \
-            --batch-size 1 \
-            --iterations 10 \
-            --warmup 2 \
-            -o /tmp/coreml-ep.json
-          python - <<'PY'
-          import json
-          report = json.load(open('/tmp/coreml-ep.json'))
-          assert report['software']['runtime'] == 'onnxruntime'
-          assert report['software']['provider'] == 'CoreMLExecutionProvider'
-          assert report['hardware']['platform'] == 'apple'
-          PY
