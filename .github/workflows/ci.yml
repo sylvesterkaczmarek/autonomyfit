@@ -36,8 +36,8 @@ jobs:
           python - <<'PY'
           import autonomyfit
           from importlib.metadata import version
-          assert autonomyfit.__version__ == "0.6.1"
-          assert version("autonomyfit") == "0.6.1"
+          assert autonomyfit.__version__ == "0.7.0"
+          assert version("autonomyfit") == "0.7.0"
           PY
           python -m autonomyfit scan --json >/dev/null
           python -m autonomyfit registry status --json >/dev/null
@@ -78,10 +78,10 @@ jobs:
         run: python -m pip install --force-reinstall dist/*.whl
       - name: Wheel smoke test
         run: |
-          test "$(autonomyfit --version)" = "0.6.1"
+          test "$(autonomyfit --version)" = "0.7.0"
           python - <<'PY'
           import autonomyfit
-          assert autonomyfit.__version__ == "0.6.1"
+          assert autonomyfit.__version__ == "0.7.0"
           PY
           autonomyfit registry status --json >/dev/null
           autonomyfit models --offline --json >/dev/null

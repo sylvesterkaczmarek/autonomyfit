@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autonomyfit"
-version = "0.6.1"
+version = "0.7.0"
 description = "Evidence-aware model selection, deployment validation and local benchmarking for edge AI and autonomous systems."
 readme = "README.md"
 requires-python = ">=3.10"
