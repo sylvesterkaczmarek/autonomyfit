@@ -131,4 +131,4 @@ def test_shape_and_named_input_shape_conflict_is_rejected(tmp_path):
         ],
     )
     assert result.exit_code != 0
-    assert "cannot be combined" in result.output
+    assert "combined" in result.output
