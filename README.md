@@ -6,7 +6,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-AutonomyFit is a CLI-first, evidence-aware deployment assessment tool for edge AI and autonomous systems. The supported public interface today is the `autonomyfit` command; internal Python modules remain implementation details while the project is pre-1.0. AutonomyFit discovers and ranks models, identifies deployment artifacts without executing repository code, validates runtime compatibility, benchmarks exact artifacts on the current machine, and emits reproducible reports that distinguish measured evidence from estimates and unknowns.
+AutonomyFit is a CLI-first, evidence-aware deployment assessment tool for edge AI and autonomous systems, with a small public Python API for embedding model recommendation and safe deployment assessment in other software. The CLI remains the primary interface and retains advanced artifact acquisition, conversion, and benchmarking workflows. AutonomyFit discovers and ranks models, identifies deployment artifacts without executing repository code, validates runtime compatibility, benchmarks exact artifacts on the current machine, and emits reproducible reports that distinguish measured evidence from estimates and unknowns.
 
 ## Install
 
@@ -61,6 +61,40 @@ autonomyfit compare MODEL1 MODEL2 --objective latency --json
 ```
 
 `validate` is deliberately conservative. A conversion succeeding does not establish task-level accuracy equivalence, an installed execution provider does not prove operator coverage, and a benchmark without exact model revision and artifact identity does not become `VERIFIED_FIT` evidence.
+
+## Python API
+
+Use the same recommendation engine programmatically:
+
+```python
+from autonomyfit import recommend
+
+recommendations = recommend(
+    task="detection",
+    hardware_profile="nvidia-t4-16gb",
+    objective="latency",
+    offline=True,
+    limit=3,
+)
+
+for item in recommendations:
+    print(item.model.id, item.verdict)
+```
+
+Assess a model or local artifact with the existing deployment validator:
+
+```python
+from autonomyfit import assess_deployment
+
+assessment = assess_deployment(
+    "yolo26n",
+    hardware_profile="nvidia-t4-16gb",
+    offline=True,
+)
+print(assessment["status"])
+```
+
+The public Python surface is intentionally small. Remote artifact acquisition, conversion, and benchmarking remain CLI workflows because they have larger trust, execution, and reproducibility surfaces. See [docs/python-api.md](docs/python-api.md).
 
 ## Safe artifact handling
 
