@@ -2030,6 +2030,71 @@
           "transformers"
         ]
       },
+      "display_name": "Qwen3-ASR-0.6B-hf",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:Qwen/Qwen3-ASR-0.6B-hf",
+            "source_url": "https://huggingface.co/Qwen/Qwen3-ASR-0.6B-hf"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Qwen3-ASR",
+        "variant": "0.6B-hf"
+      },
+      "id": "qwen3-asr-0-6b-hf",
+      "input": {
+        "height": null,
+        "kind": "audio",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/Qwen/Qwen3-ASR-0.6B-hf",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 782.426112
+      },
+      "task": "asr",
+      "upstream": {
+        "last_checked": "2026-08-18T05:48:38.568865Z",
+        "release_date": "2026-06-26",
+        "revision": "7f1569a48a89f3e3f4dc3a5c9d28bddd903bc76c",
+        "source_id": "huggingface:Qwen/Qwen3-ASR-0.6B-hf",
+        "source_url": "https://huggingface.co/Qwen/Qwen3-ASR-0.6B-hf"
+      },
+      "verification": {
+        "last_verified": "2026-08-18T05:48:38.568865Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "RADIO",
       "evidence": {
         "accuracy": [],
@@ -5509,11 +5574,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-15T12:47:15.926322Z",
-    "generated_at": "2026-08-17T12:47:15.926322Z",
+    "expires_at": "2026-11-16T05:48:38.568865Z",
+    "generated_at": "2026-08-18T05:48:38.568865Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 6,
+    "registry_version": 7,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2

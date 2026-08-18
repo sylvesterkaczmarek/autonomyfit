@@ -10,7 +10,7 @@
     "segmentation",
     "vlm"
   ],
-  "candidate_count": 165,
+  "candidate_count": 166,
   "candidates": [
     {
       "aliases": [
@@ -348,7 +348,7 @@
       "library": null,
       "license_id": "mit",
       "lifecycle": "DISCOVERED",
-      "likes": 34,
+      "likes": 37,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -702,7 +702,7 @@
       "library": "gguf",
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 126,
+      "likes": 138,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -790,7 +790,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "NORMALIZED",
-      "likes": 1369,
+      "likes": 1370,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -967,7 +967,7 @@
       "library": null,
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 2107,
+      "likes": 2124,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -1179,7 +1179,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 42,
+      "likes": 43,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -1201,7 +1201,9 @@
       "task": "depth",
       "upstream_id": "depth-anything/Depth-Anything-V2-Small-hf",
       "variant": "Small-hf",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:depth-anything/Depth-Anything-V2-Small-hf"
+      ]
     },
     {
       "aliases": [
@@ -1308,7 +1310,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "NORMALIZED",
-      "likes": 197,
+      "likes": 208,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -1331,6 +1333,51 @@
       "upstream_id": "dots-studio/dots3-note-prev",
       "variant": null,
       "warnings": []
+    },
+    {
+      "aliases": [
+        "aeroscapes-yolo26m-sem",
+        "dronefreak/aeroscapes-yolo26m-sem"
+      ],
+      "base_model": "Ultralytics/YOLO26",
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "aeroscapes-yolo26m-sem",
+      "downloads": 31,
+      "evidence_url": "https://huggingface.co/dronefreak/aeroscapes-yolo26m-sem",
+      "family": "aeroscapes-yolo26m-sem",
+      "identity_key": "hf:dronefreak/aeroscapes-yolo26m-sem",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-08-03T07:59:50Z",
+      "library": "ultralytics",
+      "license_id": "agpl-3.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 3,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "dronefreak",
+      "quantizations": [],
+      "release_date": "2026-08-03",
+      "revision": "1b2bf436f88d487dd6616c8bc07cd4d84e36d2a7",
+      "revision_identity": "43e0d93ea45a2c1b4e0e",
+      "runtimes": [
+        "pytorch"
+      ],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/dronefreak/aeroscapes-yolo26m-sem",
+      "task": "segmentation",
+      "upstream_id": "dronefreak/aeroscapes-yolo26m-sem",
+      "variant": null,
+      "warnings": [
+        "non-standard licence identifier: agpl-3.0",
+        "parameter count unavailable from Hub metadata"
+      ]
     },
     {
       "aliases": [
@@ -1825,18 +1872,19 @@
       ],
       "base_model": "Qwen/Qwen3.8-27B",
       "base_model_relation": "quantized",
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "Qwen3.8-27B-Ridge-GGUF",
       "downloads": 9222,
       "evidence_url": "https://huggingface.co/empero-ai/Qwen3.8-27B-Ridge-GGUF",
       "family": "Qwen3.8",
       "identity_key": "hf:empero-ai/qwen3.8-27b-ridge-gguf",
+      "immutable_revision": true,
       "ingestion_method": "huggingface-hub-api",
       "last_modified": "2026-08-15T23:51:41Z",
       "library": "gguf",
       "license_id": "apache-2.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 99,
+      "lifecycle": "DISCOVERED",
+      "likes": 124,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -1856,8 +1904,7 @@
       "upstream_id": "empero-ai/Qwen3.8-27B-Ridge-GGUF",
       "variant": "27B-Ridge-GGUF",
       "warnings": [
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -2164,7 +2211,9 @@
       "task": "embedding",
       "upstream_id": "facebook/dinov2-base",
       "variant": "base",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:facebook/dinov2-base"
+      ]
     },
     {
       "aliases": [
@@ -2185,7 +2234,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 216,
+      "likes": 218,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -2208,7 +2257,8 @@
       "upstream_id": "facebook/dinov3-vitb16-pretrain-lvd1689m",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:facebook/dinov3-vitb16-pretrain-lvd1689m"
       ]
     },
     {
@@ -2230,7 +2280,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 511,
+      "likes": 515,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -2253,7 +2303,8 @@
       "upstream_id": "facebook/dinov3-vitl16-pretrain-lvd1689m",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:facebook/dinov3-vitl16-pretrain-lvd1689m"
       ]
     },
     {
@@ -2298,7 +2349,8 @@
       "upstream_id": "facebook/dinov3-vits16-pretrain-lvd1689m",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:facebook/dinov3-vits16-pretrain-lvd1689m"
       ]
     },
     {
@@ -2477,7 +2529,9 @@
       "task": "classification",
       "upstream_id": "google/vit-base-patch16-224",
       "variant": "base-patch16-224",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:google/vit-base-patch16-224"
+      ]
     },
     {
       "aliases": [
@@ -2543,7 +2597,7 @@
       "library": null,
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 685,
+      "likes": 697,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -2929,7 +2983,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "NORMALIZED",
-      "likes": 155,
+      "likes": 164,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -2974,7 +3028,7 @@
       "library": "timm",
       "license_id": "cc-by-nc-nd-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 192,
+      "likes": 193,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -3019,7 +3073,7 @@
       "library": null,
       "license_id": "cc-by-nc-nd-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 98,
+      "likes": 99,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -3061,7 +3115,7 @@
       "library": "timm",
       "license_id": "cc-by-nc-nd-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 345,
+      "likes": 347,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -3194,7 +3248,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "NORMALIZED",
-      "likes": 1648,
+      "likes": 1667,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -3225,7 +3279,7 @@
       ],
       "base_model": "meta-models/Muse-Glimmer-30B",
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "Muse-Glimmer-30B-GGUF",
       "downloads": 395175,
       "evidence_url": "https://huggingface.co/meta-models/Muse-Glimmer-30B-GGUF",
@@ -3236,7 +3290,7 @@
       "last_modified": "2026-08-12T18:47:53Z",
       "library": null,
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 310,
       "metadata_complete": false,
       "new_version": null,
@@ -3257,7 +3311,8 @@
       "upstream_id": "meta-models/Muse-Glimmer-30B-GGUF",
       "variant": "30B-GGUF",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -3523,7 +3578,9 @@
       "task": "classification",
       "upstream_id": "microsoft/resnet-50",
       "variant": null,
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:microsoft/resnet-50"
+      ]
     },
     {
       "aliases": [
@@ -3544,7 +3601,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 1270,
+      "likes": 1271,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -3797,7 +3854,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "NORMALIZED",
-      "likes": 10788,
+      "likes": 10808,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -4342,7 +4399,8 @@
       "upstream_id": "nvidia/C-RADIOv2-B",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/C-RADIOv2-B"
       ]
     },
     {
@@ -4387,7 +4445,8 @@
       "upstream_id": "nvidia/C-RADIOv2-g",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/C-RADIOv2-g"
       ]
     },
     {
@@ -4409,7 +4468,7 @@
       "library": "nemo",
       "license_id": "cc-by-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 453,
+      "likes": 454,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -4494,7 +4553,7 @@
       "library": "cosmos",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 153,
+      "likes": 154,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -4652,7 +4711,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "diar_sortformer_4spk-v1",
       "downloads": 29240,
       "evidence_url": "https://huggingface.co/nvidia/diar_sortformer_4spk-v1",
@@ -4663,7 +4722,7 @@
       "last_modified": "2025-12-15T17:54:41Z",
       "library": "nemo",
       "license_id": "cc-by-nc-4.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 151,
       "metadata_complete": false,
       "new_version": null,
@@ -4684,7 +4743,8 @@
       "upstream_id": "nvidia/diar_sortformer_4spk-v1",
       "variant": null,
       "warnings": [
-        "upstream licence requires review: cc-by-nc-4.0"
+        "upstream licence requires review: cc-by-nc-4.0",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -4931,7 +4991,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 2916,
+      "likes": 2919,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -5000,7 +5060,8 @@
       "upstream_id": "nvidia/MambaVision-L-1K",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/MambaVision-L-1K"
       ]
     },
     {
@@ -5045,7 +5106,8 @@
       "upstream_id": "nvidia/MambaVision-S-1K",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/MambaVision-S-1K"
       ]
     },
     {
@@ -5090,7 +5152,8 @@
       "upstream_id": "nvidia/MambaVision-T-1K",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/MambaVision-T-1K"
       ]
     },
     {
@@ -5135,7 +5198,8 @@
       "upstream_id": "nvidia/MambaVision-T2-1K",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/MambaVision-T2-1K"
       ]
     },
     {
@@ -5434,7 +5498,7 @@
       "library": "nemo",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 1043,
+      "likes": 1046,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -5563,7 +5627,7 @@
       "library": "nemo",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 608,
+      "likes": 610,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -5628,6 +5692,51 @@
       "warnings": [
         "upstream uses a custom licence",
         "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
+        "NVIDIA-Nemotron-Nano-12B-v2-VL-NVFP4-QAD",
+        "nvidia/NVIDIA-Nemotron-Nano-12B-v2-VL-NVFP4-QAD"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "NVIDIA-Nemotron-Nano-12B-v2-VL-NVFP4-QAD",
+      "downloads": 115140,
+      "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-12B-v2-VL-NVFP4-QAD",
+      "family": "NVIDIA-Nemotron",
+      "identity_key": "hf:nvidia/nvidia-nemotron-nano-12b-v2-vl-nvfp4-qad",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-05-05T18:25:52Z",
+      "library": "transformers",
+      "license_id": "other",
+      "lifecycle": "SOURCE_VERIFIED",
+      "likes": 29,
+      "metadata_complete": true,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": 7699.118592,
+      "precisions": [],
+      "provider": "nvidia",
+      "publisher": "nvidia",
+      "quantizations": [],
+      "release_date": "2025-10-22",
+      "revision": "312eb94f6d36209f7c6a82eda896e27200d152ee",
+      "revision_identity": "7aa0dc02cf91beca379b",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 95,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-12B-v2-VL-NVFP4-QAD",
+      "task": "vlm",
+      "upstream_id": "nvidia/NVIDIA-Nemotron-Nano-12B-v2-VL-NVFP4-QAD",
+      "variant": "Nano-12B-v2-VL-NVFP4-QAD",
+      "warnings": [
+        "upstream uses a custom licence"
       ]
     },
     {
@@ -5774,7 +5883,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "NVLM-D-72B-mcore",
       "downloads": 0,
       "evidence_url": "https://huggingface.co/nvidia/NVLM-D-72B-mcore",
@@ -5785,7 +5894,7 @@
       "last_modified": "2025-01-14T18:36:00Z",
       "library": "transformers",
       "license_id": "cc-by-nc-4.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 7,
       "metadata_complete": false,
       "new_version": null,
@@ -5810,7 +5919,8 @@
       "variant": "72B-mcore",
       "warnings": [
         "upstream licence requires review: cc-by-nc-4.0",
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -6024,7 +6134,8 @@
       "upstream_id": "nvidia/RADIO",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/RADIO"
       ]
     },
     {
@@ -6069,7 +6180,8 @@
       "upstream_id": "nvidia/RADIO-B",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/RADIO-B"
       ]
     },
     {
@@ -6114,7 +6226,8 @@
       "upstream_id": "nvidia/RADIO-L",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/RADIO-L"
       ]
     },
     {
@@ -6136,7 +6249,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 196,
+      "likes": 197,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -6487,6 +6600,48 @@
     },
     {
       "aliases": [
+        "nvidia/stt_en_fastconformer_ctc_xlarge",
+        "stt_en_fastconformer_ctc_xlarge"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "stt_en_fastconformer_ctc_xlarge",
+      "downloads": 15,
+      "evidence_url": "https://huggingface.co/nvidia/stt_en_fastconformer_ctc_xlarge",
+      "family": "stt-en-fastconformer-ctc-xlarge",
+      "identity_key": "hf:nvidia/stt_en_fastconformer_ctc_xlarge",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2025-02-27T13:03:35Z",
+      "library": "nemo",
+      "license_id": "cc-by-4.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 5,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": null,
+      "precisions": [],
+      "provider": "nvidia",
+      "publisher": "nvidia",
+      "quantizations": [],
+      "release_date": "2023-06-12",
+      "revision": "e86de2cdb701531c2a246f2c4f7a03b98212995a",
+      "revision_identity": "ba762e63323012a9abfc",
+      "runtimes": [],
+      "source_priority": 95,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/nvidia/stt_en_fastconformer_ctc_xlarge",
+      "task": "asr",
+      "upstream_id": "nvidia/stt_en_fastconformer_ctc_xlarge",
+      "variant": null,
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "nvidia/stt_fa_fastconformer_hybrid_large",
         "stt_fa_fastconformer_hybrid_large"
       ],
@@ -6634,7 +6789,7 @@
       "library": "transformers.js",
       "license_id": "cc-by-nc-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 8,
+      "likes": 9,
       "metadata_complete": false,
       "new_version": "onnx-community/depth-anything-v2-large-ONNX",
       "official_publisher": false,
@@ -6724,7 +6879,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 6154,
+      "likes": 6155,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -6746,7 +6901,9 @@
       "task": "asr",
       "upstream_id": "openai/whisper-large-v3",
       "variant": "large-v3",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:openai/whisper-large-v3"
+      ]
     },
     {
       "aliases": [
@@ -6767,7 +6924,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 3245,
+      "likes": 3246,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -6789,7 +6946,9 @@
       "task": "asr",
       "upstream_id": "openai/whisper-large-v3-turbo",
       "variant": "large-v3-turbo",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:openai/whisper-large-v3-turbo"
+      ]
     },
     {
       "aliases": [
@@ -6810,7 +6969,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "NORMALIZED",
-      "likes": 391,
+      "likes": 454,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -6841,7 +7000,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "PP-DocLayoutV3",
       "downloads": 20188,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-DocLayoutV3",
@@ -6852,7 +7011,7 @@
       "last_modified": "2026-07-08T12:32:42Z",
       "library": "PaddleOCR",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 105,
       "metadata_complete": false,
       "new_version": null,
@@ -6873,7 +7032,8 @@
       "upstream_id": "PaddlePaddle/PP-DocLayoutV3",
       "variant": null,
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -7298,6 +7458,48 @@
     },
     {
       "aliases": [
+        "deep-plantain",
+        "phanerozoic/deep-plantain"
+      ],
+      "base_model": "black-forest-labs/FLUX.2-klein-base-4B",
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "deep-plantain",
+      "downloads": 32,
+      "evidence_url": "https://huggingface.co/phanerozoic/deep-plantain",
+      "family": "deep-plantain",
+      "identity_key": "hf:phanerozoic/deep-plantain",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-05-08T18:58:30Z",
+      "library": "diffusers",
+      "license_id": "apache-2.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 3,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "phanerozoic",
+      "quantizations": [],
+      "release_date": "2026-04-27",
+      "revision": "ede4530974b0132c5296f1ff78246e724514d6de",
+      "revision_identity": "d86d4480a92c6ab68c08",
+      "runtimes": [],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/phanerozoic/deep-plantain",
+      "task": "depth",
+      "upstream_id": "phanerozoic/deep-plantain",
+      "variant": null,
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "pixai-labs/pixai-tagger-v0.9",
         "pixai-tagger-v0.9"
       ],
@@ -7315,7 +7517,7 @@
       "library": null,
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 195,
+      "likes": 196,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -7662,7 +7864,7 @@
       "library": "pyannote-audio",
       "license_id": "mit",
       "lifecycle": "DISCOVERED",
-      "likes": 3086,
+      "likes": 3097,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -7704,7 +7906,7 @@
       "library": "pyannote-audio",
       "license_id": "cc-by-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 1045,
+      "likes": 1055,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -7773,6 +7975,49 @@
     },
     {
       "aliases": [
+        "Qwen/Qwen3-ASR-0.6B-hf",
+        "Qwen3-ASR-0.6B-hf"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "Qwen3-ASR-0.6B-hf",
+      "downloads": 137525,
+      "evidence_url": "https://huggingface.co/Qwen/Qwen3-ASR-0.6B-hf",
+      "family": "Qwen3-ASR",
+      "identity_key": "hf:qwen/qwen3-asr-0.6b-hf",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-07-22T11:58:47Z",
+      "library": "transformers",
+      "license_id": "apache-2.0",
+      "lifecycle": "SOURCE_VERIFIED",
+      "likes": 64,
+      "metadata_complete": true,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": 782.426112,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "Qwen",
+      "quantizations": [],
+      "release_date": "2026-06-26",
+      "revision": "7f1569a48a89f3e3f4dc3a5c9d28bddd903bc76c",
+      "revision_identity": "35f40ad3c3dfcc02ce52",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/Qwen/Qwen3-ASR-0.6B-hf",
+      "task": "asr",
+      "upstream_id": "Qwen/Qwen3-ASR-0.6B-hf",
+      "variant": "0.6B-hf",
+      "warnings": []
+    },
+    {
+      "aliases": [
         "Qwen/Qwen3-ASR-1.7B",
         "Qwen3-ASR-1.7B"
       ],
@@ -7790,7 +8035,7 @@
       "library": null,
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 1020,
+      "likes": 1022,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -7818,7 +8063,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "Qwen3-ASR-1.7B-hf",
       "downloads": 127449,
       "evidence_url": "https://huggingface.co/Qwen/Qwen3-ASR-1.7B-hf",
@@ -7829,7 +8074,7 @@
       "last_modified": "2026-07-22T11:58:31Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "SOURCE_VERIFIED",
+      "lifecycle": "DEPRECATED",
       "likes": 62,
       "metadata_complete": true,
       "new_version": null,
@@ -7852,7 +8097,9 @@
       "task": "asr",
       "upstream_id": "Qwen/Qwen3-ASR-1.7B-hf",
       "variant": "1.7B-hf",
-      "warnings": []
+      "warnings": [
+        "not observed in latest discovery"
+      ]
     },
     {
       "aliases": [
@@ -7873,7 +8120,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 10532,
+      "likes": 10807,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7916,7 +8163,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 508,
+      "likes": 534,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -8210,7 +8457,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "flexdepth",
       "downloads": 0,
       "evidence_url": "https://huggingface.co/StarNew/flexdepth",
@@ -8221,7 +8468,7 @@
       "last_modified": "2026-07-23T02:42:17Z",
       "library": "pytorch",
       "license_id": "mit",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 2,
       "metadata_complete": false,
       "new_version": null,
@@ -8244,7 +8491,8 @@
       "upstream_id": "StarNew/flexdepth",
       "variant": null,
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -8357,7 +8605,7 @@
       "library": "ultralytics",
       "license_id": "agpl-3.0",
       "lifecycle": "DISCOVERED",
-      "likes": 133,
+      "likes": 134,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -8447,7 +8695,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 464,
+      "likes": 471,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -8652,6 +8900,48 @@
     },
     {
       "aliases": [
+        "Med-R1",
+        "yuxianglai117/Med-R1"
+      ],
+      "base_model": "Qwen/Qwen2-VL-2B-Instruct",
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "Med-R1",
+      "downloads": 0,
+      "evidence_url": "https://huggingface.co/yuxianglai117/Med-R1",
+      "family": "Med-R1",
+      "identity_key": "hf:yuxianglai117/med-r1",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2025-07-07T19:23:41Z",
+      "library": null,
+      "license_id": "apache-2.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 14,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "yuxianglai117",
+      "quantizations": [],
+      "release_date": "2025-03-20",
+      "revision": "26660e6a55c5899cc76ce85c0e3a64da046e8712",
+      "revision_identity": "06bf89d8b3e1e7a98342",
+      "runtimes": [],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/yuxianglai117/Med-R1",
+      "task": "vlm",
+      "upstream_id": "yuxianglai117/Med-R1",
+      "variant": null,
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "BiRefNet",
         "ZhengPeng7/BiRefNet"
       ],
@@ -8779,8 +9069,8 @@
     "anomaly"
   ],
   "freshness_refresh": false,
-  "generated_at": "2026-08-17T12:47:15.926322Z",
-  "promoted_count": 33,
+  "generated_at": "2026-08-18T05:48:38.568865Z",
+  "promoted_count": 34,
   "registry_changed": true,
   "schema_version": 1
 }
