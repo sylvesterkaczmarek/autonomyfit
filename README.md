@@ -6,7 +6,7 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-AutonomyFit is an evidence-aware deployment assessment CLI for edge AI and autonomous systems. It discovers and ranks models, identifies deployment artifacts without executing repository code, validates runtime compatibility, benchmarks exact artifacts on the current machine, and emits reproducible reports that distinguish measured evidence from estimates and unknowns.
+AutonomyFit is a CLI-first, evidence-aware deployment assessment tool for edge AI and autonomous systems. The supported public interface today is the `autonomyfit` command; internal Python modules remain implementation details while the project is pre-1.0. AutonomyFit discovers and ranks models, identifies deployment artifacts without executing repository code, validates runtime compatibility, benchmarks exact artifacts on the current machine, and emits reproducible reports that distinguish measured evidence from estimates and unknowns.
 
 ## Install
 
