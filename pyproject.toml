@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "autonomyfit"
 version = "0.8.0"
-description = "Evidence-aware deployment assessment CLI for edge AI and autonomous systems, with model selection, validation and local benchmarking."
+description = "CLI-first evidence-aware deployment assessment for edge AI and autonomous systems, with a small Python API for recommendation and deployment assessment."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
