@@ -201,6 +201,72 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "deplot",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/deplot",
+            "source_url": "https://huggingface.co/google/deplot"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "deplot",
+        "variant": null
+      },
+      "id": "deplot",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/deplot",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 282.285696
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-25T17:22:39.943879Z",
+        "release_date": "2023-04-03",
+        "revision": "6e76d62430da16986be3426bae32301fb9115397",
+        "source_id": "huggingface:google/deplot",
+        "source_url": "https://huggingface.co/google/deplot"
+      },
+      "verification": {
+        "last_verified": "2026-08-25T17:22:39.943879Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16"
@@ -460,6 +526,71 @@
       },
       "verification": {
         "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "dinov2-small",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov2-small",
+            "source_url": "https://huggingface.co/facebook/dinov2-small"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov2",
+        "variant": "small"
+      },
+      "id": "dinov2-small",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/dinov2-small",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 22.056576
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-25T17:22:39.943879Z",
+        "release_date": "2023-07-31",
+        "revision": "ed25f3a31f01632728cabb09d1542f84ab7b0056",
+        "source_id": "huggingface:facebook/dinov2-small",
+        "source_url": "https://huggingface.co/facebook/dinov2-small"
+      },
+      "verification": {
+        "last_verified": "2026-08-25T17:22:39.943879Z",
         "status": "source_verified"
       }
     },
@@ -1192,6 +1323,71 @@
           "transformers"
         ]
       },
+      "display_name": "mask2former-swin-large-ade-semantic",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-large-ade-semantic",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-semantic"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "large-ade-semantic"
+      },
+      "id": "mask2former-swin-large-ade-semantic",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-semantic",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 215.986594
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-08-25T17:22:39.943879Z",
+        "release_date": "2023-01-05",
+        "revision": "aa25c92404a40599614215e76514c79b427c7527",
+        "source_id": "huggingface:facebook/mask2former-swin-large-ade-semantic",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-semantic"
+      },
+      "verification": {
+        "last_verified": "2026-08-25T17:22:39.943879Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "microsoft/git-base-textvqa",
       "evidence": {
         "accuracy": [],
@@ -1677,6 +1873,72 @@
           "transformers"
         ]
       },
+      "display_name": "NV-Reason-CXR-3B",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/NV-Reason-CXR-3B",
+            "source_url": "https://huggingface.co/nvidia/NV-Reason-CXR-3B"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "NV-Reason-CXR",
+        "variant": "3B"
+      },
+      "id": "nv-reason-cxr-3b",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/NV-Reason-CXR-3B",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 3754.622976
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-25T17:22:39.943879Z",
+        "release_date": "2025-10-16",
+        "revision": "056bd0383b35226554da9dc5866e095df174ae19",
+        "source_id": "nvidia:nvidia/NV-Reason-CXR-3B",
+        "source_url": "https://huggingface.co/nvidia/NV-Reason-CXR-3B"
+      },
+      "verification": {
+        "last_verified": "2026-08-25T17:22:39.943879Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "NVIDIA-Nemotron-Parse-2.0",
       "evidence": {
         "accuracy": [],
@@ -1702,10 +1964,10 @@
         "width": null
       },
       "license": {
-        "note": "upstream uses a custom licence",
+        "note": "non-standard licence identifier: openmdw-1.1",
         "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0",
-        "spdx": "other",
-        "status": "restricted"
+        "spdx": "openmdw-1.1",
+        "status": "published"
       },
       "modalities": {
         "input": [
@@ -1716,21 +1978,21 @@
           "text"
         ]
       },
-      "notes": "upstream uses a custom licence",
+      "notes": "upstream uses a custom licence; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 903.049225
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "last_checked": "2026-08-25T17:22:39.943879Z",
         "release_date": "2026-06-30",
-        "revision": "635b84d9b09bb9526b9a684d0b2c953d3cc3df05",
+        "revision": "b6742064f4a8cf22a10383ece5e7fbead355ac04",
         "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-2.0",
         "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0"
       },
       "verification": {
-        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "last_verified": "2026-08-25T17:22:39.943879Z",
         "status": "source_verified"
       }
     },
@@ -3163,6 +3425,136 @@
       },
       "verification": {
         "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "swin-base-patch4-window7-224",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/swin-base-patch4-window7-224",
+            "source_url": "https://huggingface.co/microsoft/swin-base-patch4-window7-224"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "swin",
+        "variant": "base-patch4-window7-224"
+      },
+      "id": "swin-base-patch4-window7-224",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/swin-base-patch4-window7-224",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 87.825848
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-25T17:22:39.943879Z",
+        "release_date": "2022-03-02",
+        "revision": "20d6c26ef6455d36c0a78671d787c5da57513d4b",
+        "source_id": "huggingface:microsoft/swin-base-patch4-window7-224",
+        "source_url": "https://huggingface.co/microsoft/swin-base-patch4-window7-224"
+      },
+      "verification": {
+        "last_verified": "2026-08-25T17:22:39.943879Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "tipsv2-so400m14-dpt",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/tipsv2-so400m14-dpt",
+            "source_url": "https://huggingface.co/google/tipsv2-so400m14-dpt"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "tipsv2-so400m14-dpt",
+        "variant": null
+      },
+      "id": "tipsv2-so400m14-dpt",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/tipsv2-so400m14-dpt",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 532.924265
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-25T17:22:39.943879Z",
+        "release_date": "2026-04-09",
+        "revision": "545c26eaa6a4ce74a54d9ba287eee015635b94d4",
+        "source_id": "huggingface:google/tipsv2-so400m14-dpt",
+        "source_url": "https://huggingface.co/google/tipsv2-so400m14-dpt"
+      },
+      "verification": {
+        "last_verified": "2026-08-25T17:22:39.943879Z",
         "status": "source_verified"
       }
     },
@@ -5574,11 +5966,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-16T05:48:38.568865Z",
-    "generated_at": "2026-08-18T05:48:38.568865Z",
+    "expires_at": "2026-11-23T17:22:39.943879Z",
+    "generated_at": "2026-08-25T17:22:39.943879Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 7,
+    "registry_version": 8,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
