@@ -47,3 +47,61 @@ jobs:
           path: dist/
       - name: Publish distributions to PyPI
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1
+
+  verify-public-pypi:
+    name: Verify public PyPI (Python ${{ matrix.python-version }})
+    needs: publish
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Read package version
+        shell: bash
+        run: |
+          VERSION="$(python - <<'PY'
+          import tomllib
+          from pathlib import Path
+          data = tomllib.loads(Path('pyproject.toml').read_text(encoding='utf-8'))
+          print(data['project']['version'])
+          PY
+          )"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+      - name: Wait for package on public PyPI
+        shell: bash
+        run: |
+          for attempt in {1..12}; do
+            if python -m pip install --no-cache-dir --index-url https://pypi.org/simple --force-reinstall "autonomyfit==${VERSION}"; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 12 ]; then
+              echo "autonomyfit ${VERSION} did not become installable from public PyPI"
+              exit 1
+            fi
+            sleep 10
+          done
+      - name: Verify installed public package
+        shell: bash
+        run: |
+          python -m pip check
+          cd "$RUNNER_TEMP"
+          test "$(autonomyfit --version)" = "${VERSION}"
+          python - <<'PY'
+          import os
+          import autonomyfit
+          from importlib.metadata import version
+          expected = os.environ['VERSION']
+          assert autonomyfit.__version__ == expected
+          assert version('autonomyfit') == expected
+          PY
+          autonomyfit registry status --json >/dev/null
+          autonomyfit models --offline --json >/dev/null
+          autonomyfit tasks --json >/dev/null
+          autonomyfit search smolvlm --offline --json >/dev/null
+          autonomyfit info smolvlm-256m-instruct --offline --json >/dev/null
+          autonomyfit recommend --offline --task classification --hardware-profile apple-m4-pro-24gb --objective memory --top 3 --json >/dev/null
