@@ -3,7 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from .deployment import DeploymentValidationError, ValidationOptions, validate_deployment
+from .deployment import (
+    DeploymentValidationError,
+    ValidationOptions,
+    validate_deployment,
+)
 from .hardware import detect_hardware, hardware_from_profile
 from .models import Constraints, Objective, Recommendation
 from .scoring import recommend_models as _recommend_models
