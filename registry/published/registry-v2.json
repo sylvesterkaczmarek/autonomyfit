@@ -865,6 +865,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov3-vits16plus-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-vits16plus-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-vits16plus-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-vits16plus-pretrain-lvd1689m",
+        "variant": null
+      },
+      "id": "dinov3-vits16plus-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-vits16plus-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.692864
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-26T05:53:16.398909Z",
+        "release_date": "2025-08-06",
+        "revision": "c93d816fc9e567563bc068f01475bec89cc634a6",
+        "source_id": "huggingface:facebook/dinov3-vits16plus-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-vits16plus-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-08-26T05:53:16.398909Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "Eagle2-1B",
       "evidence": {
         "accuracy": [],
@@ -5966,11 +6031,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-23T17:22:39.943879Z",
-    "generated_at": "2026-08-25T17:22:39.943879Z",
+    "expires_at": "2026-11-24T05:53:16.398909Z",
+    "generated_at": "2026-08-26T05:53:16.398909Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 8,
+    "registry_version": 9,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
