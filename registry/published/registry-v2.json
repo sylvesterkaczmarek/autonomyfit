@@ -208,6 +208,71 @@
           "transformers"
         ]
       },
+      "display_name": "convnext-base-224-22k-1k",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/convnext-base-224-22k-1k",
+            "source_url": "https://huggingface.co/facebook/convnext-base-224-22k-1k"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "convnext",
+        "variant": "base-224-22k-1k"
+      },
+      "id": "convnext-base-224-22k-1k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/convnext-base-224-22k-1k",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 88.591464
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-27T16:33:42.753366Z",
+        "release_date": "2022-03-02",
+        "revision": "8640cfcc2392b9fd32947463552ea18b874de9b2",
+        "source_id": "huggingface:facebook/convnext-base-224-22k-1k",
+        "source_url": "https://huggingface.co/facebook/convnext-base-224-22k-1k"
+      },
+      "verification": {
+        "last_verified": "2026-08-27T16:33:42.753366Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "deplot",
       "evidence": {
         "accuracy": [],
@@ -396,6 +461,71 @@
       },
       "verification": {
         "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "DepthPro-hf",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:apple/DepthPro-hf",
+            "source_url": "https://huggingface.co/apple/DepthPro-hf"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "DepthPro-hf",
+        "variant": null
+      },
+      "id": "depthpro-hf",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "non-standard licence identifier: apple-amlr",
+        "source_url": "https://huggingface.co/apple/DepthPro-hf",
+        "spdx": "apple-amlr",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": "non-standard licence identifier: apple-amlr",
+      "parameters": {
+        "flops_b": null,
+        "millions": 951.99133
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-08-27T16:33:42.753366Z",
+        "release_date": "2024-11-27",
+        "revision": "de816c8ce7168afcb231f96d501d72b869d0beda",
+        "source_id": "huggingface:apple/DepthPro-hf",
+        "source_url": "https://huggingface.co/apple/DepthPro-hf"
+      },
+      "verification": {
+        "last_verified": "2026-08-27T16:33:42.753366Z",
         "status": "source_verified"
       }
     },
@@ -2833,6 +2963,71 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "resnet-18",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/resnet-18",
+            "source_url": "https://huggingface.co/microsoft/resnet-18"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "resnet-18",
+        "variant": null
+      },
+      "id": "resnet-18",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/resnet-18",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 11.699112
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-08-27T16:33:42.753366Z",
+        "release_date": "2022-03-16",
+        "revision": "65a5785d9156231087c481e0c7dd33a5ff6f7e3e",
+        "source_id": "huggingface:microsoft/resnet-18",
+        "source_url": "https://huggingface.co/microsoft/resnet-18"
+      },
+      "verification": {
+        "last_verified": "2026-08-27T16:33:42.753366Z",
         "status": "source_verified"
       }
     },
@@ -6031,11 +6226,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-24T05:53:16.398909Z",
-    "generated_at": "2026-08-26T05:53:16.398909Z",
+    "expires_at": "2026-11-25T16:33:42.753366Z",
+    "generated_at": "2026-08-27T16:33:42.753366Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 9,
+    "registry_version": 10,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
