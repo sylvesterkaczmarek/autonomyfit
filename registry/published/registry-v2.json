@@ -1192,6 +1192,72 @@
           "transformers"
         ]
       },
+      "display_name": "Ising-Calibration-1-35B-A3B",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/Ising-Calibration-1-35B-A3B",
+            "source_url": "https://huggingface.co/nvidia/Ising-Calibration-1-35B-A3B"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Ising-Calibration-1",
+        "variant": "35B-A3B"
+      },
+      "id": "ising-calibration-1-35b-a3b",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/Ising-Calibration-1-35B-A3B",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 0.664944
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-08-28T17:28:33.591613Z",
+        "release_date": "2026-03-30",
+        "revision": "b07b7d222086d452e640a067bfa175f8af42555d",
+        "source_id": "nvidia:nvidia/Ising-Calibration-1-35B-A3B",
+        "source_url": "https://huggingface.co/nvidia/Ising-Calibration-1-35B-A3B"
+      },
+      "verification": {
+        "last_verified": "2026-08-28T17:28:33.591613Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "LocateAnything-3B",
       "evidence": {
         "accuracy": [],
@@ -3762,6 +3828,71 @@
           "transformers"
         ]
       },
+      "display_name": "table-transformer-structure-recognition",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/table-transformer-structure-recognition",
+            "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "table-transformer-structure-recognition",
+        "variant": null
+      },
+      "id": "table-transformer-structure-recognition",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.847819
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-08-28T17:28:33.591613Z",
+        "release_date": "2022-10-14",
+        "revision": "f4d4bdc85c3fe4b1fa49658882a5d38bbdd0f343",
+        "source_id": "huggingface:microsoft/table-transformer-structure-recognition",
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition"
+      },
+      "verification": {
+        "last_verified": "2026-08-28T17:28:33.591613Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "tipsv2-so400m14-dpt",
       "evidence": {
         "accuracy": [],
@@ -6226,11 +6357,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-25T16:33:42.753366Z",
-    "generated_at": "2026-08-27T16:33:42.753366Z",
+    "expires_at": "2026-11-26T17:28:33.591613Z",
+    "generated_at": "2026-08-28T17:28:33.591613Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 10,
+    "registry_version": 11,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
