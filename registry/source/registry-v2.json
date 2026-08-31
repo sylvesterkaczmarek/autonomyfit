@@ -800,6 +800,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov3-convnext-tiny-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-convnext-tiny-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-convnext-tiny-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-convnext",
+        "variant": "tiny-pretrain-lvd1689m"
+      },
+      "id": "dinov3-convnext-tiny-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-tiny-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 27.820128
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-08-31T11:38:56.160985Z",
+        "release_date": "2025-08-06",
+        "revision": "10d30274b4d445111e2d5bf75ac93bbd94db274b",
+        "source_id": "huggingface:facebook/dinov3-convnext-tiny-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-tiny-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-08-31T11:38:56.160985Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "dinov3-vitb16-pretrain-lvd1689m",
       "evidence": {
         "accuracy": [],
@@ -6357,11 +6422,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-26T17:28:33.591613Z",
-    "generated_at": "2026-08-28T17:28:33.591613Z",
+    "expires_at": "2026-11-29T11:38:56.160985Z",
+    "generated_at": "2026-08-31T11:38:56.160985Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 11,
+    "registry_version": 12,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
