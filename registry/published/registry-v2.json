@@ -1060,6 +1060,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov3-vitl16-pretrain-sat493m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-vitl16-pretrain-sat493m",
+            "source_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-sat493m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-vitl16-pretrain-sat493m",
+        "variant": null
+      },
+      "id": "dinov3-vitl16-pretrain-sat493m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-sat493m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 303.1296
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-09-02T09:41:59.885091Z",
+        "release_date": "2025-08-06",
+        "revision": "f692fa42da72c6797b67cd73494a168d1120d3ee",
+        "source_id": "huggingface:facebook/dinov3-vitl16-pretrain-sat493m",
+        "source_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-sat493m"
+      },
+      "verification": {
+        "last_verified": "2026-09-02T09:41:59.885091Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "dinov3-vits16-pretrain-lvd1689m",
       "evidence": {
         "accuracy": [],
@@ -6487,11 +6552,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-11-30T10:11:35.950946Z",
-    "generated_at": "2026-09-01T10:11:35.950946Z",
+    "expires_at": "2026-12-01T09:41:59.885091Z",
+    "generated_at": "2026-09-02T09:41:59.885091Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 13,
+    "registry_version": 14,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
