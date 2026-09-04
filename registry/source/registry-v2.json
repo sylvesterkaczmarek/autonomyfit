@@ -4088,6 +4088,71 @@
           "transformers"
         ]
       },
+      "display_name": "table-transformer-structure-recognition-v1.1-all",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/table-transformer-structure-recognition-v1.1-all",
+            "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-all"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "table-transformer-structure-recognition-v1.1-all",
+        "variant": null
+      },
+      "id": "table-transformer-structure-recognition-v1-1-all",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-all",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.847819
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-09-04T09:43:10.677578Z",
+        "release_date": "2023-11-18",
+        "revision": "7587a7ef111d9dcbf8ac695f1376ab7014340a0c",
+        "source_id": "huggingface:microsoft/table-transformer-structure-recognition-v1.1-all",
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-all"
+      },
+      "verification": {
+        "last_verified": "2026-09-04T09:43:10.677578Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "tipsv2-so400m14-dpt",
       "evidence": {
         "accuracy": [],
@@ -6552,11 +6617,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-01T09:41:59.885091Z",
-    "generated_at": "2026-09-02T09:41:59.885091Z",
+    "expires_at": "2026-12-03T09:43:10.677578Z",
+    "generated_at": "2026-09-04T09:43:10.677578Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 14,
+    "registry_version": 15,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
