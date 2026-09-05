@@ -208,6 +208,71 @@
           "transformers"
         ]
       },
+      "display_name": "conditional-detr-resnet-50",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/conditional-detr-resnet-50",
+            "source_url": "https://huggingface.co/microsoft/conditional-detr-resnet-50"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "conditional-detr-resnet-50",
+        "variant": null
+      },
+      "id": "conditional-detr-resnet-50",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/conditional-detr-resnet-50",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 43.524641
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-09-05T09:08:27.643964Z",
+        "release_date": "2022-09-09",
+        "revision": "8f8795fb7c319c7862d4f4cd699e76bb09cf2593",
+        "source_id": "huggingface:microsoft/conditional-detr-resnet-50",
+        "source_url": "https://huggingface.co/microsoft/conditional-detr-resnet-50"
+      },
+      "verification": {
+        "last_verified": "2026-09-05T09:08:27.643964Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "convnext-base-224-22k-1k",
       "evidence": {
         "accuracy": [],
@@ -6617,11 +6682,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-03T09:43:10.677578Z",
-    "generated_at": "2026-09-04T09:43:10.677578Z",
+    "expires_at": "2026-12-04T09:08:27.643964Z",
+    "generated_at": "2026-09-05T09:08:27.643964Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 15,
+    "registry_version": 16,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
