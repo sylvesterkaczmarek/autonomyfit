@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import tempfile
 from dataclasses import asdict, dataclass, field
@@ -38,6 +39,22 @@ class EvidenceSchemaError(EvidenceError):
     """Evidence data failed schema or semantic validation."""
 
 
+def ensure_finite_json(value: Any, *, path: str = "document") -> None:
+    """Reject non-finite numbers, including values accepted by Python's JSON parser.
+
+    JSON Schema numeric bounds do not reliably reject NaN. Check nested values
+    before schema validation so invalid measurements cannot pass comparisons.
+    """
+    if isinstance(value, float) and not math.isfinite(value):
+        raise EvidenceSchemaError(f"{path} must contain only finite numbers")
+    if isinstance(value, dict):
+        for key, item in value.items():
+            ensure_finite_json(item, path=f"{path}.{key}")
+    elif isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            ensure_finite_json(item, path=f"{path}[{index}]")
+
+
 @dataclass(frozen=True)
 class LatencyStats:
     min_ms: float | None = None
@@ -52,7 +69,10 @@ class LatencyStats:
 
     @property
     def representative_ms(self) -> float | None:
-        return self.median_ms or self.p50_ms or self.mean_ms
+        return next(
+            (value for value in (self.median_ms, self.p50_ms, self.mean_ms) if value is not None),
+            None,
+        )
 
 
 @dataclass(frozen=True)
@@ -99,12 +119,16 @@ class BenchmarkEvidence:
     notes: str | None = None
     verified_identity: bool = False
 
+    def __post_init__(self) -> None:
+        # EvidenceStore is also a public Python entry point, so report-file
+        # validation alone does not protect recommendations from NaN values.
+        ensure_finite_json(asdict(self), path="benchmark evidence")
+
     @property
     def fps(self) -> float | None:
-        if self.throughput_fps is not None:
-            return self.throughput_fps
-        latency = self.latency.representative_ms
-        return 1000.0 / latency if latency and latency > 0 else None
+        # Reciprocal median latency is not measured throughput. Batch size,
+        # concurrent execution and latency variation all affect that quantity.
+        return self.throughput_fps
 
     @property
     def latency_ms(self) -> float | None:
@@ -169,6 +193,7 @@ def _validator(schema_name: str) -> Draft202012Validator:
 
 
 def _validate(document: dict[str, Any], schema_name: str, label: str) -> None:
+    ensure_finite_json(document, path=label)
     errors = sorted(
         _validator(schema_name).iter_errors(document),
         key=lambda item: list(item.path),

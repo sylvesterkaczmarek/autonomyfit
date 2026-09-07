@@ -17,6 +17,10 @@ ONNX Runtime bridge providers such as CUDA, TensorRT, OpenVINO, Core ML, QNN, XN
 
 Local evidence uses a host-specific hashed machine identity plus detected CPU/GPU/memory topology rather than collapsing a real machine to a coarse bundled profile ID. Driver, JetPack/L4T, power mode, runtime/provider versions and software-stack signals are tracked separately so material stack changes can invalidate exact evidence without pretending the hardware itself changed.
 
+Profile matching requires an unambiguous model name and compatible memory capacity. Generic chip-family names cannot select a specific Pro/Max or memory variant, and a device-tree model is classified as Jetson only when it identifies a Jetson.
+
+Unified-memory identity uses total capacity, so ordinary changes in available RAM no longer discard otherwise applicable results. Reports created with the previous free-memory-based identity can be invalidated once by this correction; rerun the exact benchmark to replace them.
+
 Jetson detection records JetPack package metadata where available, L4T information, `nvpmodel` power mode and VDD_IN telemetry when exposed. NVIDIA discrete GPUs use `nvidia-smi` identity/driver and board-power telemetry. Intel detection records OpenVINO CPU/GPU/NPU devices exposed by the installed runtime. Apple detection records the Apple chip and explicit Core ML compute-unit choice in benchmark evidence.
 
 ## Physical validation

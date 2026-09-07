@@ -224,17 +224,24 @@ class PowerSampler:
 class MemorySampler:
     def __init__(self, interval: float = 0.05) -> None:
         self.interval = interval
-        self.process = psutil.Process()
+        try:
+            self.process = psutil.Process()
+        except (psutil.Error, OSError):
+            self.process = None
         self.peak_rss = 0
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
 
     def start(self) -> None:
+        if self.process is None:
+            return
         self._stop.clear()
         self._thread = threading.Thread(target=self._run, daemon=True)
         self._thread.start()
 
     def _run(self) -> None:
+        if self.process is None:
+            return
         while not self._stop.is_set():
             try:
                 self.peak_rss = max(self.peak_rss, self.process.memory_info().rss)
@@ -283,7 +290,11 @@ def hardware_evidence_id(hardware: HardwareProfile) -> str:
         "gpu": hardware.gpu,
         "ram_total_gb": round(hardware.ram_total_gb, 2),
         "accelerator_memory_gb": (
-            round(hardware.accelerator_memory_gb, 2)
+            # Unified-memory detection reports currently available RAM for
+            # feasibility checks. Free memory is not part of device identity.
+            round(hardware.ram_total_gb, 2)
+            if hardware.unified_memory
+            else round(hardware.accelerator_memory_gb, 2)
             if hardware.accelerator_memory_gb is not None
             else None
         ),

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from math import isfinite
 from pathlib import Path
 from typing import Any, Literal
 
@@ -163,6 +164,38 @@ class Constraints:
     input_shapes: dict[str, list[int]] = field(default_factory=dict)
     power_mode: str | None = None
     software_stack_id: str | None = None
+
+    def __post_init__(self) -> None:
+        for name in (
+            "min_fps", "max_latency_ms", "max_power_w", "min_accuracy",
+            "max_memory_gb", "max_params_m", "min_confidence",
+        ):
+            value = getattr(self, name)
+            if value is not None and (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not isfinite(value)
+                or value < 0
+            ):
+                raise ValueError(f"{name} must be a finite non-negative number")
+        if self.min_confidence is not None and self.min_confidence > 100:
+            raise ValueError("min_confidence must be between 0 and 100")
+        if self.objective not in {"latency", "throughput", "accuracy", "power", "memory", "balanced"}:
+            raise ValueError(f"unknown objective {self.objective!r}")
+        if self.batch_size is not None and (
+            isinstance(self.batch_size, bool)
+            or not isinstance(self.batch_size, int)
+            or self.batch_size < 1
+        ):
+            raise ValueError("batch_size must be a positive integer")
+        if not isinstance(self.input_shapes, dict) or any(
+            not isinstance(name, str)
+            or not name
+            or not isinstance(shape, list)
+            or any(isinstance(size, bool) or not isinstance(size, int) or size < 1 for size in shape)
+            for name, shape in self.input_shapes.items()
+        ):
+            raise ValueError("input_shapes must map input names to lists of positive integers")
 
 
 @dataclass(frozen=True)

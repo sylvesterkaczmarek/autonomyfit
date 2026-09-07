@@ -58,6 +58,10 @@ autonomyfit benchmark-matrix --local-only
 
 Reports include an artifact SHA-256, exact machine ID, runtime/provider versions, input shapes, batch, deterministic seed, latency distribution, throughput, process RSS, scoped power/energy when available, environment fingerprint and material software-stack fingerprint. The artifact digest is checked before and after native execution.
 
+FPS is items per second. ONNX Runtime and TensorRT multiply batch executions per second by the resolved batch size; OpenVINO retains the tool's reported item rate. Core ML requires an explicit batch size consistent with its leading input dimensions to report FPS. Call rates are retained as `execution.backend_options.throughput_qps` where available. Missing native throughput remains unknown, even when latency is available. Conflicting batch and input-shape declarations fail before they can produce usable evidence.
+
+TensorRT power sampled around the whole `trtexec` command includes setup, warmup and possibly engine building. It is retained under `execution.backend_options.native_process_power` for diagnostics and cannot satisfy an inference-power limit. Precision is a caller-declared label where the backend cannot inspect the actual execution precision; an FP16 label alone does not prove FP16 operator execution.
+
 ## Validation status
 
 The regular CI executes a real ONNX Runtime `CPUExecutionProvider` benchmark against a generated ONNX graph and validates/imports its report. That is native runtime validation on the GitHub-hosted CI machine, not evidence for Jetson, NVIDIA GPU, Apple Silicon or Intel GPU/NPU hardware. Platform-specific support must be described as physically validated only after a report was measured on that detected target.

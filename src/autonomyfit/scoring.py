@@ -391,6 +391,10 @@ def recommend_models(
         )
         benchmark = match.evidence if match else None
         exact_performance = bool(match and match.exact and benchmark.eligible_for_verified_fit)
+        scoped_power = bool(
+            benchmark and benchmark.power.mean_w is not None
+            and benchmark.power.scope and benchmark.power.scope.strip()
+        )
         runtime_ready = _runtime_available(hardware, runtime)
 
         reasons: list[str] = []
@@ -513,7 +517,7 @@ def recommend_models(
                     reasons.append("exact identity-matched performance evidence satisfies the constraint")
 
         if constraints.max_power_w is not None:
-            if not exact_performance or benchmark is None or benchmark.power.mean_w is None:
+            if not exact_performance or not scoped_power:
                 power_unknown = True
                 unresolved.append("power")
                 unknowns.append("exact scoped power")
@@ -567,7 +571,7 @@ def recommend_models(
             requested_checks.append(
                 exact_performance
                 and benchmark is not None
-                and benchmark.power.mean_w is not None
+                and scoped_power
             )
         if constraints.min_accuracy is not None:
             requested_checks.append(model.accuracy is not None)
@@ -585,7 +589,7 @@ def recommend_models(
                     benchmark is not None and benchmark.latency_ms is not None,
                     benchmark is not None and benchmark.fps is not None,
                     model.accuracy is not None,
-                    benchmark is not None and benchmark.power.mean_w is not None,
+                    scoped_power,
                     estimated_memory is not None,
                 )
             )

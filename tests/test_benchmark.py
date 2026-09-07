@@ -48,3 +48,17 @@ def test_parse_nvidia_smi_power():
 def test_shape_override_must_match_input_rank():
     with pytest.raises(ValueError, match="expects 4"):
         _shape_for_input([1, 3, 640, 640], [1, 640, 640])
+
+
+def test_unavailable_process_telemetry_remains_unknown(monkeypatch):
+    import psutil
+
+    from autonomyfit.benchmark import MemorySampler
+
+    def unavailable():
+        raise psutil.NoSuchProcess(4)
+
+    monkeypatch.setattr("autonomyfit.benchmark.psutil.Process", unavailable)
+    sampler = MemorySampler()
+    sampler.start()
+    assert sampler.stop() is None

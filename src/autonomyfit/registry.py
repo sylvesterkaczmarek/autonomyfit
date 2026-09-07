@@ -16,6 +16,7 @@ from typing import Any
 from jsonschema import Draft202012Validator, FormatChecker
 from platformdirs import user_cache_path
 
+from .evidence import EvidenceSchemaError, ensure_finite_json
 from .models import AccuracyMetric, ModelProfile, RegistryProvenance
 
 REGISTRY_SCHEMA_VERSION = 2
@@ -126,6 +127,10 @@ def _load_schema() -> dict[str, Any]:
 
 
 def validate_registry_document(document: dict[str, Any]) -> None:
+    try:
+        ensure_finite_json(document)
+    except EvidenceSchemaError as exc:
+        raise RegistrySchemaError(str(exc)) from exc
     if document.get("schema_version") != REGISTRY_SCHEMA_VERSION:
         raise RegistrySchemaError(
             f"unsupported registry schema {document.get('schema_version')!r}; "

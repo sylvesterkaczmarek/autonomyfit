@@ -1,12 +1,14 @@
 # Ranking and confidence
 
-AutonomyFit 0.5 uses a staged decision process instead of one opaque weighted score.
+AutonomyFit applies feasibility checks, Pareto layers and the selected objective in order.
 
 ## 1. Hard feasibility
 
 The engine first evaluates conditions that can make a deployment infeasible: model/runtime compatibility, listed precision support, accelerator-memory screening, explicit parameter and memory ceilings, licence filters and any exact measured threshold failures. Candidates that fail hard feasibility cannot outrank feasible candidates.
 
 Unknown performance does not become a pass. If latency, throughput or power is requested but exact applicable evidence is absent, the result is `BENCHMARK_REQUIRED`.
+
+Limits must be finite, non-negative numbers; confidence thresholds are limited to 0-100. Memory ceilings screen published or estimated model requirements, rather than measured accelerator allocation. Power without an explicit scope and throughput absent from a report remain unknown.
 
 ## 2. Conservative Pareto layers
 
@@ -34,6 +36,8 @@ The `--objective` flag controls the order inside the feasibility/Pareto structur
 - `balanced`: normalized utility across known latency, throughput, task metric, power and memory
 
 For a single objective, displayed scores are min-max normalized within the feasible candidate set. Missing objective data receives no objective score and is resolved through Pareto/confidence/deterministic tie-breaking.
+
+Check the reported metric name, dataset and power scope before comparing candidates. The ranking does not harmonise evaluation protocols or convert different sensor scopes into whole-system power.
 
 `balanced` gives each known objective equal weight after normalization, then multiplies by objective coverage. It does not impute missing measurements.
 

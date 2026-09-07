@@ -76,3 +76,15 @@ def test_invalid_report_is_rejected():
     del report["runtime"]
     with pytest.raises(DeploymentReportError, match="runtime"):
         validate_deployment_report(report)
+
+
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), -float("inf")])
+def test_nonfinite_report_does_not_replace_previous_result(tmp_path, value):
+    path = tmp_path / "report.json"
+    save_deployment_report(_report(), path)
+    previous = path.read_bytes()
+    report = _report()
+    report["constraints"]["max_latency_ms"] = value
+    with pytest.raises(DeploymentReportError, match="finite"):
+        save_deployment_report(report, path)
+    assert path.read_bytes() == previous

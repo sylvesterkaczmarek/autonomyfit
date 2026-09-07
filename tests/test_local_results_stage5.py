@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
+
+import pytest
 
 from autonomyfit.benchmark import hardware_evidence_id
 from autonomyfit.local_results import local_report_compatibility
@@ -138,3 +141,47 @@ def test_unknown_current_runtime_version_invalidates_exact_local_context():
     )
     assert valid is False
     assert any("runtime version could not be established" in reason for reason in reasons)
+
+
+@pytest.mark.parametrize("section", ["hardware", "software", "reproducibility"])
+@pytest.mark.parametrize("value", [["invalid"], "invalid", 42])
+def test_malformed_local_context_is_rejected_without_crashing(section, value):
+    report = _report(_hardware())
+    report[section] = value
+    valid, reasons = local_report_compatibility(report, _hardware())
+    assert not valid
+    assert any(section in reason for reason in reasons)
+
+
+@pytest.mark.parametrize("section", ["model", "software", "artifact", "hardware"])
+def test_inspection_reports_malformed_nested_objects(tmp_path, section):
+    from autonomyfit.local_results import inspect_local_result
+
+    report = _report(_hardware())
+    report[section] = ["invalid"]
+    path = tmp_path / "report.json"
+    path.write_text(json.dumps(report), encoding="utf-8")
+    result = inspect_local_result(path, _hardware())
+    assert not result.valid
+    assert "validation failed" in result.reasons[0]
+
+
+def test_inspection_reports_invalid_utf8(tmp_path):
+    from autonomyfit.local_results import inspect_local_result
+
+    path = tmp_path / "report.json"
+    path.write_bytes(b"\xff")
+    result = inspect_local_result(path, _hardware())
+    assert not result.valid
+    assert "unreadable" in result.reasons[0]
+
+
+@pytest.mark.parametrize("section, field", [("hardware", "id"), ("software", "runtime")])
+def test_local_compatibility_requires_hardware_and_runtime_identity(section, field):
+    report = _report(_hardware())
+    del report[section][field]
+    valid, reasons = local_report_compatibility(
+        report, _hardware(), now=datetime(2026, 8, 16, tzinfo=timezone.utc)
+    )
+    assert not valid
+    assert any("identity" in reason for reason in reasons)

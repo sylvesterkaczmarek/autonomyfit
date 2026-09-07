@@ -74,6 +74,8 @@ Remote JSON, schema or signature failures never overwrite the last accepted cach
 verified cache can still be used for availability, but it is marked stale and carries a warning.
 The bundled fallback is trusted as part of the installed package, not as a live signed registry.
 
+NaN and infinity invalidate a registry document before numeric metadata reaches recommendation scoring, including when a JSON parser accepts those values.
+
 Discovery failures are also fail-closed: malformed/incomplete upstream records do not replace
 trusted registry entries.
 

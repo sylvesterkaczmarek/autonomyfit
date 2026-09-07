@@ -26,12 +26,14 @@ from .conversions import (
 )
 from .evidence import (
     EvidenceError,
+    EvidenceStore,
+    benchmark_evidence_from_report,
     import_benchmark_report,
     load_evidence_store,
     match_benchmarks,
 )
 from .hardware import detect_hardware, hardware_from_profile
-from .integrity import artifact_size_bytes
+from .integrity import artifact_members, artifact_size_bytes
 from .models import Constraints, HardwareProfile, ModelProfile
 from .ranking import rank_recommendations
 from .reporting import recommendation_dict
@@ -80,6 +82,27 @@ class ValidationOptions:
     max_memory_gb: float | None = None
     allow_restricted_license: bool = False
     compute_units: str | None = None
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.model_id, str) or not self.model_id.strip():
+            raise ValueError("model_id must be a nonempty string")
+        if sum((self.artifact is not None, self.artifact_url is not None, bool(self.fetch))) > 1:
+            raise ValueError("select only one artifact source")
+        if self.offline and self.artifact_url is not None:
+            raise ValueError("offline mode cannot acquire an artifact URL; select a local artifact")
+        for name, minimum in (("iterations", 1), ("warmup", 0)):
+            value = getattr(self, name)
+            if type(value) is not int or value < minimum:
+                raise ValueError(f"{name} must be an integer >= {minimum}")
+        if self.shape is not None and (
+            not isinstance(self.shape, list) or not self.shape
+            or any(type(size) is not int or size < 1 for size in self.shape)
+        ):
+            raise ValueError("shape must be a nonempty list of positive integers")
+        Constraints(
+            max_latency_ms=self.max_latency_ms, min_fps=self.min_fps,
+            max_power_w=self.max_power_w, max_memory_gb=self.max_memory_gb,
+        )
 
 
 def _package_version() -> str:
@@ -184,18 +207,9 @@ def _check_onnx(path: Path) -> tuple[str, str]:
     except ImportError:
         return "skipped", "install autonomyfit[deployment] for ONNX structural validation"
     try:
-        model = onnx.load(str(path), load_external_data=False)
+        # Validate every external tensor path before asking a checker to read it.
+        artifact_members(path)
         onnx.checker.check_model(str(path))
-        unsafe_external: list[str] = []
-        for tensor in model.graph.initializer:
-            if getattr(tensor, "data_location", 0) != onnx.TensorProto.EXTERNAL:
-                continue
-            entries = {item.key: item.value for item in tensor.external_data}
-            location = entries.get("location")
-            if location and (Path(location).is_absolute() or ".." in Path(location).parts):
-                unsafe_external.append(location)
-        if unsafe_external:
-            return "fail", "ONNX external data contains unsafe paths: " + ", ".join(unsafe_external)
         return "pass", "ONNX checker accepted the model structure and external-data paths"
     except Exception as exc:  # noqa: BLE001
         return "fail", f"ONNX structural validation failed: {exc}"
@@ -203,7 +217,8 @@ def _check_onnx(path: Path) -> tuple[str, str]:
 
 def _check_safetensors(path: Path) -> tuple[str, str]:
     try:
-        raw = path.read_bytes()[:8]
+        with path.open("rb") as stream:
+            raw = stream.read(8)
         if len(raw) != 8:
             return "fail", "safetensors file is too short"
         header_len = int.from_bytes(raw, "little")
@@ -400,7 +415,7 @@ def _recommendation_after_local_measurement(
         task=model.task,
         model_id=model.id,
         model_revision=artifact.resolved_revision or options.revision or model.source_revision,
-        artifact_path=artifact.path,
+        artifact_sha256=artifact.sha256,
         runtime=runtime,
         precision=precision,
         max_latency_ms=options.max_latency_ms,
@@ -416,7 +431,13 @@ def _recommendation_after_local_measurement(
         power_mode=benchmark_hardware.get("power_mode"),
         software_stack_id=reproducibility.get("software_stack_fingerprint"),
     )
-    items = recommend_models(hardware, constraints, offline=options.offline)
+    # The result of this run must drive the assessment even when persistence is
+    # disabled or a previous measurement of the same artifact is cached.
+    fresh = benchmark_evidence_from_report(benchmark)
+    items = recommend_models(
+        hardware, constraints, offline=options.offline,
+        evidence_store=EvidenceStore(document={}, benchmarks=(fresh,)),
+    )
     if not items:
         return None
     return recommendation_dict(items[0])
@@ -445,6 +466,34 @@ def _managed_from_conversion(
         cached=False,
         acquired_at=_now(),
     )
+
+
+def _benchmark_command(
+    model: ModelProfile, artifact: ManagedArtifact, options: ValidationOptions,
+    runtime: str, precision: str, provider: str | None,
+) -> str:
+    args = [
+        "autonomyfit", "validate", model.id, "--artifact", str(artifact.path),
+        "--sha256", artifact.sha256, "--runtime", runtime, "--precision", precision,
+        "--benchmark", "--iterations", str(options.iterations), "--warmup", str(options.warmup),
+    ]
+    values = {
+        "--revision": artifact.resolved_revision or options.revision or model.source_revision,
+        "--provider": provider, "--device": options.device, "--compute-units": options.compute_units,
+        "--shape": ",".join(map(str, options.shape)) if options.shape else None,
+        "--latency-ms": options.max_latency_ms, "--fps": options.min_fps,
+        "--power-w": options.max_power_w, "--max-memory-gb": options.max_memory_gb,
+    }
+    for flag, value in values.items():
+        if value is not None:
+            args.extend((flag, str(value)))
+    if artifact.trusted_for_execution:
+        args.append("--trust-artifact")
+    if options.offline:
+        args.append("--offline")
+    if not options.import_local:
+        args.append("--no-import-local")
+    return shlex.join(args)
 
 
 def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
@@ -594,6 +643,11 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                     managed.path, conversion.target_path, shape_override=options.shape
                 )
                 conversion = replace(conversion, equivalence=equivalence)
+                if equivalence.get("status") == "failed":
+                    checks.append({
+                        "name": "conversion-equivalence", "status": "fail",
+                        "detail": "converted outputs failed the numerical comparison; benchmark was not attempted",
+                    })
                 if equivalence.get("status") != "passed":
                     warnings.append(
                         "conversion completed but generic numerical equivalence was not established"
@@ -634,10 +688,7 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
             )
             failed = True
         else:
-            command = (
-                f"autonomyfit validate {shlex.quote(model.id)} --artifact {shlex.quote(str(final_artifact.path))} "
-                f"--runtime {shlex.quote(runtime)} --precision {shlex.quote(precision)} --benchmark"
-            )
+            command = _benchmark_command(model, final_artifact, options, runtime, precision, provider)
             request = BenchmarkRequest(
                 model_path=final_artifact.path,
                 model_id=model.id,
@@ -655,7 +706,9 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                 compute_units=options.compute_units,
             )
             try:
-                benchmark_report = run_benchmark(request, backend_name)
+                measured_report = run_benchmark(request, backend_name)
+                benchmark_evidence_from_report(measured_report)
+                benchmark_report = measured_report
             except (BackendError, EvidenceError, ValueError, RuntimeError) as exc:
                 checks.append({"name": "benchmark", "status": "fail", "detail": str(exc)})
                 failed = True
@@ -667,15 +720,6 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                         "detail": f"measured {options.iterations} timed iterations on the current machine",
                     }
                 )
-                if options.import_local:
-                    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as stream:
-                        json.dump(benchmark_report, stream)
-                        temp_path = Path(stream.name)
-                    try:
-                        imported = import_benchmark_report(temp_path)
-                        benchmark_report["local_evidence_path"] = str(imported)
-                    finally:
-                        temp_path.unlink(missing_ok=True)
                 comparison = _registry_comparison(
                     model=model,
                     hardware=hardware,
@@ -692,6 +736,22 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
                     options=options,
                     benchmark=benchmark_report,
                 )
+                if options.import_local:
+                    try:
+                        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as stream:
+                            temp_path = Path(stream.name)
+                            try:
+                                json.dump(benchmark_report, stream, allow_nan=False)
+                            except BaseException:
+                                temp_path.unlink(missing_ok=True)
+                                raise
+                        try:
+                            imported = import_benchmark_report(temp_path)
+                            benchmark_report["local_evidence_path"] = str(imported)
+                        finally:
+                            temp_path.unlink(missing_ok=True)
+                    except (OSError, EvidenceError) as exc:
+                        warnings.append(f"benchmark completed but local evidence could not be saved: {exc}")
                 reproducibility.append(command)
 
     failed_constraints = bool(recommendation and recommendation.get("blockers"))
@@ -706,7 +766,10 @@ def validate_deployment(options: ValidationOptions) -> dict[str, Any]:
     )
     if failed or failed_constraints:
         status = "constraint-fail" if failed_constraints and not failed else "failed"
-    elif requested_perf and benchmark_report is None:
+    elif requested_perf and (
+        benchmark_report is None or recommendation is None
+        or recommendation.get("verdict") != "VERIFIED_FIT"
+    ):
         status = "benchmark-required"
     else:
         status = "validated"
@@ -765,17 +828,47 @@ def assess_candidates(
 ) -> dict[str, Any]:
     if len(model_ids) < 2:
         raise DeploymentValidationError("candidate assessment requires at least two models")
-    reports = []
-    for model_id in model_ids:
-        artifact = artifact_map.get(model_id)
+    loaded = load_model_catalog(offline=offline)
+
+    def resolve_model(name: str) -> ModelProfile:
+        needle = name.strip().casefold()
+        matches = [item for item in loaded.models if item.id.casefold() == needle]
+        if not matches:
+            matches = [item for item in loaded.models if item.display_name.casefold() == needle]
+        if len(matches) != 1:
+            raise DeploymentValidationError(f"unknown or ambiguous candidate model: {name}")
+        return matches[0]
+
+    selected = [resolve_model(model_id) for model_id in model_ids]
+    selected_ids = {item.id.casefold() for item in selected}
+    if len(selected_ids) != len(selected):
+        raise DeploymentValidationError("candidate assessment requires unique model IDs")
+    tasks = {item.task for item in selected}
+    if len(tasks) != 1:
+        raise DeploymentValidationError("candidate assessment requires models from one task")
+    artifacts = {}
+    for name, artifact in artifact_map.items():
+        model = resolve_model(name)
+        if model.id.casefold() not in selected_ids:
+            raise DeploymentValidationError(f"artifact mapping is not a selected candidate: {name}")
+        if model.id in artifacts:
+            raise DeploymentValidationError(f"duplicate artifact mapping for candidate {model.id}")
         if artifact is None:
+            raise DeploymentValidationError(f"candidate {model.id} has no artifact path")
+        path = Path(artifact).expanduser()
+        if not path.is_file() and not (path.is_dir() and path.suffix.casefold() == ".mlpackage"):
+            raise DeploymentValidationError(f"candidate {model.id} artifact does not exist: {path}")
+        artifacts[model.id] = path
+    options = []
+    for model in selected:
+        if model.id not in artifacts:
             raise DeploymentValidationError(
-                f"candidate {model_id} is missing an artifact mapping; use --artifact {model_id}=PATH"
+                f"candidate {model.id} is missing an artifact mapping; use --artifact {model.id}=PATH"
             )
-        report = validate_deployment(
+        options.append(
             ValidationOptions(
-                model_id=model_id,
-                artifact=artifact,
+                model_id=model.id,
+                artifact=artifacts[model.id],
                 runtime=runtime,
                 precision=precision,
                 benchmark=True,
@@ -785,23 +878,32 @@ def assess_candidates(
                 hardware_profile=hardware_profile,
             )
         )
-        reports.append(report)
     hardware = detect_hardware()
     if hardware_profile and hardware.matched_profile != hardware_profile:
         raise DeploymentValidationError(
-            "candidate assessment measured the current machine but the requested hardware profile no longer matches it"
+            "candidate assessment requires the requested hardware profile to match the actual machine"
         )
-    loaded = load_model_catalog(offline=offline)
-    selected = [item for item in loaded.models if item.id in set(model_ids)]
-    tasks = {item.task for item in selected}
-    if len(tasks) != 1:
-        raise DeploymentValidationError("candidate assessment requires models from one task")
-    report_by_model = {str(item["model"]["id"]): item for item in reports}
+    reports = [validate_deployment(item) for item in options]
     chosen = []
-    for model in selected:
-        report = report_by_model[model.id]
+    for model, report in zip(selected, reports):
+        if report.get("status") in {"failed", "constraint-fail"} or not report.get("benchmark"):
+            continue
         artifact = report.get("artifact") or {}
-        benchmark = report.get("benchmark") or {}
+        # Persistence metadata is not part of the benchmark report schema.
+        benchmark = {
+            key: value for key, value in report["benchmark"].items()
+            if key != "local_evidence_path"
+        }
+        try:
+            fresh = benchmark_evidence_from_report(benchmark)
+        except EvidenceError:
+            continue
+        if (
+            fresh.model_id != model.id
+            or fresh.artifact_sha256 != artifact.get("sha256")
+            or (report.get("model") or {}).get("id") != model.id
+        ):
+            continue
         software = benchmark.get("software") or {}
         execution = benchmark.get("execution") or {}
         benchmark_hardware = benchmark.get("hardware") or {}
@@ -813,8 +915,8 @@ def assess_candidates(
                 model_id=model.id,
                 model_revision=(report.get("model") or {}).get("revision"),
                 artifact_sha256=artifact.get("sha256"),
-                runtime=runtime,
-                precision=precision,
+                runtime=software.get("runtime"),
+                precision=execution.get("precision"),
                 include_experimental=True,
                 provider=software.get("provider"),
                 provider_version=software.get("provider_version"),
@@ -825,8 +927,9 @@ def assess_candidates(
                 software_stack_id=reproducibility.get("software_stack_fingerprint"),
             ),
             offline=offline,
+            evidence_store=EvidenceStore(document={}, benchmarks=(fresh,)),
         )
-        if exact:
+        if exact and exact[0].benchmark is not None and exact[0].benchmark.id == fresh.id:
             chosen.append(exact[0])
     chosen = rank_recommendations(chosen, "balanced")
     return {

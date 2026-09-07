@@ -21,7 +21,10 @@ def _costs(item: Recommendation) -> dict[str, float]:
     if item.model.accuracy is not None:
         accuracy = item.model.accuracy
         values["accuracy"] = -accuracy.value if accuracy.higher_is_better else accuracy.value
-    if item.benchmark is not None and item.benchmark.power.mean_w is not None:
+    if (
+        item.benchmark is not None and item.benchmark.power.mean_w is not None
+        and item.benchmark.power.scope and item.benchmark.power.scope.strip()
+    ):
         values["power"] = item.benchmark.power.mean_w
     return values
 
@@ -121,7 +124,10 @@ def _objective_value(item: Recommendation, objective: Objective) -> float:
         metric = item.model.accuracy
         return -metric.value if metric.higher_is_better else metric.value
     if objective == "power":
-        if item.benchmark is None or item.benchmark.power.mean_w is None:
+        if (
+            item.benchmark is None or item.benchmark.power.mean_w is None
+            or not item.benchmark.power.scope or not item.benchmark.power.scope.strip()
+        ):
             return inf
         return item.benchmark.power.mean_w
     if objective == "memory":

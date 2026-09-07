@@ -243,3 +243,41 @@ def test_local_report_requires_explicit_measurement_classification():
     report.pop("measurement")
     with pytest.raises(EvidenceSchemaError):
         validate_benchmark_report(report)
+
+
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), -float("inf")])
+@pytest.mark.parametrize("metric", ["mean_ms", "median_ms", "p99_ms"])
+def test_nonfinite_latency_is_rejected_before_report_import(tmp_path, value, metric):
+    report = _report()
+    report["metrics"]["latency"][metric] = value
+    source = tmp_path / "invalid.json"
+    source.write_text(json.dumps(report))
+    with pytest.raises(EvidenceSchemaError, match="finite"):
+        import_benchmark_report(source, tmp_path / "store")
+    assert not (tmp_path / "store").exists()
+
+
+@pytest.mark.parametrize("metric", ["throughput_fps", "peak_memory_mb"])
+def test_nonfinite_metrics_are_rejected(metric):
+    report = _report()
+    report["metrics"][metric] = float("nan")
+    with pytest.raises(EvidenceSchemaError, match="finite"):
+        validate_benchmark_report(report)
+
+
+def test_nonfinite_evidence_cannot_bypass_report_validation_via_python():
+    with pytest.raises(EvidenceSchemaError, match="finite"):
+        _evidence(latency=LatencyStats(mean_ms=float("nan")))
+
+
+@pytest.mark.parametrize("batch_size", [1, 8, None])
+def test_missing_throughput_is_not_invented_from_latency(batch_size):
+    evidence = _evidence(batch_size=batch_size, throughput_fps=None)
+    assert evidence.latency_ms == 5.0
+    assert evidence.fps is None
+
+
+def test_explicit_zero_measurements_are_preserved():
+    evidence = _evidence(throughput_fps=0.0, latency=LatencyStats(median_ms=0.0, mean_ms=2.0))
+    assert evidence.fps == 0.0
+    assert evidence.latency_ms == 0.0
