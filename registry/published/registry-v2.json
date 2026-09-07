@@ -1584,6 +1584,71 @@
           "transformers"
         ]
       },
+      "display_name": "Mage-ViT",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/Mage-ViT",
+            "source_url": "https://huggingface.co/microsoft/Mage-ViT"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Mage-ViT",
+        "variant": null
+      },
+      "id": "mage-vit",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/Mage-ViT",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 315.69408
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-09-07T10:26:36.454407Z",
+        "release_date": "2026-07-26",
+        "revision": "de3bd807f06fc9e8045540041dad3bf429a1eae7",
+        "source_id": "huggingface:microsoft/Mage-ViT",
+        "source_url": "https://huggingface.co/microsoft/Mage-ViT"
+      },
+      "verification": {
+        "last_verified": "2026-09-07T10:26:36.454407Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "MambaVision-L-1K",
       "evidence": {
         "accuracy": [],
@@ -2315,6 +2380,71 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "mobilenet_v2_1.0_224",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/mobilenet_v2_1.0_224",
+            "source_url": "https://huggingface.co/google/mobilenet_v2_1.0_224"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mobilenet-v2-1.0-224",
+        "variant": null
+      },
+      "id": "mobilenet-v2-1-0-224",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/google/mobilenet_v2_1.0_224",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 3.540265
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-09-07T10:26:36.454407Z",
+        "release_date": "2022-11-10",
+        "revision": "75e607b00aeae1297cc89d026a118bce012f5c5a",
+        "source_id": "huggingface:google/mobilenet_v2_1.0_224",
+        "source_url": "https://huggingface.co/google/mobilenet_v2_1.0_224"
+      },
+      "verification": {
+        "last_verified": "2026-09-07T10:26:36.454407Z",
         "status": "source_verified"
       }
     },
@@ -6682,11 +6812,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-04T09:08:27.643964Z",
-    "generated_at": "2026-09-05T09:08:27.643964Z",
+    "expires_at": "2026-12-06T10:26:36.454407Z",
+    "generated_at": "2026-09-07T10:26:36.454407Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 16,
+    "registry_version": 17,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
