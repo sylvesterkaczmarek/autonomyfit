@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.metadata
+import math
 import os
 import platform
 import re
@@ -27,6 +28,8 @@ def _run(command: list[str], timeout: float = 2.0) -> str | None:
             timeout=timeout,
         )
     except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0:
         return None
     text = (result.stdout or result.stderr).strip()
     return text or None
@@ -150,13 +153,22 @@ def _detect_runtimes(platform_kind: str) -> tuple[RuntimeCapability, ...]:
     return tuple(capabilities)
 
 
-def _jetson_model() -> str | None:
+def _device_tree_model() -> str | None:
     candidates = [Path("/proc/device-tree/model"), Path("/sys/firmware/devicetree/base/model")]
     for path in candidates:
         try:
-            return path.read_bytes().decode("utf-8", errors="ignore").strip("\x00\n ")
+            model = path.read_bytes().decode("utf-8", errors="ignore").strip("\x00\n ")
+            if model:
+                return model
         except OSError:
             continue
+    return None
+
+
+def _jetson_model() -> str | None:
+    model = _device_tree_model()
+    if model and re.search(r"\bjetson\b", model, re.IGNORECASE):
+        return model
     return None
 
 
@@ -262,21 +274,52 @@ def _openvino_devices() -> tuple[str, ...]:
 def match_hardware_profile(name: str | None, memory_gb: float | None = None) -> str | None:
     if not name:
         return None
-    normalized = name.casefold()
+    if memory_gb is not None and (not math.isfinite(memory_gb) or memory_gb <= 0):
+        return None
+    def normalize(value: str) -> str:
+        return " ".join(re.findall(r"[a-z0-9]+", value.casefold()))
+
+    normalized = normalize(name)
+    if not normalized:
+        return None
+    # A chip family alone must not inherit a more specific model's evidence.
+    # Matching only whole alias tokens also keeps M4 separate from M40.
+    memory_pattern = r"\b(\d+(?:\.\d+)?)\s*(?:gib|gb)\b"
+    named_memory = re.search(memory_pattern, name, re.IGNORECASE)
+    capacity = memory_gb if memory_gb is not None else (
+        float(named_memory.group(1)) if named_memory else None
+    )
     profiles = load_hardware_profiles()
-    best: tuple[float, str] | None = None
+    matches: list[tuple[tuple[int, float], str, bool]] = []
     for profile_id, item in profiles.items():
+        expected_capacity = item.get("vram_gb", item.get("memory_gb"))
+        delta = 0.0
+        capacity_matches = True
+        if capacity is not None and expected_capacity is not None:
+            expected_capacity = float(expected_capacity)
+            delta = abs(expected_capacity - capacity)
+            # Detected usable capacity can be below the advertised nominal size.
+            if delta > max(1.0, expected_capacity * 0.1):
+                capacity_matches = False
         aliases = [profile_id, item["display_name"], *item.get("aliases", [])]
+        best_length = 0
         for alias in aliases:
-            alias_norm = alias.casefold()
-            if alias_norm in normalized or normalized in alias_norm:
-                score = float(len(alias_norm))
-                if memory_gb is not None and item.get("memory_gb") is not None:
-                    delta = abs(float(item["memory_gb"]) - memory_gb)
-                    score -= min(delta, 64.0) / 100.0
-                if best is None or score > best[0]:
-                    best = (score, profile_id)
-    return best[1] if best else None
+            without_capacity = re.sub(memory_pattern, "", alias, flags=re.IGNORECASE)
+            for candidate in (alias, without_capacity):
+                alias_norm = normalize(candidate)
+                if alias_norm and f" {alias_norm} " in f" {normalized} ":
+                    best_length = max(best_length, len(alias_norm))
+        if best_length:
+            matches.append(((best_length, -delta), profile_id, capacity_matches))
+    # Do not fall back from a named Pro/Max variant to its base model merely
+    # because the base model has closer memory capacity.
+    if matches:
+        best_length = max(item[0][0] for item in matches)
+        matches = [item for item in matches if item[0][0] == best_length and item[2]]
+    matches.sort(reverse=True)
+    if not matches or (len(matches) > 1 and matches[0][0] == matches[1][0]):
+        return None
+    return matches[0][1]
 
 
 def hardware_from_profile(profile_id: str) -> HardwareProfile:
@@ -459,7 +502,7 @@ def detect_hardware() -> HardwareProfile:
             ram_total_gb=total_gb,
             ram_available_gb=available_gb,
             unified_memory=True,
-            matched_profile=match_hardware_profile(cpu, total_gb),
+            matched_profile=match_hardware_profile(_device_tree_model() or cpu, total_gb),
             runtimes=_detect_runtimes("arm"),
             accelerator_type="cpu",
             memory_topology="shared-system",

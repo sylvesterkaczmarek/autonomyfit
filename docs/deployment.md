@@ -1,6 +1,6 @@
 # Deployment validation
 
-AutonomyFit 0.6 adds an end-to-end deployment-assessment layer. The system is intentionally split into identity, compatibility, conversion, measurement and recommendation stages so a success in one stage cannot be misreported as proof for another.
+Deployment assessment records identity, compatibility, conversion, measurement and recommendation separately.
 
 ## Flow
 
@@ -13,7 +13,7 @@ AutonomyFit 0.6 adds an end-to-end deployment-assessment layer. The system is in
 7. Optionally run a generic numerical post-conversion check where the contract permits it.
 8. Benchmark the exact artifact on the detected machine.
 9. Import the benchmark as exact local evidence if requested.
-10. Re-run the recommendation engine using that local evidence.
+10. Re-run the recommendation engine using the current measurement, whether or not it was imported.
 11. Compare the local measurement with applicable registry evidence.
 12. Emit a schema-validated JSON or Markdown deployment report.
 
@@ -23,7 +23,7 @@ AutonomyFit 0.6 adds an end-to-end deployment-assessment layer. The system is in
 
 For Hugging Face sources, a requested branch/tag/ref is resolved to a full immutable commit SHA before download. Artifact candidates are classified as static or execution-sensitive. The managed cache stores the computed SHA-256 and verifies it every time the cache entry is reopened. If upstream LFS SHA-256 metadata is exposed, it must match the downloaded bytes.
 
-Offline acquisition never falls back to network access. It requires exactly one verified cache record matching the requested model/revision/filename.
+Offline acquisition never falls back to network access. Hub acquisition requires exactly one verified cache record matching the requested model/revision/filename. Direct URL acquisition is refused with `--offline`; supply a local artifact instead.
 
 ## Trust boundary
 
@@ -38,6 +38,8 @@ A serialized TensorRT engine is treated as executable state. AutonomyFit refuses
 ## Artifact identity
 
 Single-file artifacts use the ordinary byte SHA-256.
+
+ONNX graphs with external tensors include every referenced companion file in their bundle identity, including references inside nested graphs and constants. Use the complete bundle digest with `--sha256`. The ONNX parser is required even for identity checks; install `autonomyfit[deployment]` or `autonomyfit[benchmark]`. Missing files, traversal paths and symbolic links are rejected before the runtime opens external data. Automatic ONNX acquisition currently accepts self-contained graphs; provide complete external-data bundles locally.
 
 OpenVINO IR is a multi-file identity when a sibling `.bin` exists. Core ML `.mlpackage` artifacts are directory identities. These use a deterministic manifest digest over relative member names and each member's byte SHA-256. Symbolic links are rejected so a bundle cannot silently pull bytes from outside its identity boundary. Modifying any member changes the deployment artifact identity.
 
@@ -56,6 +58,8 @@ The generic conversion matrix is intentionally small:
 
 A conversion record contains source and target identities, tool/version, command, duration, companion artifacts, warnings and equivalence status.
 
+OpenVINO explicitly enables FP16 weight compression only for `fp16`; `fp32` disables it in both supported tool paths. TensorRT FP32 conversion disables TF32, while automatic INT8 conversion is refused because the generic path cannot establish calibration scales. Use a separately built, trusted engine for that workflow. TorchScript export to ONNX accepts `fp32` or `artifact` and performs no precision conversion; Core ML conversion accepts `fp16`, `fp32` or `artifact`. Unsupported settings fail before deserialisation or conversion.
+
 Conversion success means the target tool produced an artifact. It does not mean application accuracy is unchanged.
 
 ## Generic correctness check
@@ -68,13 +72,15 @@ For ONNX -> OpenVINO, AutonomyFit can compare deterministic synthetic numeric ou
 - comparable numeric output shapes
 - ONNX Runtime and OpenVINO are installed
 
-The current generic tolerance is reported with the result. A pass means the sampled outputs matched within that tolerance. It is not task-level accuracy validation, dataset evaluation or statistical certification.
+Tolerances must be finite and non-negative. NaN or infinite outputs fail, including matching NaNs. The reported tolerance describes only the sampled numeric comparison; it does not establish task-level accuracy or dataset performance.
 
 ## Benchmarking and local evidence
 
 `--benchmark` always measures the current machine. A profile can be used for screening, but AutonomyFit refuses to write local benchmark evidence for a profile that does not match the detected target.
 
 Successful reports preserve latency distribution, throughput, process RSS, power/energy where available, hardware identity, runtime/provider versions, precision, input shapes, warmup/iteration counts, deterministic seed and reproduction command.
+
+`--no-import-local` prevents storage for future runs; the current benchmark still drives this assessment. If a requested limit lacks exact applicable evidence, status remains `benchmark-required`, even after successful execution. A metadata memory screen and a declared precision label do not become measured accelerator-memory or per-operator precision guarantees.
 
 Exact local evidence can override generic registry evidence only when model revision, artifact digest, hardware, runtime/provider and precision match. Local evidence is ignored after its freshness window or after material stack identity changes.
 
@@ -102,7 +108,7 @@ autonomyfit validate MODEL --artifact model.onnx --runtime onnx --benchmark --re
 autonomyfit report report.json -o report.md
 ```
 
-The JSON report is validated against `deployment-report-v1.schema.json`. It records all information needed to distinguish identity, compatibility and measurement scope, including reproduction commands.
+The JSON report is validated against `deployment-report-v1.schema.json`, including rejection of non-finite numbers. It records identity, compatibility and measurement scope, including reproduction commands.
 
 ## Candidate loop
 

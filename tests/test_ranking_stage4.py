@@ -1,3 +1,5 @@
+from dataclasses import replace
+
 from autonomyfit.evidence import BenchmarkEvidence, LatencyStats, PowerStats
 from autonomyfit.models import (
     AccuracyMetric,
@@ -29,7 +31,7 @@ def _benchmark(mid: str, latency: float, fps: float, power: float | None = None)
         hardware_name="h", runtime="onnx", runtime_version="1", provider="CPU",
         precision="fp32", quantization=None, batch_size=1, input_shapes={}, power_mode=None,
         clocks={}, warmup=1, iterations=5, latency=LatencyStats(mean_ms=latency, median_ms=latency),
-        throughput_fps=fps, power=PowerStats(mean_w=power), peak_memory_mb=None,
+        throughput_fps=fps, power=PowerStats(mean_w=power, scope="test board rail"), peak_memory_mb=None,
         peak_memory_scope=None, quality="local-measured", source_id="local",
         source_url="local://benchmark", source_date="2026-08-16", software_stack_id=None,
         verified_identity=True,
@@ -81,3 +83,16 @@ def test_tie_breaking_uses_model_id():
     second = _rec("bbb")
     ordered = rank_recommendations([second, first], "balanced")
     assert [item.model.id for item in ordered] == ["aaa", "bbb"]
+
+
+def test_unscoped_power_cannot_win_power_objective():
+    scoped = _rec("scoped", power=20)
+    unscoped = _rec("unscoped", power=1)
+    unscoped = replace(
+        unscoped,
+        benchmark=replace(unscoped.benchmark, power=PowerStats(mean_w=1, scope=None)),
+    )
+    assert not dominates(unscoped, scoped)
+    ranked = rank_recommendations([unscoped, scoped], "power")
+    assert ranked[0].model.id == "scoped"
+    assert ranked[1].score == 0

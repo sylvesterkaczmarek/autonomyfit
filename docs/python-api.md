@@ -23,6 +23,8 @@ Omit `hardware_profile` to assess the current machine. The function uses the sam
 
 Common constraints such as latency, throughput, power, accuracy, memory, parameter count, runtime, precision, and minimum confidence can be supplied as keyword arguments.
 
+Numeric limits reject NaN, infinity and negative values with `ValueError`; confidence is limited to 0-100. Throughput requires measured items per second, power requires an explicit scope, and memory remains a metadata screening estimate.
+
 ## Assess deployment compatibility
 
 Assess a model before selecting an artifact:

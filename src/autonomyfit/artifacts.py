@@ -16,7 +16,12 @@ from urllib.parse import urlparse
 
 from platformdirs import user_cache_path
 
-from .integrity import artifact_sha256, artifact_size_bytes, sha256_file
+from .integrity import (
+    artifact_sha256,
+    artifact_size_bytes,
+    onnx_external_locations,
+    sha256_file,
+)
 from .models import ModelProfile
 
 _SAFE_STATIC_SUFFIXES = {
@@ -212,6 +217,21 @@ def _require_licence_permission(model: ModelProfile, allow_restricted: bool) -> 
     )
 
 
+def _check_downloaded_graph(path: Path, filename: str) -> None:
+    if Path(filename).suffix.casefold() != ".onnx":
+        return
+    try:
+        locations = onnx_external_locations(path)
+    except ValueError as exc:
+        raise ArtifactIntegrityError(str(exc)) from exc
+    if locations:
+        raise ArtifactError(
+            "automatic acquisition of ONNX external tensor bundles is not supported; "
+            "download the graph and its companion files together, then use --model-path "
+            "with the local graph so the complete bundle can be verified"
+        )
+
+
 class ArtifactManager:
     def __init__(self, cache_dir: Path | None = None) -> None:
         configured = os.environ.get("AUTONOMYFIT_ARTIFACT_DIR")
@@ -293,7 +313,7 @@ class ArtifactManager:
         trusted_for_execution: bool = False,
         revision: str | None = None,
     ) -> ManagedArtifact:
-        path = path.expanduser().resolve()
+        path = path.expanduser()
         if not path.exists():
             raise ArtifactError(f"artifact does not exist: {path}")
         if path.is_dir() and path.suffix.casefold() != ".mlpackage":
@@ -302,11 +322,11 @@ class ArtifactManager:
             digest = artifact_sha256(path)
         except (OSError, ValueError) as exc:
             raise ArtifactSecurityError(f"unsafe or unreadable artifact bundle: {exc}") from exc
+        path = path.resolve()
         if expected_sha256 and digest.casefold() != expected_sha256.casefold():
             raise ArtifactIntegrityError(
                 f"artifact SHA-256 mismatch: expected {expected_sha256}, got {digest}"
             )
-        path.suffix.casefold()
         static = classify_candidate(path.name).safe_static
         trusted = trusted_for_execution or static
         return ManagedArtifact(
@@ -474,13 +494,16 @@ class ArtifactManager:
             )
         except Exception as exc:
             raise ArtifactError(f"Hugging Face download failed: {exc}") from exc
-        digest = artifact_sha256(downloaded)
+        # Hub downloads commonly use symlinks into its own blob cache. Verify the
+        # downloaded file digest, then copy it into our non-symlink artifact cache.
+        digest = sha256_file(downloaded)
         required_digest = expected_sha256 or chosen.upstream_sha256
         if required_digest and digest.casefold() != required_digest.casefold():
             source = "requested" if expected_sha256 else "upstream LFS"
             raise ArtifactIntegrityError(
                 f"artifact SHA-256 mismatch against {source} digest: expected {required_digest}, got {digest}"
             )
+        _check_downloaded_graph(downloaded, filename)
         root = self._record_root(model.id, resolved, filename)
         target = root / Path(filename).name
         _atomic_copy(downloaded, target)
@@ -542,6 +565,7 @@ class ArtifactManager:
                 raise ArtifactIntegrityError(
                     f"artifact SHA-256 mismatch: expected {expected_sha256}, got {digest}"
                 )
+            _check_downloaded_graph(tmp, name)
             root = self._record_root(model.id, revision, name)
             target = root / Path(name).name
             _atomic_copy(tmp, target)

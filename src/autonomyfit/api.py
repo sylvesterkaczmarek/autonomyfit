@@ -74,7 +74,7 @@ def assess_deployment(
     This intentionally does not expose remote acquisition, conversion, or benchmarking;
     use the CLI for those advanced workflows.
     """
-    artifact_path = Path(artifact).expanduser().resolve() if artifact is not None else None
+    artifact_path = Path(artifact).expanduser().absolute() if artifact is not None else None
     options = ValidationOptions(
         model_id=model_id,
         artifact=artifact_path,

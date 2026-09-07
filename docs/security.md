@@ -11,7 +11,8 @@ AutonomyFit treats model deployment artifacts as software supply-chain inputs, n
 - upstream LFS SHA-256 verification when exposed by the Hub API
 - cache digest revalidation on every cache load
 - cached registry bytes rebound to the preserved accepted version/digest state
-- path-traversal checks for ONNX external tensor locations
+- complete ONNX graph/companion identities with path checks before loading external tensors
+- non-finite numeric rejection for registry and evidence documents
 - path-safe atomic local benchmark imports
 - symbolic-link rejection for multi-file artifact identities
 - pre/post identity checks around conversion and benchmarking

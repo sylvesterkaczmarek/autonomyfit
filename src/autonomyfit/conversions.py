@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import shutil
 import subprocess
 import time
@@ -115,19 +116,25 @@ def convert_to_tensorrt(
 ) -> ConversionResult:
     if source.suffix.casefold() != ".onnx":
         raise ConversionError("TensorRT conversion currently requires an ONNX source artifact")
+    normalized = precision.strip().casefold()
+    if normalized == "int8":
+        raise ConversionError(
+            "automatic TensorRT INT8 conversion requires a calibrated or explicitly quantized "
+            "model; this conversion path cannot establish those scales. Build and validate "
+            "the engine with the vendor toolchain, then supply that trusted local artifact"
+        )
+    if normalized not in {"fp16", "fp32", "artifact"}:
+        raise ConversionError(f"unsupported TensorRT conversion precision: {precision}")
     executable = shutil.which("trtexec")
     if not executable:
         raise ConversionError("TensorRT conversion requires trtexec on PATH")
     output_dir.mkdir(parents=True, exist_ok=True)
-    target = output_dir / f"{source.stem}.{precision.casefold()}.engine"
+    target = output_dir / f"{source.stem}.{normalized}.engine"
     command = [executable, f"--onnx={source}", f"--saveEngine={target}", "--skipInference"]
-    normalized = precision.casefold()
     if normalized == "fp16":
         command.append("--fp16")
-    elif normalized == "int8":
-        command.append("--int8")
-    elif normalized not in {"fp32", "artifact"}:
-        raise ConversionError(f"unsupported TensorRT conversion precision: {precision}")
+    elif normalized == "fp32":
+        command.append("--noTF32")
     if input_shapes:
         shape_arg = ",".join(
             f"{name}:{'x'.join(str(dim) for dim in dims)}"
@@ -157,11 +164,18 @@ def convert_to_openvino(
 ) -> ConversionResult:
     if source.suffix.casefold() != ".onnx":
         raise ConversionError("OpenVINO conversion currently requires an ONNX source artifact")
+    normalized = precision.strip().casefold()
+    if normalized not in {"fp16", "fp32", "artifact"}:
+        raise ConversionError(f"unsupported OpenVINO conversion precision: {precision}")
+    compress_to_fp16 = normalized == "fp16"
     output_dir.mkdir(parents=True, exist_ok=True)
-    target = output_dir / f"{source.stem}.xml"
+    target = output_dir / f"{source.stem}.{normalized}.xml"
     executable = shutil.which("ovc")
     if executable:
-        command = [executable, str(source), "--output_model", str(target)]
+        command = [
+            executable, str(source), "--output_model", str(target),
+            f"--compress_to_fp16={compress_to_fp16}",
+        ]
         duration, _ = _run(command)
         bin_path = target.with_suffix(".bin")
         return _result(
@@ -183,12 +197,15 @@ def convert_to_openvino(
     started = time.monotonic()
     try:
         model = ov.convert_model(str(source))
-        ov.save_model(model, str(target), compress_to_fp16=precision.casefold() == "fp16")
+        ov.save_model(model, str(target), compress_to_fp16=compress_to_fp16)
     except Exception as exc:
         raise ConversionError(f"OpenVINO conversion failed: {exc}") from exc
     duration = time.monotonic() - started
     version = getattr(ov, "__version__", None)
-    command = ["python:openvino.convert_model", str(source), str(target)]
+    command = [
+        "python:openvino.convert_model", str(source), str(target),
+        f"compress_to_fp16={compress_to_fp16}",
+    ]
     return _result(
         source,
         target,
@@ -218,6 +235,15 @@ def convert_trusted_torchscript(
         )
     if not input_shape:
         raise ConversionError("trusted PyTorch conversion requires an explicit --shape")
+    normalized = target_runtime.strip().casefold()
+    normalized_precision = precision.strip().casefold()
+    if normalized == "coreml" and normalized_precision not in {"fp16", "fp32", "artifact"}:
+        raise ConversionError(f"unsupported Core ML conversion precision: {precision}")
+    if normalized in {"onnx", "onnxruntime"} and normalized_precision not in {"fp32", "artifact"}:
+        raise ConversionError(
+            "TorchScript to ONNX export does not implement precision conversion; "
+            "use precision='artifact' to preserve the source model"
+        )
     try:
         import torch
     except ImportError as exc:
@@ -229,7 +255,6 @@ def convert_trusted_torchscript(
         raise ConversionError(f"could not load trusted TorchScript artifact: {exc}") from exc
     output_dir.mkdir(parents=True, exist_ok=True)
     example = torch.zeros(tuple(input_shape), dtype=torch.float32)
-    normalized = target_runtime.casefold()
     if normalized in {"onnx", "onnxruntime"}:
         target = output_dir / f"{source.stem}.onnx"
         started = time.monotonic()
@@ -260,7 +285,7 @@ def convert_trusted_torchscript(
                 module,
                 inputs=[ct.TensorType(shape=tuple(input_shape))],
                 convert_to="mlprogram",
-                compute_precision=(ct.precision.FLOAT16 if precision.casefold() == "fp16" else ct.precision.FLOAT32),
+                compute_precision=(ct.precision.FLOAT16 if normalized_precision == "fp16" else ct.precision.FLOAT32),
             )
             converted.save(str(target))
         except Exception as exc:
@@ -383,6 +408,12 @@ def compare_onnx_openvino_outputs(
     atol: float = 1e-4,
 ) -> dict[str, Any]:
     """Compare deterministic numeric outputs when the two runtimes expose a compatible contract."""
+    if any(
+        isinstance(value, bool) or not isinstance(value, (int, float))
+        or not math.isfinite(value) or value < 0
+        for value in (rtol, atol)
+    ):
+        return {"status": "failed", "reason": "numeric tolerances must be finite and non-negative"}
     try:
         import numpy as np
         import onnxruntime as ort
@@ -433,9 +464,11 @@ def compare_onnx_openvino_outputs(
                 return {"status": "failed", "reason": f"output shape differs: {ref.shape} != {got.shape}"}
             if not np.issubdtype(ref.dtype, np.number) or not np.issubdtype(got.dtype, np.number):
                 return {"status": "unsupported", "reason": "non-numeric output cannot be checked generically"}
+            if not np.isfinite(ref).all() or not np.isfinite(got).all():
+                return {"status": "failed", "reason": "numeric outputs contain non-finite values"}
             if ref.size:
                 max_abs = max(max_abs, float(np.max(np.abs(ref.astype(np.float64) - got.astype(np.float64)))))
-            if not np.allclose(ref, got, rtol=rtol, atol=atol, equal_nan=True):
+            if not np.allclose(ref, got, rtol=rtol, atol=atol, equal_nan=False):
                 return {
                     "status": "failed",
                     "reason": "numeric outputs exceed configured tolerance",

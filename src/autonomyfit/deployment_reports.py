@@ -6,6 +6,8 @@ from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
 
+from .evidence import EvidenceSchemaError, ensure_finite_json
+
 
 class DeploymentReportError(RuntimeError):
     """Deployment report is invalid or cannot be rendered."""
@@ -20,6 +22,10 @@ def _schema_path() -> Path:
 def validate_deployment_report(document: dict[str, Any]) -> None:
     from importlib.resources import files
 
+    try:
+        ensure_finite_json(document)
+    except EvidenceSchemaError as exc:
+        raise DeploymentReportError(str(exc)) from exc
     schema = json.loads(
         files("autonomyfit.data")
         .joinpath("deployment-report-v1.schema.json")
@@ -44,7 +50,7 @@ def save_deployment_report(document: dict[str, Any], path: Path) -> None:
         path.write_text(render_deployment_markdown(document), encoding="utf-8")
     else:
         path.write_text(
-            json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"
         )
 
 

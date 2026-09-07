@@ -70,6 +70,17 @@ def local_report_compatibility(
     now: datetime | None = None,
 ) -> tuple[bool, tuple[str, ...]]:
     reasons: list[str] = []
+    if not isinstance(document, dict):
+        return False, ("report root is not a JSON object",)
+    for section in ("hardware", "software"):
+        if not isinstance(document.get(section), dict):
+            reasons.append(f"local result {section} is not a JSON object")
+    if document.get("reproducibility") is not None and not isinstance(
+        document["reproducibility"], dict
+    ):
+        reasons.append("local result reproducibility is not a JSON object")
+    if reasons:
+        return False, tuple(reasons)
     current = now or datetime.now(timezone.utc)
     created_raw = document.get("created_at")
     try:
@@ -88,7 +99,9 @@ def local_report_compatibility(
     report_hardware = document.get("hardware") or {}
     report_id = report_hardware.get("id")
     current_id = hardware_evidence_id(hardware)
-    if current_id and report_id and report_id != current_id:
+    if not isinstance(report_id, str) or not report_id:
+        reasons.append("local result hardware identity is missing or invalid")
+    elif report_id != current_id:
         reasons.append(f"hardware identity changed ({report_id} != {current_id})")
 
 
@@ -136,6 +149,8 @@ def local_report_compatibility(
             reasons.append(f"execution provider is no longer available ({provider})")
 
     runtime = software.get("runtime")
+    if not isinstance(runtime, str) or not runtime:
+        reasons.append("local result runtime identity is missing or invalid")
     runtime_name = str(runtime) if runtime else None
     runtime_capability = _runtime_capability(hardware, runtime_name)
     if runtime_name and (runtime_capability is None or not runtime_capability.available):
@@ -188,7 +203,7 @@ def inspect_local_result(
 ) -> LocalResultStatus:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
+    except (OSError, UnicodeError, json.JSONDecodeError):
         return LocalResultStatus(
             path, None, None, False, ("report is unreadable or invalid JSON",), None, None, None, None
         )
@@ -198,19 +213,23 @@ def inspect_local_result(
         )
     from .evidence import EvidenceError, validate_benchmark_report
 
+    # Invalid nested objects still need to produce an inspectable status.
+    model = value.get("model") if isinstance(value.get("model"), dict) else {}
+    software = value.get("software") if isinstance(value.get("software"), dict) else {}
+    artifact = value.get("artifact") if isinstance(value.get("artifact"), dict) else {}
     try:
         validate_benchmark_report(value)
     except EvidenceError as exc:
         return LocalResultStatus(
             path,
             value.get("benchmark_id"),
-            (value.get("model") or {}).get("id"),
+            model.get("id"),
             False,
             (f"benchmark report validation failed: {exc}",),
             value.get("created_at"),
-            (value.get("software") or {}).get("runtime"),
-            (value.get("software") or {}).get("runtime_version"),
-            (value.get("artifact") or {}).get("sha256"),
+            software.get("runtime"),
+            software.get("runtime_version"),
+            artifact.get("sha256"),
         )
     valid, reasons = local_report_compatibility(
         value, hardware, max_age_days=max_age_days, now=now

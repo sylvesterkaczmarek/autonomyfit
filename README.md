@@ -14,7 +14,7 @@ AutonomyFit is a CLI-first, evidence-aware deployment assessment tool for edge A
 pip install autonomyfit
 ```
 
-For artifact discovery and ONNX structural validation:
+For artifact discovery, ONNX identity checks and structural validation:
 
 ```bash
 pip install 'autonomyfit[deployment]'
@@ -102,7 +102,7 @@ AutonomyFit never enables Hugging Face `trust_remote_code` and never executes re
 
 Automatic remote acquisition is limited to static formats such as ONNX and safetensors. Pickle-style PyTorch artifacts, repository code, native libraries and serialized TensorRT engines cross an execution boundary and require explicit trust or are refused. TensorRT engines built locally by AutonomyFit are marked as locally trusted and bound to their recorded toolchain.
 
-For OpenVINO IR and Core ML package directories, artifact identity covers every byte-bearing member using a deterministic bundle digest. Changing an OpenVINO `.bin` companion or a member of an `.mlpackage` changes the identity.
+For ONNX external tensor data, OpenVINO IR and Core ML package directories, artifact identity covers the graph and its companion files using a deterministic bundle digest. Changing a weight file changes the identity. ONNX inspection requires the parser from the `deployment` or `benchmark` extra; missing companions, unsafe external paths and symbolic links are rejected. Automatic ONNX acquisition currently requires a self-contained graph; provide external-data bundles locally.
 
 Non-standard, restricted or unknown licence status blocks automatic acquisition unless `--allow-restricted-license` is supplied. That flag acknowledges the boundary; it does not grant usage rights or replace the upstream licence terms.
 
@@ -177,11 +177,15 @@ autonomyfit validate MODEL \
   --convert
 ```
 
-For ONNX -> OpenVINO, AutonomyFit attempts a deterministic numeric output comparison when both runtimes expose a compatible generic tensor contract. That check is reported separately from task accuracy and never described as accuracy validation.
+Conversion options are checked before execution. OpenVINO FP32 conversion disables FP16 weight compression, and automatic TensorRT INT8 conversion is refused because this path cannot establish quantisation scales. See [conversion details](docs/deployment.md#conversion) for supported precision settings.
+
+For ONNX -> OpenVINO, AutonomyFit attempts a deterministic numeric output comparison when both runtimes expose a compatible generic tensor contract. Non-finite outputs fail the check, including matching NaNs. This sampled comparison does not establish task accuracy.
 
 ## Local evidence and recommendation override
 
 Successful validation benchmarks can be imported automatically into the local-results layer. Exact local measurements outrank generic vendor/reference evidence only when model revision, artifact hash, detected machine, runtime/provider versions, precision/quantisation, batch/input shapes, relevant power mode and material software stack match.
+
+The current benchmark drives its deployment assessment even with `--no-import-local`; that flag controls storage for later runs. A completed benchmark with missing requested throughput, scoped power or exact identity still returns `benchmark-required`.
 
 Use `autonomyfit benchmark-matrix` to inspect those applicability dimensions and see which records are complete enough for exact-context use.
 
@@ -190,6 +194,8 @@ autonomyfit local-results
 ```
 
 Local evidence is invalidated rather than silently reused when it becomes stale or a material execution identity changes, including hardware identity, OS identity, driver state, power mode, native runtime/provider availability, exact runtime/provider version when known, or the material software-stack fingerprint.
+
+Unified-memory device identity now uses total capacity, so changes in free RAM no longer invalidate a run. Older reports may need one fresh benchmark after this correction. Ambiguous hardware names remain unmatched rather than inheriting a different chip or memory variant's evidence.
 
 ## Candidate assessment
 
@@ -252,11 +258,13 @@ See [docs/ranking.md](docs/ranking.md).
 
 Every recommendation exposes a 0-100 confidence score based on hardware exactness, runtime/precision matching, evidence quality, evidence freshness, revision/artifact identity and requested-quantity coverage. Unresolved requested constraints cap confidence.
 
+FPS means items per second, accounting for batch size; execution calls per second are recorded separately where available. Missing throughput remains unknown and is never inferred from median latency. This includes the bundled vendor latency tables. Numeric limits and evidence reject NaN and infinity, and power requires an explicit measurement scope before it can satisfy a limit.
+
 Evidence outcomes remain explicit:
 
 | Outcome | Meaning |
 |---|---|
-| `VERIFIED_FIT` | Exact identity-matched local or standardized evidence satisfies requested constraints. |
+| `VERIFIED_FIT` | Exact local or standardized performance evidence satisfies requested limits, with compatibility and metadata screening also passing. |
 | `FEASIBLE` | Hard compatibility and memory screening pass without an unresolved requested performance constraint. |
 | `BENCHMARK_REQUIRED` | A requested quantity cannot be defended with exact applicable evidence. |
 | `CONSTRAINT_FAIL` | Exact applicable evidence violates a requested threshold. |
@@ -293,7 +301,9 @@ See [docs/registry.md](docs/registry.md).
 - Generic correctness comparison is only possible for models with compatible deterministic numeric input/output contracts. Task-level accuracy needs a task-specific evaluation dataset and protocol.
 - TensorRT engines are not portable evidence across arbitrary TensorRT/CUDA/GPU stacks.
 - Core ML conversion requires a trusted source graph and explicit input contract; generic ONNX -> Core ML conversion is intentionally not automated.
-- Process RSS is not accelerator memory. Power scope is platform-specific and is reported explicitly.
+- `--max-memory-gb` screens a metadata estimate; it does not verify accelerator-memory use. Process RSS remains a separate measurement.
+- Precision labels remain caller-declared where the backend cannot establish actual execution precision; a matching label does not prove every operator ran at that precision.
+- Power scope is platform-specific. TensorRT whole-command telemetry includes setup and cannot satisfy an inference-power limit.
 - AutonomyFit does not adjudicate whether a licence permits a particular commercial or regulated use.
 
 AutonomyFit remains pre-1.0. Stage completion alone is not a release-maturity criterion.

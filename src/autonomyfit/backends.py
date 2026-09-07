@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.metadata
 import re
+import shlex
 import shutil
 import subprocess
 import time
@@ -88,9 +89,27 @@ def _infer_batch_size(
     explicit: int | None, input_shapes: dict[str, list[int]]
 ) -> int | None:
     if explicit is not None:
+        if isinstance(explicit, bool) or not isinstance(explicit, int) or explicit < 1:
+            raise BackendError("batch size must be a positive integer")
+        conflicts = {
+            name: dims[0] if dims else None
+            for name, dims in input_shapes.items()
+            if not dims or dims[0] != explicit
+        }
+        if conflicts:
+            raise BackendError(
+                f"--batch-size {explicit} conflicts with resolved first dimensions: {conflicts}"
+            )
         return explicit
     first_dims = {dims[0] for dims in input_shapes.values() if dims}
     return next(iter(first_dims)) if len(first_dims) == 1 else None
+
+
+def _throughput_fps(throughput_qps: float | None, batch_size: int | None) -> float | None:
+    """Convert complete input-batch executions per second to items per second."""
+    if throughput_qps is None or batch_size is None:
+        return None
+    return throughput_qps * batch_size
 
 
 def _validate_onnx_shape(item: Any, shape: list[int]) -> list[int]:
@@ -276,6 +295,8 @@ class OnnxRuntimeBackend(BenchmarkBackend):
 
         summary = latency_summary(latencies)
         mean_ms = summary["mean_ms"]
+        batch_size = _infer_batch_size(request.batch_size, input_shapes)
+        throughput_qps = 1000.0 / mean_ms if mean_ms else None
         return make_benchmark_report(
             model_path=request.model_path,
             model_id=request.model_id,
@@ -287,7 +308,7 @@ class OnnxRuntimeBackend(BenchmarkBackend):
             provider_version=f"onnxruntime-{ort.__version__}",
             precision=request.precision,
             quantization=request.quantization,
-            batch_size=_infer_batch_size(request.batch_size, input_shapes),
+            batch_size=batch_size,
             input_shapes=input_shapes,
             warmup=request.warmup,
             iterations=request.iterations,
@@ -298,10 +319,12 @@ class OnnxRuntimeBackend(BenchmarkBackend):
                 "ort_build_info": getattr(ort, "get_build_info", lambda: None)(),
                 "cpu_fallback_disabled": provider != "CPUExecutionProvider",
                 "synthetic_inputs": True,
+                "throughput_qps": throughput_qps,
+                "throughput_semantics": "serial batch executions per second; FPS multiplies by batch size",
             },
             load_ms=load_ms,
             latency=summary,
-            throughput_fps=1000.0 / mean_ms if mean_ms else None,
+            throughput_fps=_throughput_fps(throughput_qps, batch_size),
             peak_memory_mb=peak_memory,
             power=power,
             power_scope=scope,
@@ -337,13 +360,18 @@ def parse_trtexec_output(text: str) -> dict[str, Any]:
             "max_ms": maximum,
             "stdev_ms": None,
         },
-        "throughput_fps": throughput,
+        "throughput_qps": throughput,
     }
 
 
 def build_trtexec_command(request: BenchmarkRequest, executable: str = "trtexec") -> list[str]:
     suffix = request.model_path.suffix.casefold()
     if suffix in {".engine", ".plan"}:
+        if request.shape_override is not None:
+            raise BackendError("serialized TensorRT engines require named --input-shape overrides")
+        if request.batch_size is not None and not request.input_shapes:
+            raise BackendError("--batch-size for a TensorRT engine requires named --input-shape values")
+        _infer_batch_size(request.batch_size, request.input_shapes)
         command = [executable, f"--loadEngine={request.model_path}"]
     elif suffix == ".onnx":
         command = [executable, f"--onnx={request.model_path}"]
@@ -397,7 +425,10 @@ class TensorRTBackend(BenchmarkBackend):
             sampler.start()
         started = time.perf_counter_ns()
         try:
-            result = subprocess.run(command, capture_output=True, text=True, timeout=600, check=False)
+            try:
+                result = subprocess.run(command, capture_output=True, text=True, timeout=600, check=False)
+            except (OSError, subprocess.SubprocessError) as exc:
+                raise BackendError(f"trtexec could not complete: {exc}") from exc
         finally:
             power = sampler.stop() if sampler else None
         wall_ms = (time.perf_counter_ns() - started) / 1_000_000.0
@@ -405,6 +436,7 @@ class TensorRTBackend(BenchmarkBackend):
         if result.returncode != 0:
             raise BackendError(f"trtexec failed with exit code {result.returncode}: {output[-1000:]}")
         parsed = parse_trtexec_output(output)
+        batch_size = _infer_batch_size(native_request.batch_size, native_request.input_shapes)
         return make_benchmark_report(
             model_path=request.model_path,
             model_id=request.model_id,
@@ -416,7 +448,7 @@ class TensorRTBackend(BenchmarkBackend):
             provider_version=availability.version,
             precision=request.precision,
             quantization=request.quantization,
-            batch_size=_infer_batch_size(native_request.batch_size, native_request.input_shapes),
+            batch_size=batch_size,
             input_shapes=native_request.input_shapes,
             warmup=request.warmup,
             iterations=request.iterations,
@@ -425,14 +457,27 @@ class TensorRTBackend(BenchmarkBackend):
                 "native_command": command,
                 "synthetic_inputs": True,
                 "wall_ms": wall_ms,
+                "throughput_qps": parsed["throughput_qps"],
+                "throughput_semantics": "native queries per second; FPS multiplies by batch size",
+                "native_process_power": (
+                    {
+                        **power,
+                        "scope": scope,
+                        "measurement_window": (
+                            "entire trtexec subprocess, including engine build/load, warmup and inference; "
+                            "not an isolated inference power measurement"
+                        ),
+                    }
+                    if power is not None else None
+                ),
             },
             load_ms=None,
             latency=parsed["latency"],
-            throughput_fps=parsed["throughput_fps"],
+            throughput_fps=_throughput_fps(parsed["throughput_qps"], batch_size),
             peak_memory_mb=None,
-            power=power,
-            power_scope=scope,
-            command=request.command or " ".join(command),
+            power=None,
+            power_scope=None,
+            command=request.command or shlex.join(command),
             notes="trtexec native benchmark; ONNX engine build time is not reported as inference load time.",
         )
 
@@ -449,7 +494,6 @@ def parse_openvino_output(text: str) -> dict[str, Any]:
     maximum = value("Max")
     if avg is None and median is None:
         raise BackendError("could not parse OpenVINO benchmark_app latency summary")
-    representative = median or avg
     return {
         "latency": {
             "min_ms": minimum,
@@ -462,13 +506,13 @@ def parse_openvino_output(text: str) -> dict[str, Any]:
             "max_ms": maximum,
             "stdev_ms": None,
         },
-        "throughput_fps": float(throughput_match.group(1)) if throughput_match else (
-            1000.0 / representative if representative else None
-        ),
+        "throughput_fps": float(throughput_match.group(1)) if throughput_match else None,
     }
 
 
 def build_openvino_command(request: BenchmarkRequest, executable: str = "benchmark_app") -> list[str]:
+    if request.shape_override is not None and request.model_path.suffix.casefold() != ".onnx":
+        raise BackendError("OpenVINO IR shape overrides require named --input-shape values")
     command = [executable, "-m", str(request.model_path), "-hint", "latency", "-niter", str(request.iterations)]
     if request.device:
         command += ["-d", request.device]
@@ -529,7 +573,10 @@ class OpenVINOBackend(BenchmarkBackend):
         native_request = replace(native_request, device=device)
         command = build_openvino_command(native_request, availability.executable)
         started = time.perf_counter_ns()
-        result = subprocess.run(command, capture_output=True, text=True, timeout=600, check=False)
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, timeout=600, check=False)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise BackendError(f"benchmark_app could not complete: {exc}") from exc
         wall_ms = (time.perf_counter_ns() - started) / 1_000_000.0
         output = (result.stdout or "") + "\n" + (result.stderr or "")
         if result.returncode != 0:
@@ -618,6 +665,8 @@ class CoreMLBackend(BenchmarkBackend):
             )
             load_ms = (time.perf_counter_ns() - started) / 1_000_000.0
             spec = model.get_spec()
+            if not spec.description.input:
+                raise BackendError("Core ML model exposes no benchmarkable inputs")
             feeds: dict[str, Any] = {}
             input_shapes: dict[str, list[int]] = {}
             rng = np.random.default_rng(0)
@@ -631,8 +680,24 @@ class CoreMLBackend(BenchmarkBackend):
                 shape = [int(dim) for dim in item.type.multiArrayType.shape]
                 if not shape or any(dim <= 0 for dim in shape):
                     raise BackendError(f"Core ML input {item.name!r} has unresolved shape")
-                feeds[item.name] = rng.random(shape, dtype=np.float32)
+                array_types = ct.proto.FeatureTypes_pb2.ArrayFeatureType
+                dtype_by_type = {
+                    array_types.FLOAT16: np.float16,
+                    array_types.FLOAT32: np.float32,
+                    array_types.DOUBLE: np.float64,
+                    array_types.INT32: np.int32,
+                }
+                dtype = dtype_by_type.get(item.type.multiArrayType.dataType)
+                if dtype is None:
+                    raise BackendError(f"Core ML input {item.name!r} has unsupported numeric type")
+                feeds[item.name] = (
+                    np.zeros(shape, dtype=dtype)
+                    if np.issubdtype(dtype, np.integer)
+                    else rng.random(shape).astype(dtype)
+                )
                 input_shapes[item.name] = shape
+            if request.batch_size is not None:
+                _infer_batch_size(request.batch_size, input_shapes)
             for _ in range(request.warmup):
                 model.predict(feeds)
             latencies=[]
@@ -644,6 +709,7 @@ class CoreMLBackend(BenchmarkBackend):
             peak_memory=memory.stop()
         summary=latency_summary(latencies)
         mean_ms=summary["mean_ms"]
+        throughput_qps = 1000.0 / mean_ms if mean_ms else None
         return make_benchmark_report(
             model_path=request.model_path, model_id=request.model_id,
             model_revision=request.model_revision, hardware=request.hardware,
@@ -652,9 +718,14 @@ class CoreMLBackend(BenchmarkBackend):
             precision=request.precision, quantization=request.quantization,
             batch_size=request.batch_size, input_shapes=input_shapes,
             warmup=request.warmup, iterations=request.iterations,
-            backend_options={"compute_units":compute_name,"synthetic_inputs":True},
+            backend_options={
+                "compute_units": compute_name,
+                "synthetic_inputs": True,
+                "throughput_qps": throughput_qps,
+                "throughput_semantics": "serial executions per second; FPS requires an explicit leading batch dimension",
+            },
             load_ms=load_ms, latency=summary,
-            throughput_fps=1000.0/mean_ms if mean_ms else None,
+            throughput_fps=_throughput_fps(throughput_qps, request.batch_size),
             peak_memory_mb=peak_memory, power=None, power_scope=None,
             command=request.command,
             notes="Core ML numeric-input benchmark. Use Xcode/Instruments for detailed compute-unit profiling.",

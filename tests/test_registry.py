@@ -71,6 +71,14 @@ def test_registry_schema_accepts_fallback():
     assert len(models_from_registry(document)) == 45
 
 
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), -float("inf")])
+def test_nonfinite_registry_metadata_is_rejected(value):
+    document = _fallback_document()
+    document["models"][0]["parameters"]["millions"] = value
+    with pytest.raises(RegistrySchemaError, match="finite"):
+        validate_registry_document(document)
+
+
 def test_valid_remote_registry_is_cached_and_verified(tmp_path):
     client, calls = _client(tmp_path, _remote_pair(_document()))
     snapshot = client.update()

@@ -1,5 +1,7 @@
 from dataclasses import replace
 
+import pytest
+
 from autonomyfit.evidence import (
     BenchmarkEvidence,
     EvidenceStore,
@@ -167,3 +169,44 @@ def test_recommendations_are_deterministic_offline():
     assert [(item.model.id, item.score) for item in first] == [
         (item.model.id, item.score) for item in second
     ]
+
+
+def _recommend_exact(evidence, **limits):
+    hardware = replace(
+        hardware_from_profile("jetson-orin-nx-16gb"),
+        runtimes=(RuntimeCapability("tensorrt", True, "10.0", "local"),),
+    )
+    constraints = Constraints(
+        task="detection", runtime="tensorrt", precision="fp16", model_id="yolo26n",
+        model_revision="revision-1", artifact_sha256="a" * 64, provider="trtexec",
+        provider_version="10.0", batch_size=1, input_shapes={"images": [1, 3, 640, 640]},
+        power_mode="MAXN", software_stack_id="stack-1", **limits,
+    )
+    return recommend_models(
+        hardware, constraints, offline=True,
+        evidence_store=EvidenceStore(document={}, benchmarks=(evidence,)),
+    )[0]
+
+
+@pytest.mark.parametrize("scope", [None, "", "   "])
+def test_exact_benchmark_with_unscoped_power_does_not_pass_power_limit(scope):
+    evidence = _exact_local_yolo_evidence().benchmarks[0]
+    evidence = replace(evidence, power=replace(evidence.power, scope=scope))
+    item = _recommend_exact(evidence, max_power_w=15)
+    assert item.verdict == "BENCHMARK_REQUIRED"
+    assert "power" in item.confidence.unresolved_constraints
+    assert "exact scoped power" in item.unknowns
+
+
+def test_latency_only_evidence_cannot_pass_throughput_constraint():
+    evidence = replace(_exact_local_yolo_evidence().benchmarks[0], throughput_fps=None)
+    item = _recommend_exact(evidence, min_fps=200)
+    assert item.latency_ms == 3.9
+    assert item.fps is None
+    assert item.verdict == "BENCHMARK_REQUIRED"
+    assert "throughput" in item.confidence.unresolved_constraints
+
+
+def test_scoped_power_evidence_can_pass_power_constraint():
+    item = _recommend_exact(_exact_local_yolo_evidence().benchmarks[0], max_power_w=15)
+    assert item.verdict == "VERIFIED_FIT"
