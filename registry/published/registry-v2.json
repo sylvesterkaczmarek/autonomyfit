@@ -733,6 +733,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov2-large",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov2-large",
+            "source_url": "https://huggingface.co/facebook/dinov2-large"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov2",
+        "variant": "large"
+      },
+      "id": "dinov2-large",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/dinov2-large",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 304.36864
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-09-08T09:47:38.392798Z",
+        "release_date": "2023-07-17",
+        "revision": "47b73eefe95e8d44ec3623f8890bd894b6ea2d6c",
+        "source_id": "huggingface:facebook/dinov2-large",
+        "source_url": "https://huggingface.co/facebook/dinov2-large"
+      },
+      "verification": {
+        "last_verified": "2026-09-08T09:47:38.392798Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "dinov2-small",
       "evidence": {
         "accuracy": [],
@@ -1962,6 +2027,71 @@
       },
       "verification": {
         "last_verified": "2026-08-25T17:22:39.943879Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "mask2former-swin-large-coco-instance",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-large-coco-instance",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-large-coco-instance"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "large-coco-instance"
+      },
+      "id": "mask2former-swin-large-coco-instance",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-coco-instance",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 216.019734
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-09-08T09:47:38.392798Z",
+        "release_date": "2023-01-02",
+        "revision": "d8f2bced294e26108e73d48bb7a7094c9bc7c71d",
+        "source_id": "huggingface:facebook/mask2former-swin-large-coco-instance",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-coco-instance"
+      },
+      "verification": {
+        "last_verified": "2026-09-08T09:47:38.392798Z",
         "status": "source_verified"
       }
     },
@@ -3857,6 +3987,71 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "rtdetr_v2_r50vd",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:PekingU/rtdetr_v2_r50vd",
+            "source_url": "https://huggingface.co/PekingU/rtdetr_v2_r50vd"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "rtdetr-v2-r50vd",
+        "variant": null
+      },
+      "id": "rtdetr-v2-r50vd",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/PekingU/rtdetr_v2_r50vd",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 43.019444
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-09-08T09:47:38.392798Z",
+        "release_date": "2025-01-31",
+        "revision": "282494075698cab9faa1096ae26856890030c817",
+        "source_id": "huggingface:PekingU/rtdetr_v2_r50vd",
+        "source_url": "https://huggingface.co/PekingU/rtdetr_v2_r50vd"
+      },
+      "verification": {
+        "last_verified": "2026-09-08T09:47:38.392798Z",
         "status": "source_verified"
       }
     },
@@ -6812,11 +7007,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-06T10:26:36.454407Z",
-    "generated_at": "2026-09-07T10:26:36.454407Z",
+    "expires_at": "2026-12-07T09:47:38.392798Z",
+    "generated_at": "2026-09-08T09:47:38.392798Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 17,
+    "registry_version": 18,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
