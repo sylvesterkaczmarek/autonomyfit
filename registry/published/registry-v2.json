@@ -4666,6 +4666,71 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "vit-base-patch16-224-in21k",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/vit-base-patch16-224-in21k",
+            "source_url": "https://huggingface.co/google/vit-base-patch16-224-in21k"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "vit",
+        "variant": "base-patch16-224-in21k"
+      },
+      "id": "vit-base-patch16-224-in21k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/vit-base-patch16-224-in21k",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 86.389248
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-09-11T09:48:26.444164Z",
+        "release_date": "2022-03-02",
+        "revision": "b4569560a39a0f1af58e3ddaf17facf20ab919b0",
+        "source_id": "huggingface:google/vit-base-patch16-224-in21k",
+        "source_url": "https://huggingface.co/google/vit-base-patch16-224-in21k"
+      },
+      "verification": {
+        "last_verified": "2026-09-11T09:48:26.444164Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16"
@@ -7007,11 +7072,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-07T09:47:38.392798Z",
-    "generated_at": "2026-09-08T09:47:38.392798Z",
+    "expires_at": "2026-12-10T09:48:26.444164Z",
+    "generated_at": "2026-09-11T09:48:26.444164Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 18,
+    "registry_version": 19,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
