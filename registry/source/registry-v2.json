@@ -3561,6 +3561,71 @@
           "transformers"
         ]
       },
+      "display_name": "resnet-152",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/resnet-152",
+            "source_url": "https://huggingface.co/microsoft/resnet-152"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "resnet-152",
+        "variant": null
+      },
+      "id": "resnet-152",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/resnet-152",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 60.344232
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-09-12T09:25:57.181046Z",
+        "release_date": "2022-03-16",
+        "revision": "189229b1590873cc46c03813abc7d0a7cb8f02b2",
+        "source_id": "huggingface:microsoft/resnet-152",
+        "source_url": "https://huggingface.co/microsoft/resnet-152"
+      },
+      "verification": {
+        "last_verified": "2026-09-12T09:25:57.181046Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "resnet-18",
       "evidence": {
         "accuracy": [],
@@ -7072,11 +7137,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-10T09:48:26.444164Z",
-    "generated_at": "2026-09-11T09:48:26.444164Z",
+    "expires_at": "2026-12-11T09:25:57.181046Z",
+    "generated_at": "2026-09-12T09:25:57.181046Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 19,
+    "registry_version": 20,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
