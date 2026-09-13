@@ -397,6 +397,71 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "Depth-Anything-V2-Base-hf",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:depth-anything/Depth-Anything-V2-Base-hf",
+            "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Base-hf"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Depth-Anything-V2",
+        "variant": "Base-hf"
+      },
+      "id": "depth-anything-v2-base-hf",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream licence requires review: cc-by-nc-4.0",
+        "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Base-hf",
+        "spdx": "cc-by-nc-4.0",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": "upstream licence requires review: cc-by-nc-4.0",
+      "parameters": {
+        "flops_b": null,
+        "millions": 97.470785
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-09-13T10:21:31.612724Z",
+        "release_date": "2024-06-20",
+        "revision": "b1958afc87fb45a9e3746cb387596094de553ed8",
+        "source_id": "huggingface:depth-anything/Depth-Anything-V2-Base-hf",
+        "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Base-hf"
+      },
+      "verification": {
+        "last_verified": "2026-09-13T10:21:31.612724Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16"
@@ -7137,11 +7202,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-11T09:25:57.181046Z",
-    "generated_at": "2026-09-12T09:25:57.181046Z",
+    "expires_at": "2026-12-12T10:21:31.612724Z",
+    "generated_at": "2026-09-13T10:21:31.612724Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 20,
+    "registry_version": 21,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
