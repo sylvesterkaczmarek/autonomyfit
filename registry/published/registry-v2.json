@@ -995,6 +995,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov3-convnext-small-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-convnext-small-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-convnext-small-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-convnext",
+        "variant": "small-pretrain-lvd1689m"
+      },
+      "id": "dinov3-convnext-small-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-small-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 49.454688
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-09-15T10:08:54.579519Z",
+        "release_date": "2025-08-05",
+        "revision": "421020015aa4266363db803b6049a529999afb1e",
+        "source_id": "huggingface:facebook/dinov3-convnext-small-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-small-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-09-15T10:08:54.579519Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "dinov3-convnext-tiny-pretrain-lvd1689m",
       "evidence": {
         "accuracy": [],
@@ -2970,6 +3035,71 @@
       },
       "verification": {
         "last_verified": "2026-08-17T12:47:15.926322Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "PP-DocLayoutV3_safetensors",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:PaddlePaddle/PP-DocLayoutV3_safetensors",
+            "source_url": "https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "PP-DocLayoutV3-safetensors",
+        "variant": null
+      },
+      "id": "pp-doclayoutv3-safetensors",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 33.288957
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-09-15T10:08:54.579519Z",
+        "release_date": "2026-01-20",
+        "revision": "97d101e6db2642e162a1d05392d1b0231c91033e",
+        "source_id": "huggingface:PaddlePaddle/PP-DocLayoutV3_safetensors",
+        "source_url": "https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors"
+      },
+      "verification": {
+        "last_verified": "2026-09-15T10:08:54.579519Z",
         "status": "source_verified"
       }
     },
@@ -7202,11 +7332,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-12T10:21:31.612724Z",
-    "generated_at": "2026-09-13T10:21:31.612724Z",
+    "expires_at": "2026-12-14T10:08:54.579519Z",
+    "generated_at": "2026-09-15T10:08:54.579519Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 21,
+    "registry_version": 22,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
