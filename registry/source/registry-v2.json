@@ -78,6 +78,71 @@
           "transformers"
         ]
       },
+      "display_name": "beit-base-patch16-224",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/beit-base-patch16-224",
+            "source_url": "https://huggingface.co/microsoft/beit-base-patch16-224"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "beit",
+        "variant": "base-patch16-224"
+      },
+      "id": "beit-base-patch16-224",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/beit-base-patch16-224",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 86.996692
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-09-16T10:00:54.485328Z",
+        "release_date": "2022-03-02",
+        "revision": "f02e8f77db4703e3fbd3766e3375a4619c5a4863",
+        "source_id": "huggingface:microsoft/beit-base-patch16-224",
+        "source_url": "https://huggingface.co/microsoft/beit-base-patch16-224"
+      },
+      "verification": {
+        "last_verified": "2026-09-16T10:00:54.485328Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "C-RADIOv2-B",
       "evidence": {
         "accuracy": [],
@@ -721,6 +786,71 @@
       },
       "verification": {
         "last_verified": "2026-08-17T05:53:31.156187Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "detr-resnet-50-dc5",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/detr-resnet-50-dc5",
+            "source_url": "https://huggingface.co/facebook/detr-resnet-50-dc5"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "detr-resnet-50-dc5",
+        "variant": null
+      },
+      "id": "detr-resnet-50-dc5",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/detr-resnet-50-dc5",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 41.631008
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-09-16T10:00:54.485328Z",
+        "release_date": "2022-03-02",
+        "revision": "6da4ef8c063ac1e8b8df9522e8113c5cc9ade5c9",
+        "source_id": "huggingface:facebook/detr-resnet-50-dc5",
+        "source_url": "https://huggingface.co/facebook/detr-resnet-50-dc5"
+      },
+      "verification": {
+        "last_verified": "2026-09-16T10:00:54.485328Z",
         "status": "source_verified"
       }
     },
@@ -7332,11 +7462,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-14T10:08:54.579519Z",
-    "generated_at": "2026-09-15T10:08:54.579519Z",
+    "expires_at": "2026-12-15T10:00:54.485328Z",
+    "generated_at": "2026-09-16T10:00:54.485328Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 22,
+    "registry_version": 23,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
