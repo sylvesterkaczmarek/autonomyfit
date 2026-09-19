@@ -733,6 +733,71 @@
           "transformers"
         ]
       },
+      "display_name": "detr-resnet-101-dc5",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/detr-resnet-101-dc5",
+            "source_url": "https://huggingface.co/facebook/detr-resnet-101-dc5"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "detr-resnet-101-dc5",
+        "variant": null
+      },
+      "id": "detr-resnet-101-dc5",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/detr-resnet-101-dc5",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 60.67536
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-09-19T09:34:57.869098Z",
+        "release_date": "2022-03-02",
+        "revision": "96317ca979e231bd960cb3cac31328e0165a3e94",
+        "source_id": "huggingface:facebook/detr-resnet-101-dc5",
+        "source_url": "https://huggingface.co/facebook/detr-resnet-101-dc5"
+      },
+      "verification": {
+        "last_verified": "2026-09-19T09:34:57.869098Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "detr-resnet-50",
       "evidence": {
         "accuracy": [],
@@ -7462,11 +7527,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-15T10:00:54.485328Z",
-    "generated_at": "2026-09-16T10:00:54.485328Z",
+    "expires_at": "2026-12-18T09:34:57.869098Z",
+    "generated_at": "2026-09-19T09:34:57.869098Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 23,
+    "registry_version": 24,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
