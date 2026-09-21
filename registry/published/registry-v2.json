@@ -1842,6 +1842,71 @@
           "transformers"
         ]
       },
+      "display_name": "ijepa_vith14_1k",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/ijepa_vith14_1k",
+            "source_url": "https://huggingface.co/facebook/ijepa_vith14_1k"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "ijepa-vith14-1k",
+        "variant": null
+      },
+      "id": "ijepa-vith14-1k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream licence requires review: cc-by-nc-4.0",
+        "source_url": "https://huggingface.co/facebook/ijepa_vith14_1k",
+        "spdx": "cc-by-nc-4.0",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream licence requires review: cc-by-nc-4.0",
+      "parameters": {
+        "flops_b": null,
+        "millions": 630.76224
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-09-21T10:48:41.267434Z",
+        "release_date": "2024-08-25",
+        "revision": "f157467ea509bc356ff9f61fd3c0d840eec5e04e",
+        "source_id": "huggingface:facebook/ijepa_vith14_1k",
+        "source_url": "https://huggingface.co/facebook/ijepa_vith14_1k"
+      },
+      "verification": {
+        "last_verified": "2026-09-21T10:48:41.267434Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "Ising-Calibration-1-35B-A3B",
       "evidence": {
         "accuracy": [],
@@ -7527,11 +7592,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-18T09:34:57.869098Z",
-    "generated_at": "2026-09-19T09:34:57.869098Z",
+    "expires_at": "2026-12-20T10:48:41.267434Z",
+    "generated_at": "2026-09-21T10:48:41.267434Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 24,
+    "registry_version": 25,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
