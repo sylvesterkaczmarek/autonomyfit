@@ -4933,6 +4933,71 @@
           "transformers"
         ]
       },
+      "display_name": "table-transformer-detection",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/table-transformer-detection",
+            "source_url": "https://huggingface.co/microsoft/table-transformer-detection"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "table-transformer-detection",
+        "variant": null
+      },
+      "id": "table-transformer-detection",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/table-transformer-detection",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.818631
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-09-22T10:04:18.626952Z",
+        "release_date": "2022-10-14",
+        "revision": "2357cbe2b5a5d1c03e54f32764f06058933b65ab",
+        "source_id": "huggingface:microsoft/table-transformer-detection",
+        "source_url": "https://huggingface.co/microsoft/table-transformer-detection"
+      },
+      "verification": {
+        "last_verified": "2026-09-22T10:04:18.626952Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "table-transformer-structure-recognition",
       "evidence": {
         "accuracy": [],
@@ -7592,11 +7657,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-20T10:48:41.267434Z",
-    "generated_at": "2026-09-21T10:48:41.267434Z",
+    "expires_at": "2026-12-21T10:04:18.626952Z",
+    "generated_at": "2026-09-22T10:04:18.626952Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 25,
+    "registry_version": 26,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
