@@ -2364,6 +2364,71 @@
           "transformers"
         ]
       },
+      "display_name": "mask2former-swin-base-ade-semantic",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-base-ade-semantic",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-base-ade-semantic"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "base-ade-semantic"
+      },
+      "id": "mask2former-swin-base-ade-semantic",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-base-ade-semantic",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 107.420006
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-09-27T10:35:44.333570Z",
+        "release_date": "2023-01-05",
+        "revision": "23a817b665ef6eb6943f7e3bfa3355b6e9ee6995",
+        "source_id": "huggingface:facebook/mask2former-swin-base-ade-semantic",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-base-ade-semantic"
+      },
+      "verification": {
+        "last_verified": "2026-09-27T10:35:44.333570Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "mask2former-swin-large-ade-semantic",
       "evidence": {
         "accuracy": [],
@@ -7657,11 +7722,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-21T10:04:18.626952Z",
-    "generated_at": "2026-09-22T10:04:18.626952Z",
+    "expires_at": "2026-12-26T10:35:44.333570Z",
+    "generated_at": "2026-09-27T10:35:44.333570Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 26,
+    "registry_version": 27,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
