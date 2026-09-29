@@ -2559,6 +2559,71 @@
           "transformers"
         ]
       },
+      "display_name": "mask2former-swin-small-cityscapes-semantic",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-small-cityscapes-semantic",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-small-cityscapes-semantic"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "small-cityscapes-semantic"
+      },
+      "id": "mask2former-swin-small-cityscapes-semantic",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-small-cityscapes-semantic",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 68.781514
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-09-29T11:24:42.153220Z",
+        "release_date": "2023-01-05",
+        "revision": "91281d0492f2175fc409c66a231bc2ff9c4ebaf0",
+        "source_id": "huggingface:facebook/mask2former-swin-small-cityscapes-semantic",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-small-cityscapes-semantic"
+      },
+      "verification": {
+        "last_verified": "2026-09-29T11:24:42.153220Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "microsoft/git-base-textvqa",
       "evidence": {
         "accuracy": [],
@@ -3581,6 +3646,71 @@
       },
       "verification": {
         "last_verified": "2026-08-16T12:42:00Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "prompt-depth-anything-vitl-hf",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:depth-anything/prompt-depth-anything-vitl-hf",
+            "source_url": "https://huggingface.co/depth-anything/prompt-depth-anything-vitl-hf"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "prompt-depth-anything-vitl-hf",
+        "variant": null
+      },
+      "id": "prompt-depth-anything-vitl-hf",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/depth-anything/prompt-depth-anything-vitl-hf",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 340.046529
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-09-29T11:24:42.153220Z",
+        "release_date": "2024-12-23",
+        "revision": "abfaa0958bbe7382633e90ffb6373cfee61239ed",
+        "source_id": "huggingface:depth-anything/prompt-depth-anything-vitl-hf",
+        "source_url": "https://huggingface.co/depth-anything/prompt-depth-anything-vitl-hf"
+      },
+      "verification": {
+        "last_verified": "2026-09-29T11:24:42.153220Z",
         "status": "source_verified"
       }
     },
@@ -7722,11 +7852,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-26T10:35:44.333570Z",
-    "generated_at": "2026-09-27T10:35:44.333570Z",
+    "expires_at": "2026-12-28T11:24:42.153220Z",
+    "generated_at": "2026-09-29T11:24:42.153220Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 27,
+    "registry_version": 28,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
