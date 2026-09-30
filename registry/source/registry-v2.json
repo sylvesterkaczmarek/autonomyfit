@@ -3475,21 +3475,21 @@
           "object-detections"
         ]
       },
-      "notes": null,
+      "notes": "upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 33.288957
       },
       "task": "detection",
       "upstream": {
-        "last_checked": "2026-09-15T10:08:54.579519Z",
+        "last_checked": "2026-09-30T11:12:43.869646Z",
         "release_date": "2026-01-20",
-        "revision": "97d101e6db2642e162a1d05392d1b0231c91033e",
+        "revision": "e4f489dc536556fc1be02b973ba06756e0d4a2ac",
         "source_id": "huggingface:PaddlePaddle/PP-DocLayoutV3_safetensors",
         "source_url": "https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors"
       },
       "verification": {
-        "last_verified": "2026-09-15T10:08:54.579519Z",
+        "last_verified": "2026-09-30T11:12:43.869646Z",
         "status": "source_verified"
       }
     },
@@ -7852,11 +7852,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-28T11:24:42.153220Z",
-    "generated_at": "2026-09-29T11:24:42.153220Z",
+    "expires_at": "2026-12-29T11:12:43.869646Z",
+    "generated_at": "2026-09-30T11:12:43.869646Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 28,
+    "registry_version": 29,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
