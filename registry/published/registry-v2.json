@@ -1190,6 +1190,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov3-convnext-large-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-convnext-large-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-convnext-large-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-convnext",
+        "variant": "large-pretrain-lvd1689m"
+      },
+      "id": "dinov3-convnext-large-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-large-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 196.230336
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-10-01T11:40:06.730460Z",
+        "release_date": "2025-08-06",
+        "revision": "e959efa74c867491dcfe3ec3e4f97382e39025b3",
+        "source_id": "huggingface:facebook/dinov3-convnext-large-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-large-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-10-01T11:40:06.730460Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "dinov3-convnext-small-pretrain-lvd1689m",
       "evidence": {
         "accuracy": [],
@@ -7852,11 +7917,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-29T11:12:43.869646Z",
-    "generated_at": "2026-09-30T11:12:43.869646Z",
+    "expires_at": "2026-12-30T11:40:06.730460Z",
+    "generated_at": "2026-10-01T11:40:06.730460Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 29,
+    "registry_version": 30,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
