@@ -733,6 +733,71 @@
           "transformers"
         ]
       },
+      "display_name": "detr-resnet-101",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/detr-resnet-101",
+            "source_url": "https://huggingface.co/facebook/detr-resnet-101"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "detr-resnet-101",
+        "variant": null
+      },
+      "id": "detr-resnet-101",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/detr-resnet-101",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 60.67536
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-10-12T13:14:59.148219Z",
+        "release_date": "2022-03-02",
+        "revision": "7d14702e444d98d0b1764824567fc2b45e1eb218",
+        "source_id": "huggingface:facebook/detr-resnet-101",
+        "source_url": "https://huggingface.co/facebook/detr-resnet-101"
+      },
+      "verification": {
+        "last_verified": "2026-10-12T13:14:59.148219Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "detr-resnet-101-dc5",
       "evidence": {
         "accuracy": [],
@@ -2169,6 +2234,71 @@
           "transformers"
         ]
       },
+      "display_name": "MambaVision-B-21K",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/MambaVision-B-21K",
+            "source_url": "https://huggingface.co/nvidia/MambaVision-B-21K"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "MambaVision-B-21K",
+        "variant": null
+      },
+      "id": "mambavision-b-21k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-B-21K",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 97.692328
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-10-12T13:14:59.148219Z",
+        "release_date": "2025-03-24",
+        "revision": "bfe552a588f9f250ea0583951ea4dd5a10a198f8",
+        "source_id": "nvidia:nvidia/MambaVision-B-21K",
+        "source_url": "https://huggingface.co/nvidia/MambaVision-B-21K"
+      },
+      "verification": {
+        "last_verified": "2026-10-12T13:14:59.148219Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "MambaVision-L-1K",
       "evidence": {
         "accuracy": [],
@@ -2624,6 +2754,71 @@
           "transformers"
         ]
       },
+      "display_name": "mask2former-swin-large-mapillary-vistas-panoptic",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-large-mapillary-vistas-panoptic",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-panoptic"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "large-mapillary-vistas-panoptic"
+      },
+      "id": "mask2former-swin-large-mapillary-vistas-panoptic",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-panoptic",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 216.015864
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-10-12T13:14:59.148219Z",
+        "release_date": "2023-01-05",
+        "revision": "b9a3e9eb06a6477a741c98cf91cfca11e620e59d",
+        "source_id": "huggingface:facebook/mask2former-swin-large-mapillary-vistas-panoptic",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-panoptic"
+      },
+      "verification": {
+        "last_verified": "2026-10-12T13:14:59.148219Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "mask2former-swin-small-cityscapes-semantic",
       "evidence": {
         "accuracy": [],
@@ -2677,6 +2872,71 @@
       },
       "verification": {
         "last_verified": "2026-09-29T11:24:42.153220Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "mask2former-swin-small-coco-instance",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-small-coco-instance",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-small-coco-instance"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "small-coco-instance"
+      },
+      "id": "mask2former-swin-small-coco-instance",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-small-coco-instance",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 68.797252
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-10-12T13:14:59.148219Z",
+        "release_date": "2022-12-26",
+        "revision": "1b7ac418a0f3cb5edfc5037e488d53587b8bb76b",
+        "source_id": "huggingface:facebook/mask2former-swin-small-coco-instance",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-small-coco-instance"
+      },
+      "verification": {
+        "last_verified": "2026-10-12T13:14:59.148219Z",
         "status": "source_verified"
       }
     },
@@ -5388,6 +5648,136 @@
           "transformers"
         ]
       },
+      "display_name": "tipsv2-b14-dpt",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/tipsv2-b14-dpt",
+            "source_url": "https://huggingface.co/google/tipsv2-b14-dpt"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "tipsv2-b14-dpt",
+        "variant": null
+      },
+      "id": "tipsv2-b14-dpt",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/tipsv2-b14-dpt",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 158.007257
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-10-12T13:14:59.148219Z",
+        "release_date": "2026-04-09",
+        "revision": "da81b552538c453432e7a1efea39737c89580424",
+        "source_id": "huggingface:google/tipsv2-b14-dpt",
+        "source_url": "https://huggingface.co/google/tipsv2-b14-dpt"
+      },
+      "verification": {
+        "last_verified": "2026-10-12T13:14:59.148219Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "tipsv2-l14-dpt",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/tipsv2-l14-dpt",
+            "source_url": "https://huggingface.co/google/tipsv2-l14-dpt"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "tipsv2-l14-dpt",
+        "variant": null
+      },
+      "id": "tipsv2-l14-dpt",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/tipsv2-l14-dpt",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 405.695641
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-10-12T13:14:59.148219Z",
+        "release_date": "2026-04-09",
+        "revision": "eaca790d7d78a4aae1e94c885846d03e81f909df",
+        "source_id": "huggingface:google/tipsv2-l14-dpt",
+        "source_url": "https://huggingface.co/google/tipsv2-l14-dpt"
+      },
+      "verification": {
+        "last_verified": "2026-10-12T13:14:59.148219Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "tipsv2-so400m14-dpt",
       "evidence": {
         "accuracy": [],
@@ -7917,11 +8307,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2026-12-30T11:40:06.730460Z",
-    "generated_at": "2026-10-01T11:40:06.730460Z",
+    "expires_at": "2027-01-10T13:14:59.148219Z",
+    "generated_at": "2026-10-12T13:14:59.148219Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 30,
+    "registry_version": 31,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
