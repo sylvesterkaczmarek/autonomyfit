@@ -1255,6 +1255,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov2-with-registers-large",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov2-with-registers-large",
+            "source_url": "https://huggingface.co/facebook/dinov2-with-registers-large"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov2-with-registers",
+        "variant": "large"
+      },
+      "id": "dinov2-with-registers-large",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/dinov2-with-registers-large",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 304.372736
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2024-12-21",
+        "revision": "e4c89a4e05589de9b3e188688a303d0f3c04d0f3",
+        "source_id": "huggingface:facebook/dinov2-with-registers-large",
+        "source_url": "https://huggingface.co/facebook/dinov2-with-registers-large"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "dinov3-convnext-large-pretrain-lvd1689m",
       "evidence": {
         "accuracy": [],
@@ -3762,6 +3827,72 @@
           "transformers"
         ]
       },
+      "display_name": "pix2struct-ai2d-base",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/pix2struct-ai2d-base",
+            "source_url": "https://huggingface.co/google/pix2struct-ai2d-base"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "pix2struct-ai2d",
+        "variant": "base"
+      },
+      "id": "pix2struct-ai2d-base",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/pix2struct-ai2d-base",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 282.285696
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2023-03-14",
+        "revision": "0d6b2606efe05c77c1d0670647740802a9e68eef",
+        "source_id": "huggingface:google/pix2struct-ai2d-base",
+        "source_url": "https://huggingface.co/google/pix2struct-ai2d-base"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "PP-DocLayoutV3_safetensors",
       "evidence": {
         "accuracy": [],
@@ -5039,6 +5170,71 @@
           "transformers"
         ]
       },
+      "display_name": "rtdetr_r101vd_coco_o365",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:PekingU/rtdetr_r101vd_coco_o365",
+            "source_url": "https://huggingface.co/PekingU/rtdetr_r101vd_coco_o365"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "rtdetr-r101vd-coco-o365",
+        "variant": null
+      },
+      "id": "rtdetr-r101vd-coco-o365",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/PekingU/rtdetr_r101vd_coco_o365",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 76.7987
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2024-06-05",
+        "revision": "ff44b69152a72cc752677665fb4539507d56a99d",
+        "source_id": "huggingface:PekingU/rtdetr_r101vd_coco_o365",
+        "source_url": "https://huggingface.co/PekingU/rtdetr_r101vd_coco_o365"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "rtdetr_v2_r50vd",
       "evidence": {
         "accuracy": [],
@@ -5648,6 +5844,71 @@
           "transformers"
         ]
       },
+      "display_name": "table-transformer-structure-recognition-v1.1-pub",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/table-transformer-structure-recognition-v1.1-pub",
+            "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-pub"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "table-transformer-structure-recognition-v1.1-pub",
+        "variant": null
+      },
+      "id": "table-transformer-structure-recognition-v1-1-pub",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-pub",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.847819
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2023-11-18",
+        "revision": "372e205368a9b7bd1b9fdcf906c1350999d48939",
+        "source_id": "huggingface:microsoft/table-transformer-structure-recognition-v1.1-pub",
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-pub"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "tipsv2-b14-dpt",
       "evidence": {
         "accuracy": [],
@@ -5701,6 +5962,71 @@
       },
       "verification": {
         "last_verified": "2026-10-12T13:14:59.148219Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "tipsv2-g14-dpt",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/tipsv2-g14-dpt",
+            "source_url": "https://huggingface.co/google/tipsv2-g14-dpt"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "tipsv2-g14-dpt",
+        "variant": null
+      },
+      "id": "tipsv2-g14-dpt",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/tipsv2-g14-dpt",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 1320.463897
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2026-04-09",
+        "revision": "997dbf2d57f2035cc7d6e0abaa625a6e34fbd51f",
+        "source_id": "huggingface:google/tipsv2-g14-dpt",
+        "source_url": "https://huggingface.co/google/tipsv2-g14-dpt"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
         "status": "source_verified"
       }
     },
@@ -5961,6 +6287,201 @@
       },
       "verification": {
         "last_verified": "2026-09-11T09:48:26.444164Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "vit-base-patch32-224-in21k",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/vit-base-patch32-224-in21k",
+            "source_url": "https://huggingface.co/google/vit-base-patch32-224-in21k"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "vit",
+        "variant": "base-patch32-224-in21k"
+      },
+      "id": "vit-base-patch32-224-in21k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/vit-base-patch32-224-in21k",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 88.045824
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2022-03-02",
+        "revision": "98cb6f7099d372694c8547bf7002289b36857dc7",
+        "source_id": "huggingface:google/vit-base-patch32-224-in21k",
+        "source_url": "https://huggingface.co/google/vit-base-patch32-224-in21k"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "vit-base-patch32-384",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/vit-base-patch32-384",
+            "source_url": "https://huggingface.co/google/vit-base-patch32-384"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "vit",
+        "variant": "base-patch32-384"
+      },
+      "id": "vit-base-patch32-384",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/vit-base-patch32-384",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 88.297192
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2022-03-02",
+        "revision": "d285164d04ed60526ea1b462ba8cc7afbe53a31b",
+        "source_id": "huggingface:google/vit-base-patch32-384",
+        "source_url": "https://huggingface.co/google/vit-base-patch32-384"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "vit-huge-patch14-224-in21k",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/vit-huge-patch14-224-in21k",
+            "source_url": "https://huggingface.co/google/vit-huge-patch14-224-in21k"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "vit-huge-patch14-224-in21k",
+        "variant": null
+      },
+      "id": "vit-huge-patch14-224-in21k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/vit-huge-patch14-224-in21k",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 632.40448
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-10-13T12:46:13.211024Z",
+        "release_date": "2022-03-02",
+        "revision": "bbff058c978d2e65b36eecaa5ed6e30977602c9d",
+        "source_id": "huggingface:google/vit-huge-patch14-224-in21k",
+        "source_url": "https://huggingface.co/google/vit-huge-patch14-224-in21k"
+      },
+      "verification": {
+        "last_verified": "2026-10-13T12:46:13.211024Z",
         "status": "source_verified"
       }
     },
@@ -8307,11 +8828,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-10T13:14:59.148219Z",
-    "generated_at": "2026-10-12T13:14:59.148219Z",
+    "expires_at": "2027-01-11T12:46:13.211024Z",
+    "generated_at": "2026-10-13T12:46:13.211024Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 31,
+    "registry_version": 32,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
