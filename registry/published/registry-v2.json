@@ -3893,6 +3893,72 @@
           "transformers"
         ]
       },
+      "display_name": "pix2struct-docvqa-base",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/pix2struct-docvqa-base",
+            "source_url": "https://huggingface.co/google/pix2struct-docvqa-base"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "pix2struct-docvqa",
+        "variant": "base"
+      },
+      "id": "pix2struct-docvqa-base",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/pix2struct-docvqa-base",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 282.285696
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-10-14T10:17:56.312902Z",
+        "release_date": "2023-03-21",
+        "revision": "63f6b3de436e39f75c7a486881a9c2c14a7f4e89",
+        "source_id": "huggingface:google/pix2struct-docvqa-base",
+        "source_url": "https://huggingface.co/google/pix2struct-docvqa-base"
+      },
+      "verification": {
+        "last_verified": "2026-10-14T10:17:56.312902Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "PP-DocLayoutV3_safetensors",
       "evidence": {
         "accuracy": [],
@@ -8828,11 +8894,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-11T12:46:13.211024Z",
-    "generated_at": "2026-10-13T12:46:13.211024Z",
+    "expires_at": "2027-01-12T10:17:56.312902Z",
+    "generated_at": "2026-10-14T10:17:56.312902Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 32,
+    "registry_version": 33,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
