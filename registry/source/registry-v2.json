@@ -6750,6 +6750,71 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "whisper-small",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:openai/whisper-small",
+            "source_url": "https://huggingface.co/openai/whisper-small"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "whisper",
+        "variant": "small"
+      },
+      "id": "whisper-small",
+      "input": {
+        "height": null,
+        "kind": "audio",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/openai/whisper-small",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 241.734912
+      },
+      "task": "asr",
+      "upstream": {
+        "last_checked": "2026-10-16T09:54:36.242199Z",
+        "release_date": "2022-09-26",
+        "revision": "973afd24965f72e36ca33b3055d56a652f456b4d",
+        "source_id": "huggingface:openai/whisper-small",
+        "source_url": "https://huggingface.co/openai/whisper-small"
+      },
+      "verification": {
+        "last_verified": "2026-10-16T09:54:36.242199Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16"
@@ -8894,11 +8959,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-12T10:17:56.312902Z",
-    "generated_at": "2026-10-14T10:17:56.312902Z",
+    "expires_at": "2027-01-14T09:54:36.242199Z",
+    "generated_at": "2026-10-16T09:54:36.242199Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 33,
+    "registry_version": 34,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
