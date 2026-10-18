@@ -403,6 +403,71 @@
           "transformers"
         ]
       },
+      "display_name": "convnextv2-tiny-22k-224",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/convnextv2-tiny-22k-224",
+            "source_url": "https://huggingface.co/facebook/convnextv2-tiny-22k-224"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "convnextv2",
+        "variant": "tiny-22k-224"
+      },
+      "id": "convnextv2-tiny-22k-224",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/convnextv2-tiny-22k-224",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.635496
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-10-18T09:41:26.368239Z",
+        "release_date": "2023-02-19",
+        "revision": "9cba4896e97bb86b1eb609e482a2149d84f345bc",
+        "source_id": "huggingface:facebook/convnextv2-tiny-22k-224",
+        "source_url": "https://huggingface.co/facebook/convnextv2-tiny-22k-224"
+      },
+      "verification": {
+        "last_verified": "2026-10-18T09:41:26.368239Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "deplot",
       "evidence": {
         "accuracy": [],
@@ -5910,6 +5975,71 @@
           "transformers"
         ]
       },
+      "display_name": "table-transformer-structure-recognition-v1.1-fin",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/table-transformer-structure-recognition-v1.1-fin",
+            "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-fin"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "table-transformer-structure-recognition-v1.1-fin",
+        "variant": null
+      },
+      "id": "table-transformer-structure-recognition-v1-1-fin",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-fin",
+        "spdx": "mit",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 28.847819
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-10-18T09:41:26.368239Z",
+        "release_date": "2023-11-18",
+        "revision": "c8e8338b3aad32867e015e81a7a4fc48b4c955d1",
+        "source_id": "huggingface:microsoft/table-transformer-structure-recognition-v1.1-fin",
+        "source_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-fin"
+      },
+      "verification": {
+        "last_verified": "2026-10-18T09:41:26.368239Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "table-transformer-structure-recognition-v1.1-pub",
       "evidence": {
         "accuracy": [],
@@ -6548,6 +6678,71 @@
       },
       "verification": {
         "last_verified": "2026-10-13T12:46:13.211024Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "vit-large-patch16-224-in21k",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:google/vit-large-patch16-224-in21k",
+            "source_url": "https://huggingface.co/google/vit-large-patch16-224-in21k"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "vit",
+        "variant": "large-patch16-224-in21k"
+      },
+      "id": "vit-large-patch16-224-in21k",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/google/vit-large-patch16-224-in21k",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 304.351232
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-10-18T09:41:26.368239Z",
+        "release_date": "2022-03-02",
+        "revision": "6074eaf2211423e928c93b93ef773d5da618aa7e",
+        "source_id": "huggingface:google/vit-large-patch16-224-in21k",
+        "source_url": "https://huggingface.co/google/vit-large-patch16-224-in21k"
+      },
+      "verification": {
+        "last_verified": "2026-10-18T09:41:26.368239Z",
         "status": "source_verified"
       }
     },
@@ -8959,11 +9154,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-14T09:54:36.242199Z",
-    "generated_at": "2026-10-16T09:54:36.242199Z",
+    "expires_at": "2027-01-16T09:41:26.368239Z",
+    "generated_at": "2026-10-18T09:41:26.368239Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 34,
+    "registry_version": 35,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
