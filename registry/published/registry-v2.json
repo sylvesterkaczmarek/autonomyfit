@@ -403,6 +403,71 @@
           "transformers"
         ]
       },
+      "display_name": "convnext-small-224",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/convnext-small-224",
+            "source_url": "https://huggingface.co/facebook/convnext-small-224"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "convnext",
+        "variant": "small-224"
+      },
+      "id": "convnext-small-224",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/convnext-small-224",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 50.223688
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-10-19T10:52:31.388870Z",
+        "release_date": "2022-03-02",
+        "revision": "e0df91dcc78dbc0f56be8fbecff706128aee7c28",
+        "source_id": "huggingface:facebook/convnext-small-224",
+        "source_url": "https://huggingface.co/facebook/convnext-small-224"
+      },
+      "verification": {
+        "last_verified": "2026-10-19T10:52:31.388870Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "convnextv2-tiny-22k-224",
       "evidence": {
         "accuracy": [],
@@ -456,6 +521,71 @@
       },
       "verification": {
         "last_verified": "2026-10-18T09:41:26.368239Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "deit-base-distilled-patch16-384",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/deit-base-distilled-patch16-384",
+            "source_url": "https://huggingface.co/facebook/deit-base-distilled-patch16-384"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "deit",
+        "variant": "base-distilled-patch16-384"
+      },
+      "id": "deit-base-distilled-patch16-384",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/facebook/deit-base-distilled-patch16-384",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "class-label"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 87.630032
+      },
+      "task": "classification",
+      "upstream": {
+        "last_checked": "2026-10-19T10:52:31.388870Z",
+        "release_date": "2022-03-02",
+        "revision": "d939597a763b570654d2cbb10a22d59ee21ecd7e",
+        "source_id": "huggingface:facebook/deit-base-distilled-patch16-384",
+        "source_url": "https://huggingface.co/facebook/deit-base-distilled-patch16-384"
+      },
+      "verification": {
+        "last_verified": "2026-10-19T10:52:31.388870Z",
         "status": "source_verified"
       }
     },
@@ -587,6 +717,71 @@
       },
       "verification": {
         "last_verified": "2026-09-13T10:21:31.612724Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "Depth-Anything-V2-Metric-Outdoor-Large-hf",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf",
+            "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Depth-Anything-V2-Metric-Outdoor",
+        "variant": "Large-hf"
+      },
+      "id": "depth-anything-v2-metric-outdoor-large-hf",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "depth-map"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 335.315649
+      },
+      "task": "depth",
+      "upstream": {
+        "last_checked": "2026-10-19T10:52:31.388870Z",
+        "release_date": "2024-07-26",
+        "revision": "4eab4cf1983c2801c515804005214de56a4b67cc",
+        "source_id": "huggingface:depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf",
+        "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf"
+      },
+      "verification": {
+        "last_verified": "2026-10-19T10:52:31.388870Z",
         "status": "source_verified"
       }
     },
@@ -2742,6 +2937,71 @@
       },
       "verification": {
         "last_verified": "2026-09-27T10:35:44.333570Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "mask2former-swin-large-ade-panoptic",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-large-ade-panoptic",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-panoptic"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "large-ade-panoptic"
+      },
+      "id": "mask2former-swin-large-ade-panoptic",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-panoptic",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 216.037794
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-10-19T10:52:31.388870Z",
+        "release_date": "2023-01-05",
+        "revision": "ae53ed7ab37f8ea74f23d0e4f8c3d83c184a0caa",
+        "source_id": "huggingface:facebook/mask2former-swin-large-ade-panoptic",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-panoptic"
+      },
+      "verification": {
+        "last_verified": "2026-10-19T10:52:31.388870Z",
         "status": "source_verified"
       }
     },
@@ -9154,11 +9414,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-16T09:41:26.368239Z",
-    "generated_at": "2026-10-18T09:41:26.368239Z",
+    "expires_at": "2027-01-17T10:52:31.388870Z",
+    "generated_at": "2026-10-19T10:52:31.388870Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 35,
+    "registry_version": 36,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
