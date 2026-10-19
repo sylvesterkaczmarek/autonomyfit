@@ -10,7 +10,7 @@
     "segmentation",
     "vlm"
   ],
-  "candidate_count": 204,
+  "candidate_count": 215,
   "candidates": [
     {
       "aliases": [
@@ -66,7 +66,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "paper_014704920_visual_question_answering",
       "downloads": 0,
       "evidence_url": "https://huggingface.co/aadhyasingh/paper_014704920_visual_question_answering",
@@ -77,7 +77,7 @@
       "last_modified": "2026-08-21T18:21:27Z",
       "library": null,
       "license_id": "cc-by-4.0",
-      "lifecycle": "DEPRECATED",
+      "lifecycle": "DISCOVERED",
       "likes": 8,
       "metadata_complete": false,
       "new_version": null,
@@ -98,8 +98,7 @@
       "upstream_id": "aadhyasingh/paper_014704920_visual_question_answering",
       "variant": null,
       "warnings": [
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -969,9 +968,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "coreml-depth-anything-v2-small",
-      "downloads": 1482,
+      "downloads": 34445,
       "evidence_url": "https://huggingface.co/apple/coreml-depth-anything-v2-small",
       "family": "coreml-depth-anything-v2",
       "identity_key": "hf:apple/coreml-depth-anything-v2-small",
@@ -980,8 +979,8 @@
       "last_modified": "2024-06-24T22:48:56Z",
       "library": "coreml",
       "license_id": "apache-2.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 102,
+      "lifecycle": "DISCOVERED",
+      "likes": 103,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -1003,8 +1002,7 @@
       "upstream_id": "apple/coreml-depth-anything-v2-small",
       "variant": "small",
       "warnings": [
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -1061,7 +1059,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "DepthPro",
-      "downloads": 11042,
+      "downloads": 11021,
       "evidence_url": "https://huggingface.co/apple/DepthPro",
       "family": "DepthPro",
       "identity_key": "hf:apple/depthpro",
@@ -1104,7 +1102,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "DepthPro-hf",
-      "downloads": 33605,
+      "downloads": 37152,
       "evidence_url": "https://huggingface.co/apple/DepthPro-hf",
       "family": "DepthPro-hf",
       "identity_key": "hf:apple/depthpro-hf",
@@ -1870,7 +1868,7 @@
       ],
       "base_model": "Qwen/Qwen3.8-27B",
       "base_model_relation": "adapter",
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "JEV-27B-VL",
       "downloads": 1801077,
       "evidence_url": "https://huggingface.co/autotrust/JEV-27B-VL",
@@ -1881,7 +1879,7 @@
       "last_modified": "2026-10-14T06:16:37Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "NORMALIZED",
+      "lifecycle": "DEPRECATED",
       "likes": 7046,
       "metadata_complete": true,
       "new_version": null,
@@ -1904,7 +1902,9 @@
       "task": "vlm",
       "upstream_id": "autotrust/JEV-27B-VL",
       "variant": "27B-VL",
-      "warnings": []
+      "warnings": [
+        "not observed in latest discovery"
+      ]
     },
     {
       "aliases": [
@@ -2192,7 +2192,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Unlimited-OCR",
-      "downloads": 1652742,
+      "downloads": 1799825,
       "evidence_url": "https://huggingface.co/baidu/Unlimited-OCR",
       "family": "Unlimited-OCR",
       "identity_key": "hf:baidu/unlimited-ocr",
@@ -2202,7 +2202,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "NORMALIZED",
-      "likes": 4770,
+      "likes": 4809,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -2718,7 +2718,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "RMBG-1.4",
       "downloads": 258425,
       "evidence_url": "https://huggingface.co/briaai/RMBG-1.4",
@@ -2729,7 +2729,7 @@
       "last_modified": "2025-07-06T08:27:49Z",
       "library": "transformers",
       "license_id": "other",
-      "lifecycle": "NORMALIZED",
+      "lifecycle": "DEPRECATED",
       "likes": 2049,
       "metadata_complete": true,
       "new_version": null,
@@ -2754,7 +2754,8 @@
       "upstream_id": "briaai/RMBG-1.4",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -2766,7 +2767,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "RMBG-2.0",
-      "downloads": 391634,
+      "downloads": 387981,
       "evidence_url": "https://huggingface.co/briaai/RMBG-2.0",
       "family": "RMBG-2.0",
       "identity_key": "hf:briaai/rmbg-2.0",
@@ -2776,7 +2777,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "NORMALIZED",
-      "likes": 1538,
+      "likes": 1545,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -2942,17 +2943,17 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "whistle",
-      "downloads": 42186,
+      "downloads": 43079,
       "evidence_url": "https://huggingface.co/Cactus-Compute/whistle",
       "family": "whistle",
       "identity_key": "hf:cactus-compute/whistle",
       "immutable_revision": true,
       "ingestion_method": "huggingface-hub-api",
-      "last_modified": "2026-10-10T06:51:58Z",
+      "last_modified": "2026-10-18T16:58:08Z",
       "library": "cactus-needle",
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 429,
+      "likes": 441,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -2962,8 +2963,8 @@
       "publisher": "Cactus-Compute",
       "quantizations": [],
       "release_date": "2026-09-30",
-      "revision": "ca5287601bef25af26dcf2e1b2bdc0843a7c19e5",
-      "revision_identity": "c375cbdaa1edd73b5af5",
+      "revision": "741118687e1f008f06d1351a402a731274789790",
+      "revision_identity": "09f0a822eb26fd8abfb1",
       "runtimes": [],
       "source_priority": 70,
       "source_stale": false,
@@ -4173,6 +4174,50 @@
     },
     {
       "aliases": [
+        "anime_censor_detection",
+        "deepghs/anime_censor_detection"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "anime_censor_detection",
+      "downloads": 0,
+      "evidence_url": "https://huggingface.co/deepghs/anime_censor_detection",
+      "family": "anime-censor-detection",
+      "identity_key": "hf:deepghs/anime_censor_detection",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2024-09-24T09:24:11Z",
+      "library": null,
+      "license_id": "mit",
+      "lifecycle": "DISCOVERED",
+      "likes": 15,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "deepghs",
+      "quantizations": [],
+      "release_date": "2023-06-06",
+      "revision": "0cf62fd6b28213b40ae0c0055f92e7ae6a96bdc2",
+      "revision_identity": "19c658a7ec9b2f81be39",
+      "runtimes": [
+        "onnx"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/deepghs/anime_censor_detection",
+      "task": "detection",
+      "upstream_id": "deepghs/anime_censor_detection",
+      "variant": null,
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "anime_classification",
         "deepghs/anime_classification"
       ],
@@ -4407,7 +4452,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "DeepSeek-V4.1-Flash",
-      "downloads": 1316711,
+      "downloads": 1367081,
       "evidence_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
       "family": "DeepSeek-V4.1-Flash",
       "identity_key": "hf:deepseek-ai/deepseek-v4.1-flash",
@@ -4417,7 +4462,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "NORMALIZED",
-      "likes": 4619,
+      "likes": 4647,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -4450,7 +4495,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "DeepSeek-V4.1-Flash-1017",
-      "downloads": 10233,
+      "downloads": 17924,
       "evidence_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017",
       "family": "DeepSeek-V4.1-Flash-1017",
       "identity_key": "hf:deepseek-ai/deepseek-v4.1-flash-1017",
@@ -4460,7 +4505,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "NORMALIZED",
-      "likes": 1149,
+      "likes": 1527,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -4793,7 +4838,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Depth-Anything-V2-Base-hf",
-      "downloads": 83595,
+      "downloads": 83868,
       "evidence_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Base-hf",
       "family": "Depth-Anything-V2",
       "identity_key": "hf:depth-anything/depth-anything-v2-base-hf",
@@ -4838,7 +4883,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Depth-Anything-V2-Large",
-      "downloads": 71027,
+      "downloads": 70710,
       "evidence_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Large",
       "family": "Depth-Anything-V2",
       "identity_key": "hf:depth-anything/depth-anything-v2-large",
@@ -4920,6 +4965,49 @@
     },
     {
       "aliases": [
+        "Depth-Anything-V2-Metric-Outdoor-Large-hf",
+        "depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "Depth-Anything-V2-Metric-Outdoor-Large-hf",
+      "downloads": 9360,
+      "evidence_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf",
+      "family": "Depth-Anything-V2-Metric-Outdoor",
+      "identity_key": "hf:depth-anything/depth-anything-v2-metric-outdoor-large-hf",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2024-08-27T14:06:04Z",
+      "library": "transformers",
+      "license_id": "apache-2.0",
+      "lifecycle": "SOURCE_VERIFIED",
+      "likes": 12,
+      "metadata_complete": true,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": 335.315649,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "depth-anything",
+      "quantizations": [],
+      "release_date": "2024-07-26",
+      "revision": "4eab4cf1983c2801c515804005214de56a4b67cc",
+      "revision_identity": "1bcb1dd32860d9bef522",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf",
+      "task": "depth",
+      "upstream_id": "depth-anything/Depth-Anything-V2-Metric-Outdoor-Large-hf",
+      "variant": "Large-hf",
+      "warnings": []
+    },
+    {
+      "aliases": [
         "Depth-Anything-V2-Small",
         "depth-anything/Depth-Anything-V2-Small"
       ],
@@ -4970,7 +5058,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Depth-Anything-V2-Small-hf",
-      "downloads": 1432125,
+      "downloads": 1445117,
       "evidence_url": "https://huggingface.co/depth-anything/Depth-Anything-V2-Small-hf",
       "family": "Depth-Anything-V2",
       "identity_key": "hf:depth-anything/depth-anything-v2-small-hf",
@@ -5002,9 +5090,7 @@
       "task": "depth",
       "upstream_id": "depth-anything/Depth-Anything-V2-Small-hf",
       "variant": "Small-hf",
-      "warnings": [
-        "deduplicated corroborating source huggingface:depth-anything/Depth-Anything-V2-Small-hf"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -5015,7 +5101,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "prompt-depth-anything-vitl-hf",
-      "downloads": 661,
+      "downloads": 652,
       "evidence_url": "https://huggingface.co/depth-anything/prompt-depth-anything-vitl-hf",
       "family": "prompt-depth-anything-vitl-hf",
       "identity_key": "hf:depth-anything/prompt-depth-anything-vitl-hf",
@@ -5146,7 +5232,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "trocr-essoins-middle-latin",
-      "downloads": 104,
+      "downloads": 102,
       "evidence_url": "https://huggingface.co/dh-unibe/trocr-essoins-middle-latin",
       "family": "trocr-essoins-middle-latin",
       "identity_key": "hf:dh-unibe/trocr-essoins-middle-latin",
@@ -5994,6 +6080,49 @@
     },
     {
       "aliases": [
+        "document-signature-stamp-detector-v20-20261012-dev",
+        "ducln-business/document-signature-stamp-detector-v20-20261012-dev"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "document-signature-stamp-detector-v20-20261012-dev",
+      "downloads": 5,
+      "evidence_url": "https://huggingface.co/ducln-business/document-signature-stamp-detector-v20-20261012-dev",
+      "family": "document-signature-stamp-detector-v20-20261012-dev",
+      "identity_key": "hf:ducln-business/document-signature-stamp-detector-v20-20261012-dev",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-10-13T02:12:44Z",
+      "library": "rfdetr",
+      "license_id": null,
+      "lifecycle": "DISCOVERED",
+      "likes": 2,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "ducln-business",
+      "quantizations": [],
+      "release_date": "2026-10-12",
+      "revision": "62e228ca574e631d19f533ff4b1a4c9c255f71d5",
+      "revision_identity": "e53dc37f327dd00c3661",
+      "runtimes": [],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/ducln-business/document-signature-stamp-detector-v20-20261012-dev",
+      "task": "detection",
+      "upstream_id": "ducln-business/document-signature-stamp-detector-v20-20261012-dev",
+      "variant": null,
+      "warnings": [
+        "licence metadata missing upstream",
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "duclvQ/tcg-card-detector",
         "tcg-card-detector"
       ],
@@ -6624,7 +6753,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "convnext-base-224-22k-1k",
-      "downloads": 683,
+      "downloads": 660,
       "evidence_url": "https://huggingface.co/facebook/convnext-base-224-22k-1k",
       "family": "convnext",
       "identity_key": "hf:facebook/convnext-base-224-22k-1k",
@@ -6656,6 +6785,94 @@
       "task": "classification",
       "upstream_id": "facebook/convnext-base-224-22k-1k",
       "variant": "base-224-22k-1k",
+      "warnings": []
+    },
+    {
+      "aliases": [
+        "convnext-base-384-22k-1k",
+        "facebook/convnext-base-384-22k-1k"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "convnext-base-384-22k-1k",
+      "downloads": 991,
+      "evidence_url": "https://huggingface.co/facebook/convnext-base-384-22k-1k",
+      "family": "convnext",
+      "identity_key": "hf:facebook/convnext-base-384-22k-1k",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2023-11-21T08:33:35Z",
+      "library": "transformers",
+      "license_id": "apache-2.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 9,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "facebook",
+      "quantizations": [],
+      "release_date": "2022-03-02",
+      "revision": "a046eb0288b19b9554372439aef3a6792ca354e3",
+      "revision_identity": "fac111570fed5021a43f",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/facebook/convnext-base-384-22k-1k",
+      "task": "classification",
+      "upstream_id": "facebook/convnext-base-384-22k-1k",
+      "variant": "base-384-22k-1k",
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
+        "convnext-small-224",
+        "facebook/convnext-small-224"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "convnext-small-224",
+      "downloads": 29345,
+      "evidence_url": "https://huggingface.co/facebook/convnext-small-224",
+      "family": "convnext",
+      "identity_key": "hf:facebook/convnext-small-224",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2023-11-21T08:38:58Z",
+      "library": "transformers",
+      "license_id": "apache-2.0",
+      "lifecycle": "SOURCE_VERIFIED",
+      "likes": 9,
+      "metadata_complete": true,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": 50.223688,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "facebook",
+      "quantizations": [],
+      "release_date": "2022-03-02",
+      "revision": "e0df91dcc78dbc0f56be8fbecff706128aee7c28",
+      "revision_identity": "6e3e1b66b0f8371b8ed0",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/facebook/convnext-small-224",
+      "task": "classification",
+      "upstream_id": "facebook/convnext-small-224",
+      "variant": "small-224",
       "warnings": []
     },
     {
@@ -6713,7 +6930,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "convnextv2-tiny-22k-224",
-      "downloads": 97534,
+      "downloads": 96731,
       "evidence_url": "https://huggingface.co/facebook/convnextv2-tiny-22k-224",
       "family": "convnextv2",
       "identity_key": "hf:facebook/convnextv2-tiny-22k-224",
@@ -6745,6 +6962,49 @@
       "task": "classification",
       "upstream_id": "facebook/convnextv2-tiny-22k-224",
       "variant": "tiny-22k-224",
+      "warnings": []
+    },
+    {
+      "aliases": [
+        "deit-base-distilled-patch16-384",
+        "facebook/deit-base-distilled-patch16-384"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "deit-base-distilled-patch16-384",
+      "downloads": 18038,
+      "evidence_url": "https://huggingface.co/facebook/deit-base-distilled-patch16-384",
+      "family": "deit",
+      "identity_key": "hf:facebook/deit-base-distilled-patch16-384",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2023-09-12T20:40:32Z",
+      "library": "transformers",
+      "license_id": "apache-2.0",
+      "lifecycle": "SOURCE_VERIFIED",
+      "likes": 12,
+      "metadata_complete": true,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": 87.630032,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "facebook",
+      "quantizations": [],
+      "release_date": "2022-03-02",
+      "revision": "d939597a763b570654d2cbb10a22d59ee21ecd7e",
+      "revision_identity": "79dc70898a9c05042b08",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/facebook/deit-base-distilled-patch16-384",
+      "task": "classification",
+      "upstream_id": "facebook/deit-base-distilled-patch16-384",
+      "variant": "base-distilled-patch16-384",
       "warnings": []
     },
     {
@@ -6848,7 +7108,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "detr-resnet-101",
-      "downloads": 18762,
+      "downloads": 18719,
       "evidence_url": "https://huggingface.co/facebook/detr-resnet-101",
       "family": "detr-resnet-101",
       "identity_key": "hf:facebook/detr-resnet-101",
@@ -6880,9 +7140,7 @@
       "task": "detection",
       "upstream_id": "facebook/detr-resnet-101",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:facebook/detr-resnet-101"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -6893,7 +7151,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "detr-resnet-101-dc5",
-      "downloads": 4821,
+      "downloads": 4831,
       "evidence_url": "https://huggingface.co/facebook/detr-resnet-101-dc5",
       "family": "detr-resnet-101-dc5",
       "identity_key": "hf:facebook/detr-resnet-101-dc5",
@@ -6925,9 +7183,7 @@
       "task": "detection",
       "upstream_id": "facebook/detr-resnet-101-dc5",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:facebook/detr-resnet-101-dc5"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -6938,7 +7194,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "detr-resnet-50",
-      "downloads": 149212,
+      "downloads": 147071,
       "evidence_url": "https://huggingface.co/facebook/detr-resnet-50",
       "family": "detr-resnet-50",
       "identity_key": "hf:facebook/detr-resnet-50",
@@ -6981,7 +7237,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "detr-resnet-50-dc5",
-      "downloads": 1978,
+      "downloads": 1958,
       "evidence_url": "https://huggingface.co/facebook/detr-resnet-50-dc5",
       "family": "detr-resnet-50-dc5",
       "identity_key": "hf:facebook/detr-resnet-50-dc5",
@@ -7026,7 +7282,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "detr-resnet-50-panoptic",
-      "downloads": 12411,
+      "downloads": 12556,
       "evidence_url": "https://huggingface.co/facebook/detr-resnet-50-panoptic",
       "family": "detr-resnet-50-panoptic",
       "identity_key": "hf:facebook/detr-resnet-50-panoptic",
@@ -7071,7 +7327,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov2-base",
-      "downloads": 3095813,
+      "downloads": 3106054,
       "evidence_url": "https://huggingface.co/facebook/dinov2-base",
       "family": "dinov2",
       "identity_key": "hf:facebook/dinov2-base",
@@ -7114,7 +7370,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov2-large",
-      "downloads": 904362,
+      "downloads": 889437,
       "evidence_url": "https://huggingface.co/facebook/dinov2-large",
       "family": "dinov2",
       "identity_key": "hf:facebook/dinov2-large",
@@ -7146,9 +7402,7 @@
       "task": "embedding",
       "upstream_id": "facebook/dinov2-large",
       "variant": "large",
-      "warnings": [
-        "deduplicated corroborating source huggingface:facebook/dinov2-large"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -7159,7 +7413,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov2-small",
-      "downloads": 2775837,
+      "downloads": 2769087,
       "evidence_url": "https://huggingface.co/facebook/dinov2-small",
       "family": "dinov2",
       "identity_key": "hf:facebook/dinov2-small",
@@ -7191,9 +7445,7 @@
       "task": "embedding",
       "upstream_id": "facebook/dinov2-small",
       "variant": "small",
-      "warnings": [
-        "deduplicated corroborating source huggingface:facebook/dinov2-small"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -7204,7 +7456,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov2-with-registers-large",
-      "downloads": 61107,
+      "downloads": 62084,
       "evidence_url": "https://huggingface.co/facebook/dinov2-with-registers-large",
       "family": "dinov2-with-registers",
       "identity_key": "hf:facebook/dinov2-with-registers-large",
@@ -7236,9 +7488,7 @@
       "task": "embedding",
       "upstream_id": "facebook/dinov2-with-registers-large",
       "variant": "large",
-      "warnings": [
-        "deduplicated corroborating source huggingface:facebook/dinov2-with-registers-large"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -7249,7 +7499,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-convnext-large-pretrain-lvd1689m",
-      "downloads": 13115,
+      "downloads": 12792,
       "evidence_url": "https://huggingface.co/facebook/dinov3-convnext-large-pretrain-lvd1689m",
       "family": "dinov3-convnext",
       "identity_key": "hf:facebook/dinov3-convnext-large-pretrain-lvd1689m",
@@ -7294,7 +7544,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-convnext-small-pretrain-lvd1689m",
-      "downloads": 32238,
+      "downloads": 32099,
       "evidence_url": "https://huggingface.co/facebook/dinov3-convnext-small-pretrain-lvd1689m",
       "family": "dinov3-convnext",
       "identity_key": "hf:facebook/dinov3-convnext-small-pretrain-lvd1689m",
@@ -7339,7 +7589,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-convnext-tiny-pretrain-lvd1689m",
-      "downloads": 41858,
+      "downloads": 42364,
       "evidence_url": "https://huggingface.co/facebook/dinov3-convnext-tiny-pretrain-lvd1689m",
       "family": "dinov3-convnext",
       "identity_key": "hf:facebook/dinov3-convnext-tiny-pretrain-lvd1689m",
@@ -7349,7 +7599,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 80,
+      "likes": 81,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7384,7 +7634,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-vit7b16-pretrain-lvd1689m",
-      "downloads": 9067,
+      "downloads": 8772,
       "evidence_url": "https://huggingface.co/facebook/dinov3-vit7b16-pretrain-lvd1689m",
       "family": "dinov3-vit7b16-pretrain-lvd1689m",
       "identity_key": "hf:facebook/dinov3-vit7b16-pretrain-lvd1689m",
@@ -7394,7 +7644,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 290,
+      "likes": 292,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7429,7 +7679,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-vitb16-pretrain-lvd1689m",
-      "downloads": 488865,
+      "downloads": 490474,
       "evidence_url": "https://huggingface.co/facebook/dinov3-vitb16-pretrain-lvd1689m",
       "family": "dinov3-vitb16-pretrain-lvd1689m",
       "identity_key": "hf:facebook/dinov3-vitb16-pretrain-lvd1689m",
@@ -7439,7 +7689,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 452,
+      "likes": 460,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7475,7 +7725,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-vith16plus-pretrain-lvd1689m",
-      "downloads": 49009,
+      "downloads": 47518,
       "evidence_url": "https://huggingface.co/facebook/dinov3-vith16plus-pretrain-lvd1689m",
       "family": "dinov3-vith16plus-pretrain-lvd1689m",
       "identity_key": "hf:facebook/dinov3-vith16plus-pretrain-lvd1689m",
@@ -7566,7 +7816,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-vitl16-pretrain-lvd1689m",
-      "downloads": 727741,
+      "downloads": 732618,
       "evidence_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m",
       "family": "dinov3-vitl16-pretrain-lvd1689m",
       "identity_key": "hf:facebook/dinov3-vitl16-pretrain-lvd1689m",
@@ -7576,7 +7826,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 1336,
+      "likes": 1370,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7612,7 +7862,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-vitl16-pretrain-sat493m",
-      "downloads": 62874,
+      "downloads": 62860,
       "evidence_url": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-sat493m",
       "family": "dinov3-vitl16-pretrain-sat493m",
       "identity_key": "hf:facebook/dinov3-vitl16-pretrain-sat493m",
@@ -7622,7 +7872,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 100,
+      "likes": 101,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7657,7 +7907,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-vits16-pretrain-lvd1689m",
-      "downloads": 244327,
+      "downloads": 246339,
       "evidence_url": "https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m",
       "family": "dinov3-vits16-pretrain-lvd1689m",
       "identity_key": "hf:facebook/dinov3-vits16-pretrain-lvd1689m",
@@ -7667,7 +7917,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 356,
+      "likes": 360,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7703,7 +7953,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dinov3-vits16plus-pretrain-lvd1689m",
-      "downloads": 62506,
+      "downloads": 62289,
       "evidence_url": "https://huggingface.co/facebook/dinov3-vits16plus-pretrain-lvd1689m",
       "family": "dinov3-vits16plus-pretrain-lvd1689m",
       "identity_key": "hf:facebook/dinov3-vits16plus-pretrain-lvd1689m",
@@ -7713,7 +7963,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 39,
+      "likes": 40,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -7746,7 +7996,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "dpt-dinov2-small-nyu",
       "downloads": 622,
       "evidence_url": "https://huggingface.co/facebook/dpt-dinov2-small-nyu",
@@ -7757,7 +8007,7 @@
       "last_modified": "2023-11-14T19:17:33Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 5,
       "metadata_complete": false,
       "new_version": null,
@@ -7781,7 +8031,8 @@
       "upstream_id": "facebook/dpt-dinov2-small-nyu",
       "variant": "small-nyu",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -7885,7 +8136,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "ijepa_vith14_1k",
-      "downloads": 28082,
+      "downloads": 27476,
       "evidence_url": "https://huggingface.co/facebook/ijepa_vith14_1k",
       "family": "ijepa-vith14-1k",
       "identity_key": "hf:facebook/ijepa_vith14_1k",
@@ -7930,7 +8181,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mask2former-swin-base-ade-semantic",
-      "downloads": 9966,
+      "downloads": 9880,
       "evidence_url": "https://huggingface.co/facebook/mask2former-swin-base-ade-semantic",
       "family": "mask2former-swin",
       "identity_key": "hf:facebook/mask2former-swin-base-ade-semantic",
@@ -7968,6 +8219,51 @@
     },
     {
       "aliases": [
+        "facebook/mask2former-swin-large-ade-panoptic",
+        "mask2former-swin-large-ade-panoptic"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "mask2former-swin-large-ade-panoptic",
+      "downloads": 6416,
+      "evidence_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-panoptic",
+      "family": "mask2former-swin",
+      "identity_key": "hf:facebook/mask2former-swin-large-ade-panoptic",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2023-09-11T20:45:55Z",
+      "library": "transformers",
+      "license_id": "other",
+      "lifecycle": "SOURCE_VERIFIED",
+      "likes": 9,
+      "metadata_complete": true,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": 216.037794,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "facebook",
+      "quantizations": [],
+      "release_date": "2023-01-05",
+      "revision": "ae53ed7ab37f8ea74f23d0e4f8c3d83c184a0caa",
+      "revision_identity": "2ea8ca713c4306e3537d",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-panoptic",
+      "task": "segmentation",
+      "upstream_id": "facebook/mask2former-swin-large-ade-panoptic",
+      "variant": "large-ade-panoptic",
+      "warnings": [
+        "upstream uses a custom licence"
+      ]
+    },
+    {
+      "aliases": [
         "facebook/mask2former-swin-large-ade-semantic",
         "mask2former-swin-large-ade-semantic"
       ],
@@ -7975,7 +8271,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mask2former-swin-large-ade-semantic",
-      "downloads": 463071,
+      "downloads": 460496,
       "evidence_url": "https://huggingface.co/facebook/mask2former-swin-large-ade-semantic",
       "family": "mask2former-swin",
       "identity_key": "hf:facebook/mask2former-swin-large-ade-semantic",
@@ -8021,7 +8317,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mask2former-swin-large-coco-instance",
-      "downloads": 23862,
+      "downloads": 22242,
       "evidence_url": "https://huggingface.co/facebook/mask2former-swin-large-coco-instance",
       "family": "mask2former-swin",
       "identity_key": "hf:facebook/mask2former-swin-large-coco-instance",
@@ -8066,7 +8362,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mask2former-swin-large-mapillary-vistas-panoptic",
-      "downloads": 5523,
+      "downloads": 5527,
       "evidence_url": "https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-panoptic",
       "family": "mask2former-swin",
       "identity_key": "hf:facebook/mask2former-swin-large-mapillary-vistas-panoptic",
@@ -8111,7 +8407,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mask2former-swin-small-cityscapes-semantic",
-      "downloads": 836,
+      "downloads": 890,
       "evidence_url": "https://huggingface.co/facebook/mask2former-swin-small-cityscapes-semantic",
       "family": "mask2former-swin",
       "identity_key": "hf:facebook/mask2former-swin-small-cityscapes-semantic",
@@ -8156,7 +8452,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mask2former-swin-small-coco-instance",
-      "downloads": 31977,
+      "downloads": 31305,
       "evidence_url": "https://huggingface.co/facebook/mask2former-swin-small-coco-instance",
       "family": "mask2former-swin",
       "identity_key": "hf:facebook/mask2former-swin-small-coco-instance",
@@ -8201,7 +8497,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mask2former-swin-tiny-ade-semantic",
-      "downloads": 10648,
+      "downloads": 10406,
       "evidence_url": "https://huggingface.co/facebook/mask2former-swin-tiny-ade-semantic",
       "family": "mask2former-swin",
       "identity_key": "hf:facebook/mask2former-swin-tiny-ade-semantic",
@@ -8247,7 +8543,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "maskformer-swin-large-ade",
-      "downloads": 745,
+      "downloads": 743,
       "evidence_url": "https://huggingface.co/facebook/maskformer-swin-large-ade",
       "family": "maskformer-swin",
       "identity_key": "hf:facebook/maskformer-swin-large-ade",
@@ -8293,7 +8589,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens-pose-1b",
-      "downloads": 194,
+      "downloads": 185,
       "evidence_url": "https://huggingface.co/facebook/sapiens-pose-1b",
       "family": "sapiens-pose",
       "identity_key": "hf:facebook/sapiens-pose-1b",
@@ -8336,7 +8632,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens-pose-1b-torchscript",
-      "downloads": 2870,
+      "downloads": 2871,
       "evidence_url": "https://huggingface.co/facebook/sapiens-pose-1b-torchscript",
       "family": "sapiens-pose",
       "identity_key": "hf:facebook/sapiens-pose-1b-torchscript",
@@ -8377,7 +8673,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "sapiens-seg-0.3b-torchscript",
       "downloads": 1849,
       "evidence_url": "https://huggingface.co/facebook/sapiens-seg-0.3b-torchscript",
@@ -8388,7 +8684,7 @@
       "last_modified": "2024-10-06T21:20:52Z",
       "library": "sapiens",
       "license_id": "cc-by-nc-4.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 4,
       "metadata_complete": false,
       "new_version": null,
@@ -8410,7 +8706,8 @@
       "variant": "0.3b-torchscript",
       "warnings": [
         "upstream licence requires review: cc-by-nc-4.0",
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -8420,7 +8717,7 @@
       ],
       "base_model": "facebook/sapiens2-pretrain-1b",
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "sapiens2-matting-1b",
       "downloads": 3239,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-matting-1b",
@@ -8431,7 +8728,7 @@
       "last_modified": "2026-06-15T14:50:24Z",
       "library": "sapiens2",
       "license_id": "other",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 10,
       "metadata_complete": false,
       "new_version": null,
@@ -8452,7 +8749,8 @@
       "upstream_id": "facebook/sapiens2-matting-1b",
       "variant": "1b",
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -8464,7 +8762,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens2-normal-0.4b",
-      "downloads": 986,
+      "downloads": 995,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-normal-0.4b",
       "family": "sapiens2-normal",
       "identity_key": "hf:facebook/sapiens2-normal-0.4b",
@@ -8506,7 +8804,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens2-normal-1b",
-      "downloads": 4585,
+      "downloads": 4616,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-normal-1b",
       "family": "sapiens2-normal",
       "identity_key": "hf:facebook/sapiens2-normal-1b",
@@ -8546,7 +8844,7 @@
       ],
       "base_model": "facebook/sapiens2-pretrain-5b",
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "sapiens2-normal-5b",
       "downloads": 778,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-normal-5b",
@@ -8557,7 +8855,7 @@
       "last_modified": "2026-06-15T14:49:59Z",
       "library": "sapiens2",
       "license_id": "other",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 6,
       "metadata_complete": false,
       "new_version": null,
@@ -8578,7 +8876,8 @@
       "upstream_id": "facebook/sapiens2-normal-5b",
       "variant": "5b",
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -8590,7 +8889,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens2-pointmap-0.4b",
-      "downloads": 821,
+      "downloads": 838,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-pointmap-0.4b",
       "family": "sapiens2-pointmap",
       "identity_key": "hf:facebook/sapiens2-pointmap-0.4b",
@@ -8625,6 +8924,48 @@
     },
     {
       "aliases": [
+        "facebook/sapiens2-pointmap-5b",
+        "sapiens2-pointmap-5b"
+      ],
+      "base_model": "facebook/sapiens2-pretrain-5b",
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "sapiens2-pointmap-5b",
+      "downloads": 2002,
+      "evidence_url": "https://huggingface.co/facebook/sapiens2-pointmap-5b",
+      "family": "sapiens2-pointmap",
+      "identity_key": "hf:facebook/sapiens2-pointmap-5b",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-06-15T14:50:19Z",
+      "library": "sapiens2",
+      "license_id": "other",
+      "lifecycle": "DISCOVERED",
+      "likes": 6,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": 5348.345879,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "facebook",
+      "quantizations": [],
+      "release_date": "2026-04-23",
+      "revision": "75ccdf5a89f5d7e75c498dfd08c4b333a56a11ec",
+      "revision_identity": "52e608385aff26d4593a",
+      "runtimes": [],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/facebook/sapiens2-pointmap-5b",
+      "task": "depth",
+      "upstream_id": "facebook/sapiens2-pointmap-5b",
+      "variant": "5b",
+      "warnings": [
+        "upstream uses a custom licence"
+      ]
+    },
+    {
+      "aliases": [
         "facebook/sapiens2-pose-0.4b",
         "sapiens2-pose-0.4b"
       ],
@@ -8632,7 +8973,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens2-pose-0.4b",
-      "downloads": 5929,
+      "downloads": 5947,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-pose-0.4b",
       "family": "sapiens2-pose",
       "identity_key": "hf:facebook/sapiens2-pose-0.4b",
@@ -8674,7 +9015,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens2-pose-0.8b",
-      "downloads": 1083,
+      "downloads": 1071,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-pose-0.8b",
       "family": "sapiens2-pose",
       "identity_key": "hf:facebook/sapiens2-pose-0.8b",
@@ -8716,7 +9057,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens2-pose-1b",
-      "downloads": 10338,
+      "downloads": 10419,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-pose-1b",
       "family": "sapiens2-pose",
       "identity_key": "hf:facebook/sapiens2-pose-1b",
@@ -8756,7 +9097,7 @@
       ],
       "base_model": "facebook/sapiens2-pretrain-5b",
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "sapiens2-pose-5b",
       "downloads": 13618,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-pose-5b",
@@ -8767,7 +9108,7 @@
       "last_modified": "2026-06-15T14:49:20Z",
       "library": "sapiens2",
       "license_id": "other",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 16,
       "metadata_complete": false,
       "new_version": null,
@@ -8788,7 +9129,8 @@
       "upstream_id": "facebook/sapiens2-pose-5b",
       "variant": "5b",
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -8800,7 +9142,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "sapiens2-seg-0.4b",
-      "downloads": 10096,
+      "downloads": 10328,
       "evidence_url": "https://huggingface.co/facebook/sapiens2-seg-0.4b",
       "family": "sapiens2-seg",
       "identity_key": "hf:facebook/sapiens2-seg-0.4b",
@@ -9024,17 +9366,17 @@
       "base_model_relation": "quantized",
       "deprecated": false,
       "display_name": "Phonon-2",
-      "downloads": 10724,
+      "downloads": 10893,
       "evidence_url": "https://huggingface.co/FermionResearch/Phonon-2",
       "family": "Phonon-2",
       "identity_key": "hf:fermionresearch/phonon-2",
       "immutable_revision": true,
       "ingestion_method": "huggingface-hub-api",
-      "last_modified": "2026-10-08T11:50:32Z",
+      "last_modified": "2026-10-18T23:07:09Z",
       "library": "mlx",
       "license_id": "cc-by-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 347,
+      "likes": 350,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -9044,8 +9386,8 @@
       "publisher": "FermionResearch",
       "quantizations": [],
       "release_date": "2026-09-28",
-      "revision": "7e153e4054c0a10db6d47d6fff5c062d4c77c154",
-      "revision_identity": "4c93653dec999e222101",
+      "revision": "fb09063c9dc8e130d97b3a2191ed5aed6b71bb31",
+      "revision_identity": "1370220841e5840495f4",
       "runtimes": [],
       "source_priority": 70,
       "source_stale": false,
@@ -9101,6 +9443,51 @@
         "licence metadata missing upstream",
         "parameter count unavailable from Hub metadata",
         "not observed in latest discovery"
+      ]
+    },
+    {
+      "aliases": [
+        "foduucom/table-detection-and-extraction",
+        "table-detection-and-extraction"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "table-detection-and-extraction",
+      "downloads": 418,
+      "evidence_url": "https://huggingface.co/foduucom/table-detection-and-extraction",
+      "family": "table-detection-and-extraction",
+      "identity_key": "hf:foduucom/table-detection-and-extraction",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2023-08-06T09:33:39Z",
+      "library": "ultralytics",
+      "license_id": null,
+      "lifecycle": "DISCOVERED",
+      "likes": 107,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "foduucom",
+      "quantizations": [],
+      "release_date": "2023-08-05",
+      "revision": "44dac6b5a7df34c2f514e437b78e0d4cb6f6deed",
+      "revision_identity": "deb3181f96761e8b21e1",
+      "runtimes": [
+        "pytorch"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/foduucom/table-detection-and-extraction",
+      "task": "detection",
+      "upstream_id": "foduucom/table-detection-and-extraction",
+      "variant": null,
+      "warnings": [
+        "licence metadata missing upstream",
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -9422,7 +9809,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "deplot",
-      "downloads": 6999,
+      "downloads": 7901,
       "evidence_url": "https://huggingface.co/google/deplot",
       "family": "deplot",
       "identity_key": "hf:google/deplot",
@@ -9511,7 +9898,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "matcha-base",
-      "downloads": 224,
+      "downloads": 225,
       "evidence_url": "https://huggingface.co/google/matcha-base",
       "family": "matcha",
       "identity_key": "hf:google/matcha-base",
@@ -9556,7 +9943,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "matcha-chartqa",
-      "downloads": 391,
+      "downloads": 364,
       "evidence_url": "https://huggingface.co/google/matcha-chartqa",
       "family": "matcha-chartqa",
       "identity_key": "hf:google/matcha-chartqa",
@@ -9599,7 +9986,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "matcha-plotqa-v1",
       "downloads": 501,
       "evidence_url": "https://huggingface.co/google/matcha-plotqa-v1",
@@ -9610,7 +9997,7 @@
       "last_modified": "2023-07-21T17:51:11Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 7,
       "metadata_complete": false,
       "new_version": null,
@@ -9634,7 +10021,8 @@
       "upstream_id": "google/matcha-plotqa-v1",
       "variant": null,
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -9646,7 +10034,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "matcha-plotqa-v2",
-      "downloads": 396,
+      "downloads": 393,
       "evidence_url": "https://huggingface.co/google/matcha-plotqa-v2",
       "family": "matcha-plotqa-v2",
       "identity_key": "hf:google/matcha-plotqa-v2",
@@ -9656,7 +10044,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 17,
+      "likes": 18,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -9689,7 +10077,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "mobilenet_v1_0.75_192",
       "downloads": 8452,
       "evidence_url": "https://huggingface.co/google/mobilenet_v1_0.75_192",
@@ -9700,7 +10088,7 @@
       "last_modified": "2023-05-16T16:38:23Z",
       "library": "transformers",
       "license_id": "other",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 8,
       "metadata_complete": false,
       "new_version": null,
@@ -9725,6 +10113,53 @@
       "variant": null,
       "warnings": [
         "upstream uses a custom licence",
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
+      ]
+    },
+    {
+      "aliases": [
+        "google/mobilenet_v2_0.75_160",
+        "mobilenet_v2_0.75_160"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "mobilenet_v2_0.75_160",
+      "downloads": 216,
+      "evidence_url": "https://huggingface.co/google/mobilenet_v2_0.75_160",
+      "family": "mobilenet-v2-0.75-160",
+      "identity_key": "hf:google/mobilenet_v2_0.75_160",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2023-05-16T16:38:37Z",
+      "library": "transformers",
+      "license_id": "other",
+      "lifecycle": "DISCOVERED",
+      "likes": 6,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "google",
+      "quantizations": [],
+      "release_date": "2022-11-10",
+      "revision": "e0b6320406162740f1a591012da07429bb725f2c",
+      "revision_identity": "68972b35628923c1bc89",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/google/mobilenet_v2_0.75_160",
+      "task": "classification",
+      "upstream_id": "google/mobilenet_v2_0.75_160",
+      "variant": null,
+      "warnings": [
+        "upstream uses a custom licence",
         "parameter count unavailable from Hub metadata"
       ]
     },
@@ -9737,7 +10172,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mobilenet_v2_1.0_224",
-      "downloads": 45274,
+      "downloads": 52764,
       "evidence_url": "https://huggingface.co/google/mobilenet_v2_1.0_224",
       "family": "mobilenet-v2-1.0-224",
       "identity_key": "hf:google/mobilenet_v2_1.0_224",
@@ -9770,7 +10205,8 @@
       "upstream_id": "google/mobilenet_v2_1.0_224",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:google/mobilenet_v2_1.0_224"
       ]
     },
     {
@@ -9826,7 +10262,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "pix2struct-ai2d-base",
-      "downloads": 996,
+      "downloads": 998,
       "evidence_url": "https://huggingface.co/google/pix2struct-ai2d-base",
       "family": "pix2struct-ai2d",
       "identity_key": "hf:google/pix2struct-ai2d-base",
@@ -9836,7 +10272,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 45,
+      "likes": 46,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -9858,7 +10294,9 @@
       "task": "vlm",
       "upstream_id": "google/pix2struct-ai2d-base",
       "variant": "base",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:google/pix2struct-ai2d-base"
+      ]
     },
     {
       "aliases": [
@@ -9867,7 +10305,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "pix2struct-chartqa-base",
       "downloads": 553,
       "evidence_url": "https://huggingface.co/google/pix2struct-chartqa-base",
@@ -9878,7 +10316,7 @@
       "last_modified": "2023-05-19T10:07:26Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 13,
       "metadata_complete": false,
       "new_version": null,
@@ -9902,7 +10340,8 @@
       "upstream_id": "google/pix2struct-chartqa-base",
       "variant": "base",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -9914,7 +10353,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "pix2struct-docvqa-base",
-      "downloads": 1978,
+      "downloads": 2518,
       "evidence_url": "https://huggingface.co/google/pix2struct-docvqa-base",
       "family": "pix2struct-docvqa",
       "identity_key": "hf:google/pix2struct-docvqa-base",
@@ -9957,7 +10396,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "pix2struct-docvqa-large",
       "downloads": 263,
       "evidence_url": "https://huggingface.co/google/pix2struct-docvqa-large",
@@ -9968,7 +10407,7 @@
       "last_modified": "2023-05-19T10:07:12Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 39,
       "metadata_complete": false,
       "new_version": null,
@@ -9992,7 +10431,8 @@
       "upstream_id": "google/pix2struct-docvqa-large",
       "variant": "large",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -10004,7 +10444,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "tipsv2-b14-dpt",
-      "downloads": 11724,
+      "downloads": 11186,
       "evidence_url": "https://huggingface.co/google/tipsv2-b14-dpt",
       "family": "tipsv2-b14-dpt",
       "identity_key": "hf:google/tipsv2-b14-dpt",
@@ -10036,9 +10476,7 @@
       "task": "depth",
       "upstream_id": "google/tipsv2-b14-dpt",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:google/tipsv2-b14-dpt"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -10049,7 +10487,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "tipsv2-g14-dpt",
-      "downloads": 375,
+      "downloads": 382,
       "evidence_url": "https://huggingface.co/google/tipsv2-g14-dpt",
       "family": "tipsv2-g14-dpt",
       "identity_key": "hf:google/tipsv2-g14-dpt",
@@ -10081,9 +10519,7 @@
       "task": "depth",
       "upstream_id": "google/tipsv2-g14-dpt",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:google/tipsv2-g14-dpt"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -10094,7 +10530,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "tipsv2-l14-dpt",
-      "downloads": 466,
+      "downloads": 470,
       "evidence_url": "https://huggingface.co/google/tipsv2-l14-dpt",
       "family": "tipsv2-l14-dpt",
       "identity_key": "hf:google/tipsv2-l14-dpt",
@@ -10126,9 +10562,7 @@
       "task": "depth",
       "upstream_id": "google/tipsv2-l14-dpt",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:google/tipsv2-l14-dpt"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -10139,7 +10573,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "tipsv2-so400m14-dpt",
-      "downloads": 177,
+      "downloads": 181,
       "evidence_url": "https://huggingface.co/google/tipsv2-so400m14-dpt",
       "family": "tipsv2-so400m14-dpt",
       "identity_key": "hf:google/tipsv2-so400m14-dpt",
@@ -10182,7 +10616,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "vit-base-patch16-224",
-      "downloads": 13332668,
+      "downloads": 13428129,
       "evidence_url": "https://huggingface.co/google/vit-base-patch16-224",
       "family": "vit",
       "identity_key": "hf:google/vit-base-patch16-224",
@@ -10192,7 +10626,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 1038,
+      "likes": 1039,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -10225,7 +10659,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "vit-base-patch16-224-in21k",
-      "downloads": 1174808,
+      "downloads": 1161513,
       "evidence_url": "https://huggingface.co/google/vit-base-patch16-224-in21k",
       "family": "vit",
       "identity_key": "hf:google/vit-base-patch16-224-in21k",
@@ -10235,7 +10669,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 427,
+      "likes": 428,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -10270,7 +10704,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "vit-base-patch32-224-in21k",
-      "downloads": 23583,
+      "downloads": 22967,
       "evidence_url": "https://huggingface.co/google/vit-base-patch32-224-in21k",
       "family": "vit",
       "identity_key": "hf:google/vit-base-patch32-224-in21k",
@@ -10315,7 +10749,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "vit-base-patch32-384",
-      "downloads": 17372,
+      "downloads": 17373,
       "evidence_url": "https://huggingface.co/google/vit-base-patch32-384",
       "family": "vit",
       "identity_key": "hf:google/vit-base-patch32-384",
@@ -10325,7 +10759,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 29,
+      "likes": 30,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -10347,9 +10781,7 @@
       "task": "classification",
       "upstream_id": "google/vit-base-patch32-384",
       "variant": "base-patch32-384",
-      "warnings": [
-        "deduplicated corroborating source huggingface:google/vit-base-patch32-384"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -10360,7 +10792,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "vit-huge-patch14-224-in21k",
-      "downloads": 18263,
+      "downloads": 18166,
       "evidence_url": "https://huggingface.co/google/vit-huge-patch14-224-in21k",
       "family": "vit-huge-patch14-224-in21k",
       "identity_key": "hf:google/vit-huge-patch14-224-in21k",
@@ -10392,9 +10824,7 @@
       "task": "embedding",
       "upstream_id": "google/vit-huge-patch14-224-in21k",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:google/vit-huge-patch14-224-in21k"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -10451,7 +10881,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "vit-large-patch16-224-in21k",
-      "downloads": 144107,
+      "downloads": 137468,
       "evidence_url": "https://huggingface.co/google/vit-large-patch16-224-in21k",
       "family": "vit",
       "identity_key": "hf:google/vit-large-patch16-224-in21k",
@@ -10461,7 +10891,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 35,
+      "likes": 36,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -10585,7 +11015,7 @@
       "base_model_relation": "finetune",
       "deprecated": false,
       "display_name": "OppaiOracle-experimental-X1.1",
-      "downloads": 304,
+      "downloads": 317,
       "evidence_url": "https://huggingface.co/Grio43/OppaiOracle-experimental-X1.1",
       "family": "OppaiOracle-experimental-X1.1",
       "identity_key": "hf:grio43/oppaioracle-experimental-x1.1",
@@ -11144,7 +11574,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "SmolVLM-256M-Instruct",
-      "downloads": 263810,
+      "downloads": 257926,
       "evidence_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct",
       "family": "SmolVLM",
       "identity_key": "hf:huggingfacetb/smolvlm-256m-instruct",
@@ -11188,7 +11618,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "SmolVLM2-2.2B-Instruct",
-      "downloads": 121993,
+      "downloads": 119123,
       "evidence_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct",
       "family": "SmolVLM2",
       "identity_key": "hf:huggingfacetb/smolvlm2-2.2b-instruct",
@@ -11231,7 +11661,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "SmolVLM2-500M-Video-Instruct",
-      "downloads": 1398784,
+      "downloads": 1416636,
       "evidence_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct",
       "family": "SmolVLM2",
       "identity_key": "hf:huggingfacetb/smolvlm2-500m-video-instruct",
@@ -11241,7 +11671,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 194,
+      "likes": 195,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -12961,7 +13391,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "wav2vec2-large-xlsr-53-japanese",
       "downloads": 15791035,
       "evidence_url": "https://huggingface.co/jonatasgrosman/wav2vec2-large-xlsr-53-japanese",
@@ -12972,7 +13402,7 @@
       "last_modified": "2022-12-14T01:58:09Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 108,
       "metadata_complete": false,
       "new_version": null,
@@ -12996,7 +13426,8 @@
       "upstream_id": "jonatasgrosman/wav2vec2-large-xlsr-53-japanese",
       "variant": "large-xlsr-53-japanese",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -13548,7 +13979,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Duyu-small",
-      "downloads": 176,
+      "downloads": 200,
       "evidence_url": "https://huggingface.co/KaanAydinli/Duyu-small",
       "family": "Duyu",
       "identity_key": "hf:kaanaydinli/duyu-small",
@@ -13558,7 +13989,7 @@
       "library": "duyu-small",
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 19,
+      "likes": 22,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -14081,7 +14512,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "vehicle-keypoints",
-      "downloads": 437,
+      "downloads": 375,
       "evidence_url": "https://huggingface.co/kiselyovd/vehicle-keypoints",
       "family": "vehicle-keypoints",
       "identity_key": "hf:kiselyovd/vehicle-keypoints",
@@ -14694,6 +15125,48 @@
     },
     {
       "aliases": [
+        "RTMPose-Hand-LiteRT",
+        "litert-community/RTMPose-Hand-LiteRT"
+      ],
+      "base_model": "open-mmlab/mmpose",
+      "base_model_relation": "quantized",
+      "deprecated": false,
+      "display_name": "RTMPose-Hand-LiteRT",
+      "downloads": 104,
+      "evidence_url": "https://huggingface.co/litert-community/RTMPose-Hand-LiteRT",
+      "family": "RTMPose-Hand-LiteRT",
+      "identity_key": "hf:litert-community/rtmpose-hand-litert",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-09-08T08:54:26Z",
+      "library": "LiteRT",
+      "license_id": "apache-2.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 2,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "litert-community",
+      "quantizations": [],
+      "release_date": "2026-06-28",
+      "revision": "df8c0805d04910fc7ff02800e43fdda38a415309",
+      "revision_identity": "ff88ed6ec97d59e865f7",
+      "runtimes": [],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/litert-community/RTMPose-Hand-LiteRT",
+      "task": "pose",
+      "upstream_id": "litert-community/RTMPose-Hand-LiteRT",
+      "variant": null,
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "TIPSv2-B14-DPT-LiteRT",
         "litert-community/TIPSv2-B14-DPT-LiteRT"
       ],
@@ -14780,6 +15253,49 @@
     },
     {
       "aliases": [
+        "Depth-Anything-V2_Safetensors",
+        "MackinationsAi/Depth-Anything-V2_Safetensors"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "Depth-Anything-V2_Safetensors",
+      "downloads": 0,
+      "evidence_url": "https://huggingface.co/MackinationsAi/Depth-Anything-V2_Safetensors",
+      "family": "Depth-Anything-V2-Safetensors",
+      "identity_key": "hf:mackinationsai/depth-anything-v2_safetensors",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2025-09-23T23:26:02Z",
+      "library": null,
+      "license_id": "cc-by-nc-4.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 13,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "MackinationsAi",
+      "quantizations": [],
+      "release_date": "2024-06-20",
+      "revision": "cd163ab231131d3ce09d4aff284c94c004837ebc",
+      "revision_identity": "cd3c50b8d982352715ed",
+      "runtimes": [],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/MackinationsAi/Depth-Anything-V2_Safetensors",
+      "task": "depth",
+      "upstream_id": "MackinationsAi/Depth-Anything-V2_Safetensors",
+      "variant": null,
+      "warnings": [
+        "upstream licence requires review: cc-by-nc-4.0",
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "magic-leap-community/superpoint",
         "superpoint"
       ],
@@ -14831,9 +15347,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "CONCH",
-      "downloads": 20207,
+      "downloads": 19202,
       "evidence_url": "https://huggingface.co/MahmoodLab/CONCH",
       "family": "CONCH",
       "identity_key": "hf:mahmoodlab/conch",
@@ -14842,8 +15358,8 @@
       "last_modified": "2024-05-05T06:05:43Z",
       "library": "timm",
       "license_id": "cc-by-nc-nd-4.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 241,
+      "lifecycle": "DISCOVERED",
+      "likes": 244,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -14866,8 +15382,7 @@
       "variant": null,
       "warnings": [
         "upstream licence requires review: cc-by-nc-nd-4.0",
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -15014,7 +15529,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "UNI2-h",
-      "downloads": 64946,
+      "downloads": 63223,
       "evidence_url": "https://huggingface.co/MahmoodLab/UNI2-h",
       "family": "UNI2-h",
       "identity_key": "hf:mahmoodlab/uni2-h",
@@ -15024,7 +15539,7 @@
       "library": "timm",
       "license_id": "cc-by-nc-nd-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 269,
+      "likes": 271,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -15460,7 +15975,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Muse-Spark-Open-816B-A42B",
-      "downloads": 1809,
+      "downloads": 2109,
       "evidence_url": "https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B",
       "family": "Muse-Spark-Open",
       "identity_key": "hf:meta-models/muse-spark-open-816b-a42b",
@@ -15470,7 +15985,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "NORMALIZED",
-      "likes": 521,
+      "likes": 566,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -15492,6 +16007,51 @@
       "task": "vlm",
       "upstream_id": "meta-models/Muse-Spark-Open-816B-A42B",
       "variant": "816B-A42B",
+      "warnings": [
+        "upstream uses a custom licence"
+      ]
+    },
+    {
+      "aliases": [
+        "Muse-Spark-Open-816B-A42B-NVFP4",
+        "meta-models/Muse-Spark-Open-816B-A42B-NVFP4"
+      ],
+      "base_model": "meta-models/Muse-Spark-Open-816B-A42B",
+      "base_model_relation": "quantized",
+      "deprecated": false,
+      "display_name": "Muse-Spark-Open-816B-A42B-NVFP4",
+      "downloads": 3672,
+      "evidence_url": "https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+      "family": "Muse-Spark-Open",
+      "identity_key": "hf:meta-models/muse-spark-open-816b-a42b-nvfp4",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-10-15T17:18:42Z",
+      "library": "transformers",
+      "license_id": "other",
+      "lifecycle": "NORMALIZED",
+      "likes": 179,
+      "metadata_complete": true,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": 483807.947264,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "meta-models",
+      "quantizations": [],
+      "release_date": "2026-09-15",
+      "revision": "4239e4db19376904f2e82c167e78f70abb5455fe",
+      "revision_identity": "b568fb59453476ce41be",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+      "task": "vlm",
+      "upstream_id": "meta-models/Muse-Spark-Open-816B-A42B-NVFP4",
+      "variant": "816B-A42B-NVFP4",
       "warnings": [
         "upstream uses a custom licence"
       ]
@@ -15551,7 +16111,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "beit-base-patch16-224",
-      "downloads": 7466,
+      "downloads": 7473,
       "evidence_url": "https://huggingface.co/microsoft/beit-base-patch16-224",
       "family": "beit",
       "identity_key": "hf:microsoft/beit-base-patch16-224",
@@ -15592,7 +16152,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "beit-large-patch16-512",
       "downloads": 405,
       "evidence_url": "https://huggingface.co/microsoft/beit-large-patch16-512",
@@ -15603,7 +16163,7 @@
       "last_modified": "2022-01-28T10:20:07Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 18,
       "metadata_complete": false,
       "new_version": null,
@@ -15627,7 +16187,8 @@
       "upstream_id": "microsoft/beit-large-patch16-512",
       "variant": "large-patch16-512",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -15639,7 +16200,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "conditional-detr-resnet-50",
-      "downloads": 13526,
+      "downloads": 12947,
       "evidence_url": "https://huggingface.co/microsoft/conditional-detr-resnet-50",
       "family": "conditional-detr-resnet-50",
       "identity_key": "hf:microsoft/conditional-detr-resnet-50",
@@ -15671,9 +16232,7 @@
       "task": "detection",
       "upstream_id": "microsoft/conditional-detr-resnet-50",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:microsoft/conditional-detr-resnet-50"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -15684,7 +16243,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "dit-large-finetuned-rvlcdip",
-      "downloads": 5878,
+      "downloads": 5895,
       "evidence_url": "https://huggingface.co/microsoft/dit-large-finetuned-rvlcdip",
       "family": "dit",
       "identity_key": "hf:microsoft/dit-large-finetuned-rvlcdip",
@@ -15729,7 +16288,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "microsoft/git-base-textvqa",
-      "downloads": 421,
+      "downloads": 418,
       "evidence_url": "https://huggingface.co/microsoft/git-base-textvqa",
       "family": "git",
       "identity_key": "hf:microsoft/git-base-textvqa",
@@ -15761,9 +16320,7 @@
       "task": "vlm",
       "upstream_id": "microsoft/git-base-textvqa",
       "variant": "base-textvqa",
-      "warnings": [
-        "deduplicated corroborating source huggingface:microsoft/git-base-textvqa"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -15774,7 +16331,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "microsoft/git-base-vqav2",
-      "downloads": 977,
+      "downloads": 950,
       "evidence_url": "https://huggingface.co/microsoft/git-base-vqav2",
       "family": "git",
       "identity_key": "hf:microsoft/git-base-vqav2",
@@ -15806,9 +16363,7 @@
       "task": "vlm",
       "upstream_id": "microsoft/git-base-vqav2",
       "variant": "base-vqav2",
-      "warnings": [
-        "deduplicated corroborating source huggingface:microsoft/git-base-vqav2"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -15819,7 +16374,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "microsoft/git-large-textvqa",
-      "downloads": 172,
+      "downloads": 176,
       "evidence_url": "https://huggingface.co/microsoft/git-large-textvqa",
       "family": "git",
       "identity_key": "hf:microsoft/git-large-textvqa",
@@ -15864,7 +16419,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "microsoft/git-large-vqav2",
-      "downloads": 550,
+      "downloads": 545,
       "evidence_url": "https://huggingface.co/microsoft/git-large-vqav2",
       "family": "git",
       "identity_key": "hf:microsoft/git-large-vqav2",
@@ -15896,7 +16451,9 @@
       "task": "vlm",
       "upstream_id": "microsoft/git-large-vqav2",
       "variant": "large-vqav2",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:microsoft/git-large-vqav2"
+      ]
     },
     {
       "aliases": [
@@ -15907,7 +16464,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Mage-ViT",
-      "downloads": 263,
+      "downloads": 271,
       "evidence_url": "https://huggingface.co/microsoft/Mage-ViT",
       "family": "Mage-ViT",
       "identity_key": "hf:microsoft/mage-vit",
@@ -16040,7 +16597,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "resnet-152",
-      "downloads": 1371,
+      "downloads": 1359,
       "evidence_url": "https://huggingface.co/microsoft/resnet-152",
       "family": "resnet-152",
       "identity_key": "hf:microsoft/resnet-152",
@@ -16083,7 +16640,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "resnet-18",
-      "downloads": 600939,
+      "downloads": 600578,
       "evidence_url": "https://huggingface.co/microsoft/resnet-18",
       "family": "resnet-18",
       "identity_key": "hf:microsoft/resnet-18",
@@ -16115,9 +16672,7 @@
       "task": "classification",
       "upstream_id": "microsoft/resnet-18",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:microsoft/resnet-18"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -16128,7 +16683,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "resnet-50",
-      "downloads": 294656,
+      "downloads": 305885,
       "evidence_url": "https://huggingface.co/microsoft/resnet-50",
       "family": "resnet-50",
       "identity_key": "hf:microsoft/resnet-50",
@@ -16214,7 +16769,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "swin-base-patch4-window7-224",
-      "downloads": 38138,
+      "downloads": 37957,
       "evidence_url": "https://huggingface.co/microsoft/swin-base-patch4-window7-224",
       "family": "swin",
       "identity_key": "hf:microsoft/swin-base-patch4-window7-224",
@@ -16250,12 +16805,102 @@
     },
     {
       "aliases": [
+        "microsoft/swin-large-patch4-window7-224-in22k",
+        "swin-large-patch4-window7-224-in22k"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "swin-large-patch4-window7-224-in22k",
+      "downloads": 235,
+      "evidence_url": "https://huggingface.co/microsoft/swin-large-patch4-window7-224-in22k",
+      "family": "swin",
+      "identity_key": "hf:microsoft/swin-large-patch4-window7-224-in22k",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2022-05-16T19:59:30Z",
+      "library": "transformers",
+      "license_id": "apache-2.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 6,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "microsoft",
+      "quantizations": [],
+      "release_date": "2022-03-02",
+      "revision": "3a03736addbe3c9ccf022e154193b8776e050135",
+      "revision_identity": "e926738f450c0f57d15c",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/microsoft/swin-large-patch4-window7-224-in22k",
+      "task": "classification",
+      "upstream_id": "microsoft/swin-large-patch4-window7-224-in22k",
+      "variant": "large-patch4-window7-224-in22k",
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
+        "microsoft/swin-small-patch4-window7-224",
+        "swin-small-patch4-window7-224"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "swin-small-patch4-window7-224",
+      "downloads": 6688,
+      "evidence_url": "https://huggingface.co/microsoft/swin-small-patch4-window7-224",
+      "family": "swin",
+      "identity_key": "hf:microsoft/swin-small-patch4-window7-224",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2022-05-16T18:11:23Z",
+      "library": "transformers",
+      "license_id": "apache-2.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 6,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "microsoft",
+      "quantizations": [],
+      "release_date": "2022-03-02",
+      "revision": "1e8f54cc3d19ded9cda11db863080c79b1096289",
+      "revision_identity": "1a8b2cd33d64441afef4",
+      "runtimes": [
+        "pytorch",
+        "transformers"
+      ],
+      "source_priority": 70,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/microsoft/swin-small-patch4-window7-224",
+      "task": "classification",
+      "upstream_id": "microsoft/swin-small-patch4-window7-224",
+      "variant": "small-patch4-window7-224",
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "microsoft/swinv2-tiny-patch4-window16-256",
         "swinv2-tiny-patch4-window16-256"
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "swinv2-tiny-patch4-window16-256",
       "downloads": 383849,
       "evidence_url": "https://huggingface.co/microsoft/swinv2-tiny-patch4-window16-256",
@@ -16266,7 +16911,7 @@
       "last_modified": "2022-12-10T10:09:55Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 20,
       "metadata_complete": false,
       "new_version": null,
@@ -16290,7 +16935,8 @@
       "upstream_id": "microsoft/swinv2-tiny-patch4-window16-256",
       "variant": "tiny-patch4-window16-256",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -16302,7 +16948,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "table-transformer-detection",
-      "downloads": 374809,
+      "downloads": 366232,
       "evidence_url": "https://huggingface.co/microsoft/table-transformer-detection",
       "family": "table-transformer-detection",
       "identity_key": "hf:microsoft/table-transformer-detection",
@@ -16312,7 +16958,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 438,
+      "likes": 439,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -16334,9 +16980,7 @@
       "task": "detection",
       "upstream_id": "microsoft/table-transformer-detection",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:microsoft/table-transformer-detection"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -16347,7 +16991,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "table-transformer-structure-recognition",
-      "downloads": 1211686,
+      "downloads": 1210556,
       "evidence_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition",
       "family": "table-transformer-structure-recognition",
       "identity_key": "hf:microsoft/table-transformer-structure-recognition",
@@ -16357,7 +17001,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 240,
+      "likes": 241,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -16379,9 +17023,7 @@
       "task": "detection",
       "upstream_id": "microsoft/table-transformer-structure-recognition",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:microsoft/table-transformer-structure-recognition"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -16392,7 +17034,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "table-transformer-structure-recognition-v1.1-all",
-      "downloads": 181176,
+      "downloads": 173940,
       "evidence_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-all",
       "family": "table-transformer-structure-recognition-v1.1-all",
       "identity_key": "hf:microsoft/table-transformer-structure-recognition-v1.1-all",
@@ -16437,7 +17079,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "table-transformer-structure-recognition-v1.1-fin",
-      "downloads": 1271,
+      "downloads": 1233,
       "evidence_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-fin",
       "family": "table-transformer-structure-recognition-v1.1-fin",
       "identity_key": "hf:microsoft/table-transformer-structure-recognition-v1.1-fin",
@@ -16480,7 +17122,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "table-transformer-structure-recognition-v1.1-pub",
-      "downloads": 625,
+      "downloads": 643,
       "evidence_url": "https://huggingface.co/microsoft/table-transformer-structure-recognition-v1.1-pub",
       "family": "table-transformer-structure-recognition-v1.1-pub",
       "identity_key": "hf:microsoft/table-transformer-structure-recognition-v1.1-pub",
@@ -16660,7 +17302,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6-small-rec-mlx",
-      "downloads": 127,
+      "downloads": 128,
       "evidence_url": "https://huggingface.co/mikoy92/PP-OCRv6-small-rec-mlx",
       "family": "PP-OCRv6",
       "identity_key": "hf:mikoy92/pp-ocrv6-small-rec-mlx",
@@ -17132,7 +17774,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "parakeet-redux",
-      "downloads": 19314,
+      "downloads": 19693,
       "evidence_url": "https://huggingface.co/moondream/parakeet-redux",
       "family": "parakeet-redux",
       "identity_key": "hf:moondream/parakeet-redux",
@@ -17142,7 +17784,7 @@
       "library": null,
       "license_id": "cc-by-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 299,
+      "likes": 300,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -17294,6 +17936,52 @@
       "variant": "400M",
       "warnings": [
         "not observed in latest discovery"
+      ]
+    },
+    {
+      "aliases": [
+        "morsetechlab/yolov11-license-plate-detection",
+        "yolov11-license-plate-detection"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "yolov11-license-plate-detection",
+      "downloads": 71887,
+      "evidence_url": "https://huggingface.co/morsetechlab/yolov11-license-plate-detection",
+      "family": "yolov11-license-plate-detection",
+      "identity_key": "hf:morsetechlab/yolov11-license-plate-detection",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-05-14T03:13:30Z",
+      "library": "ultralytics",
+      "license_id": "agpl-3.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 45,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "morsetechlab",
+      "quantizations": [],
+      "release_date": "2025-05-03",
+      "revision": "251a30d7daedca065f56e04b0af04052c907c68f",
+      "revision_identity": "e0f26ac271614ff75afd",
+      "runtimes": [
+        "onnx",
+        "pytorch"
+      ],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/morsetechlab/yolov11-license-plate-detection",
+      "task": "detection",
+      "upstream_id": "morsetechlab/yolov11-license-plate-detection",
+      "variant": null,
+      "warnings": [
+        "non-standard licence identifier: agpl-3.0",
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -17577,9 +18265,9 @@
       ],
       "base_model": "nvidia/LocateAnything-3B",
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "locate-anything.cpp-gguf",
-      "downloads": 11510663,
+      "downloads": 10502429,
       "evidence_url": "https://huggingface.co/mudler/locate-anything.cpp-gguf",
       "family": "locate-anything.cpp-gguf",
       "identity_key": "hf:mudler/locate-anything.cpp-gguf",
@@ -17588,8 +18276,8 @@
       "last_modified": "2026-06-11T22:46:02Z",
       "library": "gguf",
       "license_id": "other",
-      "lifecycle": "DEPRECATED",
-      "likes": 54,
+      "lifecycle": "DISCOVERED",
+      "likes": 56,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -17610,8 +18298,7 @@
       "variant": null,
       "warnings": [
         "upstream uses a custom licence",
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -18153,7 +18840,7 @@
       ],
       "base_model": "nerkyor/Qwen3.8-27B-EfficientThink-Uncensored-K3-Opus5-Grok4.6-GPT5.6Sol-SFT-SimPO-DFlash2",
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "Qwen3.8-27B-Coder390-EfficientThink-Opus5.5-GPT6Astra-Grok4.7-DSV4Pro-K3-SFT-RLOO-MTP-DFlash2",
       "downloads": 256336,
       "evidence_url": "https://huggingface.co/nerkyor/Qwen3.8-27B-Coder390-EfficientThink-Opus5.5-GPT6Astra-Grok4.7-DSV4Pro-K3-SFT-RLOO-MTP-DFlash2",
@@ -18164,7 +18851,7 @@
       "last_modified": "2026-10-15T11:40:50Z",
       "library": null,
       "license_id": "apache-2.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 420,
       "metadata_complete": false,
       "new_version": null,
@@ -18185,7 +18872,8 @@
       "upstream_id": "nerkyor/Qwen3.8-27B-Coder390-EfficientThink-Opus5.5-GPT6Astra-Grok4.7-DSV4Pro-K3-SFT-RLOO-MTP-DFlash2",
       "variant": "27B-Coder390-EfficientThink-Opus5.5-GPT6Astra-Grok4.7-DSV4Pro-K3-SFT-RLOO-MTP-DFlash2",
       "warnings": [
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -18329,7 +19017,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "tyger",
-      "downloads": 241,
+      "downloads": 338,
       "evidence_url": "https://huggingface.co/nineninesix/tyger",
       "family": "tyger",
       "identity_key": "hf:nineninesix/tyger",
@@ -18339,7 +19027,7 @@
       "library": null,
       "license_id": "openmdw-1.1",
       "lifecycle": "DISCOVERED",
-      "likes": 54,
+      "likes": 68,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -18644,7 +19332,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "c-foundationstereo-s",
-      "downloads": 2503,
+      "downloads": 2496,
       "evidence_url": "https://huggingface.co/nvidia/c-foundationstereo-s",
       "family": "c-foundationstereo-s",
       "identity_key": "hf:nvidia/c-foundationstereo-s",
@@ -18783,7 +19471,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "canary-180m-flash",
-      "downloads": 2530,
+      "downloads": 2478,
       "evidence_url": "https://huggingface.co/nvidia/canary-180m-flash",
       "family": "canary",
       "identity_key": "hf:nvidia/canary-180m-flash",
@@ -18823,7 +19511,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "canary-1b",
       "downloads": 2977,
       "evidence_url": "https://huggingface.co/nvidia/canary-1b",
@@ -18834,7 +19522,7 @@
       "last_modified": "2025-12-03T22:22:05Z",
       "library": "nemo",
       "license_id": "cc-by-nc-4.0",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 463,
       "metadata_complete": false,
       "new_version": null,
@@ -18856,7 +19544,8 @@
       "variant": "1b",
       "warnings": [
         "upstream licence requires review: cc-by-nc-4.0",
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -19342,7 +20031,7 @@
       "base_model_relation": "merge",
       "deprecated": false,
       "display_name": "Eagle2-1B",
-      "downloads": 430,
+      "downloads": 436,
       "evidence_url": "https://huggingface.co/nvidia/Eagle2-1B",
       "family": "Eagle2",
       "identity_key": "hf:nvidia/eagle2-1b",
@@ -19387,7 +20076,7 @@
       "base_model_relation": "merge",
       "deprecated": false,
       "display_name": "Eagle2-2B",
-      "downloads": 934,
+      "downloads": 6119,
       "evidence_url": "https://huggingface.co/nvidia/Eagle2-2B",
       "family": "Eagle2",
       "identity_key": "hf:nvidia/eagle2-2b",
@@ -19523,7 +20212,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "GLM-5.3-Flash-FP4-Local",
-      "downloads": 1304,
+      "downloads": 1751,
       "evidence_url": "https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local",
       "family": "GLM-5.3-Flash-FP4-Local",
       "identity_key": "hf:nvidia/glm-5.3-flash-fp4-local",
@@ -19533,7 +20222,7 @@
       "library": "Model Optimizer",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 76,
+      "likes": 90,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -19607,7 +20296,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Ising-Calibration-1-35B-A3B",
-      "downloads": 745,
+      "downloads": 762,
       "evidence_url": "https://huggingface.co/nvidia/Ising-Calibration-1-35B-A3B",
       "family": "Ising-Calibration-1",
       "identity_key": "hf:nvidia/ising-calibration-1-35b-a3b",
@@ -19790,7 +20479,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "LocateAnything-3B",
-      "downloads": 392375,
+      "downloads": 392313,
       "evidence_url": "https://huggingface.co/nvidia/LocateAnything-3B",
       "family": "LocateAnything",
       "identity_key": "hf:nvidia/locateanything-3b",
@@ -19800,7 +20489,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 3118,
+      "likes": 3121,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -19835,7 +20524,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "MambaVision-B-21K",
-      "downloads": 992,
+      "downloads": 982,
       "evidence_url": "https://huggingface.co/nvidia/MambaVision-B-21K",
       "family": "MambaVision-B-21K",
       "identity_key": "hf:nvidia/mambavision-b-21k",
@@ -19926,7 +20615,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "MambaVision-S-1K",
-      "downloads": 583,
+      "downloads": 495,
       "evidence_url": "https://huggingface.co/nvidia/MambaVision-S-1K",
       "family": "MambaVision-S-1K",
       "identity_key": "hf:nvidia/mambavision-s-1k",
@@ -19972,7 +20661,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "MambaVision-T-1K",
-      "downloads": 7914,
+      "downloads": 8305,
       "evidence_url": "https://huggingface.co/nvidia/MambaVision-T-1K",
       "family": "MambaVision-T-1K",
       "identity_key": "hf:nvidia/mambavision-t-1k",
@@ -20018,7 +20707,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "MambaVision-T2-1K",
-      "downloads": 117,
+      "downloads": 118,
       "evidence_url": "https://huggingface.co/nvidia/MambaVision-T2-1K",
       "family": "MambaVision-T2-1K",
       "identity_key": "hf:nvidia/mambavision-t2-1k",
@@ -20064,7 +20753,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mit-b0",
-      "downloads": 83420,
+      "downloads": 82658,
       "evidence_url": "https://huggingface.co/nvidia/mit-b0",
       "family": "mit-b0",
       "identity_key": "hf:nvidia/mit-b0",
@@ -20110,7 +20799,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mit-b1",
-      "downloads": 19893,
+      "downloads": 19524,
       "evidence_url": "https://huggingface.co/nvidia/mit-b1",
       "family": "mit-b1",
       "identity_key": "hf:nvidia/mit-b1",
@@ -20156,7 +20845,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mit-b2",
-      "downloads": 56264,
+      "downloads": 55783,
       "evidence_url": "https://huggingface.co/nvidia/mit-b2",
       "family": "mit-b2",
       "identity_key": "hf:nvidia/mit-b2",
@@ -20190,7 +20879,8 @@
       "variant": null,
       "warnings": [
         "upstream uses a custom licence",
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "deduplicated corroborating source huggingface:nvidia/mit-b2"
       ]
     },
     {
@@ -20202,7 +20892,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mit-b3",
-      "downloads": 6822,
+      "downloads": 6707,
       "evidence_url": "https://huggingface.co/nvidia/mit-b3",
       "family": "mit-b3",
       "identity_key": "hf:nvidia/mit-b3",
@@ -20248,7 +20938,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mit-b4",
-      "downloads": 5384,
+      "downloads": 5353,
       "evidence_url": "https://huggingface.co/nvidia/mit-b4",
       "family": "mit-b4",
       "identity_key": "hf:nvidia/mit-b4",
@@ -20294,7 +20984,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "mit-b5",
-      "downloads": 8669,
+      "downloads": 8635,
       "evidence_url": "https://huggingface.co/nvidia/mit-b5",
       "family": "mit-b5",
       "identity_key": "hf:nvidia/mit-b5",
@@ -20472,7 +21162,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "nemotron-3.5-asr-streaming-0.6b",
-      "downloads": 1218333,
+      "downloads": 1221712,
       "evidence_url": "https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b",
       "family": "nemotron-3.5-asr-streaming",
       "identity_key": "hf:nvidia/nemotron-3.5-asr-streaming-0.6b",
@@ -20482,7 +21172,7 @@
       "library": "nemo",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 1213,
+      "likes": 1217,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -20515,7 +21205,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "nemotron-graphic-elements-v1",
-      "downloads": 2,
+      "downloads": 3,
       "evidence_url": "https://huggingface.co/nvidia/nemotron-graphic-elements-v1",
       "family": "nemotron-graphic-elements-v1",
       "identity_key": "hf:nvidia/nemotron-graphic-elements-v1",
@@ -20558,7 +21248,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "nemotron-page-elements-v3",
-      "downloads": 8,
+      "downloads": 9,
       "evidence_url": "https://huggingface.co/nvidia/nemotron-page-elements-v3",
       "family": "nemotron-page-elements-v3",
       "identity_key": "hf:nvidia/nemotron-page-elements-v3",
@@ -20599,7 +21289,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "nemotron-speech-streaming-en-0.6b",
       "downloads": 145449,
       "evidence_url": "https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b",
@@ -20610,7 +21300,7 @@
       "last_modified": "2026-08-05T21:45:11Z",
       "library": "nemo",
       "license_id": "other",
-      "lifecycle": "DISCOVERED",
+      "lifecycle": "DEPRECATED",
       "likes": 640,
       "metadata_complete": false,
       "new_version": null,
@@ -20631,7 +21321,8 @@
       "upstream_id": "nvidia/nemotron-speech-streaming-en-0.6b",
       "variant": "0.6b",
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -20643,7 +21334,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "nemotron-table-structure-v1",
-      "downloads": 517,
+      "downloads": 511,
       "evidence_url": "https://huggingface.co/nvidia/nemotron-table-structure-v1",
       "family": "nemotron-table-structure-v1",
       "identity_key": "hf:nvidia/nemotron-table-structure-v1",
@@ -20674,7 +21365,8 @@
       "variant": null,
       "warnings": [
         "upstream uses a custom licence",
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "deduplicated corroborating source huggingface:nvidia/nemotron-table-structure-v1"
       ]
     },
     {
@@ -20732,7 +21424,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "NV-Reason-CXR-3B",
-      "downloads": 1106,
+      "downloads": 1113,
       "evidence_url": "https://huggingface.co/nvidia/NV-Reason-CXR-3B",
       "family": "NV-Reason-CXR",
       "identity_key": "hf:nvidia/nv-reason-cxr-3b",
@@ -20777,7 +21469,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "NV-Segment-CT",
-      "downloads": 472,
+      "downloads": 471,
       "evidence_url": "https://huggingface.co/nvidia/NV-Segment-CT",
       "family": "NV-Segment-CT",
       "identity_key": "hf:nvidia/nv-segment-ct",
@@ -20821,7 +21513,7 @@
       "base_model_relation": "quantized",
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB",
-      "downloads": 5444,
+      "downloads": 6060,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB",
       "family": "NVIDIA-Nemotron-3.5-Bolt",
       "identity_key": "hf:nvidia/nvidia-nemotron-3.5-bolt-74b-a9b-24gb",
@@ -20831,7 +21523,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 119,
+      "likes": 125,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -20866,7 +21558,7 @@
       "base_model_relation": "quantized",
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-GGUF",
-      "downloads": 62993,
+      "downloads": 77409,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB-GGUF",
       "family": "NVIDIA-Nemotron-3.5-Bolt",
       "identity_key": "hf:nvidia/nvidia-nemotron-3.5-bolt-74b-a9b-24gb-gguf",
@@ -20876,7 +21568,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 91,
+      "likes": 97,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -20912,13 +21604,13 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16",
-      "downloads": 1698,
+      "downloads": 2193,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-BF16",
       "family": "NVIDIA-Nemotron-3.5-Bolt",
       "identity_key": "hf:nvidia/nvidia-nemotron-3.5-bolt-74b-a9b-bf16",
       "immutable_revision": true,
       "ingestion_method": "huggingface-hub-api",
-      "last_modified": "2026-10-15T18:06:22Z",
+      "last_modified": "2026-10-19T04:31:02Z",
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
@@ -20932,8 +21624,8 @@
       "publisher": "nvidia",
       "quantizations": [],
       "release_date": "2026-10-09",
-      "revision": "a6a1e5030819a130a1ea08aadb1fe42f4cc86777",
-      "revision_identity": "caece1a3828756079ab7",
+      "revision": "567021037ff88364143e24ea05e6abd0f72086ff",
+      "revision_identity": "c87642cca3884be8b80a",
       "runtimes": [
         "pytorch",
         "transformers"
@@ -20957,7 +21649,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-Base-BF16",
-      "downloads": 705,
+      "downloads": 866,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-Base-BF16",
       "family": "NVIDIA-Nemotron-3.5-Super-VL",
       "identity_key": "hf:nvidia/nvidia-nemotron-3.5-super-vl-120b-a12b-base-bf16",
@@ -20967,7 +21659,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 48,
+      "likes": 49,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -21002,7 +21694,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16",
-      "downloads": 11591,
+      "downloads": 15095,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16",
       "family": "NVIDIA-Nemotron-3.5-Super-VL",
       "identity_key": "hf:nvidia/nvidia-nemotron-3.5-super-vl-120b-a12b-bf16",
@@ -21012,7 +21704,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 71,
+      "likes": 76,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -21047,7 +21739,7 @@
       "base_model_relation": "quantized",
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
-      "downloads": 7599,
+      "downloads": 9322,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
       "family": "NVIDIA-Nemotron-3.5-Super-VL",
       "identity_key": "hf:nvidia/nvidia-nemotron-3.5-super-vl-120b-a12b-nvfp4",
@@ -21057,7 +21749,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 140,
+      "likes": 162,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -21080,7 +21772,8 @@
       "upstream_id": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
       "variant": "120B-A12B-NVFP4",
       "warnings": [
-        "upstream uses a custom licence"
+        "upstream uses a custom licence",
+        "deduplicated corroborating source huggingface:nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4"
       ]
     },
     {
@@ -21230,7 +21923,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-Parse-2.0",
-      "downloads": 18908,
+      "downloads": 18877,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0",
       "family": "NVIDIA-Nemotron-Parse-2.0",
       "identity_key": "hf:nvidia/nvidia-nemotron-parse-2.0",
@@ -21275,7 +21968,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "NVIDIA-Nemotron-Parse-v1.2",
-      "downloads": 29043,
+      "downloads": 28747,
       "evidence_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2",
       "family": "NVIDIA-Nemotron-Parse-v1.2",
       "identity_key": "hf:nvidia/nvidia-nemotron-parse-v1.2",
@@ -21413,7 +22106,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "parakeet-ctc-1.1b",
-      "downloads": 95285,
+      "downloads": 88704,
       "evidence_url": "https://huggingface.co/nvidia/parakeet-ctc-1.1b",
       "family": "parakeet-ctc",
       "identity_key": "hf:nvidia/parakeet-ctc-1.1b",
@@ -21423,7 +22116,7 @@
       "library": "nemo",
       "license_id": "cc-by-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 65,
+      "likes": 66,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -21495,7 +22188,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "parakeet-tdt-0.6b-v2",
-      "downloads": 193654,
+      "downloads": 197418,
       "evidence_url": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2",
       "family": "parakeet-tdt",
       "identity_key": "hf:nvidia/parakeet-tdt-0.6b-v2",
@@ -21505,7 +22198,7 @@
       "library": "nemo",
       "license_id": "cc-by-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 1567,
+      "likes": 1573,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -21537,7 +22230,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "parakeet-tdt-0.6b-v3",
-      "downloads": 626564,
+      "downloads": 626738,
       "evidence_url": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3",
       "family": "parakeet-tdt",
       "identity_key": "hf:nvidia/parakeet-tdt-0.6b-v3",
@@ -21547,7 +22240,7 @@
       "library": "transformers",
       "license_id": "cc-by-4.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 1203,
+      "likes": 1207,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -21625,7 +22318,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "parakeet-tdt_ctc-0.6b-ja",
-      "downloads": 7974,
+      "downloads": 8021,
       "evidence_url": "https://huggingface.co/nvidia/parakeet-tdt_ctc-0.6b-ja",
       "family": "parakeet-tdt-ctc",
       "identity_key": "hf:nvidia/parakeet-tdt_ctc-0.6b-ja",
@@ -21796,7 +22489,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Qwen3.8-Flash-Next-FP4-Local",
-      "downloads": 4876,
+      "downloads": 6047,
       "evidence_url": "https://huggingface.co/nvidia/Qwen3.8-Flash-Next-FP4-Local",
       "family": "Qwen3.8-Flash-Next-FP4-Local",
       "identity_key": "hf:nvidia/qwen3.8-flash-next-fp4-local",
@@ -21806,7 +22499,7 @@
       "library": "Model Optimizer",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 195,
+      "likes": 224,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -21882,7 +22575,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "RADIO",
-      "downloads": 301,
+      "downloads": 285,
       "evidence_url": "https://huggingface.co/nvidia/RADIO",
       "family": "RADIO",
       "identity_key": "hf:nvidia/radio",
@@ -21928,7 +22621,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "RADIO-B",
-      "downloads": 458,
+      "downloads": 456,
       "evidence_url": "https://huggingface.co/nvidia/RADIO-B",
       "family": "RADIO-B",
       "identity_key": "hf:nvidia/radio-b",
@@ -22020,7 +22713,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "segformer-b0-finetuned-ade-512-512",
-      "downloads": 323684,
+      "downloads": 307861,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-ade-512-512",
       "family": "segformer-b0-finetuned-ade-512-512",
       "identity_key": "hf:nvidia/segformer-b0-finetuned-ade-512-512",
@@ -22030,13 +22723,13 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 206,
+      "likes": 207,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
       "params_m": 3.753206,
       "precisions": [],
-      "provider": "nvidia",
+      "provider": "huggingface",
       "publisher": "nvidia",
       "quantizations": [],
       "release_date": "2022-03-02",
@@ -22046,15 +22739,14 @@
         "pytorch",
         "transformers"
       ],
-      "source_priority": 95,
+      "source_priority": 70,
       "source_stale": true,
       "source_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-ade-512-512",
       "task": "segmentation",
       "upstream_id": "nvidia/segformer-b0-finetuned-ade-512-512",
       "variant": null,
       "warnings": [
-        "upstream uses a custom licence",
-        "deduplicated corroborating source huggingface:nvidia/segformer-b0-finetuned-ade-512-512"
+        "upstream uses a custom licence"
       ]
     },
     {
@@ -22066,7 +22758,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "segformer-b0-finetuned-cityscapes-1024-1024",
-      "downloads": 16442,
+      "downloads": 16059,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-cityscapes-1024-1024",
       "family": "segformer-b0-finetuned-cityscapes-1024-1024",
       "identity_key": "hf:nvidia/segformer-b0-finetuned-cityscapes-1024-1024",
@@ -22112,7 +22804,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "segformer-b0-finetuned-cityscapes-512-1024",
-      "downloads": 5152,
+      "downloads": 5158,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-cityscapes-512-1024",
       "family": "segformer-b0-finetuned-cityscapes-512-1024",
       "identity_key": "hf:nvidia/segformer-b0-finetuned-cityscapes-512-1024",
@@ -22146,7 +22838,8 @@
       "variant": null,
       "warnings": [
         "upstream uses a custom licence",
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "deduplicated corroborating source huggingface:nvidia/segformer-b0-finetuned-cityscapes-512-1024"
       ]
     },
     {
@@ -22156,9 +22849,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "segformer-b0-finetuned-cityscapes-640-1280",
-      "downloads": 414,
+      "downloads": 422,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b0-finetuned-cityscapes-640-1280",
       "family": "segformer-b0-finetuned-cityscapes-640-1280",
       "identity_key": "hf:nvidia/segformer-b0-finetuned-cityscapes-640-1280",
@@ -22167,8 +22860,8 @@
       "last_modified": "2022-08-09T11:33:34Z",
       "library": "transformers",
       "license_id": "other",
-      "lifecycle": "DEPRECATED",
-      "likes": 2,
+      "lifecycle": "DISCOVERED",
+      "likes": 3,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -22192,8 +22885,7 @@
       "variant": null,
       "warnings": [
         "upstream uses a custom licence",
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -22346,7 +23038,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "segformer-b2-finetuned-ade-512-512",
-      "downloads": 206857,
+      "downloads": 200706,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b2-finetuned-ade-512-512",
       "family": "segformer-b2-finetuned-ade-512-512",
       "identity_key": "hf:nvidia/segformer-b2-finetuned-ade-512-512",
@@ -22356,7 +23048,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "DISCOVERED",
-      "likes": 13,
+      "likes": 14,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -22380,7 +23072,8 @@
       "variant": null,
       "warnings": [
         "upstream uses a custom licence",
-        "parameter count unavailable from Hub metadata"
+        "parameter count unavailable from Hub metadata",
+        "deduplicated corroborating source huggingface:nvidia/segformer-b2-finetuned-ade-512-512"
       ]
     },
     {
@@ -22392,7 +23085,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "segformer-b2-finetuned-cityscapes-1024-1024",
-      "downloads": 11194,
+      "downloads": 11339,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b2-finetuned-cityscapes-1024-1024",
       "family": "segformer-b2-finetuned-cityscapes-1024-1024",
       "identity_key": "hf:nvidia/segformer-b2-finetuned-cityscapes-1024-1024",
@@ -22438,7 +23131,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "segformer-b4-finetuned-ade-512-512",
-      "downloads": 33217,
+      "downloads": 33858,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b4-finetuned-ade-512-512",
       "family": "segformer-b4-finetuned-ade-512-512",
       "identity_key": "hf:nvidia/segformer-b4-finetuned-ade-512-512",
@@ -22485,7 +23178,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "segformer-b5-finetuned-ade-640-640",
-      "downloads": 50286,
+      "downloads": 49936,
       "evidence_url": "https://huggingface.co/nvidia/segformer-b5-finetuned-ade-640-640",
       "family": "segformer-b5-finetuned-ade-640-640",
       "identity_key": "hf:nvidia/segformer-b5-finetuned-ade-640-640",
@@ -22577,9 +23270,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "stt_ar_fastconformer_hybrid_large_pcd_v1.0",
-      "downloads": 2073,
+      "downloads": 2863,
       "evidence_url": "https://huggingface.co/nvidia/stt_ar_fastconformer_hybrid_large_pcd_v1.0",
       "family": "stt-ar-fastconformer-hybrid",
       "identity_key": "hf:nvidia/stt_ar_fastconformer_hybrid_large_pcd_v1.0",
@@ -22588,7 +23281,7 @@
       "last_modified": "2025-10-21T15:45:43Z",
       "library": "nemo",
       "license_id": "cc-by-4.0",
-      "lifecycle": "DEPRECATED",
+      "lifecycle": "DISCOVERED",
       "likes": 46,
       "metadata_complete": false,
       "new_version": null,
@@ -22609,8 +23302,49 @@
       "upstream_id": "nvidia/stt_ar_fastconformer_hybrid_large_pcd_v1.0",
       "variant": "large-pcd-v1.0",
       "warnings": [
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
+        "nvidia/stt_en_citrinet_256_ls",
+        "stt_en_citrinet_256_ls"
+      ],
+      "base_model": null,
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "stt_en_citrinet_256_ls",
+      "downloads": 467,
+      "evidence_url": "https://huggingface.co/nvidia/stt_en_citrinet_256_ls",
+      "family": "stt-en-citrinet-256-ls",
+      "identity_key": "hf:nvidia/stt_en_citrinet_256_ls",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2025-02-18T11:49:48Z",
+      "library": "nemo",
+      "license_id": "cc-by-4.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 4,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": true,
+      "params_m": null,
+      "precisions": [],
+      "provider": "nvidia",
+      "publisher": "nvidia",
+      "quantizations": [],
+      "release_date": "2022-07-15",
+      "revision": "c7cdacff0262bbb2a17771d20ec9f9f3b5cff6ed",
+      "revision_identity": "0782a07cbf2e7c3bb6d0",
+      "runtimes": [],
+      "source_priority": 95,
+      "source_stale": true,
+      "source_url": "https://huggingface.co/nvidia/stt_en_citrinet_256_ls",
+      "task": "asr",
+      "upstream_id": "nvidia/stt_en_citrinet_256_ls",
+      "variant": null,
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -22962,6 +23696,48 @@
     },
     {
       "aliases": [
+        "iris-3b",
+        "nynxz/iris-3b"
+      ],
+      "base_model": "speridlabs/iris-3b",
+      "base_model_relation": null,
+      "deprecated": false,
+      "display_name": "iris-3b",
+      "downloads": 0,
+      "evidence_url": "https://huggingface.co/nynxz/iris-3b",
+      "family": "iris",
+      "identity_key": "hf:nynxz/iris-3b",
+      "immutable_revision": true,
+      "ingestion_method": "huggingface-hub-api",
+      "last_modified": "2026-10-10T03:05:11Z",
+      "library": null,
+      "license_id": "apache-2.0",
+      "lifecycle": "DISCOVERED",
+      "likes": 3,
+      "metadata_complete": false,
+      "new_version": null,
+      "official_publisher": false,
+      "params_m": null,
+      "precisions": [],
+      "provider": "huggingface",
+      "publisher": "nynxz",
+      "quantizations": [],
+      "release_date": "2026-10-09",
+      "revision": "1a49f7b495f1a99e41a898d94caccbcf74d8414c",
+      "revision_identity": "708bf10c91ccc8f27ef2",
+      "runtimes": [],
+      "source_priority": 70,
+      "source_stale": false,
+      "source_url": "https://huggingface.co/nynxz/iris-3b",
+      "task": "depth",
+      "upstream_id": "nynxz/iris-3b",
+      "variant": "3b",
+      "warnings": [
+        "parameter count unavailable from Hub metadata"
+      ]
+    },
+    {
+      "aliases": [
         "NYUMedML/Neuro-JEPA-Large",
         "Neuro-JEPA-Large"
       ],
@@ -23280,9 +24056,9 @@
       ],
       "base_model": "depth-anything/Depth-Anything-V2-Small",
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "depth-anything-v2-small",
-      "downloads": 104812,
+      "downloads": 112067,
       "evidence_url": "https://huggingface.co/onnx-community/depth-anything-v2-small",
       "family": "depth-anything-v2",
       "identity_key": "hf:onnx-community/depth-anything-v2-small",
@@ -23291,8 +24067,8 @@
       "last_modified": "2026-04-14T09:53:47Z",
       "library": "transformers.js",
       "license_id": "apache-2.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 31,
+      "lifecycle": "DISCOVERED",
+      "likes": 32,
       "metadata_complete": false,
       "new_version": "onnx-community/depth-anything-v2-small-ONNX",
       "official_publisher": false,
@@ -23314,8 +24090,7 @@
       "upstream_id": "onnx-community/depth-anything-v2-small",
       "variant": "small",
       "warnings": [
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -23417,7 +24192,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "whisper-large-v3",
-      "downloads": 3753631,
+      "downloads": 3755126,
       "evidence_url": "https://huggingface.co/openai/whisper-large-v3",
       "family": "whisper",
       "identity_key": "hf:openai/whisper-large-v3",
@@ -23427,7 +24202,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 6661,
+      "likes": 6668,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -23462,7 +24237,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "whisper-large-v3-turbo",
-      "downloads": 6135983,
+      "downloads": 6094388,
       "evidence_url": "https://huggingface.co/openai/whisper-large-v3-turbo",
       "family": "whisper",
       "identity_key": "hf:openai/whisper-large-v3-turbo",
@@ -23472,7 +24247,7 @@
       "library": "transformers",
       "license_id": "mit",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 3458,
+      "likes": 3463,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -23494,7 +24269,9 @@
       "task": "asr",
       "upstream_id": "openai/whisper-large-v3-turbo",
       "variant": "large-v3-turbo",
-      "warnings": []
+      "warnings": [
+        "deduplicated corroborating source huggingface:openai/whisper-large-v3-turbo"
+      ]
     },
     {
       "aliases": [
@@ -23505,7 +24282,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "whisper-small",
-      "downloads": 3479458,
+      "downloads": 3510611,
       "evidence_url": "https://huggingface.co/openai/whisper-small",
       "family": "whisper",
       "identity_key": "hf:openai/whisper-small",
@@ -23515,7 +24292,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 631,
+      "likes": 632,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -23537,9 +24314,7 @@
       "task": "asr",
       "upstream_id": "openai/whisper-small",
       "variant": "small",
-      "warnings": [
-        "deduplicated corroborating source huggingface:openai/whisper-small"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -23548,9 +24323,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "MiniCPM-V-2",
-      "downloads": 5623,
+      "downloads": 8575,
       "evidence_url": "https://huggingface.co/openbmb/MiniCPM-V-2",
       "family": "MiniCPM-V-2",
       "identity_key": "hf:openbmb/minicpm-v-2",
@@ -23559,8 +24334,8 @@
       "last_modified": "2025-01-15T10:35:33Z",
       "library": "transformers",
       "license_id": null,
-      "lifecycle": "DEPRECATED",
-      "likes": 506,
+      "lifecycle": "NORMALIZED",
+      "likes": 507,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -23583,8 +24358,7 @@
       "upstream_id": "openbmb/MiniCPM-V-2",
       "variant": null,
       "warnings": [
-        "licence metadata missing upstream",
-        "not observed in latest discovery"
+        "licence metadata missing upstream"
       ]
     },
     {
@@ -23596,7 +24370,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "MiniCPM-V-4.7-1B",
-      "downloads": 22689,
+      "downloads": 33388,
       "evidence_url": "https://huggingface.co/openbmb/MiniCPM-V-4.7-1B",
       "family": "MiniCPM-V-4.7",
       "identity_key": "hf:openbmb/minicpm-v-4.7-1b",
@@ -23606,7 +24380,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "NORMALIZED",
-      "likes": 380,
+      "likes": 390,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -23639,7 +24413,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "MiniCPM-V-4.7-35B-A3B",
-      "downloads": 57935,
+      "downloads": 76410,
       "evidence_url": "https://huggingface.co/openbmb/MiniCPM-V-4.7-35B-A3B",
       "family": "MiniCPM-V-4.7",
       "identity_key": "hf:openbmb/minicpm-v-4.7-35b-a3b",
@@ -23649,7 +24423,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "NORMALIZED",
-      "likes": 909,
+      "likes": 1027,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -23682,17 +24456,17 @@
       "base_model_relation": "quantized",
       "deprecated": false,
       "display_name": "MiniCPM-V-4.7-35B-A3B-gguf",
-      "downloads": 160184,
+      "downloads": 170728,
       "evidence_url": "https://huggingface.co/openbmb/MiniCPM-V-4.7-35B-A3B-gguf",
       "family": "MiniCPM-V-4.7",
       "identity_key": "hf:openbmb/minicpm-v-4.7-35b-a3b-gguf",
       "immutable_revision": true,
       "ingestion_method": "huggingface-hub-api",
-      "last_modified": "2026-10-16T08:41:01Z",
-      "library": "transformers",
+      "last_modified": "2026-10-19T05:17:21Z",
+      "library": "llama.cpp",
       "license_id": "apache-2.0",
       "lifecycle": "DISCOVERED",
-      "likes": 161,
+      "likes": 169,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -23702,12 +24476,9 @@
       "publisher": "openbmb",
       "quantizations": [],
       "release_date": "2026-10-06",
-      "revision": "77ec40de8445999bf3076aeff9ff45d40a2713cc",
-      "revision_identity": "a096751aeb3f1b7fb0db",
-      "runtimes": [
-        "pytorch",
-        "transformers"
-      ],
+      "revision": "b28c15b3cea97880196158a5c0a8feeab5ed36b6",
+      "revision_identity": "4b3b22e918e81847bf6a",
+      "runtimes": [],
       "source_priority": 70,
       "source_stale": false,
       "source_url": "https://huggingface.co/openbmb/MiniCPM-V-4.7-35B-A3B-gguf",
@@ -24433,7 +25204,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-DocLayoutV3_safetensors",
-      "downloads": 957418,
+      "downloads": 955143,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors",
       "family": "PP-DocLayoutV3-safetensors",
       "identity_key": "hf:paddlepaddle/pp-doclayoutv3_safetensors",
@@ -24476,7 +25247,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_medium_rec",
-      "downloads": 59604,
+      "downloads": 59221,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_medium_rec",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_medium_rec",
@@ -24518,7 +25289,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_medium_rec_onnx",
-      "downloads": 63758,
+      "downloads": 62848,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_medium_rec_onnx",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_medium_rec_onnx",
@@ -24562,7 +25333,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_medium_rec_safetensors",
-      "downloads": 1755,
+      "downloads": 1787,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_medium_rec_safetensors",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_medium_rec_safetensors",
@@ -24602,7 +25373,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_small_rec",
-      "downloads": 9130,
+      "downloads": 8494,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_small_rec",
@@ -24644,7 +25415,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_small_rec_onnx",
-      "downloads": 25336,
+      "downloads": 25583,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_onnx",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_small_rec_onnx",
@@ -24688,7 +25459,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_small_rec_safetensors",
-      "downloads": 985,
+      "downloads": 991,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_small_rec_safetensors",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_small_rec_safetensors",
@@ -24728,7 +25499,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_tiny_rec",
-      "downloads": 1585,
+      "downloads": 1556,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_tiny_rec",
@@ -24770,7 +25541,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_tiny_rec_onnx",
-      "downloads": 11291,
+      "downloads": 11858,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_onnx",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_tiny_rec_onnx",
@@ -24814,7 +25585,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "PP-OCRv6_tiny_rec_safetensors",
-      "downloads": 429,
+      "downloads": 433,
       "evidence_url": "https://huggingface.co/PaddlePaddle/PP-OCRv6_tiny_rec_safetensors",
       "family": "PP-OCRv6",
       "identity_key": "hf:paddlepaddle/pp-ocrv6_tiny_rec_safetensors",
@@ -24852,9 +25623,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "Virchow2",
-      "downloads": 77927,
+      "downloads": 82367,
       "evidence_url": "https://huggingface.co/paige-ai/Virchow2",
       "family": "Virchow2",
       "identity_key": "hf:paige-ai/virchow2",
@@ -24863,8 +25634,8 @@
       "last_modified": "2024-10-26T17:29:19Z",
       "library": "timm",
       "license_id": "cc-by-nc-nd-4.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 183,
+      "lifecycle": "NORMALIZED",
+      "likes": 193,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -24886,8 +25657,7 @@
       "upstream_id": "paige-ai/Virchow2",
       "variant": null,
       "warnings": [
-        "upstream licence requires review: cc-by-nc-nd-4.0",
-        "not observed in latest discovery"
+        "upstream licence requires review: cc-by-nc-nd-4.0"
       ]
     },
     {
@@ -25070,7 +25840,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "rtdetr_r101vd_coco_o365",
-      "downloads": 1182785,
+      "downloads": 1189459,
       "evidence_url": "https://huggingface.co/PekingU/rtdetr_r101vd_coco_o365",
       "family": "rtdetr-r101vd-coco-o365",
       "identity_key": "hf:pekingu/rtdetr_r101vd_coco_o365",
@@ -25080,7 +25850,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 27,
+      "likes": 29,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -25102,9 +25872,7 @@
       "task": "detection",
       "upstream_id": "PekingU/rtdetr_r101vd_coco_o365",
       "variant": null,
-      "warnings": [
-        "deduplicated corroborating source huggingface:PekingU/rtdetr_r101vd_coco_o365"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -25115,7 +25883,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "rtdetr_v2_r50vd",
-      "downloads": 34048,
+      "downloads": 34327,
       "evidence_url": "https://huggingface.co/PekingU/rtdetr_v2_r50vd",
       "family": "rtdetr-v2-r50vd",
       "identity_key": "hf:pekingu/rtdetr_v2_r50vd",
@@ -25289,7 +26057,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "pixai-tagger-v1.0",
-      "downloads": 22682,
+      "downloads": 22863,
       "evidence_url": "https://huggingface.co/pixai-labs/pixai-tagger-v1.0",
       "family": "pixai-tagger-v1.0",
       "identity_key": "hf:pixai-labs/pixai-tagger-v1.0",
@@ -25299,7 +26067,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "NORMALIZED",
-      "likes": 115,
+      "likes": 117,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": false,
@@ -25508,7 +26276,7 @@
       ],
       "base_model": "google/siglip2-base-patch16-224",
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "Gender-Classifier-Mini",
       "downloads": 4909354,
       "evidence_url": "https://huggingface.co/prithivMLmods/Gender-Classifier-Mini",
@@ -25519,7 +26287,7 @@
       "last_modified": "2025-03-28T03:10:26Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "NORMALIZED",
+      "lifecycle": "DEPRECATED",
       "likes": 10,
       "metadata_complete": true,
       "new_version": null,
@@ -25542,7 +26310,9 @@
       "task": "classification",
       "upstream_id": "prithivMLmods/Gender-Classifier-Mini",
       "variant": "Mini",
-      "warnings": []
+      "warnings": [
+        "not observed in latest discovery"
+      ]
     },
     {
       "aliases": [
@@ -25957,9 +26727,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "prov-gigapath",
-      "downloads": 40452,
+      "downloads": 43341,
       "evidence_url": "https://huggingface.co/prov-gigapath/prov-gigapath",
       "family": "prov-gigapath",
       "identity_key": "hf:prov-gigapath/prov-gigapath",
@@ -25968,8 +26738,8 @@
       "last_modified": "2026-08-07T17:30:48Z",
       "library": "timm",
       "license_id": "apache-2.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 197,
+      "lifecycle": "DISCOVERED",
+      "likes": 207,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -25991,8 +26761,7 @@
       "upstream_id": "prov-gigapath/prov-gigapath",
       "variant": null,
       "warnings": [
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -26264,7 +27033,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "speaker-diarization-3.1",
-      "downloads": 6771719,
+      "downloads": 6769740,
       "evidence_url": "https://huggingface.co/pyannote/speaker-diarization-3.1",
       "family": "speaker-diarization-3.1",
       "identity_key": "hf:pyannote/speaker-diarization-3.1",
@@ -26274,7 +27043,7 @@
       "library": "pyannote-audio",
       "license_id": "mit",
       "lifecycle": "DISCOVERED",
-      "likes": 4441,
+      "likes": 4467,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -26306,7 +27075,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "speaker-diarization-community-1",
-      "downloads": 5223882,
+      "downloads": 5143252,
       "evidence_url": "https://huggingface.co/pyannote/speaker-diarization-community-1",
       "family": "speaker-diarization-community-1",
       "identity_key": "hf:pyannote/speaker-diarization-community-1",
@@ -26316,7 +27085,7 @@
       "library": "pyannote-audio",
       "license_id": "cc-by-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 3066,
+      "likes": 3112,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -26483,7 +27252,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "QUAN-Transcribe-1.0",
-      "downloads": 444,
+      "downloads": 463,
       "evidence_url": "https://huggingface.co/qnguyen3/QUAN-Transcribe-1.0",
       "family": "QUAN-Transcribe-1.0",
       "identity_key": "hf:qnguyen3/quan-transcribe-1.0",
@@ -26493,7 +27262,7 @@
       "library": null,
       "license_id": "gemma",
       "lifecycle": "DISCOVERED",
-      "likes": 50,
+      "likes": 52,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -26884,19 +27653,19 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "MediaPipe-Pose-Estimation",
-      "downloads": 2684,
+      "downloads": 2265,
       "evidence_url": "https://huggingface.co/qualcomm/MediaPipe-Pose-Estimation",
       "family": "MediaPipe-Pose-Estimation",
       "identity_key": "hf:qualcomm/mediapipe-pose-estimation",
       "immutable_revision": true,
       "ingestion_method": "huggingface-hub-api",
-      "last_modified": "2026-09-23T22:01:36Z",
+      "last_modified": "2026-10-07T00:08:50Z",
       "library": "pytorch",
       "license_id": "apache-2.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 112,
+      "lifecycle": "DISCOVERED",
+      "likes": 113,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -26906,8 +27675,8 @@
       "publisher": "qualcomm",
       "quantizations": [],
       "release_date": "2024-02-25",
-      "revision": "2a84cb75b632b78f63e1351e8afdbb9ebeef562b",
-      "revision_identity": "c11832cc4a860b75b3cc",
+      "revision": "036c1ee28a9c889e2c59c889f724c1392f1d1630",
+      "revision_identity": "48bf19fc2fb2084653e4",
       "runtimes": [
         "pytorch"
       ],
@@ -26918,8 +27687,7 @@
       "upstream_id": "qualcomm/MediaPipe-Pose-Estimation",
       "variant": null,
       "warnings": [
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -27245,7 +28013,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Qwen3-ASR-0.6B-hf",
-      "downloads": 256364,
+      "downloads": 266853,
       "evidence_url": "https://huggingface.co/Qwen/Qwen3-ASR-0.6B-hf",
       "family": "Qwen3-ASR",
       "identity_key": "hf:qwen/qwen3-asr-0.6b-hf",
@@ -27375,7 +28143,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Qwen3.8-27B",
-      "downloads": 7695206,
+      "downloads": 7458401,
       "evidence_url": "https://huggingface.co/Qwen/Qwen3.8-27B",
       "family": "Qwen3.8",
       "identity_key": "hf:qwen/qwen3.8-27b",
@@ -27385,7 +28153,7 @@
       "library": "transformers",
       "license_id": "apache-2.0",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 17924,
+      "likes": 17980,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -27463,7 +28231,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "Qwen3.8-Flash-Next",
-      "downloads": 2485835,
+      "downloads": 2494099,
       "evidence_url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next",
       "family": "Qwen3.8-Flash-Next",
       "identity_key": "hf:qwen/qwen3.8-flash-next",
@@ -27473,7 +28241,7 @@
       "library": "transformers",
       "license_id": "other",
       "lifecycle": "SOURCE_VERIFIED",
-      "likes": 6314,
+      "likes": 6336,
       "metadata_complete": true,
       "new_version": null,
       "official_publisher": true,
@@ -27950,7 +28718,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "gender-classification",
       "downloads": 1389628,
       "evidence_url": "https://huggingface.co/rizvandwiki/gender-classification",
@@ -27961,7 +28729,7 @@
       "last_modified": "2023-05-18T11:16:33Z",
       "library": "transformers",
       "license_id": null,
-      "lifecycle": "NORMALIZED",
+      "lifecycle": "DEPRECATED",
       "likes": 72,
       "metadata_complete": true,
       "new_version": null,
@@ -27985,7 +28753,8 @@
       "upstream_id": "rizvandwiki/gender-classification",
       "variant": null,
       "warnings": [
-        "licence metadata missing upstream"
+        "licence metadata missing upstream",
+        "not observed in latest discovery"
       ]
     },
     {
@@ -29063,7 +29832,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "rsi-jev-v6.1-vl-27b",
-      "downloads": 139,
+      "downloads": 146,
       "evidence_url": "https://huggingface.co/shgao/rsi-jev-v6.1-vl-27b",
       "family": "rsi-jev-v6.1-vl",
       "identity_key": "hf:shgao/rsi-jev-v6.1-vl-27b",
@@ -30017,7 +30786,7 @@
       "library": "laya",
       "license_id": "cc-by-nc-sa-4.0",
       "lifecycle": "DISCOVERED",
-      "likes": 43,
+      "likes": 44,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -30267,7 +31036,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "OKIYOLO26X-DEFENSIVE",
-      "downloads": 69,
+      "downloads": 71,
       "evidence_url": "https://huggingface.co/theokiGuyOKI/OKIYOLO26X-DEFENSIVE",
       "family": "OKIYOLO26X-DEFENSIVE",
       "identity_key": "hf:theokiguyoki/okiyolo26x-defensive",
@@ -30933,9 +31702,9 @@
       ],
       "base_model": "Qwen/Qwen2.5-VL-7B-Instruct",
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "uAI-NEXUS-MedVLM-1.0a-7B-RL",
-      "downloads": 154,
+      "downloads": 1735,
       "evidence_url": "https://huggingface.co/UII-AI/uAI-NEXUS-MedVLM-1.0a-7B-RL",
       "family": "uAI-NEXUS-MedVLM-1.0a",
       "identity_key": "hf:uii-ai/uai-nexus-medvlm-1.0a-7b-rl",
@@ -30944,8 +31713,8 @@
       "last_modified": "2026-04-16T20:03:00Z",
       "library": null,
       "license_id": "apache-2.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 16,
+      "lifecycle": "DISCOVERED",
+      "likes": 17,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": false,
@@ -30964,9 +31733,7 @@
       "task": "vlm",
       "upstream_id": "UII-AI/uAI-NEXUS-MedVLM-1.0a-7B-RL",
       "variant": "7B-RL",
-      "warnings": [
-        "not observed in latest discovery"
-      ]
+      "warnings": []
     },
     {
       "aliases": [
@@ -31157,7 +31924,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "YOLO26",
-      "downloads": 20010,
+      "downloads": 20011,
       "evidence_url": "https://huggingface.co/Ultralytics/YOLO26",
       "family": "YOLO26",
       "identity_key": "hf:ultralytics/yolo26",
@@ -31167,7 +31934,7 @@
       "library": "ultralytics",
       "license_id": "agpl-3.0",
       "lifecycle": "DISCOVERED",
-      "likes": 227,
+      "likes": 228,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -31200,9 +31967,9 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": true,
+      "deprecated": false,
       "display_name": "YOLOv8",
-      "downloads": 17421,
+      "downloads": 18794,
       "evidence_url": "https://huggingface.co/Ultralytics/YOLOv8",
       "family": "YOLOv8",
       "identity_key": "hf:ultralytics/yolov8",
@@ -31211,8 +31978,8 @@
       "last_modified": "2026-06-26T10:23:01Z",
       "library": "ultralytics",
       "license_id": "agpl-3.0",
-      "lifecycle": "DEPRECATED",
-      "likes": 392,
+      "lifecycle": "DISCOVERED",
+      "likes": 394,
       "metadata_complete": false,
       "new_version": null,
       "official_publisher": true,
@@ -31235,8 +32002,7 @@
       "variant": null,
       "warnings": [
         "non-standard licence identifier: agpl-3.0",
-        "parameter count unavailable from Hub metadata",
-        "not observed in latest discovery"
+        "parameter count unavailable from Hub metadata"
       ]
     },
     {
@@ -31602,7 +32368,7 @@
       ],
       "base_model": null,
       "base_model_relation": null,
-      "deprecated": false,
+      "deprecated": true,
       "display_name": "vitpose-plus-base",
       "downloads": 435759,
       "evidence_url": "https://huggingface.co/usyd-community/vitpose-plus-base",
@@ -31613,7 +32379,7 @@
       "last_modified": "2025-01-08T12:42:35Z",
       "library": "transformers",
       "license_id": "apache-2.0",
-      "lifecycle": "NORMALIZED",
+      "lifecycle": "DEPRECATED",
       "likes": 37,
       "metadata_complete": true,
       "new_version": null,
@@ -31636,7 +32402,9 @@
       "task": "pose",
       "upstream_id": "usyd-community/vitpose-plus-base",
       "variant": "base",
-      "warnings": []
+      "warnings": [
+        "not observed in latest discovery"
+      ]
     },
     {
       "aliases": [
@@ -33173,7 +33941,7 @@
       "base_model_relation": null,
       "deprecated": false,
       "display_name": "BiRefNet",
-      "downloads": 748820,
+      "downloads": 752484,
       "evidence_url": "https://huggingface.co/ZhengPeng7/BiRefNet",
       "family": "BiRefNet",
       "identity_key": "hf:zhengpeng7/birefnet",
@@ -33509,8 +34277,8 @@
     "anomaly"
   ],
   "freshness_refresh": false,
-  "generated_at": "2026-10-18T09:41:26.368239Z",
-  "promoted_count": 89,
+  "generated_at": "2026-10-19T10:52:31.388870Z",
+  "promoted_count": 93,
   "registry_changed": true,
   "schema_version": 1
 }
