@@ -2949,6 +2949,71 @@
           "transformers"
         ]
       },
+      "display_name": "mask2former-swin-base-coco-instance",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-base-coco-instance",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-base-coco-instance"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "base-coco-instance"
+      },
+      "id": "mask2former-swin-base-coco-instance",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-base-coco-instance",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 107.401946
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-10-20T10:08:40.661429Z",
+        "release_date": "2022-11-28",
+        "revision": "e3169bb2cdc9a0d47c3582a19a757854e3fe82e3",
+        "source_id": "huggingface:facebook/mask2former-swin-base-coco-instance",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-base-coco-instance"
+      },
+      "verification": {
+        "last_verified": "2026-10-20T10:08:40.661429Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "mask2former-swin-large-ade-panoptic",
       "evidence": {
         "accuracy": [],
@@ -9414,11 +9479,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-17T10:52:31.388870Z",
-    "generated_at": "2026-10-19T10:52:31.388870Z",
+    "expires_at": "2027-01-18T10:08:40.661429Z",
+    "generated_at": "2026-10-20T10:08:40.661429Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 36,
+    "registry_version": 37,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
