@@ -4059,21 +4059,21 @@
           "text"
         ]
       },
-      "notes": "upstream uses a custom licence; upstream revision changed; prior benchmark status was invalidated",
+      "notes": "upstream uses a custom licence; upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 903.049225
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-25T17:22:39.943879Z",
+        "last_checked": "2026-10-21T10:16:23.143019Z",
         "release_date": "2026-06-30",
-        "revision": "b6742064f4a8cf22a10383ece5e7fbead355ac04",
+        "revision": "4e021c03edc92e715d5d788921a927d0cbb4b4d1",
         "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-2.0",
         "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-2.0"
       },
       "verification": {
-        "last_verified": "2026-08-25T17:22:39.943879Z",
+        "last_verified": "2026-10-21T10:16:23.143019Z",
         "status": "source_verified"
       }
     },
@@ -4125,21 +4125,21 @@
           "text"
         ]
       },
-      "notes": "upstream uses a custom licence",
+      "notes": "upstream uses a custom licence; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 936.275977
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-17T05:53:31.156187Z",
+        "last_checked": "2026-10-21T10:16:23.143019Z",
         "release_date": "2026-02-18",
-        "revision": "2bd0189bffd6cdded6280d9f22a4077b25a504e3",
+        "revision": "f53b3cd1f7f2568d8d1669c45b1a16e004343ff9",
         "source_id": "nvidia:nvidia/NVIDIA-Nemotron-Parse-v1.2",
         "source_url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-Parse-v1.2"
       },
       "verification": {
-        "last_verified": "2026-08-17T05:53:31.156187Z",
+        "last_verified": "2026-10-21T10:16:23.143019Z",
         "status": "source_verified"
       }
     },
@@ -9479,11 +9479,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-18T10:08:40.661429Z",
-    "generated_at": "2026-10-20T10:08:40.661429Z",
+    "expires_at": "2027-01-19T10:16:23.143019Z",
+    "generated_at": "2026-10-21T10:16:23.143019Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 37,
+    "registry_version": 38,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
