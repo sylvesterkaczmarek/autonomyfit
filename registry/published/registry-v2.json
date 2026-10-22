@@ -3954,6 +3954,72 @@
           "transformers"
         ]
       },
+      "display_name": "Nemotron-3.5-Parse",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "nvidia:nvidia/Nemotron-3.5-Parse",
+            "source_url": "https://huggingface.co/nvidia/Nemotron-3.5-Parse"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "Nemotron-3.5-Parse",
+        "variant": null
+      },
+      "id": "nemotron-3-5-parse",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "non-standard licence identifier: openmdw-1.1",
+        "source_url": "https://huggingface.co/nvidia/Nemotron-3.5-Parse",
+        "spdx": "openmdw-1.1",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": "non-standard licence identifier: openmdw-1.1",
+      "parameters": {
+        "flops_b": null,
+        "millions": 630.800504
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-10-22T10:17:26.236437Z",
+        "release_date": "2026-09-03",
+        "revision": "62cb1e4ba153d113ff64aaf2be6e068c377cf53c",
+        "source_id": "nvidia:nvidia/Nemotron-3.5-Parse",
+        "source_url": "https://huggingface.co/nvidia/Nemotron-3.5-Parse"
+      },
+      "verification": {
+        "last_verified": "2026-10-22T10:17:26.236437Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "NV-Reason-CXR-3B",
       "evidence": {
         "accuracy": [],
@@ -9479,11 +9545,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-19T10:16:23.143019Z",
-    "generated_at": "2026-10-21T10:16:23.143019Z",
+    "expires_at": "2027-01-20T10:17:26.236437Z",
+    "generated_at": "2026-10-22T10:17:26.236437Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 38,
+    "registry_version": 39,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
