@@ -3404,6 +3404,71 @@
           "transformers"
         ]
       },
+      "display_name": "maskformer-swin-tiny-ade",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/maskformer-swin-tiny-ade",
+            "source_url": "https://huggingface.co/facebook/maskformer-swin-tiny-ade"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "maskformer-swin",
+        "variant": "tiny-ade"
+      },
+      "id": "maskformer-swin-tiny-ade",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/maskformer-swin-tiny-ade",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 41.787508
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-10-28T11:24:20.659408Z",
+        "release_date": "2022-03-02",
+        "revision": "ea43bbf72d30ee4278deb93bc3d8bd2856c4c6ec",
+        "source_id": "huggingface:facebook/maskformer-swin-tiny-ade",
+        "source_url": "https://huggingface.co/facebook/maskformer-swin-tiny-ade"
+      },
+      "verification": {
+        "last_verified": "2026-10-28T11:24:20.659408Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "microsoft/git-base-textvqa",
       "evidence": {
         "accuracy": [],
@@ -3993,21 +4058,21 @@
           "text"
         ]
       },
-      "notes": "non-standard licence identifier: openmdw-1.1",
+      "notes": "non-standard licence identifier: openmdw-1.1; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 630.800504
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-10-22T10:17:26.236437Z",
+        "last_checked": "2026-10-28T11:24:20.659408Z",
         "release_date": "2026-09-03",
-        "revision": "62cb1e4ba153d113ff64aaf2be6e068c377cf53c",
+        "revision": "4035ffb1d8f8bafcdb867dfaf6f7514f101464f9",
         "source_id": "nvidia:nvidia/Nemotron-3.5-Parse",
         "source_url": "https://huggingface.co/nvidia/Nemotron-3.5-Parse"
       },
       "verification": {
-        "last_verified": "2026-10-22T10:17:26.236437Z",
+        "last_verified": "2026-10-28T11:24:20.659408Z",
         "status": "source_verified"
       }
     },
@@ -9545,11 +9610,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-20T10:17:26.236437Z",
-    "generated_at": "2026-10-22T10:17:26.236437Z",
+    "expires_at": "2027-01-26T11:24:20.659408Z",
+    "generated_at": "2026-10-28T11:24:20.659408Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 39,
+    "registry_version": 40,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
