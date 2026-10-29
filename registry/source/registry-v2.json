@@ -143,6 +143,71 @@
           "transformers"
         ]
       },
+      "display_name": "beit-large-finetuned-ade-640-640",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:microsoft/beit-large-finetuned-ade-640-640",
+            "source_url": "https://huggingface.co/microsoft/beit-large-finetuned-ade-640-640"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "beit",
+        "variant": "large-finetuned-ade-640-640"
+      },
+      "id": "beit-large-finetuned-ade-640-640",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/microsoft/beit-large-finetuned-ade-640-640",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 502.815044
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-10-29T11:34:55.544456Z",
+        "release_date": "2022-03-02",
+        "revision": "a38fe98baf3d5a6f69fa1a07a62b698780e5dcb1",
+        "source_id": "huggingface:microsoft/beit-large-finetuned-ade-640-640",
+        "source_url": "https://huggingface.co/microsoft/beit-large-finetuned-ade-640-640"
+      },
+      "verification": {
+        "last_verified": "2026-10-29T11:34:55.544456Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "C-RADIOv2-B",
       "evidence": {
         "accuracy": [],
@@ -9610,11 +9675,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-01-26T11:24:20.659408Z",
-    "generated_at": "2026-10-28T11:24:20.659408Z",
+    "expires_at": "2027-01-27T11:34:55.544456Z",
+    "generated_at": "2026-10-29T11:34:55.544456Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 40,
+    "registry_version": 41,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
