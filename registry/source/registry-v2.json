@@ -3339,6 +3339,71 @@
           "transformers"
         ]
       },
+      "display_name": "mask2former-swin-large-mapillary-vistas-semantic",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/mask2former-swin-large-mapillary-vistas-semantic",
+            "source_url": "https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-semantic"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "mask2former-swin",
+        "variant": "large-mapillary-vistas-semantic"
+      },
+      "id": "mask2former-swin-large-mapillary-vistas-semantic",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-semantic",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "mask"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 215.964664
+      },
+      "task": "segmentation",
+      "upstream": {
+        "last_checked": "2026-11-12T13:49:52.976198Z",
+        "release_date": "2023-01-05",
+        "revision": "4772b6bf101d91f2534c106dc524d906aeb3c68a",
+        "source_id": "huggingface:facebook/mask2former-swin-large-mapillary-vistas-semantic",
+        "source_url": "https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-semantic"
+      },
+      "verification": {
+        "last_verified": "2026-11-12T13:49:52.976198Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "mask2former-swin-small-cityscapes-semantic",
       "evidence": {
         "accuracy": [],
@@ -5887,6 +5952,71 @@
           "transformers"
         ]
       },
+      "display_name": "rtdetr_r50vd_coco_o365",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:PekingU/rtdetr_r50vd_coco_o365",
+            "source_url": "https://huggingface.co/PekingU/rtdetr_r50vd_coco_o365"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "rtdetr-r50vd-coco-o365",
+        "variant": null
+      },
+      "id": "rtdetr-r50vd-coco-o365",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/PekingU/rtdetr_r50vd_coco_o365",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "object-detections"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 43.019372
+      },
+      "task": "detection",
+      "upstream": {
+        "last_checked": "2026-11-12T13:49:52.976198Z",
+        "release_date": "2024-05-21",
+        "revision": "457857cec8ac28ddede40ecee9eed2beca321af8",
+        "source_id": "huggingface:PekingU/rtdetr_r50vd_coco_o365",
+        "source_url": "https://huggingface.co/PekingU/rtdetr_r50vd_coco_o365"
+      },
+      "verification": {
+        "last_verified": "2026-11-12T13:49:52.976198Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "rtdetr_v2_r50vd",
       "evidence": {
         "accuracy": [],
@@ -6138,21 +6268,21 @@
           "text"
         ]
       },
-      "notes": "upstream revision changed; prior benchmark status was invalidated",
+      "notes": "upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 2246.78488
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "last_checked": "2026-11-12T13:49:52.976198Z",
         "release_date": "2025-02-08",
-        "revision": "482adb537c021c86670beed01cd58990d01e72e4",
+        "revision": "be92141c8d0ceb98596a923c308ac2bbb4a7c466",
         "source_id": "huggingface-smolvlm2-2.2b",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "last_verified": "2026-11-12T13:49:52.976198Z",
         "status": "source_verified"
       }
     },
@@ -9675,11 +9805,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-02-05T11:47:08.100006Z",
-    "generated_at": "2026-11-07T11:47:08.100006Z",
+    "expires_at": "2027-02-10T13:49:52.976198Z",
+    "generated_at": "2026-11-12T13:49:52.976198Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 43,
+    "registry_version": 44,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
