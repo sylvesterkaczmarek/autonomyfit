@@ -1645,6 +1645,71 @@
           "transformers"
         ]
       },
+      "display_name": "dinov3-convnext-base-pretrain-lvd1689m",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:facebook/dinov3-convnext-base-pretrain-lvd1689m",
+            "source_url": "https://huggingface.co/facebook/dinov3-convnext-base-pretrain-lvd1689m"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "dinov3-convnext",
+        "variant": "base-pretrain-lvd1689m"
+      },
+      "id": "dinov3-convnext-base-pretrain-lvd1689m",
+      "input": {
+        "height": null,
+        "kind": "image",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": "upstream uses a custom licence",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-base-pretrain-lvd1689m",
+        "spdx": "other",
+        "status": "restricted"
+      },
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "embedding"
+        ]
+      },
+      "notes": "upstream uses a custom licence",
+      "parameters": {
+        "flops_b": null,
+        "millions": 87.566464
+      },
+      "task": "embedding",
+      "upstream": {
+        "last_checked": "2026-11-13T13:11:53.638295Z",
+        "release_date": "2025-08-05",
+        "revision": "e619358a5fe272554f17d2fb6cc65a679326bac0",
+        "source_id": "huggingface:facebook/dinov3-convnext-base-pretrain-lvd1689m",
+        "source_url": "https://huggingface.co/facebook/dinov3-convnext-base-pretrain-lvd1689m"
+      },
+      "verification": {
+        "last_verified": "2026-11-13T13:11:53.638295Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "pytorch",
+          "transformers"
+        ]
+      },
       "display_name": "dinov3-convnext-large-pretrain-lvd1689m",
       "evidence": {
         "accuracy": [],
@@ -6198,21 +6263,21 @@
           "text"
         ]
       },
-      "notes": "upstream revision changed; prior benchmark status was invalidated",
+      "notes": "upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 256.484928
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "last_checked": "2026-11-13T13:11:53.638295Z",
         "release_date": "2025-01-17",
-        "revision": "7e3e67edbbed1bf9888184d9df282b700a323964",
+        "revision": "d039ab0d4b9311b617e8ffec1d06c8464364aeb3",
         "source_id": "huggingface-smolvlm-256m",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM-256M-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "last_verified": "2026-11-13T13:11:53.638295Z",
         "status": "source_verified"
       }
     },
@@ -6339,21 +6404,21 @@
           "text"
         ]
       },
-      "notes": "upstream revision changed; prior benchmark status was invalidated",
+      "notes": "upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 507.482304
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-08-17T12:47:15.926322Z",
+        "last_checked": "2026-11-13T13:11:53.638295Z",
         "release_date": "2025-02-11",
-        "revision": "7b375e1b73b11138ff12fe22c8f2822d8fe03467",
+        "revision": "4cde9d208e19519c36917aa170fffc7e381aa0ad",
         "source_id": "huggingface-smolvlm2-500m",
         "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
       },
       "verification": {
-        "last_verified": "2026-08-17T12:47:15.926322Z",
+        "last_verified": "2026-11-13T13:11:53.638295Z",
         "status": "source_verified"
       }
     },
@@ -9805,11 +9870,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-02-10T13:49:52.976198Z",
-    "generated_at": "2026-11-12T13:49:52.976198Z",
+    "expires_at": "2027-02-11T13:11:53.638295Z",
+    "generated_at": "2026-11-13T13:11:53.638295Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 44,
+    "registry_version": 45,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
