@@ -4253,21 +4253,21 @@
           "text"
         ]
       },
-      "notes": "non-standard licence identifier: openmdw-1.1; upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated",
+      "notes": "non-standard licence identifier: openmdw-1.1; upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated; upstream revision changed; prior benchmark status was invalidated",
       "parameters": {
         "flops_b": null,
         "millions": 630.800504
       },
       "task": "vlm",
       "upstream": {
-        "last_checked": "2026-11-07T11:47:08.100006Z",
+        "last_checked": "2026-11-14T12:16:13.139027Z",
         "release_date": "2026-09-03",
-        "revision": "72ad4d71dd827135ee581502363e14748008900a",
+        "revision": "ea2e1fe486bea3e7d0d505df9bafa4ad562407a0",
         "source_id": "nvidia:nvidia/Nemotron-3.5-Parse",
         "source_url": "https://huggingface.co/nvidia/Nemotron-3.5-Parse"
       },
       "verification": {
-        "last_verified": "2026-11-07T11:47:08.100006Z",
+        "last_verified": "2026-11-14T12:16:13.139027Z",
         "status": "source_verified"
       }
     },
@@ -9870,11 +9870,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-02-11T13:11:53.638295Z",
-    "generated_at": "2026-11-13T13:11:53.638295Z",
+    "expires_at": "2027-02-12T12:16:13.139027Z",
+    "generated_at": "2026-11-14T12:16:13.139027Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 45,
+    "registry_version": 46,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
