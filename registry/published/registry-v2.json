@@ -6353,6 +6353,73 @@
     },
     {
       "compatibility": {
+        "precisions": [],
+        "quantizations": [],
+        "runtimes": [
+          "onnx",
+          "pytorch",
+          "transformers"
+        ]
+      },
+      "display_name": "SmolVLM2-256M-Video-Instruct",
+      "evidence": {
+        "accuracy": [],
+        "benchmark_refs": [],
+        "compatibility": [
+          {
+            "source_id": "huggingface:HuggingFaceTB/SmolVLM2-256M-Video-Instruct",
+            "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-256M-Video-Instruct"
+          }
+        ],
+        "memory": []
+      },
+      "family": {
+        "name": "SmolVLM2",
+        "variant": "256M-Video-Instruct"
+      },
+      "id": "smolvlm2-256m-video-instruct",
+      "input": {
+        "height": null,
+        "kind": "multimodal",
+        "notes": "Input shape was not inferred during metadata-only discovery.",
+        "size": null,
+        "width": null
+      },
+      "license": {
+        "note": null,
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-256M-Video-Instruct",
+        "spdx": "apache-2.0",
+        "status": "published"
+      },
+      "modalities": {
+        "input": [
+          "image",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "notes": null,
+      "parameters": {
+        "flops_b": null,
+        "millions": 256.484928
+      },
+      "task": "vlm",
+      "upstream": {
+        "last_checked": "2026-11-19T14:29:39.055940Z",
+        "release_date": "2025-02-11",
+        "revision": "9cda5c165b28c68a52e9bb542d2b89f0f6963709",
+        "source_id": "huggingface:HuggingFaceTB/SmolVLM2-256M-Video-Instruct",
+        "source_url": "https://huggingface.co/HuggingFaceTB/SmolVLM2-256M-Video-Instruct"
+      },
+      "verification": {
+        "last_verified": "2026-11-19T14:29:39.055940Z",
+        "status": "source_verified"
+      }
+    },
+    {
+      "compatibility": {
         "precisions": [
           "fp32",
           "fp16",
@@ -9870,11 +9937,11 @@
     }
   ],
   "registry": {
-    "expires_at": "2027-02-12T12:16:13.139027Z",
-    "generated_at": "2026-11-14T12:16:13.139027Z",
+    "expires_at": "2027-02-17T14:29:39.055940Z",
+    "generated_at": "2026-11-19T14:29:39.055940Z",
     "name": "autonomyfit-official",
     "publisher": "registry-publish.yml@refs/heads/main",
-    "registry_version": 46,
+    "registry_version": 47,
     "source_repository": "https://github.com/sylvesterkaczmarek/autonomyfit"
   },
   "schema_version": 2
